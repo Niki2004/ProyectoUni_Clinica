@@ -13,7 +13,7 @@ namespace ProyectoClinica.Controllers
         {
             return View();
         }
-
+//Ejemplo
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
