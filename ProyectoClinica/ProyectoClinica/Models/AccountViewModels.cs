@@ -10,7 +10,8 @@ namespace ProyectoClinica.Models
         public string Email { get; set; }
     }
 
-  
+
+
 
     public class SendCodeViewModel
     {

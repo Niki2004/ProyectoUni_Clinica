@@ -55,12 +55,12 @@ namespace ProyectoClinica.Controllers
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
-                : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
-                : message == ManageMessageId.Error ? "An error has occurred."
-                : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
-                : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
+                message == ManageMessageId.ChangePasswordSuccess ? "Su contraseña ha sido cambiada"
+                : message == ManageMessageId.SetPasswordSuccess ? "Su contraseña ha sido establecida"
+                : message == ManageMessageId.SetTwoFactorSuccess ? "Se ha configurado su proveedor de autenticación de dos factores"
+                : message == ManageMessageId.Error ? "Se ha producido un error."
+                : message == ManageMessageId.AddPhoneSuccess ? "Su número de teléfono fue agregado"
+                : message == ManageMessageId.RemovePhoneSuccess ? "Su número de teléfono fue eliminado"
                 : "";
 
             var userId = User.Identity.GetUserId();
@@ -123,7 +123,7 @@ namespace ProyectoClinica.Controllers
                 var message = new IdentityMessage
                 {
                     Destination = model.Number,
-                    Body = "Your security code is: " + code
+                    Body = "Su código de seguridad es: " + code
                 };
                 await UserManager.SmsService.SendAsync(message);
             }
@@ -190,11 +190,11 @@ namespace ProyectoClinica.Controllers
                 return RedirectToAction("Index", new { Message = ManageMessageId.AddPhoneSuccess });
             }
             // If we got this far, something failed, redisplay form
-            ModelState.AddModelError("", "Failed to verify phone");
+            ModelState.AddModelError("", "No se pudo verificar el teléfono");
             return View(model);
         }
 
-        //
+
         // POST: /Manage/RemovePhoneNumber
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -281,8 +281,8 @@ namespace ProyectoClinica.Controllers
         public async Task<ActionResult> ManageLogins(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
-                message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
-                : message == ManageMessageId.Error ? "An error has occurred."
+                message == ManageMessageId.RemoveLoginSuccess ? "Se eliminó el inicio de sesión externo"
+                : message == ManageMessageId.Error ? "Se ha producido un error"
                 : "";
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user == null)
