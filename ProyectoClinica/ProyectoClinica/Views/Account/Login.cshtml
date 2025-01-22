@@ -4,47 +4,120 @@
     ViewBag.Title = "Iniciar Sesión";
 }
 
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(to bottom, #b2ebf2, #ffffff);
+    }
+
+    main {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        padding: 20px;
+    }
+
+    .form-container {
+        background-color: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        max-width: 400px;
+        width: 100%;
+    }
+
+    h2 {
+        margin-bottom: 20px;
+        text-align: center;
+        color: #0b7b82;
+    }
+
+    h4 {
+        margin-bottom: 15px;
+        text-align: center;
+        font-size: 16px;
+        color: #555;
+    }
+
+    label {
+        font-weight: bold;
+        margin-bottom: 5px;
+        display: block;
+        color: #333;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+
+
+    input[type="submit"] {
+        width: 100%;
+        padding: 10px;
+        background-color: #0b7b82;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin: 20px auto;
+        display: block;
+    }
+
+        input[type="submit"]:hover {
+            background-color: #095e63;
+        }
+
+    .alt-options {
+        text-align: center;
+        margin-top: 10px;
+    }
+
+        .alt-options a {
+            color: #3bb4bc;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+            .alt-options a:hover {
+                text-decoration: underline;
+            }
+</style>
 
 <main aria-labelledby="title">
-    <Center><h2 id="title">@ViewBag.Title</h2></Center>
-    <div class="row">
-        <div class="col-md-8">
-            <section id="loginForm">
-                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
-                {
-                    @Html.AntiForgeryToken()
-                    <br />
-                    <br />
-                    <Center><h4>Utilice la cuenta a continuación para iniciar sesión</h4></Center>
-                    <hr />
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    <div class="row">
-                        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 col-form-label" })
-                        <div class="col-md-10">
-                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="row">
-                        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 col-form-label" })
-                        <div class="col-md-10">
-                            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
+    <div class="form-container">
+        <h2 id="title">Iniciar Sesión</h2>
+        <h4>Utilice la cuenta a continuación para iniciar sesión</h4>
+        <hr />
+        @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            <div>
+                @Html.LabelFor(m => m.Email, "Correo electrónico")
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+            </div>
+            <div>
+                @Html.LabelFor(m => m.Password, "Contraseña")
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+            </div>
+            <input type="submit" value="Iniciar Sesión" />
+            <div class="alt-options">
+                <p>@Html.ActionLink("¿Has olvidado tu contraseña?", "ForgotPassword")</p>
+            </div>
+        }
 
-                    <div class="row">
-                        <div class="offset-md-2 col-md-10">
-                            <input type="submit" value="Iniciar Sesión" class="btn btn-outline-dark" />
-                        </div>
-                    </div>
-                    <div class="alt-options">
-                        <p>@Html.ActionLink("¿Has olvidado tu contraseña?", "ForgotPassword")</p>
-                    </div>
-                }
-            </section>
-        </div>
-       
+
     </div>
 </main>
 
