@@ -138,7 +138,7 @@ namespace ProyectoClinica.Controllers
             return View();
         }
 
-        //
+        
         // POST: /Account/Register
         [HttpPost]
         [AllowAnonymous]
@@ -147,10 +147,13 @@ namespace ProyectoClinica.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Nombre = model.Nombre, 
+                    Apellido = model.Apellido, Edad_Paciente = model.Edad_Paciente, 
+                    Direccion = model.Direccion, Cedula = model.Cedula, Imagen = model.Imagen};
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    UserManager.AddToRole(user.Id, "Usuario");
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
 
