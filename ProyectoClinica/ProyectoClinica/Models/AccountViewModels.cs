@@ -64,19 +64,42 @@ namespace ProyectoClinica.Models
     {
         [Required]
         [EmailAddress]
-        [Display(Name = "Email")]
+        [Display(Name = "Correo")]
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "La contraseña debe tener al menos 6 caracteres", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Contraseña")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "Confirmar contraseña")]
+        [Compare("Password", ErrorMessage = "La contraseña y la contraseña de confirmación no coinciden")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        [Display(Name = "Nombre")]
+        public string Nombre { get; set; }
+
+        [Required]
+        [Display(Name = "Apellidos")]
+        public string Apellido { get; set; }
+
+        [Required]
+        [Display(Name = "Edad")]
+        public int Edad_Paciente { get; set; }
+
+        [Required]
+        [Display(Name = "Dirección")]
+        public string Direccion { get; set; }
+
+        [Required]
+        [Display(Name = "Cédula")]
+        public string Cedula { get; set; }
+
+        [Display(Name = "Imagen")]
+        public string Imagen { get; set; }
     }
 
     public class ResetPasswordViewModel
@@ -87,14 +110,14 @@ namespace ProyectoClinica.Models
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "La contraseña debe tener al menos 6 caracteres", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Contraseña")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "Confirmar contraseña")]
+        [Compare("Password", ErrorMessage = "La contraseña y la contraseña de confirmación no coinciden")]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }
@@ -104,7 +127,7 @@ namespace ProyectoClinica.Models
     {
         [Required]
         [EmailAddress]
-        [Display(Name = "Email")]
+        [Display(Name = "Correo")]
         public string Email { get; set; }
     }
 }
