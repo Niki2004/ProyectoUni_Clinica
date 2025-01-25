@@ -13,7 +13,7 @@ namespace ProyectoClinica.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202501232016402_Modulos"; }
+            get { return "202501250153446_Modulos"; }
         }
         
         string IMigrationMetadata.Source

@@ -16,6 +16,7 @@ namespace ProyectoClinica.Models
         [Required]
         public int Id_Medico { get; set; }
 
+        [Required]
         public int Id_Atencion_Cliente { get; set; }
 
         [Required]

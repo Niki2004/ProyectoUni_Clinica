@@ -32,7 +32,7 @@ namespace ProyectoClinica.Models
         [StringLength(255)]
         public string Notificacion_enviada { get; set; }
 
-        public int? Total_Procedimiento { get; set; }
+        public int Total_Procedimiento { get; set; }
 
         [StringLength(255)]
         public string Motivo_cancelacion { get; set; }
@@ -66,5 +66,9 @@ namespace ProyectoClinica.Models
 
         //Relacion con la tabla Cita
         public virtual ICollection<Cita> Cita { get; set; } = new List<Cita>();
+
+        public ICollection<Reporte> Reportes { get; set; } // Colección de Reportes relacionados
+
+
     }
 }

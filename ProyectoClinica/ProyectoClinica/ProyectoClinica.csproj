@@ -174,9 +174,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202501232016402_Modulos.cs" />
-    <Compile Include="Migrations\202501232016402_Modulos.designer.cs">
-      <DependentUpon>202501232016402_Modulos.cs</DependentUpon>
+    <Compile Include="Migrations\202501250153446_Modulos.cs" />
+    <Compile Include="Migrations\202501250153446_Modulos.designer.cs">
+      <DependentUpon>202501250153446_Modulos.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -184,20 +184,37 @@
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\ApplicationRol.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
+    <Compile Include="Models\Asistente_Linea.cs" />
     <Compile Include="Models\Atencion_Cliente.cs" />
+    <Compile Include="Models\Auditoria_Alerta.cs" />
+    <Compile Include="Models\Avisos.cs" />
+    <Compile Include="Models\Busquedas_exportaciones.cs" />
     <Compile Include="Models\Cita.cs" />
     <Compile Include="Models\Clasificacion_Problema.cs" />
+    <Compile Include="Models\Contabilidad.cs" />
+    <Compile Include="Models\Copago.cs" />
+    <Compile Include="Models\Descuento.cs" />
+    <Compile Include="Models\Empleado.cs" />
     <Compile Include="Models\Especialidad.cs" />
     <Compile Include="Models\Estado.cs" />
     <Compile Include="Models\Estado_Asistencia.cs" />
+    <Compile Include="Models\Estado_Contabilidad.cs" />
+    <Compile Include="Models\Factura.cs" />
+    <Compile Include="Models\Inventario.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Medico.cs" />
     <Compile Include="Models\Paciente.cs" />
     <Compile Include="Models\Paciente_Cita.cs" />
     <Compile Include="Models\Prioridad_Mejora.cs" />
+    <Compile Include="Models\Reporte.cs" />
+    <Compile Include="Models\Respaldo.cs" />
     <Compile Include="Models\RolInitialize.cs" />
     <Compile Include="Models\Rol_Permiso.cs" />
+    <Compile Include="Models\Servicio.cs" />
+    <Compile Include="Models\Servicios_Brindados.cs" />
+    <Compile Include="Models\Tipo_Registro.cs" />
     <Compile Include="Models\Tipo_Servicio.cs" />
+    <Compile Include="Models\Tipo_Transaccion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -301,8 +318,8 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202501232016402_Modulos.resx">
-      <DependentUpon>202501232016402_Modulos.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202501250153446_Modulos.resx">
+      <DependentUpon>202501250153446_Modulos.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
