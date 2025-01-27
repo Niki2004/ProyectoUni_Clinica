@@ -26,6 +26,8 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         max-width: 600px;
         width: 100%;
+        max-height: 90vh; 
+        overflow-y: auto; /* Es para que se vea para abajo*/
     }
 
     h2 {
@@ -104,13 +106,74 @@
 
             <div class="row">
                 <div class="col-md-2">
-                    @Html.LabelFor(m => m.Email, " Correo ", new { @class = "col-form-label" })
+                    @Html.LabelFor(m => m.Nombre, " Nombre ", new { @class = "col-form-label" })
+                </div>
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Nombre, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2">
+                    @Html.LabelFor(m => m.Apellido, " Apellido ", new { @class = "col-form-label" })
+                </div>
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Apellido, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Apellido, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2">
+                    @Html.LabelFor(m => m.Edad_Paciente, " Edad", new { @class = "col-form-label" })
+                </div>
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Edad_Paciente, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Edad_Paciente, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2">
+                    @Html.LabelFor(m => m.Cedula, new { @class = "col-form-label" })
+                </div>
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Cedula, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Cedula, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2">
+                    @Html.LabelFor(m => m.Direccion, new { @class = "col-form-label" })
+                </div>
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Direccion, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Direccion, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2">
+                    @Html.LabelFor(m => m.Imagen, new { @class = "col-form-label" })
+                </div>
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Imagen, new { type = "file", @accept = "image/*", @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Imagen, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2">
+                    @Html.LabelFor(m => m.Email, new { @class = "col-form-label" })
                 </div>
                 <div class="col-md-10">
                     @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                 </div>
             </div>
+
             <div class="row">
                 <div class="col-md-2">
                     @Html.LabelFor(m => m.Password, "Contraseña", new { @class = "col-form-label" })
@@ -120,6 +183,7 @@
                     @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                 </div>
             </div>
+
             <div class="row">
                 <div class="col-md-2">
                     @Html.LabelFor(m => m.ConfirmPassword, "Confirmar", new { @class = "col-form-label" })
@@ -129,6 +193,7 @@
                     @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
                 </div>
             </div>
+
             <div class="row">
                 <div class="offset-md-2 col-md-10">
                     <input type="submit" value="Registrar" class="btn btn-outline-dark" />
