@@ -241,6 +241,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CitaController.cs" />
+    <Compile Include="Controllers\EmpleadosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PerfilController.cs" />
@@ -366,6 +367,12 @@
     <Content Include="Views\Shared\Layout_Interno.cshtml" />
     <Content Include="Views\Cita\Especialidad.cshtml" />
     <Content Include="Views\Cita\Contactanos.cshtml" />
+    <Content Include="Views\Empleados\Empleados.cshtml" />
+    <Content Include="Views\Empleados\CrearEmpleado.cshtml" />
+    <Content Include="Views\Empleados\AsignacionRoles.cshtml" />
+    <Content Include="Views\Empleados\EditarEmpleado.cshtml" />
+    <Content Include="Views\Empleados\DesactivarPerfil.cshtml" />
+    <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
