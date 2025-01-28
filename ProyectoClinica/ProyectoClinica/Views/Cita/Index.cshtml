@@ -1,0 +1,86 @@
+﻿@model IEnumerable<ProyectoClinica.Models.Cita>
+
+@{
+    ViewBag.Title = "Citas";
+}
+
+<h2 class="text-center">Calendario de Citas</h2>
+<br />
+
+<!-- Formato Calendario -->
+<div id="calendar"></div>
+<br />
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css" />
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var calendarEl = document.getElementById('calendar');
+        var selectedEvent = null; // Variable para almacenar el evento seleccionado
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            events: '/Cita/GetEvents', // Obtiene las citas desde el controlador
+            headerToolbar: {
+                left: 'prev,next today agendarButton editarButton eliminarButton',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            },
+            customButtons: {
+                agendarButton: {
+                    text: 'Agendar Cita',
+                    click: function () {
+                        window.location.href = '@Url.Action("Crear", "Cita")'; // Redirige al formulario de creación
+                    }
+                },
+                editarButton: {
+                    text: 'Modificar Cita',
+                    click: function () {
+                        if (selectedEvent && selectedEvent.id) {
+                            window.location.href = '@Url.Action("Editar", "Cita")/' + selectedEvent.id; // Redirige al formulario de edición
+                        } else {
+                            alert('Por favor selecciona una cita.');
+                        }
+                    }
+                },
+                eliminarButton: {
+                    text: 'Cancelar Cita',
+                    click: function () {
+                        if (selectedEvent) {
+                            if (confirm('¿Estás seguro de que deseas cancelar esta cita?')) {
+                                // Redirige a la acción de eliminación, pasando el ID del evento seleccionado
+                                window.location.href = '@Url.Action("Eliminar", "Cita")/' + selectedEvent.id;
+                            }
+                        } else {
+                            alert('Por favor selecciona una cita.');
+                        }
+                    }
+                }
+            },
+            eventColor: 'blue',
+            eventTimeFormat: {
+                hour: '2-digit',
+                minute: '2-digit',
+                meridiem: false
+            },
+            dateClick: function (info) {
+                if (confirm(`¿Deseas agendar una cita para el día ${info.dateStr}?`)) {
+                    window.location.href = '@Url.Action("Crear", "Cita")?fecha=' + info.dateStr;
+                }
+            },
+            eventClick: function (info) {
+                selectedEvent = info.event; // Guarda el evento seleccionado
+                if (selectedEvent.id) {
+                    alert(`Cita seleccionada:\n${selectedEvent.title}`);
+                } else {
+                    alert('La cita seleccionada no tiene un ID válido.');
+                }
+            }
+        });
+
+        calendar.render();
+    });
+    </script>
+}

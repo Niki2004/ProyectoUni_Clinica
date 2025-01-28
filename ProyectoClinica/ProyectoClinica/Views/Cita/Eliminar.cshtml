@@ -1,0 +1,29 @@
+﻿@model ProyectoClinica.Models.Cita
+
+@{
+    ViewBag.Title = "Eliminar Cita";
+}
+
+<h2>¿Estás seguro de que quieres eliminar esta cita?</h2>
+
+<div>
+    <h3>Cita de: @Model.NombreCliente</h3>
+    <p><strong>Fecha de la cita:</strong> @Model.FechaCita</p>
+    <p><strong>Hora de la cita:</strong> @Model.HoraCita</p>
+    <p><strong>Tipo de tratamiento:</strong> @Model.TipoTratamiento</p>
+    <p><strong>Observaciones:</strong> @Model.Observaciones</p>
+</div>
+
+<div>
+    @using (Html.BeginForm("EliminarConfirmacion", "NombreDelControlador", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.IdCita) <!-- Asegúrate de usar el campo correcto para el Id -->
+
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+        <a href="@Url.Action("Index", "NombreDelControlador")" class="btn btn-secondary">Cancelar</a>
+    }
+</div>
+
+
+
