@@ -372,6 +372,10 @@
     <Content Include="Views\Empleados\AsignacionRoles.cshtml" />
     <Content Include="Views\Empleados\EditarEmpleado.cshtml" />
     <Content Include="Views\Empleados\DesactivarPerfil.cshtml" />
+    <Content Include="Views\Cita\Index.cshtml" />
+    <Content Include="Views\Cita\Crear.cshtml" />
+    <Content Include="Views\Cita\Editar.cshtml" />
+    <Content Include="Views\Cita\Eliminar.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>
