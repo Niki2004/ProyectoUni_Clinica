@@ -9,6 +9,7 @@ namespace ProyectoClinica.Controllers
     public class EmpleadosController : Controller
     {
         // GET: Empleados
+        [Authorize(Roles = "Administrador ")]
         public ActionResult Empleados()
         {
             return View();
