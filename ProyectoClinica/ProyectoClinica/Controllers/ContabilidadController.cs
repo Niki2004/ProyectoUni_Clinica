@@ -1,6 +1,7 @@
 ﻿using ProyectoClinica.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -87,13 +88,43 @@ namespace ProyectoClinica.Controllers
 
         // POST: Contabilidad/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Contabilidad model)
         {
+
             try
             {
-                // TODO: Add insert logic here
 
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    int idSeleccionado = model.Id_Tipo_Transaccion; // Aquí obtienes el ID del dropdown
+
+                    try
+                    {
+                        // Guardar en la base de datos
+                        _context.Contabilidad.Add(model);
+                        _context.SaveChanges();
+
+                        return RedirectToAction("Index");
+                    }
+                    catch (Exception ex)
+                    {
+                        // Si hay un error, muestra el mensaje en el log o en el modelo para que el usuario lo vea
+                        ModelState.AddModelError("", "Ocurrió un error al guardar los datos: " + ex.Message);
+                    }
+
+
+
+                }
+
+                // Si el modelo no es válido o hubo un error, repite el proceso y pasa la vista con el modelo
+                // Esto permitirá que los datos enviados por el usuario se mantengan en el formulario
+                ViewBag.TipoRegistro = new SelectList(_context.Tipo_Registro, "Id_Tipo_Registro", "Nombre");
+                ViewBag.Estado_Contabilidad = new SelectList(_context.Estado_Contabilidad, "Id_Estado_Contabilidad", "Nombre");
+                ViewBag.TipoTransaccion = new SelectList(_context.Tipo_Transaccion, "Id_Tipo_Transaccion", "Nombre");
+
+                return View(model);
+
+
             }
             catch
             {
