@@ -257,6 +257,10 @@
     <Compile Include="Migrations\202501250153446_Modulos.designer.cs">
       <DependentUpon>202501250153446_Modulos.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202501291423350_Cambios.cs" />
+    <Compile Include="Migrations\202501291423350_Cambios.designer.cs">
+      <DependentUpon>202501291423350_Cambios.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Administrativa.cs" />
@@ -442,6 +446,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202501250153446_Modulos.resx">
       <DependentUpon>202501250153446_Modulos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202501291423350_Cambios.resx">
+      <DependentUpon>202501291423350_Cambios.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

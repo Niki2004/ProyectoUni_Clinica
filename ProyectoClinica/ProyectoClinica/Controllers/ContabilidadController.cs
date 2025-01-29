@@ -20,6 +20,7 @@ namespace ProyectoClinica.Controllers
 
         #region Index
         // GET: Contabilidad
+        //[Authorize(Roles = "Contador")]
         public ActionResult Index()
         {
             var listaRegistros = _context.Contabilidad.ToList();

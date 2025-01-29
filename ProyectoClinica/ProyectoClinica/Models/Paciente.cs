@@ -15,6 +15,9 @@ namespace ProyectoClinica.Models
         public int Id_Paciente { get; set; }
 
         [StringLength(255)]
+        public string Nombre { get; set; }
+
+        [StringLength(255)]
         public string Contacto_emergencia { get; set; }
 
         public string Nota_paciente { get; set; }
