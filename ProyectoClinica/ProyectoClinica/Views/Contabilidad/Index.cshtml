@@ -12,112 +12,113 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Id_Tipo_Registro)
+            <label>Tipo de Registro</label> 
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Id_Estado_Contabilidad)
+            <label>Estado de Contabilidad</label> 
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Id_Tipo_Transaccion)
+            <label>Tipo de Transacción</label> 
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ClienteProveedor)
+            <label>Cliente / Proveedor</label> 
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Fecha_Registro)
+            <label>Fecha de Registro</label> 
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Fecha_Vencimiento)
+            <label>Fecha de Vencimiento</label> 
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Monto)
+            <label>Monto</label> 
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Monto_Anticipo)
+            <label>Monto Anticipo</label> 
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Impuesto_Aplicado)
+            <label>Impuesto Aplicado</label> 
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Descuento_Aplicado)
+            <label>Descuento Aplicado</label> 
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Comentarios)
+            <label>Comentarios</label> 
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Fecha_Cierre)
+            <label>Fecha de Cierre</label> 
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Ingresos_Totales)
+            <label>Ingresos Totales</label> 
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Total_Pagos_Pendientes)
+            <label>Total Pagos Pendientes</label> 
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Total_Sueldos)
+            <label>Total Sueldos</label> 
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Observaciones_Ingresos)
+            <label>Observaciones Ingresos</label> 
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Id_Tipo_Registro)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Id_Estado_Contabilidad)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Id_Tipo_Transaccion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ClienteProveedor)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Fecha_Registro)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Fecha_Vencimiento)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Monto)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Monto_Anticipo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Impuesto_Aplicado)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Descuento_Aplicado)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Comentarios)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Fecha_Cierre)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Ingresos_Totales)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Total_Pagos_Pendientes)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Total_Sueldos)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Observaciones_Ingresos)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tipo_Registro.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Estado_Contabilidad.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tipo_Transaccion.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClienteProveedor)
+            </td>
+            <td>
+                <label>@String.Format("{0:dd/MM/yyyy}", item.Fecha_Registro)</label>
+            </td>
+            <td>
+                <label>@String.Format("{0:dd/MM/yyyy}", item.Fecha_Vencimiento)</label>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Monto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Monto_Anticipo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Impuesto_Aplicado)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descuento_Aplicado)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Comentarios)
+            </td>
+            <td>
+                <label>@String.Format("{0:dd/MM/yyyy}", item.Fecha_Cierre)</label>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ingresos_Totales)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Total_Pagos_Pendientes)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Total_Sueldos)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Observaciones_Ingresos)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+    }
 
 </table>
