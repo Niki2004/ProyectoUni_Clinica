@@ -97,60 +97,66 @@ namespace ProyectoClinica.Controllers
         }
 
 
-       [HttpPost]
-public ActionResult Crear(Cita nuevaCita)
-{
-    int idPaciente = Convert.ToInt32(Session["Id_Paciente"]);
-
-    if (ModelState.IsValid)
-    {
-        // Validar conflictos en el horario de la cita
-        var conflictoHorario = BaseDatos.Cita
-            .Any(c => c.Id_Medico == nuevaCita.Id_Medico &&
-                      c.Fecha_Cita == nuevaCita.Fecha_Cita &&
-                      ((nuevaCita.Hora_cita >= c.Hora_cita && nuevaCita.Hora_cita < c.Hora_cita.Add(TimeSpan.FromMinutes(c.Hora_cita.Hours))) ||
-                       (nuevaCita.Hora_cita.Add(TimeSpan.FromMinutes(nuevaCita.Hora_cita.Hours)) > c.Hora_cita &&
-                        nuevaCita.Hora_cita.Add(TimeSpan.FromMinutes(nuevaCita.Hora_cita.Hours)) <= c.Hora_cita.Add(TimeSpan.FromMinutes(c.Hora_cita.Hours)))));
-
-        if (conflictoHorario)
+        [HttpPost]
+        public ActionResult Crear(Cita nuevaCita)
         {
-            ModelState.AddModelError("", "El horario seleccionado tiene un conflicto con otra cita.");
-        }
-        else
-        {
-            // Asignar estado inicial a la nueva cita
-            nuevaCita.Citas_Asistidas = 0;
-            nuevaCita.Citas_No_Asistidas = 0;
+            int idPaciente = Convert.ToInt32(Session["Id_Paciente"]);
 
-            // Guardar la nueva cita
-            BaseDatos.Cita.Add(nuevaCita);
-            BaseDatos.SaveChanges(); // Guarda para obtener el Id_Cita generado
-
-            // Crear la relación en la tabla intersección Paciente_Cita
-            var pacienteCita = new Paciente_Cita
+            if (ModelState.IsValid)
             {
-                Id_Paciente = idPaciente,
-                Id_Cita = nuevaCita.Id_Cita // Usamos el ID generado automáticamente
-            };
+                // Calcular el final de la nueva cita
+                TimeSpan duracion = TimeSpan.FromMinutes(30); // Suponiendo que cada cita dura 30 minutos
+                var nuevaCitaHoraFin = nuevaCita.Hora_cita + duracion;
 
-            BaseDatos.Paciente_Cita.Add(pacienteCita);
-            BaseDatos.SaveChanges(); // Guardar relación
+                // Validar conflictos en el horario de la cita
+                var conflictoHorario = BaseDatos.Cita
+                    .Any(c => c.Id_Medico == nuevaCita.Id_Medico &&
+                              c.Fecha_Cita == nuevaCita.Fecha_Cita &&
+                              (
+                                  (nuevaCita.Hora_cita >= c.Hora_cita && nuevaCita.Hora_cita < DbFunctions.AddMinutes(c.Hora_cita, 30)) ||
+                                  (nuevaCitaHoraFin > c.Hora_cita && nuevaCitaHoraFin <= DbFunctions.AddMinutes(c.Hora_cita, 30))
+                              ));
 
-            return RedirectToAction("Index"); // Redirigir a la lista de citas
+                if (conflictoHorario)
+                {
+                    ModelState.AddModelError("", "El horario seleccionado tiene un conflicto con otra cita.");
+                }
+                else
+                {
+                    // Asignar estado inicial a la nueva cita
+                    nuevaCita.Citas_Asistidas = 0;
+                    nuevaCita.Citas_No_Asistidas = 0;
+
+                    // Guardar la nueva cita
+                    BaseDatos.Cita.Add(nuevaCita);
+                    BaseDatos.SaveChanges(); // Guarda para obtener el Id_Cita generado
+
+                    // Crear la relación en la tabla intersección Paciente_Cita
+                    var pacienteCita = new Paciente_Cita
+                    {
+                        Id_Paciente = idPaciente,
+                        Id_Cita = nuevaCita.Id_Cita // Usamos el ID generado automáticamente
+                    };
+
+                    BaseDatos.Paciente_Cita.Add(pacienteCita);
+                    BaseDatos.SaveChanges(); // Guardar relación
+
+                    return RedirectToAction("Index"); // Redirigir a la lista de citas
+                }
+            }
+
+            // Si hay errores, recargar datos para la vista
+            ViewBag.Id_Medico = new SelectList(BaseDatos.Medico, "Id_Medico", "Nombre", nuevaCita.Id_Medico);
+            ViewBag.Id_Paciente = new SelectList(BaseDatos.Paciente, "Id_Paciente", "Nombre", idPaciente); // Aseguramos que el paciente esté preseleccionado
+
+            return View(nuevaCita);
         }
-    }
 
-    // Si hay errores, recargar datos para la vista
-    ViewBag.Id_Medico = new SelectList(BaseDatos.Medico, "Id_Medico", "Nombre", nuevaCita.Id_Medico);
-    ViewBag.Id_Paciente = new SelectList(BaseDatos.Paciente, "Id_Paciente", "Nombre", idPaciente); // Aseguramos que el paciente esté preseleccionado
 
-    return View(nuevaCita);
-}
 
-    
 
-    //---------------------------------------------------- Editar ------------------------------------------------------------
-    [HttpGet]
+        //---------------------------------------------------- Editar ------------------------------------------------------------
+        [HttpGet]
         public ActionResult Editar(int? id)
         {
             if (id == null)
