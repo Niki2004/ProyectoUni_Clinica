@@ -5,61 +5,47 @@
     ViewBag.Title = "Crear Cita";
 }
 
+@{
+    ViewBag.Title = "Crear Cita";
+}
+
 <h2>Crear Cita</h2>
 
-<div class="form-horizontal">
-    @using (Html.BeginForm("Crear", "Cita", FormMethod.Post))
-    {
-        @Html.AntiForgeryToken()
+@using (Html.BeginForm("Crear", "Cita", FormMethod.Post))
+{
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Id_Medico, "Médico", new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownListFor(model => model.Id_Medico, (SelectList)ViewBag.Id_Medico, "Seleccione un médico", new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.Id_Medico, "", new { @class = "text-danger" })
-        </div>
+    <!-- Campo de nombre de paciente (ingreso manual) -->
+    <label for="NombrePaciente">Nombre del Paciente:</label>
+    <input type="text" id="NombrePaciente" name="NombrePaciente" />
+
+
+    <div>
+        <label>Médico:</label>
+        @Html.DropDownListFor(m => m.Id_Medico, ViewBag.Id_Medico as SelectList, "Seleccione un médico")
     </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Paciente_Citas, "Paciente", new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownListFor(model => model.Paciente_Citas, (SelectList)ViewBag.Id_Paciente, "Seleccione un paciente", new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.Paciente_Citas, "", new { @class = "text-danger" })
-        </div>
+    <div>
+        <label>Tipo de Consulta:</label>
+        @Html.TextBoxFor(m => m.Tipo_Consulta)
     </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Fecha_Cita, "Fecha de la Cita", new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(model => model.Fecha_Cita, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
-                @Html.ValidationMessageFor(model => model.Fecha_Cita, "", new { @class = "text-danger" })
-            </div>
-        </div>
+    <div>
+        <label>Fecha:</label>
+        @Html.TextBoxFor(m => m.Fecha_Cita, "{0:yyyy-MM-dd}", new { type = "date" })
+    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Hora_cita, "Hora de la Cita", new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(model => model.Hora_cita, "{0:hh\\:mm}", new { @class = "form-control", type = "time" })
-                @Html.ValidationMessageFor(model => model.Hora_cita, "", new { @class = "text-danger" })
-            </div>
-        </div>
+    <div>
+        <label>Hora:</label>
+        @Html.TextBoxFor(m => m.Hora_cita, new { type = "time" })
+    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Duracion_Tratamiento, "Duración del Tratamiento (en minutos)", new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(model => model.Duracion_Tratamiento, new { @class = "form-control", type = "number", min = "1" })
-                @Html.ValidationMessageFor(model => model.Duracion_Tratamiento, "", new { @class = "text-danger" })
-            </div>
-        </div>
+    <div>
+        <label>Modalidad:</label>
+        @Html.TextBoxFor(m => m.Modalidad)
+    </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <button type="submit" class="btn btn-primary">Crear Cita</button>
-                @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-default" })
-            </div>
-        </div>
-    }
-</div>
+    <button type="submit">Crear Cita</button>
+}
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

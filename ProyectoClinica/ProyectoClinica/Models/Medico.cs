@@ -20,6 +20,9 @@ namespace ProyectoClinica.Models
         public int Id_Estado_Asistencia { get; set; }
 
         [StringLength(255)]
+        public string Nombre { get; set; }
+
+        [StringLength(255)]
         public string Nota_medico { get; set; }
 
         public TimeSpan Horario_inicio { get; set; }
