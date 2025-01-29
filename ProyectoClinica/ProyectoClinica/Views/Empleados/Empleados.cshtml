@@ -1,0 +1,215 @@
+﻿@{
+    ViewBag.Title = "Empleados";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Empleados - Centro Integral Santo Domingo</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <style>
+        :root {
+            --primary-turquoise: #008B8B;
+            --secondary-turquoise: #48D1CC;
+            --hover-turquoise: #20B2AA;
+            --background-light: #F5F5F5;
+        }
+
+        body {
+            background-color: var(--background-light);
+            font-family: Arial, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            background-color: white;
+            min-height: 100vh;
+            padding-top: 20px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+
+        .nav-link {
+            color: #333;
+            padding: 10px 15px;
+        }
+
+            .nav-link:hover {
+                background-color: #3bb4bc;
+                color:white;
+            }
+
+        .nav-header {
+            padding: 10px 15px;
+            color: #0b7b82;
+            font-size: 0.8em;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            padding: 20px;
+        }
+
+        .content-wrapper {
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+
+        /* Button Styles */
+        .btn {
+            padding: 15px 25px;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-transform: none;
+            margin-bottom: 15px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-turquoise);
+            border-color: var(--primary-turquoise);
+            color: white;
+        }
+
+            .btn-primary:hover {
+                background-color: var(--hover-turquoise);
+                border-color: var(--hover-turquoise);
+                transform: translateY(-2px);
+            }
+
+        .btn-info {
+            background-color: var(--secondary-turquoise);
+            border-color: var(--secondary-turquoise);
+            color: white;
+        }
+
+            .btn-info:hover {
+                background-color: var(--hover-turquoise);
+                border-color: var(--hover-turquoise);
+                transform: translateY(-2px);
+            }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 sidebar">
+                <div class="text-center p-3">
+                    <img src="https://placetopay-static-prod-bucket.s3.us-east-2.amazonaws.com/placetopay-com/microsites/images/6VSOwqO9PXNd9N5BsIfPL7DoH25IvYSRzaXkSgGN.jpg"
+                         alt="Centro Integral Santo Domingo Logo"
+                         class="img-fluid"
+                         style="max-width: 150px; height: auto;" />
+                </div>
+
+                <div class="nav-header">Plataforma de navegación</div>
+                <div class="nav flex-column">
+                    <a href="~/PuntoVenta" class="nav-link">Punto de venta</a>
+                    <a href="~/Inventario" class="nav-link">Inventario</a>
+                    <a href="~/Contabilidad" class="nav-link">Contabilidad</a>
+                    <a href="~/Reportes" class="nav-link">Reportes</a>
+                </div>
+
+                <div class="nav-header">Plataforma de administración</div>
+                <div class="nav flex-column">
+                    <a href="~/Administrativo" class="nav-link">Administrativo</a>
+                    <a href="~/Empleados/Empleados/Empleados" class="nav-link">Empleados</a>
+                    <a href="~/Expedientes" class="nav-link">Expedientes</a>
+                    <a href="~/Citas" class="nav-link">Citas</a>
+                </div>
+
+                <!-- User Info -->
+                <div class="mt-auto p-3 border-top">
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <div>Usuario</div>
+                            <small class="text-muted">Rol</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-9 col-lg-10 main-content">
+                <div class="content-wrapper">
+                    <div class="container">
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h4 class="text-center">Registro y gestión de empleados con validación y control de duplicados</h4>
+                            </div>
+                        </div>
+
+                        <!-- Primera fila de botones -->
+                        <div class="row mb-4">
+                            <div class="col-md-3">
+                                @Html.ActionLink("Registro de empleados", "CrearEmpleado", "Empleados",
+                                              routeValues: null,
+                                              htmlAttributes: new { @class = "btn btn-primary w-100" })
+                            </div>
+                            <div class="col-md-3">
+                                @Html.ActionLink("Asignacion de Roles", "AsignacionRoles", "Empleados",
+                                              routeValues: null,
+                                              htmlAttributes: new { @class = "btn btn-info w-100" })
+                            </div>
+                            <div class="col-md-3">
+                                @Html.ActionLink("Editar Empleado", "EditarEmpleado", "Empleados",
+                                                  routeValues: null,
+                                                  htmlAttributes: new { @class = "btn btn-primary w-100" })
+                            </div>
+                            <div class="col-md-3">
+                                @Html.ActionLink("Desactivar perfiles", "DesactivarPerfil", "Empleados",
+                                                      routeValues: null,
+                                                      htmlAttributes: new { @class = "btn btn-info w-100" })
+                            </div>
+                        </div>
+
+                        <!-- Segunda fila de botones -->
+                        <div class="row mb-4">
+                            <div class="col-md-3">
+                                <a href="~/Employees/Search" class="btn btn-primary w-100">
+                                    Buscar Empleados
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="~/Employees/Performance" class="btn btn-info w-100">
+                                    Evaluación de Desempeño
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="~/Employees/Notifications" class="btn btn-primary w-100">
+                                    Notificaciones
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="~/Employees/Documents" class="btn btn-info w-100">
+                                    Subir Documentos
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Tercera fila de botones -->
+                        <div class="row mb-4">
+                            <div class="col-md-3">
+                                <a href="~/Employees/History" class="btn btn-primary w-100">
+                                    Historial del empleado
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

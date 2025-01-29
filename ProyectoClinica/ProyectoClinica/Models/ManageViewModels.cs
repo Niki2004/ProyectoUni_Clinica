@@ -12,6 +12,13 @@ namespace ProyectoClinica.Models
         public string PhoneNumber { get; set; }
         public bool TwoFactor { get; set; }
         public bool BrowserRemembered { get; set; }
+
+        //Agregue esto 
+        public string Email { get; set; }
+        public string Nombre { get; set; }
+        public string Apellido { get; set; }
+        public string Imagen { get; set; }
+
     }
 
     public class ManageLoginsViewModel

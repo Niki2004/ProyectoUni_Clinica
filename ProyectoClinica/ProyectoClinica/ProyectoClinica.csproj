@@ -240,8 +240,11 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CitaController.cs" />
+    <Compile Include="Controllers\EmpleadosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PerfilController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -309,6 +312,10 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Imagenes\Informacion.jpg" />
+    <Content Include="Imagenes\Informacion2.jpg" />
+    <Content Include="Imagenes\Informacion3.jpg" />
+    <Content Include="Imagenes\Informacion4.jpg" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -357,9 +364,23 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Shared\Layout_Interno.cshtml" />
+    <Content Include="Views\Cita\Especialidad.cshtml" />
+    <Content Include="Views\Cita\Contactanos.cshtml" />
+    <Content Include="Views\Empleados\Empleados.cshtml" />
+    <Content Include="Views\Empleados\CrearEmpleado.cshtml" />
+    <Content Include="Views\Empleados\AsignacionRoles.cshtml" />
+    <Content Include="Views\Empleados\EditarEmpleado.cshtml" />
+    <Content Include="Views\Empleados\DesactivarPerfil.cshtml" />
+    <Content Include="Views\Cita\Index.cshtml" />
+    <Content Include="Views\Cita\Crear.cshtml" />
+    <Content Include="Views\Cita\Editar.cshtml" />
+    <Content Include="Views\Cita\Eliminar.cshtml" />
+    <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Perfil\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

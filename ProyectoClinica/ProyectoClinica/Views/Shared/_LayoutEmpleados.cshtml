@@ -1,0 +1,163 @@
+﻿@{
+    ViewBag.Title = "EditarEmpleado";
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Centro Integral Santo Domingo</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <style>
+        .sidebar {
+            min-height: 100vh;
+            background-color: #f8f9fa;
+            padding-top: 20px;
+            border-right: 1px solid #dee2e6;
+        }
+
+        .sidebar-item {
+            padding: 10px 15px;
+            color: #333;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            transition: background-color 0.3s;
+        }
+
+            .sidebar-item:hover {
+                background-color: #e9ecef;
+                text-decoration: none;
+            }
+
+            .sidebar-item.active {
+                background-color: #007bff;
+                color: white;
+            }
+
+            .sidebar-item i {
+                margin-right: 10px;
+                width: 20px;
+                text-align: center;
+            }
+
+        .main-content {
+            padding: 20px;
+        }
+
+        .user-info {
+            padding: 15px;
+            border-top: 1px solid #dee2e6;
+            margin-top: auto;
+        }
+
+        .nav-header {
+            padding: 10px 15px;
+            font-weight: bold;
+            color: #6c757d;
+            text-transform: uppercase;
+            font-size: 0.8em;
+        }
+
+        .logo-container {
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+            .logo-container img {
+                max-width: 150px;
+            }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-md-3 col-lg-2 sidebar d-flex flex-column">
+                <div class="logo-container">
+                    <img src="~/images/logo.png" alt="Logo" />
+                </div>
+
+                <div class="nav-header">Plataforma de navegación</div>
+
+                <a href="~/PuntoVenta" class="sidebar-item">
+                    <i class="fas fa-cash-register"></i>
+                    Punto de venta
+                </a>
+
+                <a href="~/Inventario" class="sidebar-item">
+                    <i class="fas fa-boxes"></i>
+                    Inventario
+                </a>
+
+                <a href="~/Contabilidad" class="sidebar-item">
+                    <i class="fas fa-calculator"></i>
+                    Contabilidad
+                </a>
+
+                <a href="~/Reportes" class="sidebar-item">
+                    <i class="fas fa-chart-bar"></i>
+                    Reportes
+                </a>
+
+                <div class="nav-header">Plataforma de administración</div>
+
+                <a href="~/Administrativo" class="sidebar-item">
+                    <i class="fas fa-tasks"></i>
+                    Administrativo
+                </a>
+
+                <a href="~/Empleados" class="sidebar-item">
+                    <i class="fas fa-users"></i>
+                    Empleados
+                </a>
+
+                <a href="~/Expedientes" class="sidebar-item">
+                    <i class="fas fa-folder-open"></i>
+                    Expedientes
+                </a>
+
+                <a href="~/Citas" class="sidebar-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    Citas
+                </a>
+
+
+                <div class="user-info mt-auto">
+                    <div class="d-flex align-items-center">
+                        <img src="/api/placeholder/40/40" alt="User" class="rounded-circle mr-2" />
+                        <div>
+                            <div class="font-weight-bold">@User.Identity.Name</div>
+                            <small class="text-muted">@User.Claims.FirstOrDefault(c => c.Type == "Role")?.Value</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-9 col-lg-10 main-content">
+
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="~/">Home</a></li>
+                        @if (ViewData["Title"] != null)
+                        {
+                            <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+                        }
+                    </ol>
+                </nav>
+
+
+            </div>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
