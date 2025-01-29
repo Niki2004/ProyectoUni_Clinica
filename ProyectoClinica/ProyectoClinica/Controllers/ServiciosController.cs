@@ -7,35 +7,34 @@ using System.Web.Mvc;
 
 namespace ProyectoClinica.Controllers
 {
-    public class FacturaController : Controller
+    public class ServiciosController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public FacturaController()
+        public ServiciosController()
         {
             _context = new ApplicationDbContext();
         }
-        // GET: Descuento
-        
+        // GET: Servicios
         public ActionResult Index()
         {
-            var listaRegistros = _context.Factura.ToList();
+            var listaRegistros = _context.Servicio.ToList();
             return View(listaRegistros);
         }
 
-        // GET: Factura/Details/5
+        // GET: Servicios/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: Factura/Create
+        // GET: Servicios/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Factura/Create
+        // POST: Servicios/Create
         [HttpPost]
         public ActionResult Create(FormCollection collection)
         {
@@ -51,13 +50,13 @@ namespace ProyectoClinica.Controllers
             }
         }
 
-        // GET: Factura/Edit/5
+        // GET: Servicios/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: Factura/Edit/5
+        // POST: Servicios/Edit/5
         [HttpPost]
         public ActionResult Edit(int id, FormCollection collection)
         {
@@ -73,13 +72,13 @@ namespace ProyectoClinica.Controllers
             }
         }
 
-        // GET: Factura/Delete/5
+        // GET: Servicios/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: Factura/Delete/5
+        // POST: Servicios/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {

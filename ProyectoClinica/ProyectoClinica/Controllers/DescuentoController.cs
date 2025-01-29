@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProyectoClinica.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,10 +9,17 @@ namespace ProyectoClinica.Controllers
 {
     public class DescuentoController : Controller
     {
+        private readonly ApplicationDbContext _context;
+
+        public DescuentoController()
+        {
+            _context = new ApplicationDbContext();
+        }
         // GET: Descuento
         public ActionResult Index()
         {
-            return View();
+            var listaRegistros = _context.Descuento.ToList();
+            return View(listaRegistros);
         }
 
         // GET: Descuento/Details/5

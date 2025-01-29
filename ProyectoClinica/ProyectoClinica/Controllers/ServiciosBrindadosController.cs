@@ -7,35 +7,34 @@ using System.Web.Mvc;
 
 namespace ProyectoClinica.Controllers
 {
-    public class FacturaController : Controller
+    public class ServiciosBrindadosController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public FacturaController()
+        public ServiciosBrindadosController()
         {
             _context = new ApplicationDbContext();
         }
-        // GET: Descuento
-        
+        // GET: ServiciosBrindados
         public ActionResult Index()
         {
-            var listaRegistros = _context.Factura.ToList();
+            var listaRegistros = _context.Servicios_Brindados.ToList();
             return View(listaRegistros);
         }
 
-        // GET: Factura/Details/5
+        // GET: ServiciosBrindados/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: Factura/Create
+        // GET: ServiciosBrindados/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Factura/Create
+        // POST: ServiciosBrindados/Create
         [HttpPost]
         public ActionResult Create(FormCollection collection)
         {
@@ -51,13 +50,13 @@ namespace ProyectoClinica.Controllers
             }
         }
 
-        // GET: Factura/Edit/5
+        // GET: ServiciosBrindados/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: Factura/Edit/5
+        // POST: ServiciosBrindados/Edit/5
         [HttpPost]
         public ActionResult Edit(int id, FormCollection collection)
         {
@@ -73,13 +72,13 @@ namespace ProyectoClinica.Controllers
             }
         }
 
-        // GET: Factura/Delete/5
+        // GET: ServiciosBrindados/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: Factura/Delete/5
+        // POST: ServiciosBrindados/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {

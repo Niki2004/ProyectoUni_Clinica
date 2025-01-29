@@ -248,6 +248,8 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PerfilController.cs" />
+    <Compile Include="Controllers\ServiciosBrindadosController.cs" />
+    <Compile Include="Controllers\ServiciosController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -394,6 +396,16 @@
     <Content Include="Views\Factura\Create.cshtml" />
     <Content Include="Views\Factura\Edit.cshtml" />
     <Content Include="Views\Factura\Delete.cshtml" />
+    <Content Include="Views\ServiciosBrindados\Index.cshtml" />
+    <Content Include="Views\ServiciosBrindados\Details.cshtml" />
+    <Content Include="Views\ServiciosBrindados\Create.cshtml" />
+    <Content Include="Views\ServiciosBrindados\Edit.cshtml" />
+    <Content Include="Views\ServiciosBrindados\Delete.cshtml" />
+    <Content Include="Views\Servicios\Index.cshtml" />
+    <Content Include="Views\Servicios\Details.cshtml" />
+    <Content Include="Views\Servicios\Create.cshtml" />
+    <Content Include="Views\Servicios\Edit.cshtml" />
+    <Content Include="Views\Servicios\Delete.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>
