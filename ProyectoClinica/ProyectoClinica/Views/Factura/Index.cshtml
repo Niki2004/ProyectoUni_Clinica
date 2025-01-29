@@ -1,0 +1,93 @@
+﻿@model IEnumerable<ProyectoClinica.Models.Factura>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Id_ServicioBrindado)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Id_Descuento)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NumeroRecibo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaHora)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MetodoPago)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CedulaCliente)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NombreCliente)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Subtotal)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Descuento)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Impuesto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalPagado)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id_ServicioBrindado)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id_Descuento)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NumeroRecibo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaHora)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MetodoPago)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CedulaCliente)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NombreCliente)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Subtotal)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Descuento)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Impuesto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalPagado)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id_Factura }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id_Factura }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id_Factura })
+        </td>
+    </tr>
+}
+
+</table>
