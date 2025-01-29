@@ -242,7 +242,9 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CitaController.cs" />
     <Compile Include="Controllers\ContabilidadController.cs" />
+    <Compile Include="Controllers\DescuentoController.cs" />
     <Compile Include="Controllers\EmpleadosController.cs" />
+    <Compile Include="Controllers\FacturaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PerfilController.cs" />
@@ -382,6 +384,16 @@
     <Content Include="Views\Contabilidad\Create.cshtml" />
     <Content Include="Views\Contabilidad\Edit.cshtml" />
     <Content Include="Views\Contabilidad\Delete.cshtml" />
+    <Content Include="Views\Descuento\Index.cshtml" />
+    <Content Include="Views\Descuento\Details.cshtml" />
+    <Content Include="Views\Descuento\Create.cshtml" />
+    <Content Include="Views\Descuento\Edit.cshtml" />
+    <Content Include="Views\Descuento\Delete.cshtml" />
+    <Content Include="Views\Factura\Index.cshtml" />
+    <Content Include="Views\Factura\Details.cshtml" />
+    <Content Include="Views\Factura\Create.cshtml" />
+    <Content Include="Views\Factura\Edit.cshtml" />
+    <Content Include="Views\Factura\Delete.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>
