@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using System.Xml.Linq;
 
 namespace ProyectoClinica.Models
 {
@@ -13,42 +14,26 @@ namespace ProyectoClinica.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id_Atencion_Cliente { get; set; }
 
-        [Required]
-        public int Id_Clasificacion { get; set; }
-
-        [Required]
-        public int Id_Prioridad { get; set; }
-
-        [Required]
-        public int Id_Tipo_Servicio { get; set; }
-
-        [Range(1, 10)]
-        public int Promedio_servicio { get; set; }
-
         [StringLength(225)]
+        [Display(Name = "Área de salud")]
         public string Salud_Evaluada { get; set; }
 
         [StringLength(225)]
+        [Display(Name = "Comentario del paciente")]
         public string Comentarios_Paciente { get; set; }
 
-        public decimal Porcentaje_Pacientes_Satisfechos { get; set; }
+        [StringLength(225)]
+        [Display(Name = "Prioridad de mejora")]
+        public string Prioridad_Mejora { get; set; }
 
         public DateTime Fechas_Comentario { get; set; }
 
-        [StringLength(50)]
-        public string Frecuencia_Comentarios { get; set; }
+        [StringLength(225)]
+        [Display(Name = "Tipo de servicio")]
+        public string Tipo_Servicio { get; set; }
 
-        // LLaves foraneas de las clases 
-        [ForeignKey(nameof(Id_Clasificacion))]
-        public virtual Clasificacion_Problema Clasificacion_Problema { get; set; }
+        [Display(Name = "Clasificacion del problema")]
+        public int Clasificacion_Problema { get; set; } //Del 1 al 10 
 
-        [ForeignKey(nameof(Id_Prioridad))]
-        public virtual Prioridad_Mejora Prioridad_Mejora { get; set; }
-
-        [ForeignKey(nameof(Id_Tipo_Servicio))]
-        public virtual Tipo_Servicio Tipo_Servicio { get; set; }
-
-        //Relación de la tabla Cita
-        public virtual ICollection<Cita> Cita { get; set; } = new List<Cita>();
     }
 }

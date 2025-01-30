@@ -16,9 +16,6 @@ namespace ProyectoClinica.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id_Auditoria { get; set; }
 
-        [Required]
-        public int Id_Paciente { get; set; }
-
         [StringLength(255)]
         public string Alerta_Respaldo_Fallido { get; set; }
 
@@ -28,8 +25,9 @@ namespace ProyectoClinica.Models
         public DateTime Fecha_Modificacion { get; set; } = DateTime.Now;
 
         // Llave foranea y relacion 
-        [ForeignKey(nameof(Id_Paciente))]
-        public virtual Paciente Paciente { get; set; }
+        [ForeignKey("ApplicationUser")]
+        public string Id { get; set; } // El campo Id en AspNetUsers es de tipo string.
+        public ApplicationUser ApplicationUser { get; set; }
 
     }
 }
