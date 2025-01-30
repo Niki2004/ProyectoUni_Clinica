@@ -257,6 +257,10 @@
     <Compile Include="Migrations\202501300539160_Cambios.designer.cs">
       <DependentUpon>202501300539160_Cambios.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202501301814152_CambiosEmpleados.cs" />
+    <Compile Include="Migrations\202501301814152_CambiosEmpleados.Designer.cs">
+      <DependentUpon>202501301814152_CambiosEmpleados.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Administrativa.cs" />
@@ -376,7 +380,6 @@
     <Content Include="Views\Cita\Especialidad.cshtml" />
     <Content Include="Views\Cita\Contactanos.cshtml" />
     <Content Include="Views\Empleados\Empleados.cshtml" />
-    <Content Include="Views\Empleados\CrearEmpleado.cshtml" />
     <Content Include="Views\Empleados\AsignacionRoles.cshtml" />
     <Content Include="Views\Empleados\EditarEmpleado.cshtml" />
     <Content Include="Views\Empleados\DesactivarPerfil.cshtml" />
@@ -409,6 +412,8 @@
     <Content Include="Views\Servicios\Create.cshtml" />
     <Content Include="Views\Servicios\Edit.cshtml" />
     <Content Include="Views\Servicios\Delete.cshtml" />
+    <Content Include="Views\Empleados\Buscar.cshtml" />
+    <Content Include="Views\Empleados\CrearEmpleado.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -449,6 +454,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202501300539160_Cambios.resx">
       <DependentUpon>202501300539160_Cambios.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202501301814152_CambiosEmpleados.resx">
+      <DependentUpon>202501301814152_CambiosEmpleados.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
