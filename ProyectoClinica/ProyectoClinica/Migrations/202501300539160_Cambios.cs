@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Modulos : DbMigration
+    public partial class Cambios : DbMigration
     {
         public override void Up()
         {
@@ -121,35 +121,22 @@
                 c => new
                     {
                         Id_Medico = c.Int(nullable: false, identity: true),
-                        Id_Especialidad = c.Int(nullable: false),
-                        Id_Estado_Asistencia = c.Int(nullable: false),
-                        Nota_medico = c.String(maxLength: 255),
-                        Horario_inicio = c.Time(nullable: false, precision: 7),
+                        Id_Cita = c.Int(nullable: false),
+                        Id_receta = c.Int(nullable: false),
+                        Especialidad = c.String(nullable: false),
                         Horario_fin = c.Time(nullable: false, precision: 7),
-                        Filtro_historial = c.String(maxLength: 50),
-                        Notificacion_enviada = c.String(maxLength: 255),
-                        Total_Procedimiento = c.Int(nullable: false),
-                        Motivo_cancelacion = c.String(maxLength: 255),
-                        Observaciones_Pacientes = c.String(maxLength: 225),
-                        Receta_aprobada = c.String(maxLength: 255),
-                        Detalle_receta = c.String(maxLength: 255),
-                        Motivo_modificacion = c.String(maxLength: 255),
-                        Fecha_modificacion = c.DateTime(nullable: false),
+                        Nombre = c.String(maxLength: 255),
+                        Horario_inicio = c.Time(nullable: false, precision: 7),
                         Fecha_creacion = c.DateTime(nullable: false),
                         Id = c.String(maxLength: 128),
-                        Especialidad_Id_Especialidad = c.Int(),
                         Estado_Asistencia_Id_Estado_Asistencia = c.Int(),
                     })
                 .PrimaryKey(t => t.Id_Medico)
                 .ForeignKey("dbo.AspNetUsers", t => t.Id)
-                .ForeignKey("dbo.Especialidad", t => t.Especialidad_Id_Especialidad)
-                .ForeignKey("dbo.Especialidad", t => t.Id_Especialidad)
+                .ForeignKey("dbo.Receta", t => t.Id_receta, cascadeDelete: true)
                 .ForeignKey("dbo.Estado_Asistencia", t => t.Estado_Asistencia_Id_Estado_Asistencia)
-                .ForeignKey("dbo.Estado_Asistencia", t => t.Id_Estado_Asistencia)
-                .Index(t => t.Id_Especialidad)
-                .Index(t => t.Id_Estado_Asistencia)
+                .Index(t => t.Id_receta)
                 .Index(t => t.Id)
-                .Index(t => t.Especialidad_Id_Especialidad)
                 .Index(t => t.Estado_Asistencia_Id_Estado_Asistencia);
             
             CreateTable(
@@ -158,190 +145,97 @@
                     {
                         Id_Cita = c.Int(nullable: false, identity: true),
                         Id_Medico = c.Int(nullable: false),
-                        Id_Atencion_Cliente = c.Int(nullable: false),
+                        Nombre_Paciente = c.String(maxLength: 255),
+                        Estado_Asistencia = c.String(maxLength: 255),
                         Hora_cita = c.Time(nullable: false, precision: 7),
-                        Duracion_Tratamiento = c.String(maxLength: 255),
-                        Total_Citas = c.Int(nullable: false),
-                        Cantidad_Pacientes = c.Int(nullable: false),
+                        Descripcion_Complicaciones = c.String(maxLength: 255),
+                        Sintomas = c.String(maxLength: 255),
                         Fecha_Cita = c.DateTime(nullable: false),
                         Modalidad = c.String(maxLength: 50),
-                        Fecha_solicitud = c.DateTime(nullable: false),
-                        Fecha_notificacion = c.DateTime(nullable: false),
-                        Hora_notificacion = c.Time(nullable: false, precision: 7),
-                        Tipo_Tratamiento = c.String(maxLength: 255),
-                        Tipo_Consulta = c.String(maxLength: 255),
-                        Receta_solicitada = c.String(maxLength: 255),
-                        Citas_Asistidas = c.Int(nullable: false),
-                        Citas_No_Asistidas = c.Int(nullable: false),
-                        Atencion_Cliente_Id_Atencion_Cliente = c.Int(),
                     })
                 .PrimaryKey(t => t.Id_Cita)
-                .ForeignKey("dbo.Atencion_Cliente", t => t.Atencion_Cliente_Id_Atencion_Cliente)
-                .ForeignKey("dbo.Atencion_Cliente", t => t.Id_Atencion_Cliente)
                 .ForeignKey("dbo.Medico", t => t.Id_Medico, cascadeDelete: true)
-                .Index(t => t.Id_Medico)
-                .Index(t => t.Id_Atencion_Cliente)
-                .Index(t => t.Atencion_Cliente_Id_Atencion_Cliente);
+                .Index(t => t.Id_Medico);
             
             CreateTable(
-                "dbo.Atencion_Cliente",
+                "dbo.Receta",
                 c => new
                     {
-                        Id_Atencion_Cliente = c.Int(nullable: false, identity: true),
-                        Id_Clasificacion = c.Int(nullable: false),
-                        Id_Prioridad = c.Int(nullable: false),
-                        Id_Tipo_Servicio = c.Int(nullable: false),
-                        Promedio_servicio = c.Int(nullable: false),
-                        Salud_Evaluada = c.String(maxLength: 225),
-                        Comentarios_Paciente = c.String(maxLength: 225),
-                        Porcentaje_Pacientes_Satisfechos = c.Decimal(nullable: false, precision: 18, scale: 2),
-                        Fechas_Comentario = c.DateTime(nullable: false),
-                        Frecuencia_Comentarios = c.String(maxLength: 50),
+                        Id_receta = c.Int(nullable: false, identity: true),
+                        Fecha_Creacion = c.DateTime(nullable: false),
+                        Nombre_Receta = c.String(maxLength: 255),
+                        Observaciones_Pacientes = c.String(maxLength: 255),
+                        Duracion_Tratamiento = c.String(maxLength: 255),
                     })
-                .PrimaryKey(t => t.Id_Atencion_Cliente)
-                .ForeignKey("dbo.Clasificacion_Problema", t => t.Id_Clasificacion, cascadeDelete: true)
-                .ForeignKey("dbo.Prioridad_Mejora", t => t.Id_Prioridad, cascadeDelete: true)
-                .ForeignKey("dbo.Tipo_Servicio", t => t.Id_Tipo_Servicio, cascadeDelete: true)
-                .Index(t => t.Id_Clasificacion)
-                .Index(t => t.Id_Prioridad)
-                .Index(t => t.Id_Tipo_Servicio);
-            
-            CreateTable(
-                "dbo.Clasificacion_Problema",
-                c => new
-                    {
-                        Id_Clasificacion = c.Int(nullable: false, identity: true),
-                        Descripcion = c.String(nullable: false, maxLength: 50),
-                    })
-                .PrimaryKey(t => t.Id_Clasificacion);
-            
-            CreateTable(
-                "dbo.Prioridad_Mejora",
-                c => new
-                    {
-                        Id_Prioridad = c.Int(nullable: false, identity: true),
-                        Descripcion = c.String(nullable: false, maxLength: 50),
-                    })
-                .PrimaryKey(t => t.Id_Prioridad);
-            
-            CreateTable(
-                "dbo.Tipo_Servicio",
-                c => new
-                    {
-                        Id_Tipo_Servicio = c.Int(nullable: false, identity: true),
-                        Descripcion = c.String(nullable: false, maxLength: 100),
-                    })
-                .PrimaryKey(t => t.Id_Tipo_Servicio);
-            
-            CreateTable(
-                "dbo.Paciente_Cita",
-                c => new
-                    {
-                        Id_Paciente_Cita = c.Int(nullable: false, identity: true),
-                        Id_Paciente = c.Int(nullable: false),
-                        Id_Cita = c.Int(nullable: false),
-                        Paciente_Id_Paciente = c.Int(),
-                        Cita_Id_Cita = c.Int(),
-                    })
-                .PrimaryKey(t => t.Id_Paciente_Cita)
-                .ForeignKey("dbo.Cita", t => t.Id_Cita)
-                .ForeignKey("dbo.Paciente", t => t.Paciente_Id_Paciente)
-                .ForeignKey("dbo.Paciente", t => t.Id_Paciente)
-                .ForeignKey("dbo.Cita", t => t.Cita_Id_Cita)
-                .Index(t => t.Id_Paciente)
-                .Index(t => t.Id_Cita)
-                .Index(t => t.Paciente_Id_Paciente)
-                .Index(t => t.Cita_Id_Cita);
-            
-            CreateTable(
-                "dbo.Paciente",
-                c => new
-                    {
-                        Id_Paciente = c.Int(nullable: false, identity: true),
-                        Contacto_emergencia = c.String(maxLength: 255),
-                        Nota_paciente = c.String(),
-                        Sintomas = c.String(maxLength: 255),
-                        Nombre_Complicacion = c.String(maxLength: 255),
-                        Formato_imagen = c.String(maxLength: 50),
-                        Id = c.String(maxLength: 128),
-                    })
-                .PrimaryKey(t => t.Id_Paciente)
-                .ForeignKey("dbo.AspNetUsers", t => t.Id)
-                .Index(t => t.Id);
-            
-            CreateTable(
-                "dbo.Especialidad",
-                c => new
-                    {
-                        Id_Especialidad = c.Int(nullable: false, identity: true),
-                        Nombre = c.String(nullable: false, maxLength: 255),
-                        Descripcion = c.String(nullable: false, maxLength: 255),
-                    })
-                .PrimaryKey(t => t.Id_Especialidad);
-            
-            CreateTable(
-                "dbo.Estado_Asistencia",
-                c => new
-                    {
-                        Id_Estado_Asistencia = c.Int(nullable: false, identity: true),
-                        Descripcion = c.String(nullable: false, maxLength: 255),
-                    })
-                .PrimaryKey(t => t.Id_Estado_Asistencia);
+                .PrimaryKey(t => t.Id_receta);
             
             CreateTable(
                 "dbo.Reportes",
                 c => new
                     {
                         Id_Reporte = c.Int(nullable: false, identity: true),
+                        Id_Empleado = c.Int(nullable: false),
                         Id_Cita = c.Int(nullable: false),
-                        Id_Paciente = c.Int(nullable: false),
-                        Id_Factura = c.Int(nullable: false),
                         Id_Contabilidad = c.Int(nullable: false),
+                        Id_SReceta = c.Int(nullable: false),
+                        Id_Atencion_Cliente = c.Int(nullable: false),
                         Id_Medico = c.Int(nullable: false),
-                        Tipo_Reporte = c.String(),
-                        Promedio_Complicaciones = c.Int(nullable: false),
-                        Costo_Promedio = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        Id_Factura = c.Int(nullable: false),
                         Fecha_Reporte = c.DateTime(nullable: false),
-                        Total_Complicaciones = c.Int(nullable: false),
-                        Rango_Edad = c.String(),
-                        Intervalo_Datos = c.String(),
-                        Dia_Semana = c.String(),
-                        Horario = c.String(),
-                        Porcentaje_Exito = c.Decimal(nullable: false, precision: 18, scale: 2),
                         Id = c.String(nullable: false, maxLength: 128),
-                        Contabilidad_ID_Contabilidad = c.Int(),
+                        Contabilidad_Id_Contabilidad = c.Int(),
                         Factura_Id_Factura = c.Int(),
                         ApplicationUser_Id = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id_Reporte)
                 .ForeignKey("dbo.AspNetUsers", t => t.Id)
+                .ForeignKey("dbo.Atencion_Cliente", t => t.Id_Atencion_Cliente, cascadeDelete: true)
                 .ForeignKey("dbo.Cita", t => t.Id_Cita)
-                .ForeignKey("dbo.Contabilidad", t => t.Contabilidad_ID_Contabilidad)
+                .ForeignKey("dbo.Contabilidad", t => t.Contabilidad_Id_Contabilidad)
                 .ForeignKey("dbo.Contabilidad", t => t.Id_Contabilidad)
+                .ForeignKey("dbo.Empleado", t => t.Id_Empleado, cascadeDelete: true)
                 .ForeignKey("dbo.Factura", t => t.Factura_Id_Factura)
                 .ForeignKey("dbo.Factura", t => t.Id_Factura)
                 .ForeignKey("dbo.Medico", t => t.Id_Medico)
-                .ForeignKey("dbo.Paciente", t => t.Id_Paciente)
+                .ForeignKey("dbo.Solicitud_Receta", t => t.Id_SReceta, cascadeDelete: true)
                 .ForeignKey("dbo.AspNetUsers", t => t.ApplicationUser_Id)
+                .Index(t => t.Id_Empleado)
                 .Index(t => t.Id_Cita)
-                .Index(t => t.Id_Paciente)
-                .Index(t => t.Id_Factura)
                 .Index(t => t.Id_Contabilidad)
+                .Index(t => t.Id_SReceta)
+                .Index(t => t.Id_Atencion_Cliente)
                 .Index(t => t.Id_Medico)
+                .Index(t => t.Id_Factura)
                 .Index(t => t.Id)
-                .Index(t => t.Contabilidad_ID_Contabilidad)
+                .Index(t => t.Contabilidad_Id_Contabilidad)
                 .Index(t => t.Factura_Id_Factura)
                 .Index(t => t.ApplicationUser_Id);
+            
+            CreateTable(
+                "dbo.Atencion_Cliente",
+                c => new
+                    {
+                        Id_Atencion_Cliente = c.Int(nullable: false, identity: true),
+                        Salud_Evaluada = c.String(maxLength: 225),
+                        Comentarios_Paciente = c.String(maxLength: 225),
+                        Prioridad_Mejora = c.String(maxLength: 225),
+                        Fechas_Comentario = c.DateTime(nullable: false),
+                        Tipo_Servicio = c.String(maxLength: 225),
+                        Clasificacion_Problema = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id_Atencion_Cliente);
             
             CreateTable(
                 "dbo.Contabilidad",
                 c => new
                     {
-                        ID_Contabilidad = c.Int(nullable: false, identity: true),
+                        Id_Contabilidad = c.Int(nullable: false, identity: true),
                         Id_Tipo_Registro = c.Int(nullable: false),
                         Id_Estado_Contabilidad = c.Int(nullable: false),
                         Id_Tipo_Transaccion = c.Int(nullable: false),
                         ClienteProveedor = c.String(),
+                        Conta_pago = c.String(),
+                        Estatus_pago = c.String(),
                         Fecha_Registro = c.DateTime(nullable: false),
                         Fecha_Vencimiento = c.DateTime(nullable: false),
                         Monto = c.Decimal(nullable: false, precision: 18, scale: 2),
@@ -356,7 +250,7 @@
                         Observaciones_Ingresos = c.String(),
                         Id = c.String(maxLength: 128),
                     })
-                .PrimaryKey(t => t.ID_Contabilidad)
+                .PrimaryKey(t => t.Id_Contabilidad)
                 .ForeignKey("dbo.AspNetUsers", t => t.Id)
                 .ForeignKey("dbo.Estado_Contabilidad", t => t.Id_Estado_Contabilidad)
                 .ForeignKey("dbo.Tipo_Registro", t => t.Id_Tipo_Registro)
@@ -460,6 +354,15 @@
                 .PrimaryKey(t => t.Id_Servicio);
             
             CreateTable(
+                "dbo.Solicitud_Receta",
+                c => new
+                    {
+                        Id_SReceta = c.Int(nullable: false, identity: true),
+                        receta_solicitada = c.String(maxLength: 255),
+                    })
+                .PrimaryKey(t => t.Id_SReceta);
+            
+            CreateTable(
                 "dbo.AspNetUserLogins",
                 c => new
                     {
@@ -498,31 +401,43 @@
                 .Index(t => t.RoleId);
             
             CreateTable(
-                "dbo.Asistente_Linea",
+                "dbo.Asientos_Contables",
                 c => new
                     {
-                        Id_asistente = c.Int(nullable: false, identity: true),
-                        Id_Cita = c.Int(nullable: false),
-                        Resumen_Asistencia = c.String(),
-                        Detalle = c.String(),
+                        Id_Asiento = c.Int(nullable: false, identity: true),
+                        Numero_Asiento = c.String(),
+                        Fecha_Asiento = c.DateTime(nullable: false),
+                        Tipo_Asiento = c.String(),
+                        Cuenta_Contable = c.String(),
+                        Descripcion_Cuenta = c.String(),
+                        Tipo_Movimiento = c.String(),
+                        Monto = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        Concepto = c.String(),
+                        Referencia = c.String(),
+                        Centros_Costos = c.String(),
+                        Periodo_Contable = c.String(),
+                        Estado = c.String(),
+                        Observaciones = c.String(),
+                        Usuario_Registro = c.String(),
+                        Fecha_Registro = c.DateTime(nullable: false),
+                        Usuario_Modificacion = c.String(),
+                        Fecha_Modificacion = c.DateTime(nullable: false),
                     })
-                .PrimaryKey(t => t.Id_asistente)
-                .ForeignKey("dbo.Cita", t => t.Id_Cita, cascadeDelete: true)
-                .Index(t => t.Id_Cita);
+                .PrimaryKey(t => t.Id_Asiento);
             
             CreateTable(
                 "dbo.Auditoria_Alerta",
                 c => new
                     {
                         Id_Auditoria = c.Int(nullable: false, identity: true),
-                        Id_Paciente = c.Int(nullable: false),
                         Alerta_Respaldo_Fallido = c.String(maxLength: 255),
                         Usuario_Modificacion = c.String(maxLength: 100),
                         Fecha_Modificacion = c.DateTime(nullable: false),
+                        Id = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id_Auditoria)
-                .ForeignKey("dbo.Paciente", t => t.Id_Paciente, cascadeDelete: true)
-                .Index(t => t.Id_Paciente);
+                .ForeignKey("dbo.AspNetUsers", t => t.Id)
+                .Index(t => t.Id);
             
             CreateTable(
                 "dbo.Avisos",
@@ -560,6 +475,149 @@
                 .Index(t => t.Id_Estado);
             
             CreateTable(
+                "dbo.Bancos",
+                c => new
+                    {
+                        Id_Banco = c.Int(nullable: false, identity: true),
+                        Id_Diario = c.Int(nullable: false),
+                        Nombre_Banco = c.String(),
+                        Codigo_Banco = c.String(),
+                    })
+                .PrimaryKey(t => t.Id_Banco)
+                .ForeignKey("dbo.Diarios_Contables", t => t.Id_Diario, cascadeDelete: true)
+                .Index(t => t.Id_Diario);
+            
+            CreateTable(
+                "dbo.Diarios_Contables",
+                c => new
+                    {
+                        Id_Diario = c.Int(nullable: false, identity: true),
+                        Id_Tipo_Registro = c.Int(nullable: false),
+                        Codigo_Diario = c.String(),
+                        Descripcion = c.String(),
+                        Activo = c.Boolean(nullable: false),
+                        Fecha_Creacion = c.DateTime(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id_Diario)
+                .ForeignKey("dbo.Tipo_Registro", t => t.Id_Tipo_Registro, cascadeDelete: true)
+                .Index(t => t.Id_Tipo_Registro);
+            
+            CreateTable(
+                "dbo.Busquedas_exportaciones",
+                c => new
+                    {
+                        Id_Busqueda = c.Int(nullable: false, identity: true),
+                        Id_Paciente = c.Int(nullable: false),
+                        Criterios_Busqueda = c.String(),
+                        Estado_Busqueda = c.String(),
+                        Exportado_PDF = c.String(),
+                        Fecha_Exportacion = c.DateTime(nullable: false),
+                        Id = c.String(maxLength: 128),
+                    })
+                .PrimaryKey(t => t.Id_Busqueda)
+                .ForeignKey("dbo.AspNetUsers", t => t.Id)
+                .Index(t => t.Id);
+            
+            CreateTable(
+                "dbo.Caja_Chica",
+                c => new
+                    {
+                        Id_Caja_Chica = c.Int(nullable: false, identity: true),
+                        Id_Contabilidad = c.Int(nullable: false),
+                        Numero_Comprobante = c.String(),
+                        Fecha_Movimiento = c.DateTime(nullable: false),
+                        Tipo_Movimiento = c.String(),
+                        Concepto = c.String(),
+                        Monto = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        Saldo_Anterior = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        Saldo_Actual = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        Beneficiario = c.String(),
+                        Categoria_Gasto = c.String(),
+                        Numero_Factura = c.String(),
+                        Estado = c.String(),
+                        Observaciones = c.String(),
+                        Usuario_Registro = c.String(),
+                        Fecha_Registro = c.DateTime(nullable: false),
+                        Usuario_Modificacion = c.String(),
+                        Fecha_Modificacion = c.DateTime(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id_Caja_Chica)
+                .ForeignKey("dbo.Contabilidad", t => t.Id_Contabilidad, cascadeDelete: true)
+                .Index(t => t.Id_Contabilidad);
+            
+            CreateTable(
+                "dbo.Conciliaciones_Bancarias",
+                c => new
+                    {
+                        Id_Conciliacion = c.Int(nullable: false, identity: true),
+                        Id_Banco = c.Int(nullable: false),
+                        Id_Diario = c.Int(nullable: false),
+                        Id_Tipo_Registro = c.Int(nullable: false),
+                        Fecha_Conciliacion = c.DateTime(nullable: false),
+                        Saldo_Contable = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        Saldo_Banco = c.Decimal(nullable: false, precision: 18, scale: 2),
+                    })
+                .PrimaryKey(t => t.Id_Conciliacion)
+                .ForeignKey("dbo.Bancos", t => t.Id_Banco, cascadeDelete: true)
+                .ForeignKey("dbo.Diarios_Contables", t => t.Id_Diario)
+                .ForeignKey("dbo.Tipo_Registro", t => t.Id_Tipo_Registro)
+                .Index(t => t.Id_Banco)
+                .Index(t => t.Id_Diario)
+                .Index(t => t.Id_Tipo_Registro);
+            
+            CreateTable(
+                "dbo.Estado_Asistencia",
+                c => new
+                    {
+                        Id_Estado_Asistencia = c.Int(nullable: false, identity: true),
+                        Descripcion = c.String(nullable: false, maxLength: 255),
+                    })
+                .PrimaryKey(t => t.Id_Estado_Asistencia);
+            
+            CreateTable(
+                "dbo.Modificacion_Receta",
+                c => new
+                    {
+                        Id_Modificacion_receta = c.Int(nullable: false, identity: true),
+                        Fecha_Modificacion = c.DateTime(nullable: false),
+                        motivo_modificacion = c.String(maxLength: 255),
+                    })
+                .PrimaryKey(t => t.Id_Modificacion_receta);
+            
+            CreateTable(
+                "dbo.Nota_Paciente",
+                c => new
+                    {
+                        Id_Nota_Paciente = c.Int(nullable: false, identity: true),
+                        Nota_Del_Paciente = c.String(maxLength: 255),
+                    })
+                .PrimaryKey(t => t.Id_Nota_Paciente);
+            
+            CreateTable(
+                "dbo.Pagos",
+                c => new
+                    {
+                        Id_Pago = c.Int(nullable: false, identity: true),
+                        Id_Banco = c.Int(nullable: false),
+                        Numero_Referencia = c.String(),
+                        Fecha_Pago = c.DateTime(nullable: false),
+                        Tipo_Pago = c.String(),
+                        Monto = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        Beneficiario = c.String(),
+                        Cuenta_Beneficiario = c.String(),
+                        Estado_Pago = c.String(),
+                        Descripcion = c.String(),
+                        Observaciones = c.String(),
+                        Usuario_Registro = c.String(),
+                        Fecha_Registro = c.DateTime(nullable: false),
+                        Usuario_Modificacion = c.String(),
+                        Fecha_Modificacion = c.DateTime(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id_Pago)
+                .ForeignKey("dbo.Bancos", t => t.Id_Banco, cascadeDelete: true)
+                .Index(t => t.Id_Banco);
+            
+            CreateTable(
                 "dbo.Respaldo",
                 c => new
                     {
@@ -568,10 +626,11 @@
                         Respaldo_configurado = c.String(),
                         Fecha_respaldo = c.DateTime(nullable: false),
                         Respaldo_exitoso = c.String(),
+                        Id = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id_Respaldo)
-                .ForeignKey("dbo.Paciente", t => t.Id_Paciente, cascadeDelete: true)
-                .Index(t => t.Id_Paciente);
+                .ForeignKey("dbo.AspNetUsers", t => t.Id)
+                .Index(t => t.Id);
             
             CreateTable(
                 "dbo.AspNetRoles",
@@ -585,32 +644,24 @@
                 .PrimaryKey(t => t.Id)
                 .Index(t => t.Name, unique: true, name: "RoleNameIndex");
             
-            CreateTable(
-                "dbo.Busquedas_exportaciones",
-                c => new
-                    {
-                        Id_Busqueda = c.Int(nullable: false, identity: true),
-                        Id_Paciente = c.Int(nullable: false),
-                        Criterios_Busqueda = c.String(),
-                        Estado_Busqueda = c.String(),
-                        Exportado_PDF = c.String(),
-                        Fecha_Exportacion = c.DateTime(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id_Busqueda)
-                .ForeignKey("dbo.Paciente", t => t.Id_Paciente, cascadeDelete: true)
-                .Index(t => t.Id_Paciente);
-            
         }
         
         public override void Down()
         {
-            DropForeignKey("dbo.Busquedas_exportaciones", "Id_Paciente", "dbo.Paciente");
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
-            DropForeignKey("dbo.Respaldo", "Id_Paciente", "dbo.Paciente");
+            DropForeignKey("dbo.Respaldo", "Id", "dbo.AspNetUsers");
+            DropForeignKey("dbo.Pagos", "Id_Banco", "dbo.Bancos");
+            DropForeignKey("dbo.Medico", "Estado_Asistencia_Id_Estado_Asistencia", "dbo.Estado_Asistencia");
+            DropForeignKey("dbo.Conciliaciones_Bancarias", "Id_Tipo_Registro", "dbo.Tipo_Registro");
+            DropForeignKey("dbo.Conciliaciones_Bancarias", "Id_Diario", "dbo.Diarios_Contables");
+            DropForeignKey("dbo.Conciliaciones_Bancarias", "Id_Banco", "dbo.Bancos");
+            DropForeignKey("dbo.Caja_Chica", "Id_Contabilidad", "dbo.Contabilidad");
+            DropForeignKey("dbo.Busquedas_exportaciones", "Id", "dbo.AspNetUsers");
+            DropForeignKey("dbo.Bancos", "Id_Diario", "dbo.Diarios_Contables");
+            DropForeignKey("dbo.Diarios_Contables", "Id_Tipo_Registro", "dbo.Tipo_Registro");
             DropForeignKey("dbo.Inventario", "Id_Estado", "dbo.Estado");
             DropForeignKey("dbo.Avisos", "Id_Articulo", "dbo.Inventario");
-            DropForeignKey("dbo.Auditoria_Alerta", "Id_Paciente", "dbo.Paciente");
-            DropForeignKey("dbo.Asistente_Linea", "Id_Cita", "dbo.Cita");
+            DropForeignKey("dbo.Auditoria_Alerta", "Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.Administrativa", "Id_Estado", "dbo.Estado");
             DropForeignKey("dbo.Administrativa", "Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
@@ -618,7 +669,7 @@
             DropForeignKey("dbo.Reportes", "ApplicationUser_Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.Empleado", "Id_Medico", "dbo.Medico");
-            DropForeignKey("dbo.Reportes", "Id_Paciente", "dbo.Paciente");
+            DropForeignKey("dbo.Reportes", "Id_SReceta", "dbo.Solicitud_Receta");
             DropForeignKey("dbo.Reportes", "Id_Medico", "dbo.Medico");
             DropForeignKey("dbo.Reportes", "Id_Factura", "dbo.Factura");
             DropForeignKey("dbo.Servicios_Brindados", "Id_Servicio", "dbo.Servicio");
@@ -626,41 +677,36 @@
             DropForeignKey("dbo.Reportes", "Factura_Id_Factura", "dbo.Factura");
             DropForeignKey("dbo.Factura", "Id_Descuento", "dbo.Descuento");
             DropForeignKey("dbo.Factura", "Descuento_Id_Descuento", "dbo.Descuento");
+            DropForeignKey("dbo.Reportes", "Id_Empleado", "dbo.Empleado");
             DropForeignKey("dbo.Reportes", "Id_Contabilidad", "dbo.Contabilidad");
             DropForeignKey("dbo.Contabilidad", "Id_Tipo_Transaccion", "dbo.Tipo_Transaccion");
             DropForeignKey("dbo.Contabilidad", "Id_Tipo_Registro", "dbo.Tipo_Registro");
-            DropForeignKey("dbo.Reportes", "Contabilidad_ID_Contabilidad", "dbo.Contabilidad");
+            DropForeignKey("dbo.Reportes", "Contabilidad_Id_Contabilidad", "dbo.Contabilidad");
             DropForeignKey("dbo.Contabilidad", "Id_Estado_Contabilidad", "dbo.Estado_Contabilidad");
             DropForeignKey("dbo.Contabilidad", "Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.Reportes", "Id_Cita", "dbo.Cita");
+            DropForeignKey("dbo.Reportes", "Id_Atencion_Cliente", "dbo.Atencion_Cliente");
             DropForeignKey("dbo.Reportes", "Id", "dbo.AspNetUsers");
-            DropForeignKey("dbo.Medico", "Id_Estado_Asistencia", "dbo.Estado_Asistencia");
-            DropForeignKey("dbo.Medico", "Estado_Asistencia_Id_Estado_Asistencia", "dbo.Estado_Asistencia");
-            DropForeignKey("dbo.Medico", "Id_Especialidad", "dbo.Especialidad");
-            DropForeignKey("dbo.Medico", "Especialidad_Id_Especialidad", "dbo.Especialidad");
-            DropForeignKey("dbo.Paciente_Cita", "Cita_Id_Cita", "dbo.Cita");
-            DropForeignKey("dbo.Paciente_Cita", "Id_Paciente", "dbo.Paciente");
-            DropForeignKey("dbo.Paciente_Cita", "Paciente_Id_Paciente", "dbo.Paciente");
-            DropForeignKey("dbo.Paciente", "Id", "dbo.AspNetUsers");
-            DropForeignKey("dbo.Paciente_Cita", "Id_Cita", "dbo.Cita");
+            DropForeignKey("dbo.Medico", "Id_receta", "dbo.Receta");
             DropForeignKey("dbo.Cita", "Id_Medico", "dbo.Medico");
-            DropForeignKey("dbo.Cita", "Id_Atencion_Cliente", "dbo.Atencion_Cliente");
-            DropForeignKey("dbo.Atencion_Cliente", "Id_Tipo_Servicio", "dbo.Tipo_Servicio");
-            DropForeignKey("dbo.Atencion_Cliente", "Id_Prioridad", "dbo.Prioridad_Mejora");
-            DropForeignKey("dbo.Atencion_Cliente", "Id_Clasificacion", "dbo.Clasificacion_Problema");
-            DropForeignKey("dbo.Cita", "Atencion_Cliente_Id_Atencion_Cliente", "dbo.Atencion_Cliente");
             DropForeignKey("dbo.Medico", "Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.Empleado", "Id_Estado", "dbo.Estado");
             DropForeignKey("dbo.Empleado", "Id_Usuario", "dbo.AspNetUsers");
             DropForeignKey("dbo.Copago", "Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
-            DropIndex("dbo.Busquedas_exportaciones", new[] { "Id_Paciente" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
-            DropIndex("dbo.Respaldo", new[] { "Id_Paciente" });
+            DropIndex("dbo.Respaldo", new[] { "Id" });
+            DropIndex("dbo.Pagos", new[] { "Id_Banco" });
+            DropIndex("dbo.Conciliaciones_Bancarias", new[] { "Id_Tipo_Registro" });
+            DropIndex("dbo.Conciliaciones_Bancarias", new[] { "Id_Diario" });
+            DropIndex("dbo.Conciliaciones_Bancarias", new[] { "Id_Banco" });
+            DropIndex("dbo.Caja_Chica", new[] { "Id_Contabilidad" });
+            DropIndex("dbo.Busquedas_exportaciones", new[] { "Id" });
+            DropIndex("dbo.Diarios_Contables", new[] { "Id_Tipo_Registro" });
+            DropIndex("dbo.Bancos", new[] { "Id_Diario" });
             DropIndex("dbo.Inventario", new[] { "Id_Estado" });
             DropIndex("dbo.Avisos", new[] { "Id_Articulo" });
-            DropIndex("dbo.Auditoria_Alerta", new[] { "Id_Paciente" });
-            DropIndex("dbo.Asistente_Linea", new[] { "Id_Cita" });
+            DropIndex("dbo.Auditoria_Alerta", new[] { "Id" });
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.Rol_Permiso", new[] { "Id" });
@@ -675,29 +721,19 @@
             DropIndex("dbo.Contabilidad", new[] { "Id_Tipo_Registro" });
             DropIndex("dbo.Reportes", new[] { "ApplicationUser_Id" });
             DropIndex("dbo.Reportes", new[] { "Factura_Id_Factura" });
-            DropIndex("dbo.Reportes", new[] { "Contabilidad_ID_Contabilidad" });
+            DropIndex("dbo.Reportes", new[] { "Contabilidad_Id_Contabilidad" });
             DropIndex("dbo.Reportes", new[] { "Id" });
-            DropIndex("dbo.Reportes", new[] { "Id_Medico" });
-            DropIndex("dbo.Reportes", new[] { "Id_Contabilidad" });
             DropIndex("dbo.Reportes", new[] { "Id_Factura" });
-            DropIndex("dbo.Reportes", new[] { "Id_Paciente" });
+            DropIndex("dbo.Reportes", new[] { "Id_Medico" });
+            DropIndex("dbo.Reportes", new[] { "Id_Atencion_Cliente" });
+            DropIndex("dbo.Reportes", new[] { "Id_SReceta" });
+            DropIndex("dbo.Reportes", new[] { "Id_Contabilidad" });
             DropIndex("dbo.Reportes", new[] { "Id_Cita" });
-            DropIndex("dbo.Paciente", new[] { "Id" });
-            DropIndex("dbo.Paciente_Cita", new[] { "Cita_Id_Cita" });
-            DropIndex("dbo.Paciente_Cita", new[] { "Paciente_Id_Paciente" });
-            DropIndex("dbo.Paciente_Cita", new[] { "Id_Cita" });
-            DropIndex("dbo.Paciente_Cita", new[] { "Id_Paciente" });
-            DropIndex("dbo.Atencion_Cliente", new[] { "Id_Tipo_Servicio" });
-            DropIndex("dbo.Atencion_Cliente", new[] { "Id_Prioridad" });
-            DropIndex("dbo.Atencion_Cliente", new[] { "Id_Clasificacion" });
-            DropIndex("dbo.Cita", new[] { "Atencion_Cliente_Id_Atencion_Cliente" });
-            DropIndex("dbo.Cita", new[] { "Id_Atencion_Cliente" });
+            DropIndex("dbo.Reportes", new[] { "Id_Empleado" });
             DropIndex("dbo.Cita", new[] { "Id_Medico" });
             DropIndex("dbo.Medico", new[] { "Estado_Asistencia_Id_Estado_Asistencia" });
-            DropIndex("dbo.Medico", new[] { "Especialidad_Id_Especialidad" });
             DropIndex("dbo.Medico", new[] { "Id" });
-            DropIndex("dbo.Medico", new[] { "Id_Estado_Asistencia" });
-            DropIndex("dbo.Medico", new[] { "Id_Especialidad" });
+            DropIndex("dbo.Medico", new[] { "Id_receta" });
             DropIndex("dbo.Empleado", new[] { "Id_Usuario" });
             DropIndex("dbo.Empleado", new[] { "Id_Estado" });
             DropIndex("dbo.Empleado", new[] { "Id_Medico" });
@@ -706,16 +742,25 @@
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
             DropIndex("dbo.Administrativa", new[] { "Id" });
             DropIndex("dbo.Administrativa", new[] { "Id_Estado" });
-            DropTable("dbo.Busquedas_exportaciones");
             DropTable("dbo.AspNetRoles");
             DropTable("dbo.Respaldo");
+            DropTable("dbo.Pagos");
+            DropTable("dbo.Nota_Paciente");
+            DropTable("dbo.Modificacion_Receta");
+            DropTable("dbo.Estado_Asistencia");
+            DropTable("dbo.Conciliaciones_Bancarias");
+            DropTable("dbo.Caja_Chica");
+            DropTable("dbo.Busquedas_exportaciones");
+            DropTable("dbo.Diarios_Contables");
+            DropTable("dbo.Bancos");
             DropTable("dbo.Inventario");
             DropTable("dbo.Avisos");
             DropTable("dbo.Auditoria_Alerta");
-            DropTable("dbo.Asistente_Linea");
+            DropTable("dbo.Asientos_Contables");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.Rol_Permiso");
             DropTable("dbo.AspNetUserLogins");
+            DropTable("dbo.Solicitud_Receta");
             DropTable("dbo.Servicio");
             DropTable("dbo.Servicios_Brindados");
             DropTable("dbo.Descuento");
@@ -724,15 +769,9 @@
             DropTable("dbo.Tipo_Registro");
             DropTable("dbo.Estado_Contabilidad");
             DropTable("dbo.Contabilidad");
-            DropTable("dbo.Reportes");
-            DropTable("dbo.Estado_Asistencia");
-            DropTable("dbo.Especialidad");
-            DropTable("dbo.Paciente");
-            DropTable("dbo.Paciente_Cita");
-            DropTable("dbo.Tipo_Servicio");
-            DropTable("dbo.Prioridad_Mejora");
-            DropTable("dbo.Clasificacion_Problema");
             DropTable("dbo.Atencion_Cliente");
+            DropTable("dbo.Reportes");
+            DropTable("dbo.Receta");
             DropTable("dbo.Cita");
             DropTable("dbo.Medico");
             DropTable("dbo.Estado");

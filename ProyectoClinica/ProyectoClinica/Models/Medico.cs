@@ -14,45 +14,20 @@ namespace ProyectoClinica.Models
         public int Id_Medico { get; set; }
 
         [Required]
-        public int Id_Especialidad { get; set; }
+        public int Id_Cita { get; set; }
 
         [Required]
-        public int Id_Estado_Asistencia { get; set; }
+        public int Id_receta { get; set; }
+
+        [Required]
+        public string Especialidad { get; set; }
+
+        public TimeSpan Horario_fin { get; set; }
 
         [StringLength(255)]
         public string Nombre { get; set; }
 
-        [StringLength(255)]
-        public string Nota_medico { get; set; }
-
         public TimeSpan Horario_inicio { get; set; }
-
-        public TimeSpan Horario_fin { get; set; }
-
-        [StringLength(50)]
-        public string Filtro_historial { get; set; }
-
-        [StringLength(255)]
-        public string Notificacion_enviada { get; set; }
-
-        public int Total_Procedimiento { get; set; }
-
-        [StringLength(255)]
-        public string Motivo_cancelacion { get; set; }
-
-        [StringLength(225)]
-        public string Observaciones_Pacientes { get; set; }
-
-        [StringLength(255)]
-        public string Receta_aprobada { get; set; }
-
-        [StringLength(255)]
-        public string Detalle_receta { get; set; }
-
-        [StringLength(255)]
-        public string Motivo_modificacion { get; set; }
-
-        public DateTime Fecha_modificacion { get; set; }
 
         public DateTime Fecha_creacion { get; set; } = DateTime.Now;
 
@@ -61,11 +36,8 @@ namespace ProyectoClinica.Models
         public string Id { get; set; } // El campo Id en AspNetUsers es de tipo string.
         public ApplicationUser ApplicationUser { get; set; }
 
-        [ForeignKey(nameof(Id_Especialidad))]
-        public virtual Especialidad Especialidad { get; set; }
-
-        [ForeignKey(nameof(Id_Estado_Asistencia))]
-        public virtual Estado_Asistencia EstadoAsistencia { get; set; }
+        [ForeignKey(nameof(Id_receta))]
+        public virtual Receta Receta { get; set; }
 
         //Relacion con la tabla Cita
         public virtual ICollection<Cita> Cita { get; set; } = new List<Cita>();

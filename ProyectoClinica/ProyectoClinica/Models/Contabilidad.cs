@@ -11,7 +11,7 @@ namespace ProyectoClinica.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ID_Contabilidad { get; set; }
+        public int Id_Contabilidad { get; set; }
 
         [Required]
         public int Id_Tipo_Registro { get; set; }
@@ -21,6 +21,10 @@ namespace ProyectoClinica.Models
         public int Id_Tipo_Transaccion { get; set; }
 
         public string ClienteProveedor { get; set; }
+
+        public string Conta_pago { get; set; }
+
+        public string Estatus_pago { get; set; }
 
         public DateTime Fecha_Registro { get; set; }
 
@@ -51,16 +55,11 @@ namespace ProyectoClinica.Models
         public string Id { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
 
-
         [ForeignKey(nameof(Id_Tipo_Registro))]
-
         public virtual Tipo_Registro Tipo_Registro { get; set; }
 
-
         [ForeignKey(nameof(Id_Estado_Contabilidad))]
-
         public virtual Estado_Contabilidad Estado_Contabilidad { get; set; }
-
 
         [ForeignKey(nameof(Id_Tipo_Transaccion))]
         public virtual Tipo_Transaccion Tipo_Transaccion { get; set; }
