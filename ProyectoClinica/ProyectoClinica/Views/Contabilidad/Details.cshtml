@@ -1,0 +1,146 @@
+﻿@model ProyectoClinica.Models.Contabilidad
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Contabilidad</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Id_Tipo_Registro)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Id_Tipo_Registro)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Id_Estado_Contabilidad)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Id_Estado_Contabilidad)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Id_Tipo_Transaccion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Id_Tipo_Transaccion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ClienteProveedor)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ClienteProveedor)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fecha_Registro)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fecha_Registro)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fecha_Vencimiento)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fecha_Vencimiento)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Monto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Monto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Monto_Anticipo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Monto_Anticipo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Impuesto_Aplicado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Impuesto_Aplicado)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Descuento_Aplicado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Descuento_Aplicado)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Comentarios)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Comentarios)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fecha_Cierre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fecha_Cierre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ingresos_Totales)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ingresos_Totales)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Total_Pagos_Pendientes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Total_Pagos_Pendientes)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Total_Sueldos)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Total_Sueldos)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Observaciones_Ingresos)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Observaciones_Ingresos)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

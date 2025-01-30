@@ -3,5 +3,83 @@
     ViewBag.Title = "Especialidad";
 }
 
-<h2>Especialidad</h2>
+<main>
+    <div id="carouselExampleIndicators" class="carousel slide">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="~/Imagenes/Informacion.jpg" class="d-block w-100 carousel-image" alt="...">
+            </div>
+            <div class="carousel-item">
+                <img src="~/Imagenes/Informacion2.jpg" class="d-block w-100 carousel-image" alt="...">
+            </div>
+            <div class="carousel-item">
+                <img src="~/Imagenes/Informacion1.jpg" class="d-block w-100 carousel-image" alt="...">
+            </div>
+            <div class="carousel-item">
+                <img src="~/Imagenes/Informacion3.jpg" class="d-block w-100 carousel-image" alt="...">
+            </div>
+            <div class="carousel-item">
+                <img src="~/Imagenes/Informacion4.jpg" class="d-block w-100 carousel-image" alt="...">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
 
+    <!-- Información debajo del carrusel -->
+    <div class="carousel-info">
+        <h2 style="color: #0b7b82;">Agenda tu cita</h2>
+        <p>
+            Para agendar citas o recibir más información, puedes comunicarte con nosotros a los teléfonos 8840-6363 o al 8751-8374.
+            Si deseas agendar citas de una manera más rápida puedes ingresar en el apartado de citas y escoger el horario que desees.
+        </p>
+        <p>¡Estamos para atenderte!</p>
+
+    </div>
+
+    <br />
+    <!-- Información debajo del carrusel -->
+    <div class="carousel-info">
+        <h2 style="color: #0b7b82;">Redes sociales</h2>
+        <p>Si deseas saber más sobre nosostros te dejamos a tu disposición nuestras redes sociales</p>
+        <!--<div class="social-buttons">-->
+        <!-- Botón Facebook -->
+        <!--<a href="https://www.facebook.com" target="_blank" class="social-btn facebook" aria-label="Facebook">
+            F
+        </a>-->
+        <!-- Botón Instagram -->
+        <!--<a href="https://www.instagram.com" target="_blank" class="social-btn instagram" aria-label="Instagram">
+                I
+            </a>
+        </div>-->
+    </div>
+</main>
+
+<style>
+    /* Reducción del tamaño de las imágenes */
+    .carousel-image {
+        max-height: 400px; /* Ajusta la altura máxima según lo necesites */
+        object-fit: cover; /* Mantiene la relación de aspecto de la imagen */
+    }
+
+    /* Estilos para la sección de información */
+    .carousel-info {
+        margin-top: 20px;
+        text-align: center;
+    }
+
+        .carousel-info h2 {
+            color: #0b7b82;
+        }
+</style>

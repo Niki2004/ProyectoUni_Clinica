@@ -10,13 +10,20 @@
 <ul class="navbar-nav navbar-right">
     @if (User.IsInRole("Usuario"))
     {
-        <li>@Html.ActionLink("Citas", "#", "#", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "nav-link" })</li>
+        <li>@Html.ActionLink("Citas", "Index", "Cita", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "nav-link" })</li>
         <li>@Html.ActionLink("Especialidades", "Especialidad", "Cita", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "nav-link" })</li>
         <li>@Html.ActionLink("Contactanos", "Contactanos", "Cita", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "nav-link" })</li>
+        <li>@Html.ActionLink("Contabilidad", "Index", "Contabilidad", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "nav-link" })</li>
+        <li>@Html.ActionLink("Descuento", "Index", "Descuento", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "nav-link" })</li>
+        <li>@Html.ActionLink("Factura", "Index", "Factura", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "nav-link" })</li>
+        <li>@Html.ActionLink("Servicios", "Index", "Servicios", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "nav-link" })</li>
+        <li>@Html.ActionLink("ServiciosBrindados ", "Index", "ServiciosBrindados", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "nav-link" })</li>
 
-        
     }
-   
+
+
+
+
 
     <li>
         @Html.ActionLink("Bienvenido " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage", @class = "nav-link" })

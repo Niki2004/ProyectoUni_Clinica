@@ -27,7 +27,6 @@ namespace ProyectoClinica.Models
         // Relación con tablas 
         public ICollection<Administrativa> Administrativa { get; set; } = new List<Administrativa>();
         public ICollection<Medico> Medico { get; set; } = new List<Medico>();
-        public ICollection<Paciente> Paciente { get; set; } = new List<Paciente>();
         public ICollection<Rol_Permiso> Rol_Permiso { get; set; } = new List<Rol_Permiso>();
         public ICollection<Copago> Copago { get; set; } = new List<Copago>();
         public ICollection<Empleado> Empleado { get; set; } = new List<Empleado>();

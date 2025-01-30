@@ -1,0 +1,74 @@
+﻿@model ProyectoClinica.Models.Descuento
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Descuento</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre_Descuento)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombre_Descuento)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Codigo_Descuento)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Codigo_Descuento)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Porcentaje_Descuento)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Porcentaje_Descuento)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Limite_Usos)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Limite_Usos)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Compania_Afiliada)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Compania_Afiliada)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Activo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Activo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fecha_Creacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fecha_Creacion)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id_Descuento }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
