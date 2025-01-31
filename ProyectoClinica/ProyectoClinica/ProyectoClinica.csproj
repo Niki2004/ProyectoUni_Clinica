@@ -253,13 +253,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202501250153446_Modulos.cs" />
-    <Compile Include="Migrations\202501250153446_Modulos.designer.cs">
-      <DependentUpon>202501250153446_Modulos.cs</DependentUpon>
+    <Compile Include="Migrations\202501300539160_Cambios.cs" />
+    <Compile Include="Migrations\202501300539160_Cambios.designer.cs">
+      <DependentUpon>202501300539160_Cambios.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202501291423350_Cambios.cs" />
-    <Compile Include="Migrations\202501291423350_Cambios.designer.cs">
-      <DependentUpon>202501291423350_Cambios.cs</DependentUpon>
+    <Compile Include="Migrations\202501301814152_CambiosEmpleados.cs" />
+    <Compile Include="Migrations\202501301814152_CambiosEmpleados.Designer.cs">
+      <DependentUpon>202501301814152_CambiosEmpleados.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -267,18 +267,20 @@
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\ApplicationRol.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
-    <Compile Include="Models\Asistente_Linea.cs" />
+    <Compile Include="Models\Asientos_Contables.cs" />
     <Compile Include="Models\Atencion_Cliente.cs" />
     <Compile Include="Models\Auditoria_Alerta.cs" />
     <Compile Include="Models\Avisos.cs" />
+    <Compile Include="Models\Bancos.cs" />
     <Compile Include="Models\Busquedas_exportaciones.cs" />
+    <Compile Include="Models\Caja_Chica.cs" />
     <Compile Include="Models\Cita.cs" />
-    <Compile Include="Models\Clasificacion_Problema.cs" />
+    <Compile Include="Models\Conciliaciones_Bancarias.cs" />
     <Compile Include="Models\Contabilidad.cs" />
     <Compile Include="Models\Copago.cs" />
     <Compile Include="Models\Descuento.cs" />
+    <Compile Include="Models\Diarios_Contables.cs" />
     <Compile Include="Models\Empleado.cs" />
-    <Compile Include="Models\Especialidad.cs" />
     <Compile Include="Models\Estado.cs" />
     <Compile Include="Models\Estado_Asistencia.cs" />
     <Compile Include="Models\Estado_Contabilidad.cs" />
@@ -286,17 +288,18 @@
     <Compile Include="Models\Inventario.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Medico.cs" />
-    <Compile Include="Models\Paciente.cs" />
-    <Compile Include="Models\Paciente_Cita.cs" />
-    <Compile Include="Models\Prioridad_Mejora.cs" />
+    <Compile Include="Models\Modificacion_Receta.cs" />
+    <Compile Include="Models\Nota_Paciente.cs" />
+    <Compile Include="Models\Pagos.cs" />
+    <Compile Include="Models\Receta.cs" />
     <Compile Include="Models\Reporte.cs" />
     <Compile Include="Models\Respaldo.cs" />
     <Compile Include="Models\RolInitialize.cs" />
     <Compile Include="Models\Rol_Permiso.cs" />
     <Compile Include="Models\Servicio.cs" />
     <Compile Include="Models\Servicios_Brindados.cs" />
+    <Compile Include="Models\Solicitud_Receta.cs" />
     <Compile Include="Models\Tipo_Registro.cs" />
-    <Compile Include="Models\Tipo_Servicio.cs" />
     <Compile Include="Models\Tipo_Transaccion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -365,26 +368,18 @@
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\Account\SendCode.cshtml" />
     <Content Include="Views\Account\VerifyCode.cshtml" />
-    <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
-    <Content Include="Views\Manage\ChangePassword.cshtml" />
-    <Content Include="Views\Manage\Index.cshtml" />
-    <Content Include="Views\Manage\ManageLogins.cshtml" />
-    <Content Include="Views\Manage\SetPassword.cshtml" />
-    <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
+    <Content Include="Views\Perfil\Index.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\Layout_Interno.cshtml" />
     <Content Include="Views\Cita\Especialidad.cshtml" />
     <Content Include="Views\Cita\Contactanos.cshtml" />
     <Content Include="Views\Empleados\Empleados.cshtml" />
-    <Content Include="Views\Empleados\CrearEmpleado.cshtml" />
     <Content Include="Views\Empleados\AsignacionRoles.cshtml" />
     <Content Include="Views\Empleados\EditarEmpleado.cshtml" />
     <Content Include="Views\Empleados\DesactivarPerfil.cshtml" />
     <Content Include="Views\Cita\Index.cshtml" />
     <Content Include="Views\Cita\Crear.cshtml" />
-    <Content Include="Views\Cita\Editar.cshtml" />
-    <Content Include="Views\Cita\Eliminar.cshtml" />
     <Content Include="Views\Contabilidad\Index.cshtml" />
     <Content Include="Views\Contabilidad\Details.cshtml" />
     <Content Include="Views\Contabilidad\Create.cshtml" />
@@ -410,11 +405,17 @@
     <Content Include="Views\Servicios\Create.cshtml" />
     <Content Include="Views\Servicios\Edit.cshtml" />
     <Content Include="Views\Servicios\Delete.cshtml" />
+    <Content Include="Views\Empleados\Buscar.cshtml" />
+    <Content Include="Views\Empleados\CrearEmpleado.cshtml" />
+    <Content Include="Views\Perfil\VistaCita.cshtml" />
+    <Content Include="Views\Perfil\Editar.cshtml" />
+    <Content Include="Views\Perfil\EliminarCita.cshtml" />
+    <Content Include="Views\Perfil\Eliminar.cshtml" />
+    <Content Include="Views\Perfil\HistorialCita.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Perfil\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
@@ -444,16 +445,16 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202501250153446_Modulos.resx">
-      <DependentUpon>202501250153446_Modulos.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202501291423350_Cambios.resx">
-      <DependentUpon>202501291423350_Cambios.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.3.3.4\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.3.3.4\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202501300539160_Cambios.resx">
+      <DependentUpon>202501300539160_Cambios.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202501301814152_CambiosEmpleados.resx">
+      <DependentUpon>202501301814152_CambiosEmpleados.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

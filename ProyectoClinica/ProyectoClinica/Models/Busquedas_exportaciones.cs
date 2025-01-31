@@ -25,8 +25,10 @@ namespace ProyectoClinica.Models
         public DateTime Fecha_Exportacion { get; set; } = DateTime.Now;
 
         //Llave foranea 
-        [ForeignKey(nameof(Id_Paciente))]
-        public virtual Paciente Paciente { get; set; }
+        // Llaves foraneas de las clases 
+        [ForeignKey("ApplicationUser")]
+        public string Id { get; set; } // El campo Id en AspNetUsers es de tipo string.
+        public ApplicationUser ApplicationUser { get; set; }
 
     }
 }

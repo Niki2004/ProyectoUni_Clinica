@@ -11,6 +11,33 @@
 <div id="calendar"></div>
 <br />
 
+<!-- Detalles de la Cita Seleccionada -->
+<div id="cita-detalle" class="card" style="display:none; margin-top: 20px; padding: 15px; border: 1px solid #ccc; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+    <h4 class="card-title" style="color: #333; border-bottom: 1px solid #eee; padding-bottom: 10px;">Detalles de la Cita</h4>
+    <div class="card-body">
+        <p><strong style="color: #666;">Médico:</strong> <span id="doctor-cita"></span></p>
+        <p><strong style="color: #666;">Fecha:</strong> <span id="fecha-cita"></span></p>
+        <p><strong style="color: #666;">Hora:</strong> <span id="hora-cita"></span></p>
+        <p>
+            <strong style="color: #666;">Si deseas agregar una nota para saber sobre sintomas que te pasaron durante la semana, puedea darle click al botón:</strong>
+            <button onclick="window.location.href='@Url.Action("#", "#")'" class="btn" style="
+                background-color: #00a3cc;
+                color: white;
+                border: none;
+                padding: 4px 15px;
+                border-radius: 50px;
+                cursor: pointer;
+                font-size: 13px;
+                margin-left: 10px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                transition: background-color 0.3s ease;">
+                <i class="fas fa-plus" style="margin-right: 5px;"></i>
+                Agregar
+            </button>
+        </p>
+    </div>
+</div>
+
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css" />
@@ -24,7 +51,7 @@
             initialView: 'dayGridMonth',
             events: '/Cita/GetEvents', // Obtiene las citas desde el controlador
             headerToolbar: {
-                left: 'prev,next today agendarButton editarButton eliminarButton',
+                left: 'prev,next today agendarButton',
                 center: 'title',
                 right: 'dayGridMonth,timeGridWeek,timeGridDay'
             },
@@ -33,29 +60,6 @@
                     text: 'Agendar Cita',
                     click: function () {
                         window.location.href = '@Url.Action("Crear", "Cita")'; // Redirige al formulario de creación
-                    }
-                },
-                editarButton: {
-                    text: 'Modificar Cita',
-                    click: function () {
-                        if (selectedEvent && selectedEvent.id) {
-                            window.location.href = '@Url.Action("Editar", "Cita")/' + selectedEvent.id; // Redirige al formulario de edición
-                        } else {
-                            alert('Por favor selecciona una cita.');
-                        }
-                    }
-                },
-                eliminarButton: {
-                    text: 'Cancelar Cita',
-                    click: function () {
-                        if (selectedEvent) {
-                            if (confirm('¿Estás seguro de que deseas cancelar esta cita?')) {
-                                // Redirige a la acción de eliminación, pasando el ID del evento seleccionado
-                                window.location.href = '@Url.Action("Eliminar", "Cita")/' + selectedEvent.id;
-                            }
-                        } else {
-                            alert('Por favor selecciona una cita.');
-                        }
                     }
                 }
             },
@@ -71,12 +75,27 @@
                 }
             },
             eventClick: function (info) {
-                selectedEvent = info.event; // Guarda el evento seleccionado
-                if (selectedEvent.id) {
-                    alert(`Cita seleccionada:\n${selectedEvent.title}`);
-                } else {
-                    alert('La cita seleccionada no tiene un ID válido.');
-                }
+                selectedEvent = info.event;
+
+                // Mostrar el panel de detalles
+                document.getElementById('cita-detalle').style.display = 'block';
+
+                // Obtener y formatear la fecha y hora
+                const fecha = info.event.start;
+                const fechaFormateada = fecha.toLocaleDateString('es-ES', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+                const horaFormateada = fecha.toLocaleTimeString('es-ES', {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+
+                // Actualizar los campos con la información
+                document.getElementById('doctor-cita').textContent = info.event.title;
+                document.getElementById('fecha-cita').textContent = fechaFormateada;
+                document.getElementById('hora-cita').textContent = horaFormateada;
             }
         });
 

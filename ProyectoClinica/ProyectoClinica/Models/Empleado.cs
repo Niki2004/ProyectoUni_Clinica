@@ -27,21 +27,36 @@ namespace ProyectoClinica.Models
         public string Comentarios { get; set; }
 
         [StringLength(255)]
+        public string Nombre { get; set; }
+
+        [StringLength(255)]
+        public string Apellido { get; set; }
+
+        [StringLength(255)]
+        public string Cedula { get; set; }
+        [StringLength(255)]
+        public string Correo { get; set; }
+
+        [StringLength(255)]
         public string Historial_cambios { get; set; }
 
         [StringLength(50)]
         public string Jornada { get; set; }
 
         [StringLength(255)]
-        public string Notificaciones { get; set; }
+        public string Notificaciones { get; set; }//
 
         [StringLength(255)]
         public string Evaluaciones { get; set; }
 
         public DateTime Fecha_vencimiento_contrato { get; set; }
 
+        public DateTime FechaInicio { get; set; }
+
+        public DateTime FechaFin { get; set; }
+
         [StringLength(255)]
-        public string Administrador_modificacion { get; set; }
+        public string Administrador_modificacion { get; set; }//
 
         public DateTime Fecha_registro { get; set; } = DateTime.Now;
 

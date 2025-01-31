@@ -1,0 +1,152 @@
+﻿
+@{
+    ViewBag.Title = "Buscar";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .container {
+            max-width: 900px;
+            margin: 15px auto;
+            padding: 15px;
+            font-family: Arial, sans-serif;
+        }
+
+        .search-section {
+            background-color: #f8f8f8;
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+
+        .search-form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .form-control {
+            flex: 1;
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            height: 38px;
+        }
+
+        .search-button {
+            padding: 8px 20px;
+            background-color: #0B877D;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+            .search-button:hover {
+                background-color: #096b63;
+            }
+
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+            .results-table th,
+            .results-table td {
+                padding: 12px;
+                text-align: left;
+                border-bottom: 1px solid #ddd;
+            }
+
+            .results-table th {
+                background-color: #f8f8f8;
+                font-weight: bold;
+            }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .edit-button,
+        .delete-button {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .edit-button {
+            background-color: #0B877D;
+            color: white;
+        }
+
+        .delete-button {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="search-section">
+            <form class="search-form">
+                <input type="text" class="form-control" name="searchTerm" placeholder="Buscar empleado por nombre...">
+                <button type="submit" class="search-button">Buscar</button>
+            </form>
+        </div>
+
+        <table class="results-table">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Apellidos</th>
+                    <th>Cedula</th>
+                    <th>Correo</th>
+                    <th>Departamento</th>
+                    <th>Roles</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var empleado in Model)
+                    {
+                        <tr>
+                            <td>@empleado.Nombre</td>
+                            <td>@empleado.Apellidos</td>
+                            <td>@empleado.Cedula</td>
+                            <td>@empleado.Correo</td>
+                            <td>@empleado.Departamento</td>
+                            <td>@empleado.Roles</td>
+                            <td class="action-buttons">
+                                
+                                <button class="delete-button" onclick="deleteEmployee(@empleado.Id)">Eliminar</button>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="7" class="no-results">No se encontraron resultados</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+

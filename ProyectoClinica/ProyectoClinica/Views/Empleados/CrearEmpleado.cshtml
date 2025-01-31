@@ -1,120 +1,70 @@
 ﻿
+@model ProyectoClinica.Models.Empleado
 @{
     ViewBag.Title = "CrearEmpleado";
 }
 
-<!DOCTYPE html>
-<html>
-<head>
-    <style>
-        .container {
-            max-width: 500px;
-            margin: 15px auto;
-            padding: 15px;
-            font-family: Arial, sans-serif;
-        }
 
-        .form-title {
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 22px;
-        }
 
-        .form-group {
-            margin-bottom: 12px;
-        }
 
-        .form-label {
-            display: block;
-            margin-bottom: 4px;
-            color: #666;
-            font-size: 14px;
-        }
+<div class="container mt-4">
+    <h2>Crear Nuevo Empleado</h2>
 
-        .form-control {
-            width: 100%;
-            padding: 8px 10px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            box-sizing: border-box;
-            height: 38px;
-        }
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
 
-        .date-container {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 12px;
-        }
+        <div class="form-horizontal">
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        .date-group {
-            flex: 1;
-        }
-
-        .save-button {
-            width: 100%;
-            padding: 10px;
-            background-color: #0B877D;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 16px;
-            margin-top: 5px;
-        }
-
-            .save-button:hover {
-                background-color: #096b63;
-            }
-
-        .form-section {
-            background-color: #f8f8f8;
-            padding: 15px;
-            border-radius: 6px;
-            margin-bottom: 15px;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1 class="form-title">Registro de Empleados</h1>
-
-        <form>
-            <div class="form-section">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Nombre*" required>
-                </div>
-
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Apellidos*" required>
-                </div>
-
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Cedula*" required>
-                </div>
-
-                <div class="form-group">
-                    <input type="email" class="form-control" placeholder="Correo*" required>
-                </div>
-
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Departamento*" required>
-                </div>
-
-                <div class="date-container">
-                    <div class="date-group">
-                        <label class="form-label">Comienza</label>
-                        <input type="text" class="form-control" placeholder="[MMM/DD]">
-                    </div>
-
-                    <div class="date-group">
-                        <label class="form-label">Termina</label>
-                        <input type="text" class="form-control" placeholder="[Term]">
-                    </div>
+            <div class="form-group row mb-3">
+                @Html.LabelFor(model => model.Id_Empleado, "ID Empleado", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Id_Empleado, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Id_Empleado, "", new { @class = "text-danger" })
                 </div>
             </div>
 
-            <button type="submit" class="save-button">Guardar</button>
-        </form>
-    </div>
-</body>
-</html>
+            <div class="form-group row mb-3">
+                @Html.LabelFor(model => model.Id_Medico, "Médico", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Id_Medico", (SelectList)ViewBag.Medico, "Seleccione un Médico", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Id_Medico, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group row mb-3">
+                @Html.LabelFor(model => model.Id_Estado, "Estado de Asistencia", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Id_Estado", (SelectList)ViewBag.Estado_Asistencia, "Seleccione un Estado", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Id_Estado, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group row mb-3">
+                @Html.LabelFor(model => model.Id_Usuario, "Usuario", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Id_Usuario", (SelectList)ViewBag.Users, "Seleccione un Usuario", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Id_Usuario, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-offset-2 col-md-10">
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    @Html.ActionLink("Volver a la Lista", "Empleados", null, new { @class = "btn btn-secondary" })
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            // Add any custom JavaScript validation or functionality here
+        });
+    </script>
+}
