@@ -1,0 +1,88 @@
+﻿@model ProyectoClinica.Models.Cita
+
+@{
+    ViewBag.Title = "Eliminar";
+}
+
+<center><h2>Eliminar Cita</h2></center>
+
+<h4>¿Estás seguro que deseas eliminar la cita?</h4>
+<br />
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Medico.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Medico.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre_Paciente)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombre_Paciente)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Estado_Asistencia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Estado_Asistencia)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Hora_cita)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Hora_cita)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Descripcion_Complicaciones)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Descripcion_Complicaciones)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Sintomas)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Sintomas)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fecha_Cita)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fecha_Cita)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Modalidad)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Modalidad)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Eliminar" class="btn btn-default" /> |
+            @Html.ActionLink("Regresar", "EliminarCita")
+        </div>
+    }
+</div>

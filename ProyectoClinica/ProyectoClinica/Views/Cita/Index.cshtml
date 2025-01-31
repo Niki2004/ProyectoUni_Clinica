@@ -51,7 +51,7 @@
             initialView: 'dayGridMonth',
             events: '/Cita/GetEvents', // Obtiene las citas desde el controlador
             headerToolbar: {
-                left: 'prev,next today agendarButton editarButton eliminarButton',
+                left: 'prev,next today agendarButton',
                 center: 'title',
                 right: 'dayGridMonth,timeGridWeek,timeGridDay'
             },
@@ -60,29 +60,6 @@
                     text: 'Agendar Cita',
                     click: function () {
                         window.location.href = '@Url.Action("Crear", "Cita")'; // Redirige al formulario de creación
-                    }
-                },
-                editarButton: {
-                    text: 'Modificar Cita',
-                    click: function () {
-                        if (selectedEvent && selectedEvent.id) {
-                            window.location.href = '@Url.Action("Editar", "Cita")/' + selectedEvent.id; // Redirige al formulario de edición
-                        } else {
-                            alert('Por favor selecciona una cita.');
-                        }
-                    }
-                },
-                eliminarButton: {
-                    text: 'Cancelar Cita',
-                    click: function () {
-                        if (selectedEvent) {
-                            if (confirm('¿Estás seguro de que deseas cancelar esta cita?')) {
-                                // Redirige a la acción de eliminación, pasando el ID del evento seleccionado
-                                window.location.href = '@Url.Action("Eliminar", "Cita")/' + selectedEvent.id;
-                            }
-                        } else {
-                            alert('Por favor selecciona una cita.');
-                        }
                     }
                 }
             },
