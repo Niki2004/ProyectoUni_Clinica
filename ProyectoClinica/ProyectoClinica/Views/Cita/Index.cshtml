@@ -5,6 +5,14 @@
 }
 
 <h2 class="text-center">Calendario de Citas</h2>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
 <br />
 
 <!-- Formato Calendario -->
@@ -20,7 +28,7 @@
         <p><strong style="color: #666;">Hora:</strong> <span id="hora-cita"></span></p>
         <p>
             <strong style="color: #666;">Si deseas agregar una nota para saber sobre sintomas que te pasaron durante la semana, puedea darle click al botón:</strong>
-            <button onclick="window.location.href='@Url.Action("#", "#")'" class="btn" style="
+            <button onclick="window.location.href='@Url.Action("CrearNota", "Cita")'" class="btn" style="
                 background-color: #00a3cc;
                 color: white;
                 border: none;
