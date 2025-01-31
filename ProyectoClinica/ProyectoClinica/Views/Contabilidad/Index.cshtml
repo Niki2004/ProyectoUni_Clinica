@@ -12,52 +12,59 @@
 <table class="table">
     <tr>
         <th>
-            <label>Tipo de Registro</label> 
+            <label>Tipo de Registro</label>
         </th>
         <th>
-            <label>Estado de Contabilidad</label> 
+            <label>Estado de Contabilidad</label>
         </th>
         <th>
-            <label>Tipo de Transacción</label> 
+            <label>Tipo de Transacción</label>
         </th>
         <th>
-            <label>Cliente / Proveedor</label> 
+            <label>Cliente / Proveedor</label>
         </th>
         <th>
-            <label>Fecha de Registro</label> 
+            <label>Estatus Pago</label>
+        </th>
+
+        <th>
+            <label>Conta Pago</label>
         </th>
         <th>
-            <label>Fecha de Vencimiento</label> 
+            <label>Fecha de Registro</label>
         </th>
         <th>
-            <label>Monto</label> 
+            <label>Fecha de Vencimiento</label>
         </th>
         <th>
-            <label>Monto Anticipo</label> 
+            <label>Monto</label>
         </th>
         <th>
-            <label>Impuesto Aplicado</label> 
+            <label>Monto Anticipo</label>
         </th>
         <th>
-            <label>Descuento Aplicado</label> 
+            <label>Impuesto Aplicado</label>
         </th>
         <th>
-            <label>Comentarios</label> 
+            <label>Descuento Aplicado</label>
         </th>
         <th>
-            <label>Fecha de Cierre</label> 
+            <label>Comentarios</label>
         </th>
         <th>
-            <label>Ingresos Totales</label> 
+            <label>Fecha de Cierre</label>
         </th>
         <th>
-            <label>Total Pagos Pendientes</label> 
+            <label>Ingresos Totales</label>
         </th>
         <th>
-            <label>Total Sueldos</label> 
+            <label>Total Pagos Pendientes</label>
         </th>
         <th>
-            <label>Observaciones Ingresos</label> 
+            <label>Total Sueldos</label>
+        </th>
+        <th>
+            <label>Observaciones Ingresos</label>
         </th>
         <th></th>
     </tr>
@@ -76,6 +83,12 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ClienteProveedor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Conta_pago)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Estatus_pago)
             </td>
             <td>
                 <label>@String.Format("{0:dd/MM/yyyy}", item.Fecha_Registro)</label>
@@ -114,9 +127,9 @@
                 @Html.DisplayFor(modelItem => item.Observaciones_Ingresos)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id_Contabilidad }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id_Contabilidad }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id_Contabilidad })
             </td>
         </tr>
     }
