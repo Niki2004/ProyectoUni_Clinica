@@ -368,12 +368,7 @@
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\Account\SendCode.cshtml" />
     <Content Include="Views\Account\VerifyCode.cshtml" />
-    <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
-    <Content Include="Views\Manage\ChangePassword.cshtml" />
-    <Content Include="Views\Manage\Index.cshtml" />
-    <Content Include="Views\Manage\ManageLogins.cshtml" />
-    <Content Include="Views\Manage\SetPassword.cshtml" />
-    <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
+    <Content Include="Views\Perfil\Index.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\Layout_Interno.cshtml" />
@@ -385,8 +380,6 @@
     <Content Include="Views\Empleados\DesactivarPerfil.cshtml" />
     <Content Include="Views\Cita\Index.cshtml" />
     <Content Include="Views\Cita\Crear.cshtml" />
-    <Content Include="Views\Cita\Editar.cshtml" />
-    <Content Include="Views\Cita\Eliminar.cshtml" />
     <Content Include="Views\Contabilidad\Index.cshtml" />
     <Content Include="Views\Contabilidad\Details.cshtml" />
     <Content Include="Views\Contabilidad\Create.cshtml" />
@@ -414,11 +407,15 @@
     <Content Include="Views\Servicios\Delete.cshtml" />
     <Content Include="Views\Empleados\Buscar.cshtml" />
     <Content Include="Views\Empleados\CrearEmpleado.cshtml" />
+    <Content Include="Views\Perfil\VistaCita.cshtml" />
+    <Content Include="Views\Perfil\Editar.cshtml" />
+    <Content Include="Views\Perfil\EliminarCita.cshtml" />
+    <Content Include="Views\Perfil\Eliminar.cshtml" />
+    <Content Include="Views\Perfil\HistorialCita.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Perfil\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

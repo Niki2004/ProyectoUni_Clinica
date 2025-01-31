@@ -15,42 +15,42 @@
         @Html.DropDownList("Id_Medico", null, "Seleccione un médico", new { @class = "form-control", id = "Id_Medico" })
         @Html.ValidationMessageFor(model => model.Id_Medico, "", new { @class = "text-danger" })
     </div>
-
+    <br />
     <div class="form-group">
         @Html.Label("Especialidad", "Especialidad")
         <input type="text" id="Especialidad" class="form-control" readonly />
     </div>
-
+    <br />
     <div class="form-group">
         @Html.LabelFor(model => model.Nombre_Paciente, "Nombre del Paciente")
         @Html.TextBoxFor(model => model.Nombre_Paciente, new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.Nombre_Paciente, "", new { @class = "text-danger" })
     </div>
-
+    <br />
     <div class="form-group">
         @Html.LabelFor(model => model.Fecha_Cita, "Fecha de la Cita")
         @Html.TextBoxFor(model => model.Fecha_Cita, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
         @Html.ValidationMessageFor(model => model.Fecha_Cita, "", new { @class = "text-danger" })
     </div>
-
+    <br />
     <div class="form-group">
         @Html.LabelFor(model => model.Hora_cita, "Hora de la Cita")
         @Html.TextBoxFor(model => model.Hora_cita, "{0:hh\\:mm}", new { @class = "form-control", type = "time" })
         @Html.ValidationMessageFor(model => model.Hora_cita, "", new { @class = "text-danger" })
     </div>
-
+    <br />
     <div class="form-group">
         @Html.LabelFor(model => model.Modalidad, "Modalidad de la Cita")
         @Html.DropDownListFor(model => model.Modalidad, new SelectList(new[] { "Presencial", "Virtual" }, "Seleccione la modalidad"), new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.Modalidad, "", new { @class = "text-danger" })
     </div>
-
+    <br />
     <div class="form-group">
         @Html.LabelFor(model => model.Descripcion_Complicaciones, "Descripción de Complicaciones")
         @Html.TextAreaFor(model => model.Descripcion_Complicaciones, new { @class = "form-control", rows = 3 })
         @Html.ValidationMessageFor(model => model.Descripcion_Complicaciones, "", new { @class = "text-danger" })
     </div>
-
+    <br />
     <div class="form-group">
         @Html.LabelFor(model => model.Sintomas, "Síntomas")
         @Html.TextAreaFor(model => model.Sintomas, new { @class = "form-control", rows = 3 })
@@ -58,8 +58,10 @@
     </div>
 
     @Html.HiddenFor(model => model.Estado_Asistencia, new { @Value = "Asistida" })
-
+    <br />
     <button type="submit" class="btn btn-primary">Agendar</button>
+    <br />
+    <br />
     <a href="@Url.Action("Index", "Cita")" class="btn btn-secondary">Cancelar</a>
 }
 
