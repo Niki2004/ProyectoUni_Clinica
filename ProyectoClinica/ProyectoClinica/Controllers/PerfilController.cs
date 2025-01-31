@@ -52,7 +52,15 @@ namespace ProyectoClinica.Controllers
             return View(citas);
         }
 
-        //---------------------------------------------------- Editar ------------------------------------------------------------
+        //---------------------------------------------------- Vista de citas ------------------------------------------------------------
+        public ActionResult NotasPersonale()
+        {
+            var notasPersonales = BaseDatos.Nota_Paciente.ToList();
+            return View(notasPersonales);
+        }
+
+
+        //---------------------------------------------------- Editar cita ------------------------------------------------------------
         public ActionResult Editar(int? id)
         {
             if (id == null)
@@ -83,7 +91,7 @@ namespace ProyectoClinica.Controllers
             return View(cita);
         }
 
-        //---------------------------------------------------- Eliminar ------------------------------------------------------------
+        //---------------------------------------------------- Eliminar cita ------------------------------------------------------------
         [HttpGet]
         public ActionResult Eliminar(int? id)
         {
@@ -110,6 +118,87 @@ namespace ProyectoClinica.Controllers
             BaseDatos.Cita.Remove(cita);
             BaseDatos.SaveChanges();
             return RedirectToAction("EliminarCita");
+        }
+
+        //---------------------------------------------------- Editar Nota ------------------------------------------------------------
+        // GET: Editar Nota
+        [HttpGet]
+        public ActionResult EditarNota(int id)
+        {
+            var notaPaciente = BaseDatos.Nota_Paciente.Find(id);
+            if (notaPaciente == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(notaPaciente);
+        }
+
+        // POST: Editar Nota
+        [HttpPost]
+        public ActionResult EditarNota(Nota_Paciente notaPaciente)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    BaseDatos.Entry(notaPaciente).State = EntityState.Modified;
+                    BaseDatos.SaveChanges();
+
+                    // Agregar mensaje de éxito
+                    TempData["SuccessMessage"] = "La nota se ha actualizado correctamente.";
+
+                    return RedirectToAction("NotasPersonale");
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "Error al actualizar la nota: " + ex.Message);
+                }
+            }
+
+            return View(notaPaciente);
+        }
+
+        //---------------------------------------------------- Eliminar Nota ------------------------------------------------------------
+
+        // GET: Eliminar Nota
+        [HttpGet]
+        public ActionResult EliminarNota(int id)
+        {
+            var notaPaciente = BaseDatos.Nota_Paciente.Find(id);
+            if (notaPaciente == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(notaPaciente);
+        }
+
+        // POST: Eliminar Nota
+        [HttpPost, ActionName("EliminarNota")]
+        public ActionResult ConfirmarEliminarNota(int id)
+        {
+            try
+            {
+                var notaPaciente = BaseDatos.Nota_Paciente.Find(id);
+                if (notaPaciente == null)
+                {
+                    return HttpNotFound();
+                }
+
+                BaseDatos.Nota_Paciente.Remove(notaPaciente);
+                BaseDatos.SaveChanges();
+
+                // Agregar mensaje de éxito
+                TempData["SuccessMessage"] = "La nota se ha eliminado correctamente.";
+
+                return RedirectToAction("NotasPersonale");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", "Error al eliminar la nota: " + ex.Message);
+                return RedirectToAction("EliminarNota", new { id });
+            }
         }
 
     }

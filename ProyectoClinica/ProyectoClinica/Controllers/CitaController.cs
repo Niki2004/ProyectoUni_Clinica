@@ -120,5 +120,40 @@ namespace ProyectoClinica.Controllers
             // Si el modelo no es válido, regresar la vista con los errores
             return View(Cita);
         }
+
+        //---------------------------------------------------- Crear nota ----------------------------------------------------------
+        [HttpGet]
+        public ActionResult CrearNota()
+        {
+            var notaPaciente = new Nota_Paciente();
+
+            return View(notaPaciente);
+        }
+
+        [HttpPost]
+        public ActionResult CrearNota(Nota_Paciente notaPaciente)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    BaseDatos.Nota_Paciente.Add(notaPaciente);
+                    BaseDatos.SaveChanges();
+
+                    // Agregar un mensaje de éxito
+                    TempData["SuccessMessage"] = "La nota se ha creado correctamente.";
+
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "Error al crear la nota del paciente: " + ex.Message);
+                }
+            }
+            return View(notaPaciente);
+        }
+
+
+
     }
 }
