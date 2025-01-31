@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -30,9 +32,21 @@ namespace ProyectoClinica.Controllers
 
         #region Detalles de contabilidad
         // GET: Contabilidad/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return View();
+            }
+
+            var contabilidad = await _context.Contabilidad.FirstOrDefaultAsync(m => m.Id_Contabilidad == id);
+
+            if (contabilidad == null)
+            {
+                return View(contabilidad);
+            }
+
+            return View(contabilidad);
         }
         #endregion
 
@@ -44,6 +58,7 @@ namespace ProyectoClinica.Controllers
             ViewBag.TipoRegistro = new SelectList(_context.Tipo_Registro, "Id_Tipo_Registro", "Nombre");
             ViewBag.Estado_Contabilidad = new SelectList(_context.Estado_Contabilidad, "Id_Estado_Contabilidad", "Nombre");
             ViewBag.TipoTransaccion = new SelectList(_context.Tipo_Transaccion, "Id_Tipo_Transaccion", "Nombre");
+            ViewBag.Usuarios = new SelectList(_context.Users, "Id", "UserName");
             return View();
         }
         
@@ -82,7 +97,7 @@ namespace ProyectoClinica.Controllers
                 ViewBag.TipoRegistro = new SelectList(_context.Tipo_Registro, "Id_Tipo_Registro", "Nombre");
                 ViewBag.Estado_Contabilidad = new SelectList(_context.Estado_Contabilidad, "Id_Estado_Contabilidad", "Nombre");
                 ViewBag.TipoTransaccion = new SelectList(_context.Tipo_Transaccion, "Id_Tipo_Transaccion", "Nombre");
-
+                ViewBag.Usuarios = new SelectList(_context.Users, "Id", "UserName");
                 return View(model);
 
 
@@ -95,26 +110,71 @@ namespace ProyectoClinica.Controllers
         #endregion
 
         // GET: Contabilidad/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult>Edit(int id)
         {
-            return View();
+            if (id == null)
+            {
+
+            }
+
+            var contabilidad = await _context.Contabilidad.FindAsync(id);
+            if (contabilidad == null)
+            {
+
+            }
+
+            ViewData["Id_Tipo_Registro"] = new SelectList(_context.Tipo_Registro, "Id_Tipo_Registro", "Nombre", contabilidad.Id_Tipo_Registro);
+            ViewData["Id_Estado_Contabilidad"] = new SelectList(_context.Estado_Contabilidad, "Id_Estado_Contabilidad", "Nombre", contabilidad.Id_Estado_Contabilidad);
+            ViewData["Id_Tipo_Transaccion"] = new SelectList(_context.Tipo_Transaccion, "Id_Tipo_Transaccion", "Nombre", contabilidad.Id_Tipo_Transaccion);
+            ViewBag.Usuarios = new SelectList(_context.Users, "Id", "UserName");
+            return View(contabilidad);
+
         }
 
         // POST: Contabilidad/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public async Task<ActionResult>Edit(int id, Contabilidad contabilidad)
         {
-            try
+            if (id != contabilidad.Id_Contabilidad)
             {
-                // TODO: Add update logic here
 
-                return RedirectToAction("Index");
             }
-            catch
+
+            if (ModelState.IsValid)
             {
-                return View();
+                try
+                {
+                    _context.Entry(contabilidad).State = EntityState.Modified;
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ContabilidadExists(contabilidad.Id_Contabilidad))
+                    {
+
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+
             }
+
+            ViewData["Id_Tipo_Registro"] = new SelectList(_context.Tipo_Registro, "Id_Tipo_Registro", "Nombre", contabilidad.Id_Tipo_Registro);
+            ViewData["Id_Estado_Contabilidad"] = new SelectList(_context.Estado_Contabilidad, "Id_Estado_Contabilidad", "Nombre", contabilidad.Id_Estado_Contabilidad);
+            ViewData["Id_Tipo_Transaccion"] = new SelectList(_context.Tipo_Transaccion, "Id_Tipo_Transaccion", "Nombre", contabilidad.Id_Tipo_Transaccion);
+            ViewBag.Usuarios = new SelectList(_context.Users, "Id", "UserName");
+            return View(contabilidad);
+
         }
+
+        private bool ContabilidadExists(int id)
+        {
+            return _context.Contabilidad.Any(e => e.Id_Contabilidad == id);
+        }
+
 
         // GET: Contabilidad/Delete/5
         public ActionResult Delete(int id)
