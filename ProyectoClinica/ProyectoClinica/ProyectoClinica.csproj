@@ -412,6 +412,10 @@
     <Content Include="Views\Perfil\EliminarCita.cshtml" />
     <Content Include="Views\Perfil\Eliminar.cshtml" />
     <Content Include="Views\Perfil\HistorialCita.cshtml" />
+    <Content Include="Views\Cita\CrearNota.cshtml" />
+    <Content Include="Views\Perfil\NotasPersonale.cshtml" />
+    <Content Include="Views\Perfil\EditarNota.cshtml" />
+    <Content Include="Views\Perfil\EliminarNota.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>
