@@ -23,9 +23,6 @@ namespace ProyectoClinica.Controllers
         // GET: Empleados
         //[Authorize(Roles = "Administrador")]
 
-
-
-
         [HttpGet]
         public ActionResult Empleados()
         {
@@ -34,72 +31,124 @@ namespace ProyectoClinica.Controllers
         }
 
 
-
-
-
-
         //-----------------------------------------------------------------controller creacion de empleados----------------------------------------------------------------------
+        //[HttpGet]
+        //public ActionResult CrearEmpleado()
+        //{
+        //    ViewBag.Medico = new SelectList(BaseDatos.Medico, "Id_Medico", "Nombre");
+        //    ViewBag.Estado = new SelectList(BaseDatos.Estado_Asistencia, "Id_Estado", "Nombre");
+        //    ViewBag.Users = new SelectList(BaseDatos.Users, "Id_Usuario", "Nombre");
+        //    return View();
+        //}
+
         [HttpGet]
         public ActionResult CrearEmpleado()
         {
-            ViewBag.Medico = new SelectList(BaseDatos.Medico, "Id_Medico", "Nombre");
-            ViewBag.Estado = new SelectList(BaseDatos.Estado_Asistencia, "Id_Estado", "Nombre");
-            ViewBag.Users = new SelectList(BaseDatos.Users, "Id_Usuario", "Nombre");
-            return View();
+            // Preparar datos necesarios para listas desplegables si las tienes
+            ViewBag.Medicos = new SelectList(BaseDatos.Medico, "Id_Medico", "Nombre");
+            ViewBag.Estados = new SelectList(BaseDatos.Estado, "Id_Estado", "Descripcion");
+            ViewBag.Usuarios = new SelectList(BaseDatos.Users, "Id", "UserName");
+
+            var empleado = new Empleado();
+            return View(empleado);
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult CrearEmpleado(Empleado empleado)
         {
-            //if (ModelState.IsValid)
-            //{
-            //    BaseDatos.Empleado.Add(empleado);
-            //    BaseDatos.SaveChanges();
-            //    return RedirectToAction("Empleados");
-
-            //}
-            //return View(empleado);
-
+           
             try
             {
+                // Agregar valores por defecto para campos requeridos
+                empleado.Fecha_registro = DateTime.Now;
+                empleado.Fecha_actualizacion = DateTime.Now;
+                empleado.Fecha_proxima_evaluacion = DateTime.Now.AddMonths(6); // ejemplo
+                empleado.Administrador_modificacion = "Sistema"; // o el usuario actual
+                empleado.documentos = ""; // o un valor por defecto
+                empleado.Departamento = ""; // o un valor por defecto
+                empleado.Historial_capacitaciones = ""; // o un valor por defecto
 
-                if (ModelState.IsValid)
-                {
-                    int idSeleccionado = empleado.Id_Empleado; // Aquí obtienes el ID del dropdown
+                // Intentar guardar
+                BaseDatos.Empleado.Add(empleado);
+                BaseDatos.SaveChanges();
 
-                    try
-                    {
-                        // Guardar en la base de datos
-                        BaseDatos.Empleado.Add(empleado);
-                        BaseDatos.SaveChanges();
-
-                        return RedirectToAction("Empleados");
-                    }
-                    catch (Exception ex)
-                    {
-                        // Si hay un error, muestra el mensaje en el log o en el modelo para que el usuario lo vea
-                        ModelState.AddModelError("", "Ocurrió un error al guardar los datos: " + ex.Message);
-                    }
-
-
-
-                }
-
-                // Si el modelo no es válido o hubo un error, repite el proceso y pasa la vista con el modelo
-                // Esto permitirá que los datos enviados por el usuario se mantengan en el formulario
-                ViewBag.Medico = new SelectList(BaseDatos.Medico, "Id_Medico", "Nombre");
-                ViewBag.Estado = new SelectList(BaseDatos.Estado_Asistencia, "Id_Estado", "Nombre");
-                ViewBag.Users = new SelectList(BaseDatos.Users, "Id_Usuario", "Nombre");
-
-                return View(empleado);
-
-
+                TempData["SuccessMessage"] = "El empleado se ha creado correctamente.";
+                return RedirectToAction("Empleados");
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                // Loguear el error completo
+                var mensajeError = ex.Message;
+                while (ex.InnerException != null)
+                {
+                    ex = ex.InnerException;
+                    mensajeError += " | " + ex.Message;
+                }
+                ModelState.AddModelError("", "Error al crear el empleado: " + mensajeError);
             }
+
+            // Recargar las listas desplegables
+            ViewBag.Medicos = new SelectList(BaseDatos.Medico, "Id_Medico", "Nombre", empleado.Id_Medico);
+            ViewBag.Estados = new SelectList(BaseDatos.Estado, "Id_Estado", "Descripcion", empleado.Id_Estado);
+            ViewBag.Usuarios = new SelectList(BaseDatos.Users, "Id", "UserName", empleado.Id_Usuario);
+            return View(empleado);
         }
+
+
+
+        //[HttpPost]
+        //public ActionResult CrearEmpleado(Empleado empleado)
+        //{
+        //    //if (ModelState.IsValid)
+        //    //{
+        //    //    BaseDatos.Empleado.Add(empleado);
+        //    //    BaseDatos.SaveChanges();
+        //    //    return RedirectToAction("Empleados");
+
+        //    //}
+        //    //return View(empleado);
+
+        //    try
+        //    {
+
+        //        if (ModelState.IsValid)
+        //        {
+        //            int idSeleccionado = empleado.Id_Empleado; // Aquí obtienes el ID del dropdown
+
+        //            try
+        //            {
+        //                // Guardar en la base de datos
+        //                BaseDatos.Empleado.Add(empleado);
+        //                BaseDatos.SaveChanges();
+
+        //                return RedirectToAction("Empleados");
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                // Si hay un error, muestra el mensaje en el log o en el modelo para que el usuario lo vea
+        //                ModelState.AddModelError("", "Ocurrió un error al guardar los datos: " + ex.Message);
+        //            }
+
+
+
+        //        }
+
+        //        // Si el modelo no es válido o hubo un error, repite el proceso y pasa la vista con el modelo
+        //        // Esto permitirá que los datos enviados por el usuario se mantengan en el formulario
+        //        ViewBag.Medico = new SelectList(BaseDatos.Medico, "Id_Medico", "Nombre");
+        //        ViewBag.Estado = new SelectList(BaseDatos.Estado_Asistencia, "Id_Estado", "Nombre");
+        //        ViewBag.Users = new SelectList(BaseDatos.Users, "Id_Usuario", "Nombre");
+
+        //        return View(empleado);
+
+
+        //    }
+        //    catch
+        //    {
+        //        return View();
+        //    }
+        //}
 
 
 

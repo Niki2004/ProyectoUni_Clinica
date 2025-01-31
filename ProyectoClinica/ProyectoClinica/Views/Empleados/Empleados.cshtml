@@ -144,6 +144,14 @@
                         <div class="row mb-4">
                             <div class="col-12">
                                 <h4 class="text-center">Registro y gestión de empleados con validación y control de duplicados</h4>
+
+
+                                @if (TempData["SuccessMessage"] != null)
+                                {
+                                    <div class="alert alert-success">
+                                        @TempData["SuccessMessage"]
+                                    </div>
+                                }
                             </div>
                         </div>
 
