@@ -110,7 +110,7 @@ namespace ProyectoClinica.Controllers
         #endregion
 
         // GET: Contabilidad/Edit/5
-        public async Task<ActionResult>Edit(int id)
+        public async Task<ActionResult>Edit(int? id)
         {
             if (id == null)
             {
