@@ -388,11 +388,6 @@
     <Content Include="Views\Descuento\Create.cshtml" />
     <Content Include="Views\Descuento\Edit.cshtml" />
     <Content Include="Views\Descuento\Delete.cshtml" />
-    <Content Include="Views\Factura\Index.cshtml" />
-    <Content Include="Views\Factura\Details.cshtml" />
-    <Content Include="Views\Factura\Create.cshtml" />
-    <Content Include="Views\Factura\Edit.cshtml" />
-    <Content Include="Views\Factura\Delete.cshtml" />
     <Content Include="Views\ServiciosBrindados\Index.cshtml" />
     <Content Include="Views\ServiciosBrindados\Details.cshtml" />
     <Content Include="Views\ServiciosBrindados\Create.cshtml" />
@@ -416,6 +411,7 @@
     <Content Include="Views\Empleados\CrearEmpleado.cshtml" />
     <Content Include="Views\Contabilidad\Details.cshtml" />
     <Content Include="Views\Contabilidad\Edit.cshtml" />
+    <Content Include="Views\Factura\Index.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>

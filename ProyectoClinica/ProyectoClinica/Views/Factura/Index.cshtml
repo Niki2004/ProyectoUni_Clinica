@@ -1,93 +1,69 @@
-﻿@model IEnumerable<ProyectoClinica.Models.Factura>
-
-@{
-    ViewBag.Title = "Index";
+﻿@{
+    ViewBag.Title = "Punto de Venta";
 }
 
-<h2>Index</h2>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Punto de Venta</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="#">Inicio</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Servicios</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Contacto</a>
+            </li>
+        </ul>
+    </div>
+</nav>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Id_ServicioBrindado)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Id_Descuento)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NumeroRecibo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FechaHora)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.MetodoPago)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CedulaCliente)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NombreCliente)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Subtotal)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Descuento)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Impuesto)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TotalPagado)
-        </th>
-        <th></th>
-    </tr>
+<div class="container mt-5">
+    <h2 class="text-center">Punto de Venta</h2>
+    <p class="text-center">Gestión de Pagos y Servicios Médicos</p>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Id_ServicioBrindado)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Id_Descuento)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.NumeroRecibo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FechaHora)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MetodoPago)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CedulaCliente)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.NombreCliente)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Subtotal)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Descuento)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Impuesto)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TotalPagado)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id_Factura }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id_Factura }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id_Factura })
-        </td>
-    </tr>
-}
+    <div class="card shadow-sm p-4">
+        <div class="row mb-3">
+            <div class="col text-center">
+                <a href="/Pagos/RealizarPago" class="btn w-100" style="background-color: #0b7b82; color: white;">Realizar Pago de Servicio</a>
+            </div>
+            <div class="col text-center">
+                <a href="/Pagos/PagoCopago" class="btn w-100" style="background-color: #3bb4bc; color: white;">Pago Con Copago</a>
+            </div>
+            <div class="col text-center">
+                <a href="/Pagos/Descuentos" class="btn w-100" style="background-color: #0b7b82; color: white;">Descuentos/Afiliaciones</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-center">
+                <a href="/Pagos/VerPagos" class="btn w-100" style="background-color: #0b7b82; color: white;">Ver Pagos Realizados</a>
+            </div>
+            <div class="col text-center">
+                <a href="/Pagos/FacturaCopago" class="btn w-100" style="background-color: #3bb4bc; color: white;">Factura Para Copago</a>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
 
-</table>
+    .card {
+        border-radius: 15px;
+    }
+
+    .btn {
+        border-radius: 8px;
+        padding: 10px;
+    }
+
+    .text-center {
+        font-family: Arial, sans-serif;
+        color: #333;
+    }
+</style>
