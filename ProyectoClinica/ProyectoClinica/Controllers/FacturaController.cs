@@ -19,80 +19,89 @@ namespace ProyectoClinica.Controllers
         
         public ActionResult Index()
         {
-            var listaRegistros = _context.Factura.ToList();
-            return View(listaRegistros);
-        }
-
-        // GET: Factura/Details/5
-        public ActionResult Details(int id)
-        {
+            
             return View();
         }
 
-        // GET: Factura/Create
-        public ActionResult Create()
+        [HttpGet]
+        public ActionResult RealizarPago()
         {
+            ViewBag.Servicios = new MultiSelectList(
+                _context.Servicio.ToList(),
+                "Id_Servicio",
+                "Nombre_Servicio"
+            );
             return View();
         }
 
-        // POST: Factura/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult RealizarPago(int[] serviciosSeleccionados)
         {
-            try
+            if (serviciosSeleccionados == null || serviciosSeleccionados.Length == 0)
             {
-                // TODO: Add insert logic here
+                ModelState.AddModelError("", "Debe seleccionar al menos un servicio.");
+                return RedirectToAction("RealizarPago");
+            }
 
-                return RedirectToAction("Index");
-            }
-            catch
+            var servicios = _context.Servicio
+                .Where(s => serviciosSeleccionados.Contains(s.Id_Servicio))
+                .ToList();
+
+            var subtotal = servicios.Sum(s => s.Precio_Servicio);
+            var impuesto = subtotal * 0.13m;
+            var total = subtotal + impuesto;
+
+            ViewBag.ServiciosSeleccionados = servicios;
+            ViewBag.Subtotal = subtotal.ToString("C");
+            ViewBag.Impuesto = impuesto.ToString("C");
+            ViewBag.Total = total.ToString("C");
+
+            ViewBag.MetodosPago = new[]
             {
-                return View();
-            }
+        "Efectivo",
+        "Tarjeta",
+        "Transferencia",
+        "Crédito"
+    };
+
+            return View("DetallesPago");
         }
 
-        // GET: Factura/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Factura/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult DetallesPago(int[] serviciosSeleccionados, string[] metodosPago, string codigoDescuento, Dictionary<string, decimal> pagosPorMetodo = null)
         {
-            try
-            {
-                // TODO: Add update logic here
+            var servicios = _context.Servicio
+                .Where(s => serviciosSeleccionados.Contains(s.Id_Servicio))
+                .ToList();
 
-                return RedirectToAction("Index");
-            }
-            catch
+            var subtotal = servicios.Sum(s => s.Precio_Servicio);
+            var descuento = string.Equals(codigoDescuento, "ADULTO", System.StringComparison.OrdinalIgnoreCase) ? subtotal * 0.15m : 0;
+            var impuesto = (subtotal - descuento) * 0.13m;
+            var total = (subtotal - descuento) + impuesto;
+
+            ViewBag.ServiciosSeleccionados = servicios;
+            ViewBag.MetodosPagoSeleccionados = metodosPago;
+            ViewBag.Subtotal = subtotal.ToString("C");
+            ViewBag.Descuento = descuento.ToString("C");
+            ViewBag.Impuesto = impuesto.ToString("C");
+            ViewBag.Total = total.ToString("C");
+
+            ViewBag.PagosPorMetodo = pagosPorMetodo ?? new Dictionary<string, decimal>();
+
+            ViewBag.MetodosPago = new[]
             {
-                return View();
-            }
+        "Efectivo",
+        "Tarjeta",
+        "Transferencia",
+        "Crédito"
+    };
+
+            return View("DetallesPago");
         }
 
-        // GET: Factura/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
 
-        // POST: Factura/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+
+
     }
 }

@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "Pago de Servicios";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center">Seleccione los Servicios</h2>
+
+    <div class="card shadow-sm p-4">
+        <form action="/Factura/RealizarPago" method="post">
+            @Html.AntiForgeryToken()
+
+            <!-- Selección de Servicios -->
+            <div class="form-group">
+                <label for="ServiciosSeleccionados" class="form-label">Seleccione los Servicios</label>
+                @Html.ListBox("serviciosSeleccionados", ViewBag.Servicios as MultiSelectList, new { @class = "form-control", size = 5 })
+            </div>
+
+            <!-- Botón para continuar -->
+            <button type="submit" class="btn btn-primary btn-block mt-4" style="background-color: #0b7b82;">Siguiente</button>
+        </form>
+    </div>
+</div>
+
+<style>
+    .card {
+        border-radius: 15px;
+    }
+
+    .form-control {
+        border-radius: 8px;
+        padding: 10px;
+    }
+
+    .btn {
+        border-radius: 8px;
+        padding: 12px;
+        font-size: 16px;
+        color: white;
+    }
+
+    .text-center {
+        font-family: Arial, sans-serif;
+        color: #333;
+        margin-bottom: 20px;
+    }
+</style>

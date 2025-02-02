@@ -412,6 +412,8 @@
     <Content Include="Views\Contabilidad\Details.cshtml" />
     <Content Include="Views\Contabilidad\Edit.cshtml" />
     <Content Include="Views\Factura\Index.cshtml" />
+    <Content Include="Views\Factura\RealizarPago.cshtml" />
+    <Content Include="Views\Factura\DetallesPago.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>
