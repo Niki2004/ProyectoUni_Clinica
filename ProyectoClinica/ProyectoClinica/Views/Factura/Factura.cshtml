@@ -1,0 +1,102 @@
+﻿@model ProyectoClinica.Models.Factura
+
+<div class="container mt-5">
+    <h2 class="text-center">Factura</h2>
+
+    <div class="card shadow-sm p-4">
+        <h4 class="text-center">Centro Integral Santo Domingo</h4>
+        <p class="text-center">Recibo de Pago</p>
+
+        <!-- Información General -->
+        <div class="d-flex justify-content-between mb-4">
+            <div>
+                <p><strong>No. Recibo:</strong> @Model.NumeroRecibo</p>
+                <p><strong>Fecha y Hora:</strong> @Model.FechaHora.ToString("dd/MM/yyyy HH:mm")</p>
+                <p><strong>Método de Pago:</strong> Múltiples Métodos</p>
+            </div>
+            <div>
+                <p><strong>Cédula del Cliente:</strong> @Model.CedulaCliente</p>
+                <p><strong>Nombre del Cliente:</strong> @Model.NombreCliente</p>
+            </div>
+        </div>
+
+        <!-- Detalles del Servicio -->
+        <h5>Detalles del Servicio</h5>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Servicio</th>
+                    <th>Precio</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var servicio in ViewBag.ServiciosSeleccionados)
+                {
+                    <tr>
+                        <td>@servicio.Nombre_Servicio</td>
+                        <td>₡@servicio.Precio_Servicio.ToString("N2")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <!-- Métodos de Pago -->
+        <h5 class="mt-4">Métodos de Pago Utilizados</h5>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Método de Pago</th>
+                    <th>Monto</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var pago in ViewBag.PagosPorMetodo)
+                {
+                    var metodo = ViewBag.MetodosPago.FirstOrDefault(m => m.Id_MetodoPago == pago.Key);
+                    <tr>
+                        <td>@metodo.Nombre</td>
+                        <td>₡@pago.Value.ToString("N2")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <!-- Resumen -->
+        <h5 class="mt-4">Resumen</h5>
+        <div class="d-flex justify-content-between">
+            <p><strong>Subtotal:</strong> ₡@Model.Subtotal.ToString("N2")</p>
+            <p><strong>Descuento:</strong> ₡@Model.Descuento.ToString("N2")</p>
+            <p><strong>Impuesto (13%):</strong> ₡@Model.Impuesto.ToString("N2")</p>
+        </div>
+        <h4 class="text-end"><strong>Total Pagado:</strong> ₡@Model.TotalPagado.ToString("N2")</h4>
+    </div>
+
+    <button class="btn btn-success w-100 mt-4">Confirmar</button>
+</div>
+
+<style>
+    .card {
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .btn {
+        border-radius: 8px;
+        padding: 12px;
+    }
+
+    .table {
+        margin-top: 15px;
+    }
+
+    .table-bordered th, .table-bordered td {
+        border: 1px solid #dee2e6;
+    }
+
+    .text-center {
+        font-family: Arial, sans-serif;
+        color: #333;
+        margin-bottom: 20px;
+    }
+</style>

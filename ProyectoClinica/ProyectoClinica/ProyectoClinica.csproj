@@ -246,6 +246,7 @@
     <Compile Include="Controllers\EmpleadosController.cs" />
     <Compile Include="Controllers\FacturaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InventarioController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PerfilController.cs" />
     <Compile Include="Controllers\ServiciosBrindadosController.cs" />
@@ -261,6 +262,10 @@
     <Compile Include="Migrations\202501301814152_CambiosEmpleados.Designer.cs">
       <DependentUpon>202501301814152_CambiosEmpleados.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202502020611454_actualizacionbd.cs" />
+    <Compile Include="Migrations\202502020611454_actualizacionbd.Designer.cs">
+      <DependentUpon>202502020611454_actualizacionbd.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Administrativa.cs" />
@@ -275,6 +280,8 @@
     <Compile Include="Models\Busquedas_exportaciones.cs" />
     <Compile Include="Models\Caja_Chica.cs" />
     <Compile Include="Models\Cita.cs" />
+    <Compile Include="Models\Metodo_Pago_Utilizado.cs" />
+    <Compile Include="Models\Metodo_Pago.cs" />
     <Compile Include="Models\Conciliaciones_Bancarias.cs" />
     <Compile Include="Models\Contabilidad.cs" />
     <Compile Include="Models\Copago.cs" />
@@ -414,6 +421,11 @@
     <Content Include="Views\Factura\Index.cshtml" />
     <Content Include="Views\Factura\RealizarPago.cshtml" />
     <Content Include="Views\Factura\DetallesPago.cshtml" />
+    <Content Include="Views\Factura\Factura.cshtml" />
+    <Content Include="Views\Inventario\Crear.cshtml" />
+    <Content Include="Views\Inventario\Editar.cshtml" />
+    <Content Include="Views\Inventario\Eliminar.cshtml" />
+    <Content Include="Views\Inventario\Index.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -456,6 +468,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202501301814152_CambiosEmpleados.resx">
       <DependentUpon>202501301814152_CambiosEmpleados.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202502020611454_actualizacionbd.resx">
+      <DependentUpon>202502020611454_actualizacionbd.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
