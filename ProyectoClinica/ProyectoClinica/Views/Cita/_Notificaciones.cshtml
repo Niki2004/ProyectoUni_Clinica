@@ -1,0 +1,17 @@
+﻿<ul>
+    @if (Model.Any())
+    {
+        @foreach (var notificacion in Model)
+        {
+            <li>
+                <a href="#">
+                    <i class="fas fa-bell"></i> @notificacion.Mensaje
+                </a>
+            </li>
+        }
+    }
+    else
+    {
+        <li><i class="fas fa-info-circle"></i> No hay notificaciones</li>
+    }
+</ul>

@@ -267,6 +267,14 @@
     <Compile Include="Migrations\202502030351480_actualizacion.Designer.cs">
       <DependentUpon>202502030351480_actualizacion.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202502031517342_Notificaciones.cs" />
+    <Compile Include="Migrations\202502031517342_Notificaciones.designer.cs">
+      <DependentUpon>202502031517342_Notificaciones.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202502031520256_NotificacionesUsuarios.cs" />
+    <Compile Include="Migrations\202502031520256_NotificacionesUsuarios.designer.cs">
+      <DependentUpon>202502031520256_NotificacionesUsuarios.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Administrativa.cs" />
@@ -298,6 +306,7 @@
     <Compile Include="Models\Medico.cs" />
     <Compile Include="Models\Modificacion_Receta.cs" />
     <Compile Include="Models\Nota_Paciente.cs" />
+    <Compile Include="Models\Notificacion.cs" />
     <Compile Include="Models\Pagos.cs" />
     <Compile Include="Models\Receta.cs" />
     <Compile Include="Models\Reporte.cs" />
@@ -432,6 +441,8 @@
     <Content Include="Views\CajaChica\Details.cshtml" />
     <Content Include="Views\CajaChica\Edit.cshtml" />
     <Content Include="Views\CajaChica\Delete.cshtml" />
+    <Content Include="Views\Cita\Notificaciones.cshtml" />
+    <Content Include="Views\Cita\_Notificaciones.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -477,6 +488,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202502030351480_actualizacion.resx">
       <DependentUpon>202502030351480_actualizacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202502031517342_Notificaciones.resx">
+      <DependentUpon>202502031517342_Notificaciones.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202502031520256_NotificacionesUsuarios.resx">
+      <DependentUpon>202502031520256_NotificacionesUsuarios.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

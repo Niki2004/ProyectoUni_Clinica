@@ -56,6 +56,8 @@ namespace ProyectoClinica.Models
         public DbSet<Solicitud_Receta> Solicitud_Receta { get; set; }
         public DbSet<Tipo_Registro> Tipo_Registro { get; set; }
         public DbSet<Tipo_Transaccion> Tipo_Transaccion { get; set; }
+        public DbSet<Notificacion> Notificacion { get; set; }
+
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -94,7 +96,9 @@ namespace ProyectoClinica.Models
             modelBuilder.Entity<Solicitud_Receta>().ToTable("Solicitud_Receta");
             modelBuilder.Entity<Tipo_Registro>().ToTable("Tipo_Registro");
             modelBuilder.Entity<Tipo_Transaccion>().ToTable("Tipo_Transaccion");
-            
+            modelBuilder.Entity<Notificacion>().ToTable("Notificacion");
+
+
 
             // Configuración de relaciones para evitar ciclos de cascada
             // Relación entre Reporte y Cita
