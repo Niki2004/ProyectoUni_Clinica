@@ -1,0 +1,90 @@
+﻿@model ProyectoClinica.Models.Factura
+
+@{
+    var serviciosSeleccionados = ViewBag.ServiciosSeleccionados as List<ProyectoClinica.Models.Servicio>;
+    var MetodosPagoSeleccionados = ViewBag.MetodosPagoSeleccionados as List<ProyectoClinica.Models.Metodo_Pago>;
+}
+
+<div class="container mt-5">
+    <div class="card shadow-sm p-4 mb-3">
+        <!-- Encabezado -->
+        <h4 class="text-center mb-4">Centro Integral Santo Domingo</h4>
+        <h5 class="text-center text-muted">Recibo de Pago</h5>
+
+        <!-- Información del Recibo -->
+        <div class="row mt-4 mb-4">
+            <div class="col-6">
+                <p><strong>No. Recibo:</strong> @Model.Id_Factura</p>
+            </div>
+            <div class="col-6 text-end">
+                <p><strong>Fecha:</strong> @DateTime.Now.ToString("dd/MM/yyyy HH:mm")</p>
+            </div>
+            <div class="col-12">
+                <p>
+                    <strong>Método de Pago:</strong>
+                    @if (MetodosPagoSeleccionados != null && MetodosPagoSeleccionados.Any())
+                    {
+                        <span>@string.Join(", ", MetodosPagoSeleccionados.Select(m => m.Nombre))</span>
+                    }
+                    else
+                    {
+                        <span>No especificado</span>
+                    }
+                </p>
+            </div>
+        </div>
+
+        <!-- Detalles del Servicio -->
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Detalles del Servicio</th>
+                        <th class="text-end">Monto</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (serviciosSeleccionados != null && serviciosSeleccionados.Any())
+                    {
+                        foreach (var servicio in serviciosSeleccionados)
+                        {
+                            <tr>
+                                <td>@servicio.Nombre_Servicio</td>
+                                <td class="text-end">$@servicio.Precio_Servicio.ToString("N2")</td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="2" class="text-center">No se han seleccionado servicios</td>
+                        </tr>
+                    }
+                    <tr>
+                        <td>Descuento</td>
+                        <td class="text-end text-danger">$@Model.Descuento.ToString("N2")</td>
+                    </tr>
+                    <tr>
+                        <td>Impuesto</td>
+                        <td class="text-end">$@Model.Impuesto.ToString("N2")</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Total Pagado:</th>
+                        <th class="text-end text-primary">$@Model.TotalPagado.ToString("N2")</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <!-- Botón para Confirmar -->
+        <div class="text-center mt-4">
+            <form action="/Factura/ConfirmarPago" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="Id_Factura" value="@Model.Id_Factura" />
+                <button type="submit" class="btn btn-success w-100">Confirmar</button>
+            </form>
+        </div>
+    </div>
+</div>

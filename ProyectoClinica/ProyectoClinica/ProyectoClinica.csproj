@@ -240,12 +240,14 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CajaChicaController.cs" />
     <Compile Include="Controllers\CitaController.cs" />
     <Compile Include="Controllers\ContabilidadController.cs" />
     <Compile Include="Controllers\DescuentoController.cs" />
     <Compile Include="Controllers\EmpleadosController.cs" />
     <Compile Include="Controllers\FacturaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InventarioController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PerfilController.cs" />
     <Compile Include="Controllers\ServiciosBrindadosController.cs" />
@@ -261,6 +263,10 @@
     <Compile Include="Migrations\202501301814152_CambiosEmpleados.Designer.cs">
       <DependentUpon>202501301814152_CambiosEmpleados.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202502030351480_actualizacion.cs" />
+    <Compile Include="Migrations\202502030351480_actualizacion.Designer.cs">
+      <DependentUpon>202502030351480_actualizacion.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Administrativa.cs" />
@@ -275,6 +281,8 @@
     <Compile Include="Models\Busquedas_exportaciones.cs" />
     <Compile Include="Models\Caja_Chica.cs" />
     <Compile Include="Models\Cita.cs" />
+    <Compile Include="Models\Metodo_Pago_Utilizado.cs" />
+    <Compile Include="Models\Metodo_Pago.cs" />
     <Compile Include="Models\Conciliaciones_Bancarias.cs" />
     <Compile Include="Models\Contabilidad.cs" />
     <Compile Include="Models\Copago.cs" />
@@ -381,28 +389,17 @@
     <Content Include="Views\Cita\Index.cshtml" />
     <Content Include="Views\Cita\Crear.cshtml" />
     <Content Include="Views\Contabilidad\Index.cshtml" />
-    <Content Include="Views\Contabilidad\Details.cshtml" />
     <Content Include="Views\Contabilidad\Create.cshtml" />
-    <Content Include="Views\Contabilidad\Edit.cshtml" />
     <Content Include="Views\Contabilidad\Delete.cshtml" />
     <Content Include="Views\Descuento\Index.cshtml" />
-    <Content Include="Views\Descuento\Details.cshtml" />
-    <Content Include="Views\Descuento\Create.cshtml" />
     <Content Include="Views\Descuento\Edit.cshtml" />
     <Content Include="Views\Descuento\Delete.cshtml" />
-    <Content Include="Views\Factura\Index.cshtml" />
-    <Content Include="Views\Factura\Details.cshtml" />
-    <Content Include="Views\Factura\Create.cshtml" />
-    <Content Include="Views\Factura\Edit.cshtml" />
-    <Content Include="Views\Factura\Delete.cshtml" />
     <Content Include="Views\ServiciosBrindados\Index.cshtml" />
     <Content Include="Views\ServiciosBrindados\Details.cshtml" />
     <Content Include="Views\ServiciosBrindados\Create.cshtml" />
     <Content Include="Views\ServiciosBrindados\Edit.cshtml" />
     <Content Include="Views\ServiciosBrindados\Delete.cshtml" />
     <Content Include="Views\Servicios\Index.cshtml" />
-    <Content Include="Views\Servicios\Details.cshtml" />
-    <Content Include="Views\Servicios\Create.cshtml" />
     <Content Include="Views\Servicios\Edit.cshtml" />
     <Content Include="Views\Servicios\Delete.cshtml" />
     <Content Include="Views\Empleados\Buscar.cshtml" />
@@ -416,6 +413,25 @@
     <Content Include="Views\Perfil\EditarNota.cshtml" />
     <Content Include="Views\Perfil\EliminarNota.cshtml" />
     <Content Include="Views\Empleados\CrearEmpleado.cshtml" />
+    <Content Include="Views\Contabilidad\Details.cshtml" />
+    <Content Include="Views\Contabilidad\Edit.cshtml" />
+    <Content Include="Views\Factura\Index.cshtml" />
+    <Content Include="Views\Factura\RealizarPago.cshtml" />
+    <Content Include="Views\Factura\DetallesPago.cshtml" />
+    <Content Include="Views\Factura\Factura.cshtml" />
+    <Content Include="Views\Inventario\Crear.cshtml" />
+    <Content Include="Views\Inventario\Editar.cshtml" />
+    <Content Include="Views\Inventario\Eliminar.cshtml" />
+    <Content Include="Views\Inventario\Index.cshtml" />
+    <Content Include="Views\Descuento\Create.cshtml" />
+    <Content Include="Views\Descuento\Details.cshtml" />
+    <Content Include="Views\Servicios\Create.cshtml" />
+    <Content Include="Views\Servicios\Details.cshtml" />
+    <Content Include="Views\CajaChica\Create.cshtml" />
+    <Content Include="Views\CajaChica\Index.cshtml" />
+    <Content Include="Views\CajaChica\Details.cshtml" />
+    <Content Include="Views\CajaChica\Edit.cshtml" />
+    <Content Include="Views\CajaChica\Delete.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -458,6 +474,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202501301814152_CambiosEmpleados.resx">
       <DependentUpon>202501301814152_CambiosEmpleados.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202502030351480_actualizacion.resx">
+      <DependentUpon>202502030351480_actualizacion.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

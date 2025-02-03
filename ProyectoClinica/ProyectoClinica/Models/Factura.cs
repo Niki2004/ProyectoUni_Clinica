@@ -14,9 +14,6 @@ namespace ProyectoClinica.Models
         public int Id_Factura { get; set; }
 
         [Required]
-        public int Id_ServicioBrindado { get; set; }
-
-        [Required]
         public int Id_Descuento { get; set; }
 
         public string NumeroRecibo { get; set; }
@@ -38,8 +35,6 @@ namespace ProyectoClinica.Models
         public decimal TotalPagado { get; set; }
 
         //Llaves foraneas
-        [ForeignKey(nameof(Id_ServicioBrindado))]
-        public virtual Servicios_Brindados Servicio_Brindados { get; set; }
 
         [ForeignKey(nameof(Id_Descuento))]
         public virtual Descuento Descuento_Aplicado { get; set; }

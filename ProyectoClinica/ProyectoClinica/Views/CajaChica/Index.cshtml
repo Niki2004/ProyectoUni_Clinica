@@ -1,0 +1,129 @@
+﻿@model IEnumerable<ProyectoClinica.Models.Caja_Chica>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            <label>Id Contabilidad</label>
+        </th>
+        <th>
+            <label>Número de Comprobante</label>
+        </th>
+        <th>
+            <label>Fecha de Movimiento</label>
+        </th>
+        <th>
+            <label>Tipo de Movimiento</label>
+        </th>
+        <th>
+            <label>Concepto</label>
+        </th>
+        <th>
+            <label>Monto</label>
+        </th>
+        <th>
+            <label>Saldo Anterior</label>
+        </th>
+        <th>
+            <label>Saldo Actual</label>
+        </th>
+        <th>
+            <label>Beneficiario</label>
+        </th>
+        <th>
+            <label>Categoría del Gasto</label>
+        </th>
+        <th>
+            <label>Número de Factura</label>
+        </th>
+        <th>
+            <label>Estado</label>
+        </th>
+        <th>
+            <label>Observaciones</label>
+        </th>
+        <th>
+            <label>Registro de Usuario</label>
+        </th>
+        <th>
+            <label>Fecha de Registro</label>
+        </th>
+        <th>
+            <label>Modificación de Usuario</label>
+        </th>
+        <th>
+            <label>Fecha de Modificación</label>
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id_Contabilidad)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Numero_Comprobante)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Fecha_Movimiento)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Tipo_Movimiento)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Concepto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Monto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Saldo_Anterior)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Saldo_Actual)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Beneficiario)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Categoria_Gasto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Numero_Factura)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Estado)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Observaciones)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Usuario_Registro)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Fecha_Registro)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Usuario_Modificacion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Fecha_Modificacion)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id_Caja_Chica }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id_Caja_Chica }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id_Caja_Chica })
+        </td>
+    </tr>
+}
+
+</table>

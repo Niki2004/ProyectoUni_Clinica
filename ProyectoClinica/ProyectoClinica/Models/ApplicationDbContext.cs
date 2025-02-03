@@ -43,6 +43,8 @@ namespace ProyectoClinica.Models
         public DbSet<Inventario> Inventario { get; set; }
         public DbSet<Medico> Medico { get; set; }
         public DbSet<Modificacion_Receta> Modificacion_Receta { get; set; }
+        public DbSet<Metodo_Pago> Metodo_Pago { get; set; }
+        public DbSet<Metodo_Pago_Utilizado> Metodo_Pago_Utilizado { get; set; }
         public DbSet<Nota_Paciente> Nota_Paciente { get; set; }
         public DbSet<Pagos> Pagos { get; set; }
         public DbSet<Receta> Receta { get; set; }
