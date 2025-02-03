@@ -262,9 +262,9 @@
     <Compile Include="Migrations\202501301814152_CambiosEmpleados.Designer.cs">
       <DependentUpon>202501301814152_CambiosEmpleados.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202502020611454_actualizacionbd.cs" />
-    <Compile Include="Migrations\202502020611454_actualizacionbd.Designer.cs">
-      <DependentUpon>202502020611454_actualizacionbd.cs</DependentUpon>
+    <Compile Include="Migrations\202502030351480_actualizacion.cs" />
+    <Compile Include="Migrations\202502030351480_actualizacion.Designer.cs">
+      <DependentUpon>202502030351480_actualizacion.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -469,8 +469,8 @@
     <EmbeddedResource Include="Migrations\202501301814152_CambiosEmpleados.resx">
       <DependentUpon>202501301814152_CambiosEmpleados.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202502020611454_actualizacionbd.resx">
-      <DependentUpon>202502020611454_actualizacionbd.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202502030351480_actualizacion.resx">
+      <DependentUpon>202502030351480_actualizacion.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
