@@ -121,64 +121,39 @@ namespace ProyectoClinica.Controllers
             return View(Cita);
         }
 
-        ////---------------------------------------------------- Editar ------------------------------------------------------------
-        //[HttpGet]
-        //public ActionResult Editar(int? id)
-        //{
-        //    if (id == null)
-        //        return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
+        //---------------------------------------------------- Crear nota ----------------------------------------------------------
+        [HttpGet]
+        public ActionResult CrearNota()
+        {
+            var notaPaciente = new Nota_Paciente();
 
-        //    var cita = BaseDatos.Cita.Find(id);
-        //    if (cita == null)
-        //        return HttpNotFound();
+            return View(notaPaciente);
+        }
 
-        //    ViewBag.Id_Medico = new SelectList(BaseDatos.Medico, "Id_Medico", "Nombre", cita.Id_Medico);
-        //    ViewBag.Id_Atencion_Cliente = new SelectList(BaseDatos.Atencion_Cliente, "Id_Atencion_Cliente", "Nombre_Cliente", cita.Id_Atencion_Cliente);
-        //    return View(cita);
-        //}
+        [HttpPost]
+        public ActionResult CrearNota(Nota_Paciente notaPaciente)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    BaseDatos.Nota_Paciente.Add(notaPaciente);
+                    BaseDatos.SaveChanges();
 
-        //[HttpPost]
-        //public ActionResult Editar(Cita cita)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        BaseDatos.Entry(cita).State = EntityState.Modified;
-        //        BaseDatos.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
+                    // Agregar un mensaje de éxito
+                    TempData["SuccessMessage"] = "La nota se ha creado correctamente.";
 
-        //    ViewBag.Id_Medico = new SelectList(BaseDatos.Medico, "Id_Medico", "Nombre", cita.Id_Medico);
-        //    ViewBag.Id_Atencion_Cliente = new SelectList(BaseDatos.Atencion_Cliente, "Id_Atencion_Cliente", "Nombre_Cliente", cita.Id_Atencion_Cliente);
-        //    return View(cita);
-        //}
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "Error al crear la nota del paciente: " + ex.Message);
+                }
+            }
+            return View(notaPaciente);
+        }
 
-        ////---------------------------------------------------- Eliminar ------------------------------------------------------------
-        //[HttpGet]
-        //public ActionResult Eliminar(int? id)
-        //{
-        //    if (id == null)
-        //        return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
 
-        //    var cita = BaseDatos.Cita.Find(id);
-        //    if (cita == null)
-        //        return HttpNotFound();
 
-        //    return View(cita);
-        //}
-
-        //[HttpPost, ActionName("Eliminar")]
-        //public ActionResult EliminarConfirmacion(int? id)
-        //{
-        //    if (id == null)
-        //        return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
-
-        //    var cita = BaseDatos.Cita.Find(id);
-        //    if (cita == null)
-        //        return HttpNotFound();
-
-        //    BaseDatos.Cita.Remove(cita);
-        //    BaseDatos.SaveChanges();
-        //    return RedirectToAction("Index");
-        //}
     }
 }

@@ -18,6 +18,7 @@
         <li>@Html.ActionLink("Factura", "Index", "Factura", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "nav-link" })</li>
         <li>@Html.ActionLink("Servicios", "Index", "Servicios", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "nav-link" })</li>
         <li>@Html.ActionLink("ServiciosBrindados ", "Index", "ServiciosBrindados", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "nav-link" })</li>
+        <li>@Html.ActionLink("CajaChica ", "Index", "CajaChica", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "nav-link" })</li>
 
     }
 
@@ -26,7 +27,7 @@
 
 
     <li>
-        @Html.ActionLink("Bienvenido " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage", @class = "nav-link" })
+        @Html.ActionLink("Bienvenido " + User.Identity.GetUserName() + "!", "Index", "Perfil", routeValues: null, htmlAttributes: new { title = "Manage", @class = "nav-link" })
     </li>
 
 </ul>

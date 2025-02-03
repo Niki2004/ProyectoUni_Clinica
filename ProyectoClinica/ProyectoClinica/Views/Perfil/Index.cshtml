@@ -112,16 +112,21 @@
     <h2 id="title">@ViewBag.Title</h2>
     <p class="text-success">@ViewBag.StatusMessage</p>
 
-    @* Tenemos que hacer que jale los datos *@
-    <div class="profile-header">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuV7pIsnSiiENHCWKMbRBQ3h9aOIwxZbYIpw&s" alt="Perfil" class="profile-pic" />
-        <div class="profile-details">
-            <h2 class="profile-name">Nicole Hidalgo</h2>
-            <p class="profile-email">nicolehidalgo437@gmail.com</p>
-        </div>
+    @if (!string.IsNullOrEmpty(Model.Imagen))
+    {
+        <img src="@Model.Imagen" alt="Perfil" class="profile-pic" />
+    }
+    else
+    {
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuV7pIsnSiiENHCWKMbRBQ3h9aOIwxZbYIpw&s"
+             alt="Perfil" class="profile-pic" />
+    }
+
+    <div class="profile-details">
+        <h2 class="profile-name">@Model.Nombre @Model.Apellido</h2>
+        <p class="profile-email">@Model.Email</p>
     </div>
-
-
+   
     <div class="profile-sections">
         <div class="section">
             <h3>Cuenta</h3>
@@ -129,21 +134,21 @@
                 @*Modificación de citas*@
 
                 <li>
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="@Url.Action("VistaCita", "Perfil")">
                         <i class="fas fa-edit"></i>Modificación de citas
                     </a>
                 </li>
 
                 @*Cancelación de citas*@
                 <li>
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="@Url.Action("EliminarCita", "Perfil")">
                         <i class="fas fa-times-circle"></i>Cancelación de citas
                     </a>
                 </li>
 
                 @*Historial de citas*@
                 <li>
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="@Url.Action("HistorialCita", "Perfil")">
                         <i class="fas fa-history"></i>Historial de citas
                     </a>
                 </li>
@@ -184,11 +189,12 @@
                 </li>
 
                 @*Asistente en línea*@
-                <li>
-                    <a class="nav-link" href="#">
-                        <i class="fas fa-headset"></i>  Asistente en línea
-                    </a>
-                </li>
+             <li>
+                <a class="nav-link" href="@Url.Action("NotasPersonale", "Perfil")">
+                    <i class="fas fa-book"></i>  Notas personales
+                </a>
+            </li>
+
                 @*Cierre se sesión*@
                 <li>
                     <a class="nav-link" href="javascript:document.getElementById('logoutForm').submit()">

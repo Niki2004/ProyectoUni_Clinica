@@ -1,7 +1,9 @@
 ﻿using ProyectoClinica.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -23,26 +25,65 @@ namespace ProyectoClinica.Controllers
         }
 
         // GET: Servicios/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return View();
+            }
+
+            var servicio = await _context.Servicio.FirstOrDefaultAsync(m => m.Id_Servicio == id);
+
+            if (servicio == null)
+            {
+                return View(servicio);
+            }
+
+            return View(servicio);
         }
 
         // GET: Servicios/Create
         public ActionResult Create()
         {
+            ViewBag.Servicio = new SelectList(_context.Servicio, "Id_Servicio");
             return View();
         }
 
         // POST: Servicios/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Servicio model)
         {
             try
             {
-                // TODO: Add insert logic here
 
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    int idSeleccionado = model.Id_Servicio; // Aquí obtienes el ID del dropdown
+
+                    try
+                    {
+                        // Guardar en la base de datos
+                        _context.Servicio.Add(model);
+                        _context.SaveChanges();
+
+                        return RedirectToAction("Index");
+                    }
+                    catch (Exception ex)
+                    {
+                        // Si hay un error, muestra el mensaje en el log o en el modelo para que el usuario lo vea
+                        ModelState.AddModelError("", "Ocurrió un error al guardar los datos: " + ex.Message);
+                    }
+
+
+
+                }
+
+                // Si el modelo no es válido o hubo un error, repite el proceso y pasa la vista con el modelo
+                // Esto permitirá que los datos enviados por el usuario se mantengan en el formulario
+                ViewBag.Servicio = new SelectList(_context.Servicio, "Id_Servicio");
+                return View(model);
+
+
             }
             catch
             {
