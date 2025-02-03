@@ -10,33 +10,32 @@
     <h4>Servicio</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Nombre_Servicio)
-        </dt>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Nombre_Servicio, "Nombre del Servicio", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Nombre_Servicio, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Nombre_Servicio, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Nombre_Servicio)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Precio_Servicio)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Precio_Servicio)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Especialidad)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Especialidad)
-        </dd>
-
+        <div class="form-group">
+            @Html.LabelFor(model => model.Precio_Servicio, "Precio del Servicio", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Precio_Servicio, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Precio_Servicio, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.Especialidad, "Especialidad del Servicio", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Especialidad, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Especialidad, "", new { @class = "text-danger" })
+            </div>
+        </div>
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id_Servicio }) |
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

@@ -9,61 +9,62 @@ using System.Web.Mvc;
 
 namespace ProyectoClinica.Controllers
 {
-    public class ServiciosController : Controller
+    public class CajaChicaController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ServiciosController()
+        public CajaChicaController()
         {
             _context = new ApplicationDbContext();
         }
-        // GET: Servicios
+        // GET: CajaChica
         public ActionResult Index()
         {
-            var listaRegistros = _context.Servicio.ToList();
+            var listaRegistros = _context.Caja_Chica.ToList();
             return View(listaRegistros);
         }
 
-        // GET: Servicios/Details/5
+        // GET: CajaChica/Details/5
         public async Task<ActionResult> Details(int? id)
         {
+
             if (id == null)
             {
                 return View();
             }
 
-            var servicio = await _context.Servicio.FirstOrDefaultAsync(m => m.Id_Servicio == id);
+            var caja = await _context.Caja_Chica.FirstOrDefaultAsync(m => m.Id_Caja_Chica == id);
 
-            if (servicio == null)
+            if (caja == null)
             {
-                return View(servicio);
+                return View(caja);
             }
 
-            return View(servicio);
+            return View(caja);
         }
 
-        // GET: Servicios/Create
+        // GET: CajaChica/Create
         public ActionResult Create()
         {
-            ViewBag.Servicio = new SelectList(_context.Servicio, "Id_Servicio");
+            ViewBag.Servicio = new SelectList(_context.Caja_Chica, "Id_Caja_Chica");
             return View();
         }
 
-        // POST: Servicios/Create
+        // POST: CajaChica/Create
         [HttpPost]
-        public ActionResult Create(Servicio model)
+        public ActionResult Create(Caja_Chica model)
         {
             try
             {
 
                 if (ModelState.IsValid)
                 {
-                    int idSeleccionado = model.Id_Servicio; // Aquí obtienes el ID del dropdown
+                    int idSeleccionado = model.Id_Caja_Chica; // Aquí obtienes el ID del dropdown
 
                     try
                     {
                         // Guardar en la base de datos
-                        _context.Servicio.Add(model);
+                        _context.Caja_Chica.Add(model);
                         _context.SaveChanges();
 
                         return RedirectToAction("Index");
@@ -80,7 +81,7 @@ namespace ProyectoClinica.Controllers
 
                 // Si el modelo no es válido o hubo un error, repite el proceso y pasa la vista con el modelo
                 // Esto permitirá que los datos enviados por el usuario se mantengan en el formulario
-                ViewBag.Servicio = new SelectList(_context.Servicio, "Id_Servicio");
+                ViewBag.Caja_Chica = new SelectList(_context.Caja_Chica, "Id_Caja_Chica");
                 return View(model);
 
 
@@ -91,13 +92,13 @@ namespace ProyectoClinica.Controllers
             }
         }
 
-        // GET: Servicios/Edit/5
+        // GET: CajaChica/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: Servicios/Edit/5
+        // POST: CajaChica/Edit/5
         [HttpPost]
         public ActionResult Edit(int id, FormCollection collection)
         {
@@ -113,13 +114,13 @@ namespace ProyectoClinica.Controllers
             }
         }
 
-        // GET: Servicios/Delete/5
+        // GET: CajaChica/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: Servicios/Delete/5
+        // POST: CajaChica/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
