@@ -240,6 +240,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CajaChicaController.cs" />
     <Compile Include="Controllers\CitaController.cs" />
     <Compile Include="Controllers\ContabilidadController.cs" />
     <Compile Include="Controllers\DescuentoController.cs" />
@@ -391,8 +392,6 @@
     <Content Include="Views\Contabilidad\Create.cshtml" />
     <Content Include="Views\Contabilidad\Delete.cshtml" />
     <Content Include="Views\Descuento\Index.cshtml" />
-    <Content Include="Views\Descuento\Details.cshtml" />
-    <Content Include="Views\Descuento\Create.cshtml" />
     <Content Include="Views\Descuento\Edit.cshtml" />
     <Content Include="Views\Descuento\Delete.cshtml" />
     <Content Include="Views\ServiciosBrindados\Index.cshtml" />
@@ -401,8 +400,6 @@
     <Content Include="Views\ServiciosBrindados\Edit.cshtml" />
     <Content Include="Views\ServiciosBrindados\Delete.cshtml" />
     <Content Include="Views\Servicios\Index.cshtml" />
-    <Content Include="Views\Servicios\Details.cshtml" />
-    <Content Include="Views\Servicios\Create.cshtml" />
     <Content Include="Views\Servicios\Edit.cshtml" />
     <Content Include="Views\Servicios\Delete.cshtml" />
     <Content Include="Views\Empleados\Buscar.cshtml" />
@@ -426,6 +423,15 @@
     <Content Include="Views\Inventario\Editar.cshtml" />
     <Content Include="Views\Inventario\Eliminar.cshtml" />
     <Content Include="Views\Inventario\Index.cshtml" />
+    <Content Include="Views\Descuento\Create.cshtml" />
+    <Content Include="Views\Descuento\Details.cshtml" />
+    <Content Include="Views\Servicios\Create.cshtml" />
+    <Content Include="Views\Servicios\Details.cshtml" />
+    <Content Include="Views\CajaChica\Create.cshtml" />
+    <Content Include="Views\CajaChica\Index.cshtml" />
+    <Content Include="Views\CajaChica\Details.cshtml" />
+    <Content Include="Views\CajaChica\Edit.cshtml" />
+    <Content Include="Views\CajaChica\Delete.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>
