@@ -1,0 +1,74 @@
+﻿@model IEnumerable<ProyectoClinica.Models.Inventario>
+
+@{
+    ViewBag.Title = "Inventario";
+}
+
+<h2>Inventario</h2>
+
+<p>
+    @Html.ActionLink("Crear", "Crear",null ,new { @class = "btn w-100", style = "background-color: #3bb4bc; color: white;" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Estado.Descripcion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NombreArticulo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Marca)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cantidad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PrecioUnitario)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaCaducidad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TipoArticulo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaIngreso)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Estado.Descripcion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NombreArticulo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Marca)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cantidad)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PrecioUnitario)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaCaducidad)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TipoArticulo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaIngreso)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "Editar", new { id=item.Id_Articulo }, new { @class = "btn w-100", style = "background-color: #3bb4bc; color: white;" }) |
+            @Html.ActionLink("Eliminar", "Eliminar", new { id=item.Id_Articulo }, new { @class = "btn w-100", style = "background-color: #3bb4bc; color: white;" })
+        </td>
+    </tr>
+}
+
+</table>
