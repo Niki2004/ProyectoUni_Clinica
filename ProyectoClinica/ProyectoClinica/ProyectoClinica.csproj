@@ -393,7 +393,6 @@
     <Content Include="Views\Cita\Contactanos.cshtml" />
     <Content Include="Views\Empleados\Empleados.cshtml" />
     <Content Include="Views\Empleados\AsignacionRoles.cshtml" />
-    <Content Include="Views\Empleados\EditarEmpleado.cshtml" />
     <Content Include="Views\Empleados\DesactivarPerfil.cshtml" />
     <Content Include="Views\Cita\Index.cshtml" />
     <Content Include="Views\Cita\Crear.cshtml" />
@@ -443,6 +442,8 @@
     <Content Include="Views\CajaChica\Delete.cshtml" />
     <Content Include="Views\Cita\Notificaciones.cshtml" />
     <Content Include="Views\Cita\_Notificaciones.cshtml" />
+    <Content Include="Views\Empleados\EditarEmpleado.cshtml" />
+    <Content Include="Views\Empleados\VistaEmpleados.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>
