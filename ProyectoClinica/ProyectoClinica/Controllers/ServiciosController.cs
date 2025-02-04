@@ -92,25 +92,29 @@ namespace ProyectoClinica.Controllers
         }
 
         // GET: Servicios/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int? id)
         {
-            return View();
+            if (id == null)
+                return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
+            var servicios = _context.Servicio.Find(id);
+            if (servicios == null)
+                return HttpNotFound();
+            ViewBag.Servicio = new SelectList(_context.Servicio, "Id_Servicio");
+            return View(servicios);
         }
 
         // POST: Servicios/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public async Task<ActionResult> Edit(Servicio servicio)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add update logic here
-
+                _context.Entry(servicio).State = EntityState.Modified;
+                _context.SaveChanges();
                 return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+            ViewBag.Servicio = new SelectList(_context.Servicio, "Id_Servicio");
+            return View(servicio);
         }
 
         // GET: Servicios/Delete/5
