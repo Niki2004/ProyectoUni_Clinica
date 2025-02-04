@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Services.Description;
 
 namespace ProyectoClinica.Controllers
 {
@@ -93,25 +94,30 @@ namespace ProyectoClinica.Controllers
         }
 
         // GET: CajaChica/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int? id)
         {
-            return View();
+            if (id == null)
+                return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
+            var caja = _context.Caja_Chica.Find(id);
+            if (caja == null)
+                return HttpNotFound();
+            ViewBag.Caja_Chica = new SelectList(_context.Caja_Chica, "Id_Caja_Chica");
+            return View(caja);
         }
 
         // POST: CajaChica/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public async Task<ActionResult> Edit(Caja_Chica caja)
         {
-            try
-            {
-                // TODO: Add update logic here
 
+            if (ModelState.IsValid)
+            {
+                _context.Entry(caja).State = EntityState.Modified;
+                _context.SaveChanges();
                 return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+            ViewBag.Caja_Chica = new SelectList(_context.Caja_Chica, "Id_Caja_Chica");
+            return View(caja);
         }
 
         // GET: CajaChica/Delete/5

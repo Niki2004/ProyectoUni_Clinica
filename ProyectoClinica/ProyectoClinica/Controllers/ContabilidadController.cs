@@ -113,58 +113,35 @@ namespace ProyectoClinica.Controllers
         public async Task<ActionResult>Edit(int? id)
         {
             if (id == null)
-            {
-
-            }
-
-            var contabilidad = await _context.Contabilidad.FindAsync(id);
+                return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
+            var contabilidad = _context.Contabilidad.Find(id);
             if (contabilidad == null)
-            {
+                return HttpNotFound();
 
-            }
-
-            ViewData["Id_Tipo_Registro"] = new SelectList(_context.Tipo_Registro, "Id_Tipo_Registro", "Nombre", contabilidad.Id_Tipo_Registro);
-            ViewData["Id_Estado_Contabilidad"] = new SelectList(_context.Estado_Contabilidad, "Id_Estado_Contabilidad", "Nombre", contabilidad.Id_Estado_Contabilidad);
-            ViewData["Id_Tipo_Transaccion"] = new SelectList(_context.Tipo_Transaccion, "Id_Tipo_Transaccion", "Nombre", contabilidad.Id_Tipo_Transaccion);
+            ViewBag.Id_Tipo_Registro = new SelectList(_context.Tipo_Registro, "Id_Tipo_Registro", "Nombre", contabilidad.Id_Tipo_Registro);
+            ViewBag.Id_Estado_Contabilidad = new SelectList(_context.Estado_Contabilidad, "Id_Estado_Contabilidad", "Nombre", contabilidad.Id_Estado_Contabilidad);
+            ViewBag.Id_Tipo_Transaccion = new SelectList(_context.Tipo_Transaccion, "Id_Tipo_Transaccion", "Nombre", contabilidad.Id_Tipo_Transaccion);
             ViewBag.Usuarios = new SelectList(_context.Users, "Id", "UserName");
-            return View(contabilidad);
+            return View(contabilidad);   
+          
 
         }
 
         // POST: Contabilidad/Edit/5
         [HttpPost]
-        public async Task<ActionResult>Edit(int id, Contabilidad contabilidad)
+        public async Task<ActionResult>Edit(Contabilidad contabilidad)
         {
-            if (id != contabilidad.Id_Contabilidad)
-            {
-
-            }
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Entry(contabilidad).State = EntityState.Modified;
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ContabilidadExists(contabilidad.Id_Contabilidad))
-                    {
-
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-
+                _context.Entry(contabilidad).State = EntityState.Modified;
+                _context.SaveChanges();
+                return RedirectToAction("Index");
             }
 
-            ViewData["Id_Tipo_Registro"] = new SelectList(_context.Tipo_Registro, "Id_Tipo_Registro", "Nombre", contabilidad.Id_Tipo_Registro);
-            ViewData["Id_Estado_Contabilidad"] = new SelectList(_context.Estado_Contabilidad, "Id_Estado_Contabilidad", "Nombre", contabilidad.Id_Estado_Contabilidad);
-            ViewData["Id_Tipo_Transaccion"] = new SelectList(_context.Tipo_Transaccion, "Id_Tipo_Transaccion", "Nombre", contabilidad.Id_Tipo_Transaccion);
+            ViewBag.Id_Tipo_Registro = new SelectList(_context.Tipo_Registro, "Id_Tipo_Registro", "Nombre", contabilidad.Id_Tipo_Registro);
+            ViewBag.Id_Estado_Contabilidad = new SelectList(_context.Estado_Contabilidad, "Id_Estado_Contabilidad", "Nombre", contabilidad.Id_Estado_Contabilidad);
+            ViewBag.Id_Tipo_Transaccion = new SelectList(_context.Tipo_Transaccion, "Id_Tipo_Transaccion", "Nombre", contabilidad.Id_Tipo_Transaccion);
             ViewBag.Usuarios = new SelectList(_context.Users, "Id", "UserName");
             return View(contabilidad);
 

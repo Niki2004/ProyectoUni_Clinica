@@ -249,6 +249,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InventarioController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PagosController.cs" />
     <Compile Include="Controllers\PerfilController.cs" />
     <Compile Include="Controllers\ServiciosBrindadosController.cs" />
     <Compile Include="Controllers\ServiciosController.cs" />
@@ -393,7 +394,6 @@
     <Content Include="Views\Cita\Contactanos.cshtml" />
     <Content Include="Views\Empleados\Empleados.cshtml" />
     <Content Include="Views\Empleados\AsignacionRoles.cshtml" />
-    <Content Include="Views\Empleados\EditarEmpleado.cshtml" />
     <Content Include="Views\Empleados\DesactivarPerfil.cshtml" />
     <Content Include="Views\Cita\Index.cshtml" />
     <Content Include="Views\Cita\Crear.cshtml" />
@@ -401,7 +401,6 @@
     <Content Include="Views\Contabilidad\Create.cshtml" />
     <Content Include="Views\Contabilidad\Delete.cshtml" />
     <Content Include="Views\Descuento\Index.cshtml" />
-    <Content Include="Views\Descuento\Edit.cshtml" />
     <Content Include="Views\Descuento\Delete.cshtml" />
     <Content Include="Views\ServiciosBrindados\Index.cshtml" />
     <Content Include="Views\ServiciosBrindados\Details.cshtml" />
@@ -409,7 +408,6 @@
     <Content Include="Views\ServiciosBrindados\Edit.cshtml" />
     <Content Include="Views\ServiciosBrindados\Delete.cshtml" />
     <Content Include="Views\Servicios\Index.cshtml" />
-    <Content Include="Views\Servicios\Edit.cshtml" />
     <Content Include="Views\Servicios\Delete.cshtml" />
     <Content Include="Views\Empleados\Buscar.cshtml" />
     <Content Include="Views\Perfil\VistaCita.cshtml" />
@@ -439,10 +437,18 @@
     <Content Include="Views\CajaChica\Create.cshtml" />
     <Content Include="Views\CajaChica\Index.cshtml" />
     <Content Include="Views\CajaChica\Details.cshtml" />
-    <Content Include="Views\CajaChica\Edit.cshtml" />
     <Content Include="Views\CajaChica\Delete.cshtml" />
     <Content Include="Views\Cita\Notificaciones.cshtml" />
     <Content Include="Views\Cita\_Notificaciones.cshtml" />
+    <Content Include="Views\Empleados\EditarEmpleado.cshtml" />
+    <Content Include="Views\Empleados\VistaEmpleados.cshtml" />
+    <Content Include="Views\Descuento\Edit.cshtml" />
+    <Content Include="Views\Servicios\Edit.cshtml" />
+    <Content Include="Views\CajaChica\Edit.cshtml" />
+    <Content Include="Views\Pagos\Index.cshtml" />
+    <Content Include="Views\Pagos\Create.cshtml" />
+    <Content Include="Views\Pagos\Edit.cshtml" />
+    <Content Include="Views\Pagos\Details.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>
