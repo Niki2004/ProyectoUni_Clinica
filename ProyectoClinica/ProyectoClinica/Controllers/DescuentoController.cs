@@ -93,25 +93,29 @@ namespace ProyectoClinica.Controllers
         }
 
         // GET: Descuento/Edit/5
-        public async Task<ActionResult> Edit(int id)
+        public async Task<ActionResult> Edit(int? id)
         {
-            return View();
+            if (id == null)
+                return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
+            var descuento = _context.Descuento.Find(id);
+            if (descuento == null)
+                return HttpNotFound();
+            ViewBag.Descuento = new SelectList(_context.Descuento, "Id_Descuento");
+            return View(descuento);
         }
 
         // POST: Descuento/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public async Task<ActionResult>Edit(Descuento descuento)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add update logic here
-
+                _context.Entry(descuento).State = EntityState.Modified;
+                _context.SaveChanges();
                 return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+            ViewBag.Descuento = new SelectList(_context.Descuento, "Id_Descuento");
+            return View(descuento);
         }
 
         // GET: Descuento/Delete/5
