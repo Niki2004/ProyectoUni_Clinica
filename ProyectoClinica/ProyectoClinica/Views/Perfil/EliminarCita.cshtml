@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<ProyectoClinica.Models.Cita>
 
 @{
-    ViewBag.Title = "EliminarCita";
+    ViewBag.Title = "Cancelación de Cita";
 }
 
 <style>
@@ -128,9 +128,39 @@
         a.nav-link:hover {
             text-decoration: underline;
         }
+
+    .custom-btn {
+        background-color: #0b7b82 !important;
+        color: white !important;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 16px;
+        text-decoration: none;
+    }
+
+        .custom-btn:hover {
+            background-color: #09686e !important;
+            text-decoration: none;
+        }
 </style>
 
+<a href="@Url.Action("Index", "Perfil")" class="btn custom-btn">
+    <i class="fas fa-home"></i> Inicio
+</a>
+
+
 <center><h2>Citas existentes</h2></center>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["SuccessMessage"]
+    </div>
+}
 
 <table class="table">
     <thead>
