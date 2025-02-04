@@ -83,6 +83,10 @@ namespace ProyectoClinica.Controllers
             {
                 BaseDatos.Entry(cita).State = EntityState.Modified;
                 BaseDatos.SaveChanges();
+
+                // Agregar mensaje de éxito
+                TempData["SuccessMessage"] = "La cita se ha actualizado correctamente.";
+
                 return RedirectToAction("VistaCita");
             }
 
@@ -117,6 +121,10 @@ namespace ProyectoClinica.Controllers
 
             BaseDatos.Cita.Remove(cita);
             BaseDatos.SaveChanges();
+
+            // Agregar mensaje de éxito
+            TempData["SuccessMessage"] = "La cita se ha eliminado correctamente.";
+
             return RedirectToAction("EliminarCita");
         }
 
@@ -200,6 +208,20 @@ namespace ProyectoClinica.Controllers
                 return RedirectToAction("EliminarNota", new { id });
             }
         }
+
+        //---------------------------------------------------- Notificacion ------------------------------------------------------------
+        public ActionResult Notificaciones()
+        {
+            var notificaciones = Session["Notificaciones"] as List<string> ?? new List<string>();
+
+            // Limpiar el contador después de que el usuario vea las notificaciones
+            Session["ContadorNotificaciones"] = 0;
+
+            return View(notificaciones);
+        }
+
+
+
 
     }
 }

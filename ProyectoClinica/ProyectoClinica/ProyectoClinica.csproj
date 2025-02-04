@@ -438,8 +438,6 @@
     <Content Include="Views\CajaChica\Index.cshtml" />
     <Content Include="Views\CajaChica\Details.cshtml" />
     <Content Include="Views\CajaChica\Delete.cshtml" />
-    <Content Include="Views\Cita\Notificaciones.cshtml" />
-    <Content Include="Views\Cita\_Notificaciones.cshtml" />
     <Content Include="Views\Empleados\EditarEmpleado.cshtml" />
     <Content Include="Views\Empleados\VistaEmpleados.cshtml" />
     <Content Include="Views\Descuento\Edit.cshtml" />
@@ -449,6 +447,7 @@
     <Content Include="Views\Pagos\Create.cshtml" />
     <Content Include="Views\Pagos\Edit.cshtml" />
     <Content Include="Views\Pagos\Details.cshtml" />
+    <Content Include="Views\Perfil\Notificaciones.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>
