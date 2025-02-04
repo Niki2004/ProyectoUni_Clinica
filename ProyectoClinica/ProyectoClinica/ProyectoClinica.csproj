@@ -447,6 +447,8 @@
     <Content Include="Views\CajaChica\Edit.cshtml" />
     <Content Include="Views\Pagos\Index.cshtml" />
     <Content Include="Views\Pagos\Create.cshtml" />
+    <Content Include="Views\Pagos\Edit.cshtml" />
+    <Content Include="Views\Pagos\Details.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>

@@ -1,7 +1,9 @@
 ﻿using ProyectoClinica.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -23,9 +25,34 @@ namespace ProyectoClinica.Controllers
         }
 
         // GET: Pagos/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(int? id)
         {
-            return View();
+            if (id == null)
+                return View();
+
+            var pago = _context.Pagos.Find(id);
+
+
+            // Obtener la lista de bancos desde la base de datos
+            var bancos = _context.Bancos
+                                 .Select(b => new SelectListItem
+                                 {
+                                     Value = b.Id_Banco.ToString(),
+                                     Text = b.Nombre_Banco
+                                 })
+                                 .ToList();
+
+            ViewBag.Banco = new SelectList(bancos, "Value", "Text", pago.Id_Banco);
+
+
+
+
+            if (pago == null)
+            {
+                return View(pago);
+            }
+
+            return View(pago);
         }
 
         // GET: Pagos/Create
@@ -80,25 +107,47 @@ namespace ProyectoClinica.Controllers
         }
 
         // GET: Pagos/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int? id)
         {
-            return View();
+            ViewBag.Bancos = new SelectList(_context.Bancos, "Id_Banco", "Nombre_Banco");
+
+            var pago = _context.Pagos.Find(id);
+            
+            if (pago == null)
+            {
+                return new HttpStatusCodeResult(System.Net.HttpStatusCode.NotFound);
+            }
+
+            // Obtener la lista de bancos desde la base de datos
+            var bancos = _context.Bancos
+                                 .Select(b => new SelectListItem
+                                 {
+                                     Value = b.Id_Banco.ToString(),
+                                     Text = b.Nombre_Banco
+                                 })
+                                 .ToList();
+
+            Console.WriteLine(bancos);
+
+            // Pasar la lista de bancos a la vista usando ViewBag
+            ViewBag.Banco = new SelectList(bancos, "Value", "Text", pago.Id_Banco);
+
+            return View(pago);
         }
 
         // POST: Pagos/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public async Task<ActionResult> Edit(Pagos pago)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add update logic here
-
+                _context.Entry(pago).State = EntityState.Modified;
+                _context.SaveChanges();
                 return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+            //ViewBag.Bancos = new SelectList(_context.Bancos, "Id_Banco", "Nombre_Banco");
+            
+            return View(pago);
         }
 
         // GET: Pagos/Delete/5
