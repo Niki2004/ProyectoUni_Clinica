@@ -3,6 +3,7 @@ using ProyectoClinica.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -89,29 +90,43 @@ namespace ProyectoClinica.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Verificar si la CITA ya está ocupada en el mismo horario
                 var CitaExistente = BaseDatos.Cita
-                    .FirstOrDefault(r =>
-                        r.Id_Cita == Cita.Id_Cita &&
-                        r.Fecha_Cita == Cita.Fecha_Cita &&
-                        ((Cita.Hora_cita >= r.Hora_cita && Cita.Hora_cita < r.Hora_cita) ||
-                         (Cita.Hora_cita > r.Hora_cita && Cita.Hora_cita <= r.Hora_cita) ||
-                         (Cita.Hora_cita <= r.Hora_cita && Cita.Hora_cita >= r.Hora_cita)));
+                .FirstOrDefault(r =>
+                    r.Fecha_Cita == Cita.Fecha_Cita &&
+                    r.Id_Medico == Cita.Id_Medico &&
+                    (
+                        (Cita.Hora_cita >= r.Hora_cita && Cita.Hora_cita < DbFunctions.AddMinutes(r.Hora_cita, 30)) ||
+                        (Cita.Hora_cita <= r.Hora_cita && DbFunctions.AddMinutes(Cita.Hora_cita, 30) > r.Hora_cita)
+                    ));
+
+                string mensajeNotificacion;
 
                 if (CitaExistente != null)
                 {
-                    // Si la cita está ocupada, cambiar el estatus a "Pendiente"
-                     Cita.Estado_Asistencia = "No Asistida";
+                    Cita.Estado_Asistencia = "No Asistida";
+                    mensajeNotificacion = "La cita se ha creado, pero hay un conflicto de horario. Buscar otro horario";
                 }
                 else
                 {
-                    // Si la cita está disponible, marcar la reserva como "Aprobada"
                     Cita.Estado_Asistencia = "Asistida";
+                    mensajeNotificacion = "Tu cita ha sido creada exitosamente";
                 }
 
                 // Guardar la Cita
                 BaseDatos.Cita.Add(Cita);
                 BaseDatos.SaveChanges();
+
+                // Manejo de la sesión de notificaciones
+                if (Session["Notificaciones"] == null)
+                {
+                    Session["Notificaciones"] = new List<string>();
+                }
+
+                var listaNotificaciones = (List<string>)Session["Notificaciones"];
+                listaNotificaciones.Add(mensajeNotificacion);
+
+                // Guardar el número total de notificaciones en la sesión
+                Session["ContadorNotificaciones"] = listaNotificaciones.Count;
 
                 // Redirigir a la vista de índice
                 return RedirectToAction("Index");
@@ -120,6 +135,7 @@ namespace ProyectoClinica.Controllers
             // Si el modelo no es válido, regresar la vista con los errores
             return View(Cita);
         }
+
 
         //---------------------------------------------------- Crear nota ----------------------------------------------------------
         [HttpGet]

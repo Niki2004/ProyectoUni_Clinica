@@ -31,9 +31,6 @@
         padding-bottom: 20px;
     }
 
-
-
-
     .profile-pic {
         width: 100px;
         height: 100px;
@@ -82,6 +79,7 @@
             .section ul li {
                 display: flex;
                 align-items: center;
+                justify-content: space-between; 
                 background: #f9f9f9;
                 padding: 10px 15px;
                 border-radius: 5px;
@@ -93,11 +91,20 @@
                     background: #3bb4bc80;
                 }
 
-
-                .section ul li i { /*Color de los iconos*/
+                .section ul li i {
                     margin-right: 10px;
                     color: #0b7b82;
                 }
+
+    .badge {
+        background-color: #0b7b82;
+        color: white;
+        font-size: 0.8rem;
+        font-weight: bold;
+        padding: 4px 8px;
+        border-radius: 50%;
+        margin-left: auto; 
+    }
 
     .text-success {
         color: #28a745;
@@ -118,7 +125,7 @@
     }
     else
     {
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuV7pIsnSiiENHCWKMbRBQ3h9aOIwxZbYIpw&s"
+        <img src="https://www.google.com/imgres?q=imagen%20de%20perfil%20sin%20foto&imgurl=https%3A%2F%2Fthumbs.dreamstime.com%2Fb%2Ficono-del-perfil-avatar-defecto-105356015.jpg&imgrefurl=https%3A%2F%2Fes.dreamstime.com%2Fimagen-de-marcador-posici%25C3%25B3n-perfil-silueta-gris-sin-foto-una-persona-en-el-avatar-la-predeterminada-se-utiliza-para-dise%25C3%25B1o-web-image176390893&docid=Ti2OFUOuIbKjJM&tbnid=_-9rRi44KwSQlM&vet=12ahUKEwiInrWIoaqLAxWkQzABHROpNw4QM3oECFAQAA..i&w=800&h=800&hcb=2&ved=2ahUKEwiInrWIoaqLAxWkQzABHROpNw4QM3oECFAQAA"
              alt="Perfil" class="profile-pic" />
     }
 
@@ -167,14 +174,22 @@
         <div class="section">
             <h3>Notificaciones</h3>
             <ul>
-                @*Notificación*@
                 <li>
-                    <a class="nav-link" href="#">
-                        <i class="fas fa-bell"></i>Notificación
+                    <a class="nav-link" id="btnNotificaciones" href="@Url.Action("Notificaciones", "Perfil")">
+                        <i class="fas fa-bell"></i> Notificaciones
+                        <span id="contadorNotificaciones" class="badge">0</span>
                     </a>
                 </li>
             </ul>
         </div>
+
+        <script>
+    var contador = "@Session["ContadorNotificaciones"]";
+    if (contador && contador !== "0") {
+        document.getElementById("contadorNotificaciones").innerText = contador;
+    }
+        </script>
+
 
         <hr />
 
@@ -189,11 +204,11 @@
                 </li>
 
                 @*Asistente en línea*@
-             <li>
-                <a class="nav-link" href="@Url.Action("NotasPersonale", "Perfil")">
-                    <i class="fas fa-book"></i>  Notas personales
-                </a>
-            </li>
+                <li>
+                    <a class="nav-link" href="@Url.Action("NotasPersonale", "Perfil")">
+                        <i class="fas fa-book"></i>  Notas personales
+                    </a>
+                </li>
 
                 @*Cierre se sesión*@
                 <li>
