@@ -249,6 +249,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InventarioController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PagosController.cs" />
     <Compile Include="Controllers\PerfilController.cs" />
     <Compile Include="Controllers\ServiciosBrindadosController.cs" />
     <Compile Include="Controllers\ServiciosController.cs" />
@@ -444,6 +445,8 @@
     <Content Include="Views\Descuento\Edit.cshtml" />
     <Content Include="Views\Servicios\Edit.cshtml" />
     <Content Include="Views\CajaChica\Edit.cshtml" />
+    <Content Include="Views\Pagos\Index.cshtml" />
+    <Content Include="Views\Pagos\Create.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>
