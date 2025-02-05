@@ -1,0 +1,63 @@
+﻿@model IEnumerable<ProyectoClinica.Models.Conciliaciones_Bancarias>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            <label>Id del Banco</label>
+        </th>
+        <th>
+            <label>Id del Diario</label>
+        </th>
+        <th>
+            <label>Id Tipo del Registro</label>
+        </th>
+        <th>
+            <label>Fecha de Conciliación</label>
+        </th>
+        <th>
+            <label>Saldo Contable</label>
+        </th>
+        <th>
+            <label>Saldo del Banco</label>
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id_Banco)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id_Diario)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id_Tipo_Registro)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Fecha_Conciliacion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Saldo_Contable)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Saldo_Banco)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id_Conciliacion }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id_Conciliacion }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id_Conciliacion })
+        </td>
+    </tr>
+}
+
+</table>
