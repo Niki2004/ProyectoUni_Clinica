@@ -242,6 +242,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CajaChicaController.cs" />
     <Compile Include="Controllers\CitaController.cs" />
+    <Compile Include="Controllers\ConciliacionesBancariasController.cs" />
     <Compile Include="Controllers\ContabilidadController.cs" />
     <Compile Include="Controllers\DescuentoController.cs" />
     <Compile Include="Controllers\EmpleadosController.cs" />
@@ -448,6 +449,10 @@
     <Content Include="Views\Pagos\Edit.cshtml" />
     <Content Include="Views\Pagos\Details.cshtml" />
     <Content Include="Views\Perfil\Notificaciones.cshtml" />
+    <Content Include="Views\ConciliacionesBancarias\Create.cshtml" />
+    <Content Include="Views\ConciliacionesBancarias\Index.cshtml" />
+    <Content Include="Views\ConciliacionesBancarias\Details.cshtml" />
+    <Content Include="Views\ConciliacionesBancarias\Edit.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>
