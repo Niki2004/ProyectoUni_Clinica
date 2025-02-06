@@ -58,6 +58,11 @@ namespace ProyectoClinica.Models
         public DbSet<Tipo_Transaccion> Tipo_Transaccion { get; set; }
         public DbSet<Notificacion> Notificacion { get; set; }
 
+        public DbSet<RolAsignacion> RolAsignacion { get; set; }
+
+        public DbSet<Documento> Documento { get; set; }
+        public DbSet<NotificacionEmpleado> NotificacionEmpleado { get; set; }
+        public DbSet<Evaluacion> Evaluacion { get; set; }
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -97,6 +102,11 @@ namespace ProyectoClinica.Models
             modelBuilder.Entity<Tipo_Registro>().ToTable("Tipo_Registro");
             modelBuilder.Entity<Tipo_Transaccion>().ToTable("Tipo_Transaccion");
             modelBuilder.Entity<Notificacion>().ToTable("Notificacion");
+            modelBuilder.Entity<RolAsignacion>().ToTable("RolAsignacion");
+            modelBuilder.Entity<Documento>().ToTable("Documento");
+            modelBuilder.Entity<NotificacionEmpleado>().ToTable("NotificacionEmpleado");
+            modelBuilder.Entity<Evaluacion>().ToTable("Evaluacion");
+
 
 
 
@@ -174,5 +184,7 @@ namespace ProyectoClinica.Models
 
             
         }
+
+        public System.Data.Entity.DbSet<ProyectoClinica.Models.ApplicationRol> IdentityRoles { get; set; }
     }
 }
