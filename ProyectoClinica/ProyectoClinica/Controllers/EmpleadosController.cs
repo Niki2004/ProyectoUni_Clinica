@@ -180,28 +180,20 @@ namespace ProyectoClinica.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditarEmpleado(Empleado empleado)
         {
-            if (!ModelState.IsValid)
-            {
-                PrepararViewBags(empleado);
-                return View(empleado);
-            }
 
-            try
+            if (ModelState.IsValid)
             {
-                var empleadoDb = BaseDatos.Empleado.Find(empleado.Id_Empleado);
-                if (empleadoDb == null) return RedirectToAction("Empleados");
-
-                ActualizarEmpleado(empleadoDb, empleado);
+                BaseDatos.Entry(empleado).State = EntityState.Modified;
                 BaseDatos.SaveChanges();
+                return RedirectToAction("VistaEmpleados");
+            }
 
-                return RedirectToAction("Empleados");
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", ObtenerMensajeError(ex));
-                PrepararViewBags(empleado);
-                return View(empleado);
-            }
+            ViewBag.Medicos = new SelectList(BaseDatos.Medico, "Id_Medico", "Nombre", empleado.Id_Medico);
+            ViewBag.Estados = new SelectList(BaseDatos.Estado, "Id_Estado", "Descripcion", empleado.Id_Estado);
+            ViewBag.Usuarios = new SelectList(BaseDatos.Users, "Id", "UserName", empleado.Id_Usuario);
+
+            return View(empleado);
+
         }
 
         private void ActualizarEmpleado(Empleado empleadoDb, Empleado empleado)
