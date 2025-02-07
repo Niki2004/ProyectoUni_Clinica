@@ -57,12 +57,14 @@ namespace ProyectoClinica.Models
         public DbSet<Tipo_Registro> Tipo_Registro { get; set; }
         public DbSet<Tipo_Transaccion> Tipo_Transaccion { get; set; }
         public DbSet<Notificacion> Notificacion { get; set; }
-
         public DbSet<RolAsignacion> RolAsignacion { get; set; }
-
         public DbSet<Documento> Documento { get; set; }
         public DbSet<NotificacionEmpleado> NotificacionEmpleado { get; set; }
         public DbSet<Evaluacion> Evaluacion { get; set; }
+        public DbSet<PagosXNomina> PagosXNomina { get; set; }
+        public DbSet<Movimientos_Bancarios> Movimientos_Bancarios { get; set; }
+        public DbSet<Pagos_Diarios> Pagos_Diarios { get; set; }
+
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -106,6 +108,9 @@ namespace ProyectoClinica.Models
             modelBuilder.Entity<Documento>().ToTable("Documento");
             modelBuilder.Entity<NotificacionEmpleado>().ToTable("NotificacionEmpleado");
             modelBuilder.Entity<Evaluacion>().ToTable("Evaluacion");
+            modelBuilder.Entity<PagosXNomina>().ToTable("PagosXNomina");
+            modelBuilder.Entity<Movimientos_Bancarios>().ToTable("Movimientos_Bancarios");
+            modelBuilder.Entity<Pagos_Diarios>().ToTable("Pagos_Diarios");
 
 
 
@@ -182,7 +187,28 @@ namespace ProyectoClinica.Models
                 .WithMany()
                 .WillCascadeOnDelete(true);
 
-            
+            // ---Movimientos_Bancarios
+
+            modelBuilder.Entity<Movimientos_Bancarios>()
+                .HasRequired(m => m.Diarios_Contables) // Relación con Diarios_Contables
+                .WithMany()
+                .HasForeignKey(m => m.Id_Diario)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Movimientos_Bancarios>()
+                .HasRequired(m => m.Conciliaciones_Bancarias) // Relación con Conciliaciones_Bancarias
+                .WithMany()
+                .HasForeignKey(m => m.Id_Conciliacion)
+                .WillCascadeOnDelete(true);
+
+            modelBuilder.Entity<Movimientos_Bancarios>()
+                .HasRequired(m => m.Pagos_Diarios) // Relación con Pagos_Diarios
+                .WithMany()
+                .HasForeignKey(m => m.Id_Pagos_Diarios)
+                .WillCascadeOnDelete(true);
+
+
+
         }
 
         public System.Data.Entity.DbSet<ProyectoClinica.Models.ApplicationRol> IdentityRoles { get; set; }

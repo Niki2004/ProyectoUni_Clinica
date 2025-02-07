@@ -257,9 +257,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202502062233210_EmpleadosTablas.cs" />
-    <Compile Include="Migrations\202502062233210_EmpleadosTablas.Designer.cs">
-      <DependentUpon>202502062233210_EmpleadosTablas.cs</DependentUpon>
+    <Compile Include="Migrations\202502070059061_ModuloContabilidad.cs" />
+    <Compile Include="Migrations\202502070059061_ModuloContabilidad.Designer.cs">
+      <DependentUpon>202502070059061_ModuloContabilidad.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -293,10 +293,13 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Medico.cs" />
     <Compile Include="Models\Modificacion_Receta.cs" />
+    <Compile Include="Models\Movimientos_Bancarios.cs" />
     <Compile Include="Models\Nota_Paciente.cs" />
     <Compile Include="Models\Notificacion.cs" />
     <Compile Include="Models\NotificacionEmpleado.cs" />
     <Compile Include="Models\Pagos.cs" />
+    <Compile Include="Models\PagosXNomina.cs" />
+    <Compile Include="Models\Pagos_Diarios.cs" />
     <Compile Include="Models\Receta.cs" />
     <Compile Include="Models\Reporte.cs" />
     <Compile Include="Models\Respaldo.cs" />
@@ -478,8 +481,8 @@
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.3.3.4\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202502062233210_EmpleadosTablas.resx">
-      <DependentUpon>202502062233210_EmpleadosTablas.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202502070059061_ModuloContabilidad.resx">
+      <DependentUpon>202502070059061_ModuloContabilidad.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
