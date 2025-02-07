@@ -242,6 +242,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CajaChicaController.cs" />
     <Compile Include="Controllers\CitaController.cs" />
+    <Compile Include="Controllers\ConciliacionesBancariasController.cs" />
     <Compile Include="Controllers\ContabilidadController.cs" />
     <Compile Include="Controllers\DescuentoController.cs" />
     <Compile Include="Controllers\EmpleadosController.cs" />
@@ -256,25 +257,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202501300539160_Cambios.cs" />
-    <Compile Include="Migrations\202501300539160_Cambios.designer.cs">
-      <DependentUpon>202501300539160_Cambios.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202501301814152_CambiosEmpleados.cs" />
-    <Compile Include="Migrations\202501301814152_CambiosEmpleados.Designer.cs">
-      <DependentUpon>202501301814152_CambiosEmpleados.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202502030351480_actualizacion.cs" />
-    <Compile Include="Migrations\202502030351480_actualizacion.Designer.cs">
-      <DependentUpon>202502030351480_actualizacion.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202502031517342_Notificaciones.cs" />
-    <Compile Include="Migrations\202502031517342_Notificaciones.designer.cs">
-      <DependentUpon>202502031517342_Notificaciones.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202502031520256_NotificacionesUsuarios.cs" />
-    <Compile Include="Migrations\202502031520256_NotificacionesUsuarios.designer.cs">
-      <DependentUpon>202502031520256_NotificacionesUsuarios.cs</DependentUpon>
+    <Compile Include="Migrations\202502070059061_ModuloContabilidad.cs" />
+    <Compile Include="Migrations\202502070059061_ModuloContabilidad.Designer.cs">
+      <DependentUpon>202502070059061_ModuloContabilidad.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -290,6 +275,8 @@
     <Compile Include="Models\Busquedas_exportaciones.cs" />
     <Compile Include="Models\Caja_Chica.cs" />
     <Compile Include="Models\Cita.cs" />
+    <Compile Include="Models\Documento.cs" />
+    <Compile Include="Models\Evaluacion.cs" />
     <Compile Include="Models\Metodo_Pago_Utilizado.cs" />
     <Compile Include="Models\Metodo_Pago.cs" />
     <Compile Include="Models\Conciliaciones_Bancarias.cs" />
@@ -306,12 +293,17 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Medico.cs" />
     <Compile Include="Models\Modificacion_Receta.cs" />
+    <Compile Include="Models\Movimientos_Bancarios.cs" />
     <Compile Include="Models\Nota_Paciente.cs" />
     <Compile Include="Models\Notificacion.cs" />
+    <Compile Include="Models\NotificacionEmpleado.cs" />
     <Compile Include="Models\Pagos.cs" />
+    <Compile Include="Models\PagosXNomina.cs" />
+    <Compile Include="Models\Pagos_Diarios.cs" />
     <Compile Include="Models\Receta.cs" />
     <Compile Include="Models\Reporte.cs" />
     <Compile Include="Models\Respaldo.cs" />
+    <Compile Include="Models\RolAsignacion.cs" />
     <Compile Include="Models\RolInitialize.cs" />
     <Compile Include="Models\Rol_Permiso.cs" />
     <Compile Include="Models\Servicio.cs" />
@@ -448,6 +440,10 @@
     <Content Include="Views\Pagos\Edit.cshtml" />
     <Content Include="Views\Pagos\Details.cshtml" />
     <Content Include="Views\Perfil\Notificaciones.cshtml" />
+    <Content Include="Views\ConciliacionesBancarias\Create.cshtml" />
+    <Content Include="Views\ConciliacionesBancarias\Index.cshtml" />
+    <Content Include="Views\ConciliacionesBancarias\Details.cshtml" />
+    <Content Include="Views\ConciliacionesBancarias\Edit.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -485,20 +481,8 @@
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.3.3.4\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202501300539160_Cambios.resx">
-      <DependentUpon>202501300539160_Cambios.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202501301814152_CambiosEmpleados.resx">
-      <DependentUpon>202501301814152_CambiosEmpleados.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202502030351480_actualizacion.resx">
-      <DependentUpon>202502030351480_actualizacion.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202502031517342_Notificaciones.resx">
-      <DependentUpon>202502031517342_Notificaciones.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202502031520256_NotificacionesUsuarios.resx">
-      <DependentUpon>202502031520256_NotificacionesUsuarios.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202502070059061_ModuloContabilidad.resx">
+      <DependentUpon>202502070059061_ModuloContabilidad.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
