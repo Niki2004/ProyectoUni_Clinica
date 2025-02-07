@@ -385,7 +385,6 @@
     <Content Include="Views\Cita\Especialidad.cshtml" />
     <Content Include="Views\Cita\Contactanos.cshtml" />
     <Content Include="Views\Empleados\Empleados.cshtml" />
-    <Content Include="Views\Empleados\AsignacionRoles.cshtml" />
     <Content Include="Views\Empleados\DesactivarPerfil.cshtml" />
     <Content Include="Views\Cita\Index.cshtml" />
     <Content Include="Views\Cita\Crear.cshtml" />
@@ -411,7 +410,6 @@
     <Content Include="Views\Perfil\NotasPersonale.cshtml" />
     <Content Include="Views\Perfil\EditarNota.cshtml" />
     <Content Include="Views\Perfil\EliminarNota.cshtml" />
-    <Content Include="Views\Empleados\CrearEmpleado.cshtml" />
     <Content Include="Views\Contabilidad\Details.cshtml" />
     <Content Include="Views\Contabilidad\Edit.cshtml" />
     <Content Include="Views\Factura\Index.cshtml" />
@@ -430,7 +428,6 @@
     <Content Include="Views\CajaChica\Index.cshtml" />
     <Content Include="Views\CajaChica\Details.cshtml" />
     <Content Include="Views\CajaChica\Delete.cshtml" />
-    <Content Include="Views\Empleados\EditarEmpleado.cshtml" />
     <Content Include="Views\Empleados\VistaEmpleados.cshtml" />
     <Content Include="Views\Descuento\Edit.cshtml" />
     <Content Include="Views\Servicios\Edit.cshtml" />
@@ -444,6 +441,9 @@
     <Content Include="Views\ConciliacionesBancarias\Index.cshtml" />
     <Content Include="Views\ConciliacionesBancarias\Details.cshtml" />
     <Content Include="Views\ConciliacionesBancarias\Edit.cshtml" />
+    <Content Include="Views\Empleados\Create.cshtml" />
+    <Content Include="Views\Empleados\Edit.cshtml" />
+    <Content Include="Views\Empleados\Rol.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>
