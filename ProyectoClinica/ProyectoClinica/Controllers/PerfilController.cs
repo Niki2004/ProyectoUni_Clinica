@@ -31,6 +31,91 @@ namespace ProyectoClinica.Controllers
             return View(modelo);
         }
 
+        [Authorize(Roles = "Administrador")]
+        public async Task<ActionResult> PerfilADM()
+        {
+            var userId = User.Identity.GetUserId();
+            var usuario = await BaseDatos.Users.FirstAsync(u => u.Id == userId);
+
+            var modelo = new IndexViewModel
+            {
+                Email = usuario.Email,
+                Nombre = usuario.Nombre,
+                Apellido = usuario.Apellido,
+                Imagen = usuario.Imagen
+            };
+
+            return View(modelo);
+        }
+
+        [Authorize(Roles = "Medico")]
+        public async Task<ActionResult> PerfilMED()
+        {
+            var userId = User.Identity.GetUserId();
+            var usuario = await BaseDatos.Users.FirstAsync(u => u.Id == userId);
+
+            var modelo = new IndexViewModel
+            {
+                Email = usuario.Email,
+                Nombre = usuario.Nombre,
+                Apellido = usuario.Apellido,
+                Imagen = usuario.Imagen
+            };
+
+            return View(modelo);
+        }
+
+        [Authorize(Roles = "Auditor")]
+        public async Task<ActionResult> PerfilAUD()
+        {
+            var userId = User.Identity.GetUserId();
+            var usuario = await BaseDatos.Users.FirstAsync(u => u.Id == userId);
+
+            var modelo = new IndexViewModel
+            {
+                Email = usuario.Email,
+                Nombre = usuario.Nombre,
+                Apellido = usuario.Apellido,
+                Imagen = usuario.Imagen
+            };
+
+            return View(modelo);
+        }
+
+        [Authorize(Roles = "Contador")]
+        public async Task<ActionResult> PerfilCON()
+        {
+            var userId = User.Identity.GetUserId();
+            var usuario = await BaseDatos.Users.FirstAsync(u => u.Id == userId);
+
+            var modelo = new IndexViewModel
+            {
+                Email = usuario.Email,
+                Nombre = usuario.Nombre,
+                Apellido = usuario.Apellido,
+                Imagen = usuario.Imagen
+            };
+
+            return View(modelo);
+        }
+
+        [Authorize(Roles = "Secretaria")]
+        public async Task<ActionResult> PerfilSEC()
+        {
+            var userId = User.Identity.GetUserId();
+            var usuario = await BaseDatos.Users.FirstAsync(u => u.Id == userId);
+
+            var modelo = new IndexViewModel
+            {
+                Email = usuario.Email,
+                Nombre = usuario.Nombre,
+                Apellido = usuario.Apellido,
+                Imagen = usuario.Imagen
+            };
+
+            return View(modelo);
+        }
+
         //---------------------------------------------------- Vista de citas ------------------------------------------------------------
         public ActionResult VistaCita()
         {

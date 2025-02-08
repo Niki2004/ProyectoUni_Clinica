@@ -24,6 +24,12 @@ namespace ProyectoClinica.Controllers
         }
 
         //Información de la clinica
+        public ActionResult VistaCita()
+        {
+            return View();
+        }
+
+        //Información de la clinica
         public ActionResult Especialidad()
         {
             return View();

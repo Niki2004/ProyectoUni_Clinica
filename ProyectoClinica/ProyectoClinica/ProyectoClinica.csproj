@@ -340,6 +340,7 @@
     <Content Include="Imagenes\Informacion2.jpg" />
     <Content Include="Imagenes\Informacion3.jpg" />
     <Content Include="Imagenes\Informacion4.jpg" />
+    <Content Include="Imagenes\Logo.png" />
     <Content Include="Imagenes\PefilPorDefecto.jpg" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
@@ -448,6 +449,12 @@
     <Content Include="Views\Empleados\Edit.cshtml" />
     <Content Include="Views\Empleados\Rol.cshtml" />
     <Content Include="Views\Redirect\Redirect.cshtml" />
+    <Content Include="Views\Cita\VistaCita.cshtml" />
+    <Content Include="Views\Perfil\PerfilADM.cshtml" />
+    <Content Include="Views\Perfil\PerfilMED.cshtml" />
+    <Content Include="Views\Perfil\PerfilAUD.cshtml" />
+    <Content Include="Views\Perfil\PerfilCON.cshtml" />
+    <Content Include="Views\Perfil\PerfilSEC.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>
