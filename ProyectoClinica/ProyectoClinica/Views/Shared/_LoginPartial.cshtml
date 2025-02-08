@@ -8,30 +8,7 @@
         @Html.AntiForgeryToken()
 
 <ul class="navbar-nav navbar-right">
-    @if (User.IsInRole("Usuario"))
-    {
-        <li>@Html.ActionLink("Citas", "Index", "Cita", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "nav-link" })</li>
-        <li>@Html.ActionLink("Especialidades", "Especialidad", "Cita", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "nav-link" })</li>
-        <li>@Html.ActionLink("Contactanos", "Contactanos", "Cita", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "nav-link" })</li>
-        <li>@Html.ActionLink("Contabilidad", "Index", "Contabilidad", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "nav-link" })</li>
-        <li>@Html.ActionLink("Descuento", "Index", "Descuento", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "nav-link" })</li>
-        <li>@Html.ActionLink("Factura", "Index", "Factura", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "nav-link" })</li>
-        <li>@Html.ActionLink("Servicios", "Index", "Servicios", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "nav-link" })</li>
-        <li>@Html.ActionLink("ServiciosBrindados ", "Index", "ServiciosBrindados", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "nav-link" })</li>
-        <li>@Html.ActionLink("CajaChica ", "Index", "CajaChica", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "nav-link" })</li>
-        <li>@Html.ActionLink("Pagos ", "Index", "Pagos", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "nav-link" })</li>
-        <li>@Html.ActionLink("ConciliacionesBancarias ", "Index", "ConciliacionesBancarias", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "nav-link" })</li>
-    }
-
-    @*@if (User.IsInRole("Administrador"))
-    {
-        <li>@Html.ActionLink("Empleados", "Empleados", "Empleados", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "nav-link" })</li>
-      }*@
-
-
-
-
-
+    
     <li>
         @Html.ActionLink("Bienvenido " + User.Identity.GetUserName() + "!", "Index", "Perfil", routeValues: null, htmlAttributes: new { title = "Manage", @class = "nav-link" })
     </li>
@@ -40,6 +17,7 @@
 
     }
 }
+
 else
 {
     <ul class="navbar-nav navbar-right">

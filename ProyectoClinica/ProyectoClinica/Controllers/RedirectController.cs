@@ -24,20 +24,26 @@ namespace ProyectoClinica.Controllers
 
 
             if(User.IsInRole("Administrador"))
-                return RedirectToAction("Index", "Admin");
-            if (User.IsInRole("Cliente"))
-                return RedirectToAction("Index", "Cliente");
+                return RedirectToAction("Empleados", "Empleados");
+
             if (User.IsInRole("Usuario"))
-                return RedirectToAction("Index", "Usuario");
+                return RedirectToAction("VistaCita", "Cita");
+
             if (User.IsInRole("Medico"))
                 return RedirectToAction("Index", "Medico");
+
             if (User.IsInRole("Auditor"))
                 return RedirectToAction("Index", "Auditor");
+
+            if (User.IsInRole("Contador"))
+                return RedirectToAction("Index", "Contador");
+
             if (User.IsInRole("Secretaria"))
                 return RedirectToAction("Index", "Secretaria");
 
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             ModelState.AddModelError("", "El usuario no tiene ningun Rol");
+
             return RedirectToAction("Login", "Account"); ;
         }
     }

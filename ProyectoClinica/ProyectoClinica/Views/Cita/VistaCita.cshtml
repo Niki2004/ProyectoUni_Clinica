@@ -1,6 +1,5 @@
-﻿
-@{
-    ViewBag.Title = "Contactanos";
+﻿@{
+    ViewBag.Title = "Cita";
 }
 
 <!DOCTYPE html>
@@ -10,9 +9,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Centro Integral Santo Domingo</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
-
     <style>
         :root {
             --primary-turquoise: #008B8B;
@@ -35,17 +31,17 @@
             right: 0;
             height: 50px;
             background-color: #008B8B;
-            z-index: 1001;
+            z-index: 1001; 
         }
 
         .sidebar {
             position: fixed;
-            top: 0;
+            top: 0; 
             left: 0;
             width: 189px;
             height: 100vh;
             background-color: white;
-            padding-top: 65px;
+            padding-top: 65px; 
             padding-left: 15px;
             padding-right: 15px;
             overflow-y: auto;
@@ -55,10 +51,10 @@
             .sidebar a {
                 display: block;
                 color: #000000;
-                padding: 5px 10px;
+                padding: 5px 10px; 
                 text-decoration: none;
                 font-size: 18px;
-                margin-bottom: 2px;
+                margin-bottom: 2px; 
             }
 
                 .sidebar a:hover {
@@ -69,24 +65,23 @@
 
         .content {
             padding: 20px;
-            max-width: 700px;
+            max-width: 700px; 
             margin: 0 auto;
         }
 
             .content h2 {
                 color: #0b7b82;
-                text-align: left;
+                text-align: left; 
                 margin-bottom: 20px;
-                padding-left: 20px;
+                padding-left: 20px; 
             }
 
             .content p {
                 text-align: left;
-                padding-left: 20px;
+                padding-left: 20px; 
                 margin-bottom: 10px;
-                line-height: 1.6;
+                line-height: 1.6; 
             }
-
         .nav-link {
             color: #333;
             padding: 10px 15px;
@@ -151,7 +146,6 @@
                 border-color: var(--hover-turquoise);
                 transform: translateY(-2px);
             }
-
         .gallery-container {
             padding: 20px;
             max-width: 1200px;
@@ -189,6 +183,8 @@
             background-color: #f8f9fa;
             color: #333;
         }
+
+   
     </style>
 </head>
 <body>
@@ -201,16 +197,6 @@
                     <div class="text-center p-3">
                         <img src="~/Imagenes/Logo.png" alt="Centro Integral Santo Domingo Logo" class="img-fluid" style="max-width: 150px; height: auto;" />
                     </div>
-
-                    <br />
-
-                    <center><div class="nav-header">Acciones</div></center>
-                    <div class="nav flex-column">
-                        <a href="@Url.Action("VistaCita", "Cita")" class="nav-link">
-                            <i class="fas fa-arrow-left"></i>  Inicio
-                        </a>
-                    </div>
-                    <hr />
 
                     <center><div class="nav-header">Plataforma</div></center>
                     <div class="nav flex-column">
@@ -225,45 +211,78 @@
                         <a href="@Url.Action("Especialidad", "Cita")" class="nav-link">
                             <i class="fas fa-stethoscope"></i> Especialidad
                         </a>
-                        <a class="nav-link">
+                        <a href="@Url.Action("Contactanos", "Cita")" class="nav-link">
                             <i class="fas fa-phone-alt"></i> Contáctanos
                         </a>
                     </div>
 
                 </div>
             </div>
+
             <!-- Main Content -->
             <div class="content">
 
-                <h2 class="text-center" style="color: #0b7b82;">Agenda tu cita</h2>
+                <h2 class="text-center" style="color: #0b7b82;">Sobre nosostros</h2>
                 <p>
-                    Para agendar una cita vía WhatsApp, por favor, haga clic en el siguiente enlace:
-                    <a href="https://wa.me/50687518374" target="_blank">Agendar cita</a> o al
-                    <a href="https://wa.me/5088406363" target="_blank">Agendar cita</a>
-                    Se le atendera lo más pronto posible.
+                    Nace un 19 de enero del 2021, por ello su nombre debido a que ese dia se celebra el dia de Santo Domingo de Guzmán,
+                    dentro de sus frases esta : " Tened caridad, conservad la humildad y poseed la pobreza voluntaria".
+                </p>
+
+                <p>
+                    Nuestra clínica tiene como objetivo poder brindar un servicio de óptima calidad, confiable y oportuno, que logren garantizar
+                    una atención humana garantizada, a fin de poder satisfacer las necesidades y expectativas de nuestros pacientes, brindando un
+                    ambiente agradable y con excelentes condiciones, al alcance de todos.
+                </p>
+
+                <p>
+                    Contamos con una gran cantidad de Especialidades y los mejores profesionales.
                 </p>
 
                 <br />
 
-                <p class="text-center">¡Estamos para atenderlos!</p>
+                <h2 class="text-center" style="color: #0b7b82;">Nuestras instalaciones</h2>
+                <div class="gallery-container">
+               
+                    <div class="image-gallery">
+                        <div class="gallery-item">
+                            <img src="https://lh6.googleusercontent.com/LNzkfzCinju-eWDsYSRXpeBIAukKHKXpsRnMMhLjusIxa9sFrzPoGLpIJ3HEzkLGdTktUgSkcIgOOD-mANEt3Q-HQBOBtIoq20Q3I4RdHGlTfq4euhhd61QwqxCUyp-36w=w1280" alt="Exterior de la clínica" class="gallery-image">
+                            <div class="image-caption">Exterior de la clínica</div>
+                        </div>
 
-                <br />
+                        <div class="gallery-item">
+                            <img src="https://lh5.googleusercontent.com/kt9Og8MivefhPwTC11zJqcgRR7XLFhCF7h0RNU9QSxP_8JYhaYmWpNpVhUjaleHQdvPLt9t21iSy6lxfj2fcIddV2V5WbAyYzomSbt1npCQ_2DXA9XtTlj3fsiAMlVPwOQ=w1280" alt="Consultorio" class="gallery-image">
+                            <div class="image-caption">Sala de espera</div>
+                        </div>
 
-                <h2 class="text-center" style="color: #0b7b82;">Redes sociales</h2>
-                <div style="text-align: center; padding: 20px;">
-                    <!-- Icono de Instagram -->
-                    <a href="https://www.instagram.com/santodomingocentro/" target="_blank" style="text-decoration: none; color: #e4405f; font-size: 40px; margin: 0 15px;">
-                        <i class="fab fa-instagram"></i>
-                    </a>
 
-                    <!-- Icono de Facebook -->
-                    <a href="https://www.facebook.com/profile.php?id=100064082231566"" target="_blank" style="text-decoration: none; color: #1877f2; font-size: 40px; margin: 0 15px;">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
+                        <div class="gallery-item">
+                            <img src="https://lh5.googleusercontent.com/QKRM5P12zm6Xyo-hy42Ercp6il_92IdmvpIZoGrWRcuZ9UpJDJsMnu-boxp0_A52zwp519gWr0I0iowyubxPXzsqYyztjJenvD-guaD6uQJglFxeeP24axtOyEiVmVlsQA=w1280" alt="Consultorio" class="gallery-image">
+                            <div class="image-caption">Consultorio</div>
+                        </div>
+
+
+                        <div class="gallery-item">
+                            <img src="https://lh6.googleusercontent.com/BF8bNyX0jh32U8q-rfBXdZTNFFVbQYaeG5DvrIR65CGoYC42bn1qgnEtx1F-q6_ATLKBJyIuwaikEdTd3msWi5nvoPyf-8QtgP2GCtMt2c_as0QFRecNrrISWfQRPRgl4Q=w1280" alt="Consultorio" class="gallery-image">
+                            <div class="image-caption">Consultorio</div>
+                        </div>
+
+
+                        <div class="gallery-item">
+                            <img src="https://lh4.googleusercontent.com/G-Ik6sGQdc4abAxf0jGM1MtpBPguSUuGwXmUjzXq_o8_Q4puNdX-Lu9UZpT879VZr7-LC9edSEaMWYUpkBdEFLZ6xm_VyB-LAFAUQ_1Oc52L301gZM-ednNstWoAjd_Oow=w1280" alt="Consultorio" class="gallery-image">
+                            <div class="image-caption">Consultorio</div>
+                        </div>
+
+
+                        <div class="gallery-item">
+                            <img src="https://lh3.googleusercontent.com/f4oZvs91H4hWmIRjne2ygREBbU6XyLVuMaQ0tZ6raMlxoCUcXzLcbXDVvNiMW4KLzqG1atuarhll5-Vl0y_lNZ4rZz2AWIjl8j5WP6lDMT3Vkaxfynx_X570F9uGeP1wng=w1280" alt="Consultorio" class="gallery-image">
+                            <div class="image-caption">Consultorio</div>
+                        </div>
+                    </div>
                 </div>
-
-                <br />
             </div>
+
+            <br />
+        </div>
 
             <script src="~/lib/jquery/dist/jquery.min.js"></script>
             <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

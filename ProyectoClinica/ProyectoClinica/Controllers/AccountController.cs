@@ -155,12 +155,8 @@ namespace ProyectoClinica.Controllers
                 {
                     UserManager.AddToRole(user.Id, "Usuario");
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
 
-         
-
-
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("VistaCita", "Cita");
                 }
                 AddErrors(result);
             }
