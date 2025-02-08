@@ -79,7 +79,7 @@
             .section ul li {
                 display: flex;
                 align-items: center;
-                justify-content: space-between; 
+                justify-content: space-between;
                 background: #f9f9f9;
                 padding: 10px 15px;
                 border-radius: 5px;
@@ -103,7 +103,7 @@
         font-weight: bold;
         padding: 4px 8px;
         border-radius: 50%;
-        margin-left: auto; 
+        margin-left: auto;
     }
 
     .text-success {
@@ -135,91 +135,60 @@
 
     <div class="profile-sections">
         <div class="section">
-            <h3>Cuenta</h3>
-            <ul>
-                @*Modificación de citas*@
+            <div class="section">
+                <h3>Notificaciones</h3>
+                <ul>
+                    <li>
+                        <a class="nav-link" id="btnNotificaciones" href="@Url.Action("", "")">
+                            <i class="fas fa-bell"></i> Notificaciones
+                            <span id="contadorNotificaciones" class="badge">0</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <hr />
 
-                <li>
-                    <a class="nav-link" href="@Url.Action("VistaCita", "Perfil")">
-                        <i class="fas fa-edit"></i>Modificación de citas
-                    </a>
-                </li>
+            <div class="section">
+                <h3>Perfiles de pacientes</h3>
+                <ul>
+                    <li>
+                        <a class="nav-link" id="btnNotificaciones" href="@Url.Action("", "")">
+                            <i class="fas fa-user-md"></i> Pacientes
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <hr />
 
-                @*Cancelación de citas*@
-                <li>
-                    <a class="nav-link" href="@Url.Action("EliminarCita", "Perfil")">
-                        <i class="fas fa-times-circle"></i>Cancelación de citas
-                    </a>
-                </li>
+            <div class="section">
+                <h3>Solicitud de recetas</h3>
+                <ul>
+                    <li>
+                        <a class="nav-link" id="btnNotificaciones" href="@Url.Action("", "")">
+                            <i class="fas fa-file-medical-alt"></i> Receta
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <hr />
 
-                @*Historial de citas*@
-                <li>
-                    <a class="nav-link" href="@Url.Action("HistorialCita", "Perfil")">
-                        <i class="fas fa-history"></i>Historial de citas
-                    </a>
-                </li>
 
-                @*Citas futuras*@
-                <li>
-                    <a class="nav-link" href="#">
-                        <i class="fas fa-calendar-alt"></i>Citas futuras
-                    </a>
-                </li>
-            </ul>
+            <div class="section">
+                <h3>General</h3>
+                <ul>
+
+                    @*Cierre se sesión*@
+                    <li>
+                        <a class="nav-link" href="javascript:document.getElementById('logoutForm').submit()">
+                            <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+                        </a>
+                    </li>
+
+                    <form id="logoutForm" action="@Url.Action("Logout", "Account")" method="post" style="display:none;">
+                        @Html.AntiForgeryToken()
+                    </form>
+
+                </ul>
+            </div>
         </div>
-
-        <hr />
-
-        <div class="section">
-            <h3>Notificaciones</h3>
-            <ul>
-                <li>
-                    <a class="nav-link" id="btnNotificaciones" href="@Url.Action("Notificaciones", "Perfil")">
-                        <i class="fas fa-bell"></i> Notificaciones
-                        <span id="contadorNotificaciones" class="badge">0</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-
-        <script>
-    var contador = "@Session["ContadorNotificaciones"]";
-    if (contador && contador !== "0") {
-        document.getElementById("contadorNotificaciones").innerText = contador;
-    }
-        </script>
-
-
-        <hr />
-
-        <div class="section">
-            <h3>General</h3>
-            <ul>
-                @*Solicitar receta*@
-                <li>
-                    <a class="nav-link" href="#">
-                        <i class="fas fa-file-medical-alt"></i> Solicitar receta
-                    </a>
-                </li>
-
-                @*Asistente en línea*@
-                <li>
-                    <a class="nav-link" href="@Url.Action("NotasPersonale", "Perfil")">
-                        <i class="fas fa-book"></i>  Notas personales
-                    </a>
-                </li>
-
-                @*Cierre se sesión*@
-                <li>
-                    <a class="nav-link" href="javascript:document.getElementById('logoutForm').submit()">
-                        <i class="fas fa-sign-out-alt"></i> Cerrar sesión
-                    </a>
-                </li>
-                <form id="logoutForm" action="@Url.Action("Logout", "Account")" method="post" style="display:none;">
-                    @Html.AntiForgeryToken()
-                </form>
-
-            </ul>
-        </div>
-    </div>
 </main>

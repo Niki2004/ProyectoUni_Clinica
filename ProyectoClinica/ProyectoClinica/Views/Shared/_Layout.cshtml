@@ -14,11 +14,14 @@
             padding: 0;
             background: #ffffff;
             color: #333;
+            overflow-x: hidden;
+            max-width: 100%;
         }
 
         nav.navbar {
             background-color: #0b7b82; /* Colo de la empresa/clinica */
             border-bottom: 2px solid #005e5e;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra leve */
         }
 
             nav.navbar .navbar-brand,
@@ -50,7 +53,6 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
-
                 <div class="ms-auto">
                     @Html.Partial("_LoginPartial")
                 </div>

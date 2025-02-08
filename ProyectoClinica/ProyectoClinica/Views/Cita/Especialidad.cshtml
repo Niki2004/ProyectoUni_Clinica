@@ -3,83 +3,276 @@
     ViewBag.Title = "Especialidad";
 }
 
-<main>
-    <div id="carouselExampleIndicators" class="carousel slide">
-        <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-        </div>
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="~/Imagenes/Informacion.jpg" class="d-block w-100 carousel-image" alt="...">
-            </div>
-            <div class="carousel-item">
-                <img src="~/Imagenes/Informacion2.jpg" class="d-block w-100 carousel-image" alt="...">
-            </div>
-            <div class="carousel-item">
-                <img src="~/Imagenes/Informacion1.jpg" class="d-block w-100 carousel-image" alt="...">
-            </div>
-            <div class="carousel-item">
-                <img src="~/Imagenes/Informacion3.jpg" class="d-block w-100 carousel-image" alt="...">
-            </div>
-            <div class="carousel-item">
-                <img src="~/Imagenes/Informacion4.jpg" class="d-block w-100 carousel-image" alt="...">
-            </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>
-
-    <!-- Información debajo del carrusel -->
-    <div class="carousel-info">
-        <h2 style="color: #0b7b82;">Agenda tu cita</h2>
-        <p>
-            Para agendar citas o recibir más información, puedes comunicarte con nosotros a los teléfonos 8840-6363 o al 8751-8374.
-            Si deseas agendar citas de una manera más rápida puedes ingresar en el apartado de citas y escoger el horario que desees.
-        </p>
-        <p>¡Estamos para atenderte!</p>
-
-    </div>
-
-    <br />
-    <!-- Información debajo del carrusel -->
-    <div class="carousel-info">
-        <h2 style="color: #0b7b82;">Redes sociales</h2>
-        <p>Si deseas saber más sobre nosostros te dejamos a tu disposición nuestras redes sociales</p>
-        <!--<div class="social-buttons">-->
-        <!-- Botón Facebook -->
-        <!--<a href="https://www.facebook.com" target="_blank" class="social-btn facebook" aria-label="Facebook">
-            F
-        </a>-->
-        <!-- Botón Instagram -->
-        <!--<a href="https://www.instagram.com" target="_blank" class="social-btn instagram" aria-label="Instagram">
-                I
-            </a>
-        </div>-->
-    </div>
-</main>
-
-<style>
-    /* Reducción del tamaño de las imágenes */
-    .carousel-image {
-        max-height: 400px; /* Ajusta la altura máxima según lo necesites */
-        object-fit: cover; /* Mantiene la relación de aspecto de la imagen */
-    }
-
-    /* Estilos para la sección de información */
-    .carousel-info {
-        margin-top: 20px;
-        text-align: center;
-    }
-
-        .carousel-info h2 {
-            color: #0b7b82;
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Centro Integral Santo Domingo</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <style>
+        :root {
+            --primary-turquoise: #008B8B;
+            --secondary-turquoise: #48D1CC;
+            --hover-turquoise: #20B2AA;
+            --background-light: #F5F5F5;
         }
-</style>
+
+        body {
+            background-color: var(--background-light);
+            font-family: Arial, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background-color: #008B8B;
+            z-index: 1001;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 189px;
+            height: 100vh;
+            background-color: white;
+            padding-top: 65px;
+            padding-left: 15px;
+            padding-right: 15px;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+            .sidebar a {
+                display: block;
+                color: #000000;
+                padding: 5px 10px;
+                text-decoration: none;
+                font-size: 18px;
+                margin-bottom: 2px;
+            }
+
+                .sidebar a:hover {
+                    background-color: #3bb4bc80;
+                    border-radius: 5px;
+                }
+
+
+        .content {
+            padding: 20px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+            .content h2 {
+                color: #0b7b82;
+                text-align: left;
+                margin-bottom: 20px;
+                padding-left: 20px;
+            }
+
+            .content p {
+                text-align: left;
+                padding-left: 20px;
+                margin-bottom: 10px;
+                line-height: 1.6;
+            }
+
+        .nav-link {
+            color: #333;
+            padding: 10px 15px;
+        }
+
+            .nav-link:hover {
+                background-color: #3bb4bc;
+                color: white;
+            }
+
+        .nav-header {
+            padding: 10px 15px;
+            color: #0b7b82;
+            font-size: 0.8em;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            padding: 20px;
+        }
+
+        .content-wrapper {
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+
+        /* Button Styles */
+        .btn {
+            padding: 15px 25px;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-transform: none;
+            margin-bottom: 15px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-turquoise);
+            border-color: var(--primary-turquoise);
+            color: white;
+        }
+
+            .btn-primary:hover {
+                background-color: var(--hover-turquoise);
+                border-color: var(--hover-turquoise);
+                transform: translateY(-2px);
+            }
+
+        .btn-info {
+            background-color: var(--secondary-turquoise);
+            border-color: var(--secondary-turquoise);
+            color: white;
+        }
+
+            .btn-info:hover {
+                background-color: var(--hover-turquoise);
+                border-color: var(--hover-turquoise);
+                transform: translateY(-2px);
+            }
+
+        .gallery-container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .gallery-item {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+            .gallery-image:hover {
+                transform: scale(1.05);
+            }
+
+        .image-caption {
+            padding: 10px;
+            text-align: center;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 sidebar">
+                <div class="sidebar">
+                    <div class="text-center p-3">
+                        <img src="~/Imagenes/Logo.png" alt="Centro Integral Santo Domingo Logo" class="img-fluid" style="max-width: 150px; height: auto;" />
+                    </div>
+
+                    <br />
+
+                    <center><div class="nav-header">Acciones</div></center>
+                    <div class="nav flex-column">
+                        <a href="@Url.Action("VistaCita", "Cita")" class="nav-link">
+                            <i class="fas fa-arrow-left"></i>  Inicio
+                        </a>
+                    </div>
+                    <hr />
+
+                    <center><div class="nav-header">Plataforma</div></center>
+                    <div class="nav flex-column">
+                        <a href="@Url.Action("Index", "Cita")" class="nav-link">
+                            <i class="fas fa-calendar-alt"></i> Cita
+                        </a>
+                    </div>
+                    <hr />
+
+                    <center><div class="nav-header">Información</div></center>
+                    <div class="nav flex-column">
+                        <a class="nav-link">
+                            <i class="fas fa-stethoscope"></i> Especialidad
+                        </a>
+                        <a href="@Url.Action("Contactanos", "Cita")" class="nav-link">
+                            <i class="fas fa-phone-alt"></i> Contáctanos
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+            <!-- Main Content -->
+            <div class="content">
+
+                <h2 class="text-center" style="color: #0b7b82;">Sobre nuestros servicios</h2>
+                <p>
+                    En el Centro Integral Santo Domingo ofrecemos una amplia gama de servicios médicos para cuidar de tu salud y bienestar.
+                    Contamos con Medicina General, Dermatología, Pediatría, Psicología, Nutrición, Radiología, Psiquiatría, Gastroenterología,
+                    Endocrinología, Psicopedagogía, Terapia de Voz y Lenguaje, Ginecología, Cirugía, Medicina Familiar y Comunitaria, Ortopedia,
+                    Otorrinolaringología, Urología, Neumología y atención especializada para el Adulto Mayor. Estamos aquí para brindarte el mejor
+                    cuidado integral en un solo lugar.
+                </p>
+
+                <h2 class="text-center" style="color: #0b7b82;">Servicios</h2>
+
+                <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
+                    <p width: 45%;">• Medicina General</p>
+                    <p width: 45%;">• Consulta Dermatología</p>
+                    <p width: 45%;">• Pediatría</p>
+                    <p width: 45%;">• Psicología</p>
+                    <p width: 45%;">• Nutrición</p>
+                    <p width: 45%;">• Radiología</p>
+                    <p width: 45%;">• Psiquiatría</p>
+                    <p width: 45%;">• Gastroenterología</p>
+                    <p width: 45%;">• Consulta en Endocrinología</p>
+                    <p width: 45%;">• Psicopedagogía</p>
+                    <p width: 45%;">• Terapia de voz y lenguaje</p>
+                    <p width: 45%;">• Ginecología</p>
+                    <p width: 45%;">• Consulta en Cirugía</p>
+                    <p width: 45%;">• Medicina Familiar y Comunitaria</p>
+                    <p width: 45%;">• Ortopedia</p>
+                    <p width: 45%;">• Otorrinolaringología</p>
+                    <p width: 45%;">• Urología</p>
+                    <p width: 45%;">• Consulta en Neumología</p>
+                    <p width: 45%;">• Consulta en Atención al Adulto Mayor</p>
+                </div>
+
+
+
+
+
+                <br />
+            </div>
+
+            <script src="~/lib/jquery/dist/jquery.min.js"></script>
+            <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

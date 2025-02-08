@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
+using System.Net;
 
 namespace ProyectoClinica.Controllers
 {
@@ -24,8 +25,15 @@ namespace ProyectoClinica.Controllers
 
         // GET: Empleados
         //[Authorize(Roles = "Administrador")]
-
         [HttpGet]
+
+        //Información de la clinica
+        //public ActionResult VistaAdmin()
+        //{
+        //    return View();
+        //}
+
+
         public ActionResult Empleados()
         {
             var empleados = BaseDatos.Empleado.ToList(); // Obtiene la lista de empleados
@@ -42,57 +50,28 @@ namespace ProyectoClinica.Controllers
 
         //-----------------------------------------------------------------controller creacion de empleados----------------------------------------------------------------------
 
+        
+        public ActionResult Create()
+        {
+            ViewBag.Id_Estado = new SelectList(BaseDatos.Estado, "Id_Estado", "Descripcion");
+            return View();
+        }
 
-        //[HttpGet]
-        //public ActionResult CrearEmpleado()
-        //{
-        //    // Preparar datos necesarios para listas desplegables si las tienes
-            
-        //    ViewBag.Estados = new SelectList(BaseDatos.Estado, "Id_Estado", "Descripcion");
-           
-
-        //    var empleado = new Empleado();
-        //    return View(empleado);
-        //}
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult CrearEmpleado(Empleado empleado)
-        //{
-           
-        //    try
-        //    {
-        //        // Agregar valores por defecto para campos requeridos
-        //        empleado.Fecha_registro = DateTime.Now;
-
-        //        empleado.Departamento = ""; // o un valor por defecto
-               
-
-        //        // Intentar guardar
-        //        BaseDatos.Empleado.Add(empleado);
-        //        BaseDatos.SaveChanges();
-
-        //        TempData["SuccessMessage"] = "El empleado se ha creado correctamente.";
-        //        return RedirectToAction("Empleados");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // Loguear el error completo
-        //        var mensajeError = ex.Message;
-        //        while (ex.InnerException != null)
-                
-        //            mensajeError += " | " + ex.Message;
-        //        }
-        //        ModelState.AddModelError("", "Error al crear el empleado: " + mensajeError);
-        //    }
-
-        //    // Recargar las listas desplegables
-            
-        //    ViewBag.Estados = new SelectList(BaseDatos.Estado, "Id_Estado", "Descripcion", empleado.Id_Estado);
-           
-        //    return View(empleado);
-        //}
-
+    
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "Id_Estado,Comentarios,Nombre,Apellido,Cedula,Correo,Jornada,Fecha_registro,Departamento")] Empleado empleado)
+        {
+            if (ModelState.IsValid)
+            {
+                BaseDatos.Empleado.Add(empleado);
+                BaseDatos.SaveChanges();
+                TempData["SuccessMessage"] = "El empleado se ha creado correctamente.";//para que muestre el comentario en el index 
+                return RedirectToAction("Empleados/Empleados");
+            }
+            ViewBag.Id_Estado = new SelectList(BaseDatos.Estado, "Id_Estado", "Descripcion", empleado.Id_Estado);
+            return View(empleado);
+        }
 
 
 
@@ -100,140 +79,64 @@ namespace ProyectoClinica.Controllers
 
         //    //-----------------------------------------------------------------Controller Asignacion de roles-------------------------------------------------------------------------------------
 
-        //[HttpGet]
-        //public ActionResult AsignacionRoles()
-        //{
-        //    // Preparar datos necesarios para listas desplegables si las tienes
-        //    ViewBag.Medicos = new SelectList(BaseDatos.Medico, "Id_Medico", "Nombre");
-        //    ViewBag.Estados = new SelectList(BaseDatos.Estado, "Id_Estado", "Descripcion");
-        //    ViewBag.Usuarios = new SelectList(BaseDatos.Users, "Id", "UserName");
+      
+        public ActionResult Rol()
+        {
+            ViewBag.Id_Empleado = new SelectList(BaseDatos.Empleado, "Id_Empleado", "Nombre");
+            return View();
+        }
 
-        //    var empleado = new Empleado();
-        //    return View(empleado);
-        //}
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Rol([Bind(Include = "Id_Empleado,Nombre")] RolAsignacion rolAsignacion)
+        {
+            if (ModelState.IsValid)
+            {
+                BaseDatos.RolAsignacion.Add(rolAsignacion);
+                BaseDatos.SaveChanges();
+                TempData["SuccessMessage"] = "Se Asigno el Rol Correctamente.";
+                return RedirectToAction("Empleados/Empleados");
+            }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult AsignacionRoles(Empleado empleado)
-        //{
-
-        //    try
-        //    {
-        //        // Agregar valores por defecto para campos requeridos
-        //        empleado.Fecha_registro = DateTime.Now;
-        //        empleado.Fecha_actualizacion = DateTime.Now;
-        //        empleado.Fecha_proxima_evaluacion = DateTime.Now.AddMonths(6); // ejemplo
-        //        empleado.Administrador_modificacion = "Sistema"; // o el usuario actual
-        //        empleado.documentos = ""; // o un valor por defecto
-        //        empleado.Departamento = ""; // o un valor por defecto
-        //        empleado.Historial_capacitaciones = ""; // o un valor por defecto
-
-        //        // Intentar guardar
-        //        BaseDatos.Empleado.Add(empleado);
-        //        BaseDatos.SaveChanges();
-
-        //        TempData["SuccessMessage"] = "El empleado se ha creado correctamente.";
-        //        return RedirectToAction("Empleados");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // Loguear el error completo
-        //        var mensajeError = ex.Message;
-        //        while (ex.InnerException != null)
-        //        {
-        //            ex = ex.InnerException;
-        //            mensajeError += " | " + ex.Message;
-        //        }
-        //        ModelState.AddModelError("", "Error al crear el empleado: " + mensajeError);
-        //    }
-
-        //    // Recargar las listas desplegables
-        //    ViewBag.Medicos = new SelectList(BaseDatos.Medico, "Id_Medico", "Nombre", empleado.Id_Medico);
-        //    ViewBag.Estados = new SelectList(BaseDatos.Estado, "Id_Estado", "Descripcion", empleado.Id_Estado);
-        //    ViewBag.Usuarios = new SelectList(BaseDatos.Users, "Id", "UserName", empleado.Id_Usuario);
-        //    return View(empleado);
-        //}
-
+            ViewBag.Id_Empleado = new SelectList(BaseDatos.Empleado, "Id_Empleado", "Nombre", rolAsignacion.Id_Empleado);
+            return View(rolAsignacion);
+        }
 
 
 
         //-----------------------------------------------------------------Controller Editar -------------------------------------------------------------------------------------
 
-        ////controller Editar
-        //[HttpGet]
-        //public ActionResult EditarEmpleado(int? id)
-        //{
-        //    if (id == null) return RedirectToAction("Empleados");
 
-        //    var empleado = BaseDatos.Empleado.Find(id);
-        //    if (empleado == null) return RedirectToAction("Empleados");
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Empleado empleado = BaseDatos.Empleado.Find(id);
+            if (empleado == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.Id_Estado = new SelectList(BaseDatos.Estado, "Id_Estado", "Descripcion", empleado.Id_Estado);
+            return View(empleado);
+        }
 
-        //    ViewBag.Medicos = new SelectList(BaseDatos.Medico, "Id_Medico", "Nombre", empleado.Id_Medico);
-        //    ViewBag.Estados = new SelectList(BaseDatos.Estado, "Id_Estado", "Descripcion", empleado.Id_Estado);
-        //    ViewBag.Usuarios = new SelectList(BaseDatos.Users, "Id", "UserName", empleado.Id_Usuario);
-
-        //    return View(empleado);
-        //}
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult EditarEmpleado(Empleado empleado)
-        //{
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        BaseDatos.Entry(empleado).State = EntityState.Modified;
-        //        BaseDatos.SaveChanges();
-        //        return RedirectToAction("VistaEmpleados");
-        //    }
-
-        //    ViewBag.Medicos = new SelectList(BaseDatos.Medico, "Id_Medico", "Nombre", empleado.Id_Medico);
-        //    ViewBag.Estados = new SelectList(BaseDatos.Estado, "Id_Estado", "Descripcion", empleado.Id_Estado);
-        //    ViewBag.Usuarios = new SelectList(BaseDatos.Users, "Id", "UserName", empleado.Id_Usuario);
-
-        //    return View(empleado);
-
-        //}
-
-        //private void ActualizarEmpleado(Empleado empleadoDb, Empleado empleado)
-        //{
-        //    empleadoDb.Id_Medico = empleado.Id_Medico;
-        //    empleadoDb.Id_Estado = empleado.Id_Estado;
-        //    empleadoDb.Id_Usuario = empleado.Id_Usuario;
-        //    empleadoDb.Comentarios = empleado.Comentarios;
-        //    empleadoDb.Nombre = empleado.Nombre;
-        //    empleadoDb.Apellido = empleado.Apellido;
-        //    empleadoDb.Cedula = empleado.Cedula;
-        //    empleadoDb.Correo = empleado.Correo;
-        //    empleadoDb.Jornada = empleado.Jornada;
-        //    empleadoDb.Fecha_vencimiento_contrato = empleado.Fecha_vencimiento_contrato;
-        //    empleadoDb.FechaInicio = empleado.FechaInicio;
-        //    empleadoDb.FechaFin = empleado.FechaFin;
-        //    empleadoDb.Fecha_actualizacion = DateTime.Now;
-        //    empleadoDb.Administrador_modificacion = "Sistema";
-        //}
-
-        //private void PrepararViewBags(Empleado empleado)
-        //{
-        //    ViewBag.Medicos = new SelectList(BaseDatos.Medico, "Id_Medico", "Nombre", empleado.Id_Medico);
-        //    ViewBag.Estados = new SelectList(BaseDatos.Estado, "Id_Estado", "Descripcion", empleado.Id_Estado);
-        //    ViewBag.Usuarios = new SelectList(BaseDatos.Users, "Id", "UserName", empleado.Id_Usuario);
-        //}
-
-        //private string ObtenerMensajeError(Exception ex)
-        //{
-        //    var mensajeError = ex.Message;
-        //    while (ex.InnerException != null)
-        //    {
-        //        ex = ex.InnerException;
-        //        mensajeError += " | " + ex.Message;
-        //    }
-        //    return mensajeError;
-        //}
-
-
-
-
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "Id_Empleado,Id_Estado,Comentarios,Nombre,Apellido,Cedula,Correo,Jornada,Fecha_registro,Departamento")] Empleado empleado)
+        {
+            if (ModelState.IsValid)
+            {
+                BaseDatos.Entry(empleado).State = EntityState.Modified;
+                BaseDatos.SaveChanges();
+                return RedirectToAction("VistaEmpleados");
+            }
+            ViewBag.Id_Estado = new SelectList(BaseDatos.Estado, "Id_Estado", "Descripcion", empleado.Id_Estado);
+            return View(empleado);
+        }
 
 
 

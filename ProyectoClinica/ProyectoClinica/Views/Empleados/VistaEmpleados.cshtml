@@ -1,4 +1,4 @@
-﻿@*@model IEnumerable<ProyectoClinica.Models.Empleado>
+﻿@model IEnumerable<ProyectoClinica.Models.Empleado>
 
 @{
     ViewBag.Title = "VistaEmpleados";
@@ -92,7 +92,9 @@
         }
 </style>
 <h2 class="text-center">Vista Empleados</h2>
-
+<div>
+    @Html.ActionLink("Regresar", "Empleados/Empleados")
+</div>
 <table class="table">
 
     <tr>
@@ -115,6 +117,7 @@
         <th>
             @Html.DisplayNameFor(model => model.Jornada)
         </th>
+
        
         <th>Accion</th>
     </tr>
@@ -145,12 +148,16 @@
 
 
         <td>
-            @Html.ActionLink("Editar", "EditarEmpleado", "Empleados",
-     new { id = item.Id_Empleado }, 
-     new {  @class = "btn btn-info w-100" })
+
+    
+            @Html.ActionLink("Editar", "Edit", "Empleados",
+     new { id = item.Id_Empleado },
+     new { @class = "btn btn-info w-100" })
 
         </td>
+        
+
     </tr>
 }
 
-</table>*@
+</table>
