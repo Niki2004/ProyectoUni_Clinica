@@ -252,6 +252,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PagosController.cs" />
     <Compile Include="Controllers\PerfilController.cs" />
+    <Compile Include="Controllers\RedirectController.cs" />
     <Compile Include="Controllers\ServiciosBrindadosController.cs" />
     <Compile Include="Controllers\ServiciosController.cs" />
     <Compile Include="Global.asax.cs">
@@ -446,6 +447,7 @@
     <Content Include="Views\Empleados\Create.cshtml" />
     <Content Include="Views\Empleados\Edit.cshtml" />
     <Content Include="Views\Empleados\Rol.cshtml" />
+    <Content Include="Views\Redirect\Redirect.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -479,13 +481,13 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.3.3.4\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
-    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.3.3.4\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Migrations\202502070059061_ModuloContabilidad.resx">
       <DependentUpon>202502070059061_ModuloContabilidad.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.3.11.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
+    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.3.11.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
