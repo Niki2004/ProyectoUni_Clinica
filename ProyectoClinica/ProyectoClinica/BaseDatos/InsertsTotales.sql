@@ -369,3 +369,123 @@ SELECT u.Id, r.Id
 FROM AspNetUsers u, AspNetRoles r
 WHERE u.Email = 'AUlate01CentrointegralSD@gmail.com' 
 AND r.Name = 'Administrador'
+
+
+--Diarios_Contables--
+
+INSERT INTO [dbo].[Diarios_Contables]
+([Id_Tipo_Registro], [Codigo_Diario], [Descripcion], [Activo], [Fecha_Creacion])
+VALUES
+(1, 'DVEN', 'Diario de Ventas', 1, GETDATE()),
+(2, 'DCOM', 'Diario de Compras', 1, GETDATE()),
+(3, 'DBAN', 'Diario de Bancos', 1, GETDATE()),
+(4, 'DCAJ', 'Diario de Caja', 1, GETDATE()),
+(5, 'DPRO', 'Diario de Provisiones', 1, GETDATE());
+
+
+--Bancos--
+
+INSERT INTO [dbo].[Bancos]
+([Id_Diario], [Nombre_Banco], [Codigo_Banco])
+VALUES
+(1, 'Banco Nacional', 'BN001'),
+(2, 'Banco de Costa Rica', 'BCR001'),
+(3, 'BAC San José', 'BAC001'),
+(4, 'Scotiabank', 'SCT001'),
+(5, 'Banco Popular', 'BP001');
+
+
+--Pagos--
+
+INSERT INTO [dbo].[Pagos]
+([Id_Banco], [Numero_Referencia], [Fecha_Pago], [Tipo_Pago], [Monto], 
+[Beneficiario], [Cuenta_Beneficiario], [Estado_Pago], [Descripcion], 
+[Observaciones], [Usuario_Registro], [Fecha_Registro], 
+[Usuario_Modificacion], [Fecha_Modificacion])
+VALUES
+(1, 'REF001-2025', '2025-02-08 09:00:00', 'TRANSFERENCIA', 1500.00,
+'Juan Pérez', '123456789', 'COMPLETADO', 'Pago de servicios profesionales',
+'Factura #A001', 'ADMIN', GETDATE(), 'ADMIN', GETDATE()),
+
+(2, 'REF002-2025', '2025-02-08 10:15:00', 'CHEQUE', 2750.50,
+'María Rodríguez', '987654321', 'PENDIENTE', 'Pago de materiales de oficina',
+'Cheque #5001', 'ADMIN', GETDATE(), 'ADMIN', GETDATE()),
+
+(3, 'REF003-2025', '2025-02-08 11:30:00', 'TRANSFERENCIA', 3200.75,
+'Carlos González', '456789123', 'COMPLETADO', 'Pago de mantenimiento',
+'Servicio mensual', 'ADMIN', GETDATE(), 'ADMIN', GETDATE()),
+
+(4, 'CAJA001-2025', '2025-02-08 12:45:00', 'EFECTIVO', 500.00,
+'Ana Martínez', 'N/A', 'COMPLETADO', 'Pago de viáticos',
+'Viaje a sucursal', 'ADMIN', GETDATE(), 'ADMIN', GETDATE()),
+
+(5, 'CAJA002-2025', '2025-02-08 13:15:00', 'EFECTIVO', 750.25,
+'Pedro Sánchez', 'N/A', 'COMPLETADO', 'Reembolso de gastos',
+'Facturas adjuntas', 'ADMIN', GETDATE(), 'ADMIN', GETDATE());
+
+--Conciliaciones_Bancarias--
+
+INSERT INTO [dbo].[Conciliaciones_Bancarias]
+([Id_Banco], [Id_Diario], [Id_Tipo_Registro], [Fecha_Conciliacion], 
+[Saldo_Contable], [Saldo_Banco])
+VALUES
+
+(1, 1, 1, '2025-01-31 23:59:59', 25000.00, 25150.75),
+(2, 2, 2, '2025-01-31 23:59:59', 35000.00, 34850.25),
+(3, 3, 3, '2025-01-31 23:59:59', 42000.00, 42150.50),
+(4, 4, 4, '2025-01-31 23:59:59', 31000.00, 30925.75),
+(5, 5, 5, '2025-01-31 23:59:59', 28000.00, 28175.25);
+
+
+--Empleado--
+
+INSERT INTO [dbo].[Empleado]
+([Id_Estado], [Comentarios], [Nombre], [Apellido], [Cedula], 
+[Correo], [Jornada], [Fecha_registro], [Departamento])
+VALUES
+(1, 'Empleado del área de desarrollo', 'Carlos', 'Rodríguez', '1-1234-5678',
+'carlos.rodriguez@empresa.com', 'Tiempo Completo', GETDATE(), 'Tecnología'),
+
+(2, 'Empleado del área contable', 'María', 'González', '2-3456-7890',
+'maria.gonzalez@empresa.com', 'Medio Tiempo', GETDATE(), 'Contabilidad');
+
+
+--Pagos_Diarios--
+
+INSERT INTO [dbo].[Pagos_Diarios]
+([Id_Contabilidad], [Id_Empleado], [Fecha_Pago], [Monto], 
+[Metodo_Pago], [Estado_Pago], [Observaciones], [Fecha_Registro])
+VALUES
+(1, 1, '2025-02-08 14:30:00', 45000.00,
+'Transferencia', 'Completado', 'Pago diario por servicios prestados', GETDATE()),
+
+(2, 2, '2025-02-08 14:45:00', 25000.00,
+'Transferencia', 'Completado', 'Pago diario medio tiempo', GETDATE());
+
+
+--Movimientos_Bancarios--
+
+INSERT INTO [dbo].[Movimientos_Bancarios]
+([Id_Diario], [Id_Conciliacion], [Id_Pagos_Diarios], [Ingresos], [Egresos], 
+[Saldo], [Fecha_Movimiento], [Descripcion])
+VALUES
+(1, 1, 3, 10000, 45000, 155000.00, '2025-02-08 14:30:00',
+'Pago diario a empleado Carlos Rodríguez - Tiempo Completo'),
+
+(2, 2, 4, 8000, 25000, 130000.00, '2025-02-08 14:45:00',
+'Pago diario a empleado María González - Medio Tiempo');
+
+
+--PagosXNomina--
+
+INSERT INTO [dbo].[PagosXNomina]
+([Id_Contabilidad], [Id_Pago], [Id_Empleado], [Fecha_Pago], 
+[Monto_Pago], [Metodo_Pago], [Estado_Pago], [Observaciones], [Fecha_Registro])
+VALUES
+(1, 1, 1, '2025-02-15 00:00:00', 
+950000.00, 'Transferencia Bancaria', 'Programado', 
+'Pago de nómina primera quincena febrero 2025 - Tiempo Completo', GETDATE()),
+
+(2, 2, 2, '2025-02-15 00:00:00', 
+475000.00, 'Transferencia Bancaria', 'Programado', 
+'Pago de nómina primera quincena febrero 2025 - Medio Tiempo', GETDATE());
