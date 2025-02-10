@@ -154,11 +154,11 @@
                 </td>
 
                 <td>
-                    @if (item.Estatus_pago == "Pendiente")
+                    @if (item.Tipo_Registro.Nombre == "Pago de Nómina")
                     {
                         <br />
-                        <a href="@Url.Action("Pagos", "Pagos", new { id = item.Id_Contabilidad })" class="btn-pago">
-                            Realizar Pago
+                        <a href="@Url.Action("Index", "PagosXNomina", new { id = item.Id_Contabilidad })" class="btn-pago">
+                            Actualizar información salarial
                         </a>
                     }
                 </td>

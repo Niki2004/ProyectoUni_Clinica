@@ -33,20 +33,14 @@ namespace ProyectoClinica.Controllers
 
         public ActionResult Pagos(int id)
         {
-            var pago = _context.Pagos.Find(id); // Buscar el pago en la tabla de Pagos
+            var pago = _context.PagosXNomina.Find(id); // Buscar el pago en la tabla de Pagos
 
             if (pago == null)
             {
                 return HttpNotFound();
             }
 
-            if (pago.Estado_Pago != "Pendiente")
-            {
-                TempData["Error"] = "Este pago ya ha sido procesado.";
-                return RedirectToAction("Index");
-            }
-
-            return View("Pagos", pago); // Redirige a la vista "Pagos.cshtml" con el modelo
+            return View("Index", pago); // Redirige a la vista "Pagos.cshtml" con el modelo
         }
 
         #region Detalles de contabilidad
