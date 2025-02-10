@@ -27,8 +27,21 @@ namespace ProyectoClinica.Controllers
         {
             var listaRegistros = _context.Contabilidad.ToList();
             return View(listaRegistros);
+
         }
         #endregion
+
+        public ActionResult Pagos(int id)
+        {
+            var pago = _context.PagosXNomina.Find(id); // Buscar el pago en la tabla de Pagos
+
+            if (pago == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View("Index", pago); // Redirige a la vista "Pagos.cshtml" con el modelo
+        }
 
         #region Detalles de contabilidad
         // GET: Contabilidad/Details/5
