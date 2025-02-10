@@ -16,12 +16,22 @@ namespace ProyectoClinica.Controllers
             _context = new ApplicationDbContext();
         }
         // GET: Descuento
-        
+
+        [HttpGet]
+        public ActionResult VistaSEC()
+        {
+
+            return View();
+        }
+
+
         public ActionResult Index()
         {
             
             return View();
         }
+
+       
 
         // GET: Cargar servicios y métodos de pago
         [HttpGet]
