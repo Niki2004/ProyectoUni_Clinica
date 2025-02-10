@@ -49,7 +49,7 @@
             </th>
 
             <th>
-                <label>Conta Pago</label>
+                <label>Proceso de Nómina</label>
             </th>
             <th>
                 <label>Fecha de Registro</label>
@@ -161,7 +161,24 @@
                             Actualizar información salarial
                         </a>
                     }
+                    else if ((item.Tipo_Registro.Nombre == "Ingreso" || item.Tipo_Registro.Nombre == "Egreso") && item.Conta_pago == "En Proceso")
+                    {
+                        <a href="@Url.Action("IndexProveedor", "PagosXNomina", new { id = item.Id_Contabilidad })" class="btn-pago">
+                        Analisis de Nómina
+                         </a>
+                    }
+
+
                 </td>
+                @*<td>
+                    @if (item.Tipo_Registro.Nombre == "Ingreso" || item.Tipo_Registro.Nombre == "Egreso")
+                    {
+                        <br />
+                        <a href="@Url.Action("Index", "PagosXNomina", new { id = item.Conta_pago })" class="btn-pago">
+                            Análisis de nómina
+                        </a>
+                    }
+                </td>*@
             </tr>
         }
 

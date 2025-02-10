@@ -21,7 +21,20 @@ namespace ProyectoClinica.Controllers
         // GET: PagosXNomina
         public ActionResult Index()
         {
+
             var listaRegistros = _context.PagosXNomina.ToList();
+            return View(listaRegistros);
+        }
+
+        public ActionResult IndexProveedor(int id)
+        {
+            if (id == null)
+                return View();
+            
+            var listaRegistros = _context.PagosXNomina
+                                         .Where(p => p.Id_Contabilidad == id)
+                                         .ToList();
+
             return View(listaRegistros);
         }
 

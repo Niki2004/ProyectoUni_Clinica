@@ -469,6 +469,7 @@
     <Content Include="Views\PagosXNomina\Create.cshtml" />
     <Content Include="Views\PagosXNomina\Details.cshtml" />
     <Content Include="Views\PagosXNomina\Edit.cshtml" />
+    <Content Include="Views\PagosXNomina\IndexProveedor.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>
