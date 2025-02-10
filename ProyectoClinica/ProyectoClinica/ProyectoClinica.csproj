@@ -470,6 +470,8 @@
     <Content Include="Views\PagosXNomina\Details.cshtml" />
     <Content Include="Views\PagosXNomina\Edit.cshtml" />
     <Content Include="Views\PagosXNomina\IndexProveedor.cshtml" />
+    <Content Include="Views\Empleados\VistaAdmin.cshtml" />
+    <Content Include="Views\Factura\VistaSEC.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>

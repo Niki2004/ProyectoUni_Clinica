@@ -135,35 +135,36 @@
 
     <div class="profile-sections">
         <div class="section">
-        <div class="section">
-            <h3>Notificaciones</h3>
-            <ul>
-                <li>
-                    <a class="nav-link" id="btnNotificaciones" href="@Url.Action("Notificaciones", "Perfil")">
-                        <i class="fas fa-bell"></i> Notificaciones
-                        <span id="contadorNotificaciones" class="badge">0</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-        <hr />
+            <div class="section">
+                <h3>Notificaciones</h3>
+                <ul>
+                    <li>
+                        <a class="nav-link" id="btnNotificaciones" @*href="#"*@>
+                            <i class="fas fa-bell"></i> Notificaciones
+                            <span id="contadorNotificaciones" class="badge">0</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <hr />
 
-        <div class="section">
-            <h3>General</h3>
-            <ul>
- 
-                @*Cierre se sesión*@
-                <li>
-                    <a class="nav-link" href="javascript:document.getElementById('logoutForm').submit()">
-                        <i class="fas fa-sign-out-alt"></i> Cerrar sesión
-                    </a>
-                </li>
+            <div class="section">
+                <h3>General</h3>
+                <ul>
 
-                <form id="logoutForm" action="@Url.Action("Logout", "Account")" method="post" style="display:none;">
-                    @Html.AntiForgeryToken()
-                </form>
+                    @*Cierre se sesión*@
+                    <li>
+                        <a class="nav-link" href="javascript:document.getElementById('logoutForm').submit()">
+                            <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+                        </a>
+                    </li>
 
-            </ul>
+                    <form id="logoutForm" action="@Url.Action("Logout", "Account")" method="post" style="display:none;">
+                        @Html.AntiForgeryToken()
+                    </form>
+
+                </ul>
+            </div>
         </div>
     </div>
 </main>
