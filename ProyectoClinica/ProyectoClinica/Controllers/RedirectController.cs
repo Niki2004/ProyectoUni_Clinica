@@ -22,9 +22,8 @@ namespace ProyectoClinica.Controllers
         public ActionResult Redirect()
         {
 
-
             if(User.IsInRole("Administrador"))
-                return RedirectToAction("Empleados", "Empleados");
+                return RedirectToAction("VistaAdmin", "Empleados");
 
             if (User.IsInRole("Usuario"))
                 return RedirectToAction("VistaCita", "Cita");
@@ -39,7 +38,7 @@ namespace ProyectoClinica.Controllers
                 return RedirectToAction("Index", "Contador");
 
             if (User.IsInRole("Secretaria"))
-                return RedirectToAction("Index", "Secretaria");
+                return RedirectToAction("VistaSEC", "Factura");
 
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             ModelState.AddModelError("", "El usuario no tiene ningun Rol");

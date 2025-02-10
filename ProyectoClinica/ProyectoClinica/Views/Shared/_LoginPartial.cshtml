@@ -7,14 +7,34 @@
     {
         @Html.AntiForgeryToken()
 
-<ul class="navbar-nav navbar-right">
-    
-    <li>
-        @Html.ActionLink("Bienvenido " + User.Identity.GetUserName() + "!", "Index", "Perfil", routeValues: null, htmlAttributes: new { title = "Manage", @class = "nav-link" })
-    </li>
-
-</ul>
-
+        <ul class="navbar-nav navbar-right">
+            <li>
+                @if (User.IsInRole("Administrador"))
+                {
+                    @Html.ActionLink("Bienvenido " + User.Identity.GetUserName() + "!", "PerfilADM", "Perfil", null, new { title = "Manage", @class = "nav-link" })
+                }
+                else if (User.IsInRole("Medico"))
+                {
+                    @Html.ActionLink("Bienvenido " + User.Identity.GetUserName() + "!", "PerfilMED", "Perfil", null, new { title = "Manage", @class = "nav-link" })
+                }
+                else if (User.IsInRole("Auditor"))
+                {
+                    @Html.ActionLink("Bienvenido " + User.Identity.GetUserName() + "!", "PerfilAUD", "Perfil", null, new { title = "Manage", @class = "nav-link" })
+                }
+                else if (User.IsInRole("Contador"))
+                {
+                    @Html.ActionLink("Bienvenido " + User.Identity.GetUserName() + "!", "PerfilCON", "Perfil", null, new { title = "Manage", @class = "nav-link" })
+                }
+                else if (User.IsInRole("Secretaria"))
+                {
+                    @Html.ActionLink("Bienvenido " + User.Identity.GetUserName() + "!", "PerfilSEC", "Perfil", null, new { title = "Manage", @class = "nav-link" })
+                }
+                else
+                {
+                    @Html.ActionLink("Bienvenido " + User.Identity.GetUserName() + "!", "Index", "Perfil", null, new { title = "Manage", @class = "nav-link" })
+                }
+            </li>
+        </ul>
     }
 }
 
