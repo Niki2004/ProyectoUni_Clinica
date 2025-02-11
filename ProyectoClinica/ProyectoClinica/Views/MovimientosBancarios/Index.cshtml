@@ -2,6 +2,8 @@
 
 @{
     ViewBag.Title = "Index";
+    var totalIngresos = Model.Sum(m => (int?)m.Ingresos) ?? 0;
+    var totalEgresos = Model.Sum(m => (int?)m.Egresos) ?? 0;
 }
 
 <h2>Index</h2>
@@ -41,41 +43,47 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Id_Diario)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Id_Conciliacion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Id_Pago)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Id_Banco)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Ingresos)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Egresos)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Saldo)
-        </td>
-        <td>
-            <label>@String.Format("{0:dd/MM/yyyy}", item.Fecha_Movimiento)</label>
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Descripcion)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.Id_Movimiento }) |
-            @Html.ActionLink("Details", "Details", new { id = item.Id_Movimiento }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.Id_Movimiento })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id_Diario)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id_Conciliacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id_Pago)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id_Banco)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ingresos)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Egresos)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Saldo)
+            </td>
+            <td>
+                <label>@String.Format("{0:dd/MM/yyyy}", item.Fecha_Movimiento)</label>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descripcion)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id_Movimiento }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id_Movimiento }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id_Movimiento })
+            </td>
+        </tr>
+    }
 
 </table>
+
+<div class="alert alert-info">
+    <strong>Total Ingresos:</strong> @totalIngresos.ToString("C") |
+    <strong>Total Egresos:</strong> @totalEgresos.ToString("C")
+</div>

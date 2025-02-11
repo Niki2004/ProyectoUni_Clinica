@@ -93,6 +93,11 @@ namespace ProyectoClinica.Controllers
             ViewBag.Pagos = new SelectList(_context.Pagos, "Id_Pago", "Tipo_Pago");
             ViewBag.Bancos = new SelectList(_context.Bancos, "Id_Banco", "Nombre_Banco");
 
+            
+            var totalIngresos = _context.Movimientos_Bancarios.Sum(m => (decimal?)m.Ingresos) ?? 0;
+            var totalEgresos = _context.Movimientos_Bancarios.Sum(m => (decimal?)m.Egresos) ?? 0;
+
+
             return View();
         }
 
@@ -102,12 +107,11 @@ namespace ProyectoClinica.Controllers
         {
             try
             {
-
                 if (ModelState.IsValid)
                 {
                     try
                     {
-                        //Guardar en la base de datos
+                        // Guardar en la base de datos
                         _context.Movimientos_Bancarios.Add(model);
                         _context.SaveChanges();
 
@@ -115,20 +119,14 @@ namespace ProyectoClinica.Controllers
                     }
                     catch (Exception ex)
                     {
-                        // Si hay un error, muestra el mensaje en el log o en el modelo para que el usuario lo vea
+                        // Capturar el error y mostrarlo al usuario
                         ModelState.AddModelError("", "Ocurrió un error al guardar los datos: " + ex.Message);
                     }
-
-
-
                 }
 
-                // Si el modelo no es válido o hubo un error, repite el proceso y pasa la vista con el modelo
-                // Esto permitirá que los datos enviados por el usuario se mantengan en el formulario
+                // Si el modelo no es válido o hubo un error, repetir el proceso y pasar la vista con el modelo
                 ViewBag.Movimientos_Bancarios = new SelectList(_context.Movimientos_Bancarios, "Id_Movimiento");
                 return View(model);
-
-
             }
             catch
             {
