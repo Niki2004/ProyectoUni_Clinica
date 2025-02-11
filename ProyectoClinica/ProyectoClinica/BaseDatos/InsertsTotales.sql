@@ -489,3 +489,30 @@ VALUES
 (2, 2, 2, '2025-02-15 00:00:00', 
 475000.00, 'Transferencia Bancaria', 'Programado', 
 'Pago de nómina primera quincena febrero 2025 - Medio Tiempo', GETDATE());
+
+--Empleado--
+
+INSERT INTO [CentroIntegralSD].[dbo].[Empleado] 
+    ([Id_Estado], [Comentarios], [Nombre], [Apellido], [Cedula], [Correo], [Jornada], [Fecha_registro], [Departamento])
+VALUES
+    ( 1, 'Empresa', 'Juan', 'Pérez', '001-1234567-0', 'juan.perez@email.com', 'Completa', GETDATE(), 'Proveedor'),
+    ( 1, 'Empresa', 'María', 'Gómez', '002-7654321-0', 'maria.gomez@email.com', 'Medio Tiempo', GETDATE(), 'Proveedor'),
+    ( 1, 'Empresa', 'Carlos', 'Rodríguez', '003-1122334-0', 'carlos.rodriguez@email.com', 'Completa', GETDATE(), 'Proveedor');
+
+
+--[Movimientos_Bancarios]--
+
+INSERT INTO [dbo].[Movimientos_Bancarios]
+([Id_Diario], [Id_Conciliacion], [Id_Pago], [Id_Banco], [Ingresos], [Egresos], [Saldo], [Fecha_Movimiento], [Descripcion])
+VALUES
+(1, 1, 1, 1, 5000, 0, 5000.00, '2025-02-10 09:00:00', 'Depósito inicial cuenta corriente');
+
+INSERT INTO [dbo].[Movimientos_Bancarios]
+([Id_Diario], [Id_Conciliacion], [Id_Pago], [Id_Banco], [Ingresos], [Egresos], [Saldo], [Fecha_Movimiento], [Descripcion])
+VALUES
+(2, 2, 2, 2, 0, 1500, 3500.00, '2025-02-10 10:30:00', 'Pago servicios básicos');
+
+INSERT INTO [dbo].[Movimientos_Bancarios]
+([Id_Diario], [Id_Conciliacion], [Id_Pago], [Id_Banco], [Ingresos], [Egresos], [Saldo], [Fecha_Movimiento], [Descripcion])
+VALUES
+(3, 3, 3, 3, 2000, 0, 5500.00, '2025-02-10 14:15:00', 'Cobro factura #A-123');

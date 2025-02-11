@@ -26,7 +26,6 @@ namespace ProyectoClinica.Models
         public DbSet<Atencion_Cliente> Atencion_Cliente { get; set; }
         public DbSet<Auditoria_Alerta> Auditoria_Alerta { get; set; }
         public DbSet<Avisos> Avisos { get; set; }
-        public DbSet<Bancos> Bancos { get; set; }
         public DbSet<Busquedas_exportaciones> Busquedas_exportaciones { get; set; }
         public DbSet<Caja_Chica> Caja_Chica { get; set; }
         public DbSet<Cita> Cita { get; set; }
@@ -46,7 +45,6 @@ namespace ProyectoClinica.Models
         public DbSet<Metodo_Pago> Metodo_Pago { get; set; }
         public DbSet<Metodo_Pago_Utilizado> Metodo_Pago_Utilizado { get; set; }
         public DbSet<Nota_Paciente> Nota_Paciente { get; set; }
-        public DbSet<Pagos> Pagos { get; set; }
         public DbSet<Receta> Receta { get; set; }
         public DbSet<Reporte> Reporte { get; set; }
         public DbSet<Respaldo> Respaldo { get; set; }
@@ -62,8 +60,10 @@ namespace ProyectoClinica.Models
         public DbSet<NotificacionEmpleado> NotificacionEmpleado { get; set; }
         public DbSet<Evaluacion> Evaluacion { get; set; }
         public DbSet<PagosXNomina> PagosXNomina { get; set; }
-        public DbSet<Movimientos_Bancarios> Movimientos_Bancarios { get; set; }
         public DbSet<Pagos_Diarios> Pagos_Diarios { get; set; }
+        public DbSet<Movimientos_Bancarios> Movimientos_Bancarios { get; set; }
+        public DbSet<Pagos> Pagos { get; set; }
+        public DbSet<Bancos> Bancos { get; set; }
 
 
 
@@ -76,7 +76,6 @@ namespace ProyectoClinica.Models
             modelBuilder.Entity<Atencion_Cliente>().ToTable("Atencion_Cliente");
             modelBuilder.Entity<Auditoria_Alerta>().ToTable("Auditoria_Alerta");
             modelBuilder.Entity<Avisos>().ToTable("Avisos");
-            modelBuilder.Entity<Bancos>().ToTable("Bancos");
             modelBuilder.Entity<Busquedas_exportaciones>().ToTable("Busquedas_exportaciones");
             modelBuilder.Entity<Caja_Chica>().ToTable("Caja_Chica");
             modelBuilder.Entity<Cita>().ToTable("Cita");
@@ -94,7 +93,6 @@ namespace ProyectoClinica.Models
             modelBuilder.Entity<Medico>().ToTable("Medico");
             modelBuilder.Entity<Modificacion_Receta>().ToTable("Modificacion_Receta");
             modelBuilder.Entity<Nota_Paciente>().ToTable("Nota_Paciente");
-            modelBuilder.Entity<Pagos>().ToTable("Pagos");
             modelBuilder.Entity<Receta>().ToTable("Receta");
             modelBuilder.Entity<Respaldo>().ToTable("Respaldo");
             modelBuilder.Entity<Rol_Permiso>().ToTable("Rol_Permiso");
@@ -109,8 +107,10 @@ namespace ProyectoClinica.Models
             modelBuilder.Entity<NotificacionEmpleado>().ToTable("NotificacionEmpleado");
             modelBuilder.Entity<Evaluacion>().ToTable("Evaluacion");
             modelBuilder.Entity<PagosXNomina>().ToTable("PagosXNomina");
-            modelBuilder.Entity<Movimientos_Bancarios>().ToTable("Movimientos_Bancarios");
             modelBuilder.Entity<Pagos_Diarios>().ToTable("Pagos_Diarios");
+            modelBuilder.Entity<Movimientos_Bancarios>().ToTable("Movimientos_Bancarios");
+            modelBuilder.Entity<Pagos>().ToTable("Pagos");
+            modelBuilder.Entity<Bancos>().ToTable("Bancos");
 
 
 
@@ -196,16 +196,23 @@ namespace ProyectoClinica.Models
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Movimientos_Bancarios>()
-                .HasRequired(m => m.Conciliaciones_Bancarias) // Relación con Conciliaciones_Bancarias
+                .HasRequired(m => m.Conciliaciones_Bancarias) // Relación con Diarios_Contables
                 .WithMany()
                 .HasForeignKey(m => m.Id_Conciliacion)
-                .WillCascadeOnDelete(true);
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Movimientos_Bancarios>()
-                .HasRequired(m => m.Pagos_Diarios) // Relación con Pagos_Diarios
+                 .HasRequired(m => m.Pagos) // Relación con Diarios_Contables
+                 .WithMany()
+                 .HasForeignKey(m => m.Id_Pago)
+                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Movimientos_Bancarios>()
+                .HasRequired(m => m.Bancos) // Relación con Diarios_Contables
                 .WithMany()
-                .HasForeignKey(m => m.Id_Pagos_Diarios)
-                .WillCascadeOnDelete(true);
+                .HasForeignKey(m => m.Id_Banco)
+                .WillCascadeOnDelete(false);
+
 
 
 

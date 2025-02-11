@@ -7,13 +7,13 @@ namespace ProyectoClinica.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class ModuloContabilidad : IMigrationMetadata
+    public sealed partial class CambiosDeContabilidadMovimientos : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(ModuloContabilidad));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(CambiosDeContabilidadMovimientos));
         
         string IMigrationMetadata.Id
         {
-            get { return "202502070059061_ModuloContabilidad"; }
+            get { return "202502110027063_CambiosDeContabilidadMovimientos"; }
         }
         
         string IMigrationMetadata.Source

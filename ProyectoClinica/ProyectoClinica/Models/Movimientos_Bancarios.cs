@@ -20,7 +20,10 @@ namespace ProyectoClinica.Models
         public int Id_Conciliacion { get; set; }
 
         [Required]
-        public int Id_Pagos_Diarios { get; set; }
+        public int Id_Pago { get; set; }
+
+        [Required]
+        public int? Id_Banco { get; set; }
 
         [Required]
         public int Ingresos { get; set; }
@@ -45,7 +48,10 @@ namespace ProyectoClinica.Models
         [ForeignKey("Id_Conciliacion")]
         public virtual Conciliaciones_Bancarias Conciliaciones_Bancarias { get; set; }
 
-        [ForeignKey("Id_Pagos_Diarios")]
-        public virtual Pagos_Diarios Pagos_Diarios { get; set; }
+        [ForeignKey("Id_Pago")]
+        public virtual Pagos Pagos { get; set; }
+
+        [ForeignKey("Id_Banco")]
+        public virtual Bancos Bancos { get; set; }
     }
 }
