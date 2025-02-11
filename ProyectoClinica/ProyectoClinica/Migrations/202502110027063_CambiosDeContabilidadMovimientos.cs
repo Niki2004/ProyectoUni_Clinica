@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class ModuloContabilidad : DbMigration
+    public partial class CambiosDeContabilidadMovimientos : DbMigration
     {
         public override void Up()
         {
@@ -648,7 +648,8 @@
                         Id_Movimiento = c.Int(nullable: false, identity: true),
                         Id_Diario = c.Int(nullable: false),
                         Id_Conciliacion = c.Int(nullable: false),
-                        Id_Pagos_Diarios = c.Int(nullable: false),
+                        Id_Pago = c.Int(nullable: false),
+                        Id_Banco = c.Int(nullable: false),
                         Ingresos = c.Int(nullable: false),
                         Egresos = c.Int(nullable: false),
                         Saldo = c.Decimal(nullable: false, precision: 18, scale: 2),
@@ -656,51 +657,14 @@
                         Descripcion = c.String(nullable: false, maxLength: 255),
                     })
                 .PrimaryKey(t => t.Id_Movimiento)
-                .ForeignKey("dbo.Conciliaciones_Bancarias", t => t.Id_Conciliacion, cascadeDelete: true)
+                .ForeignKey("dbo.Bancos", t => t.Id_Banco)
+                .ForeignKey("dbo.Conciliaciones_Bancarias", t => t.Id_Conciliacion)
                 .ForeignKey("dbo.Diarios_Contables", t => t.Id_Diario)
-                .ForeignKey("dbo.Pagos_Diarios", t => t.Id_Pagos_Diarios, cascadeDelete: true)
+                .ForeignKey("dbo.Pagos", t => t.Id_Pago)
                 .Index(t => t.Id_Diario)
                 .Index(t => t.Id_Conciliacion)
-                .Index(t => t.Id_Pagos_Diarios);
-            
-            CreateTable(
-                "dbo.Pagos_Diarios",
-                c => new
-                    {
-                        Id_Pago_Diario = c.Int(nullable: false, identity: true),
-                        Id_Contabilidad = c.Int(nullable: false),
-                        Id_Empleado = c.Int(nullable: false),
-                        Fecha_Pago = c.DateTime(nullable: false),
-                        Monto = c.Decimal(nullable: false, precision: 18, scale: 2),
-                        Metodo_Pago = c.String(nullable: false, maxLength: 50),
-                        Estado_Pago = c.String(nullable: false, maxLength: 50),
-                        Observaciones = c.String(maxLength: 255),
-                        Fecha_Registro = c.DateTime(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id_Pago_Diario)
-                .ForeignKey("dbo.Contabilidad", t => t.Id_Contabilidad, cascadeDelete: true)
-                .ForeignKey("dbo.Empleado", t => t.Id_Empleado, cascadeDelete: true)
-                .Index(t => t.Id_Contabilidad)
-                .Index(t => t.Id_Empleado);
-            
-            CreateTable(
-                "dbo.Nota_Paciente",
-                c => new
-                    {
-                        Id_Nota_Paciente = c.Int(nullable: false, identity: true),
-                        Nota_Del_Paciente = c.String(maxLength: 255),
-                    })
-                .PrimaryKey(t => t.Id_Nota_Paciente);
-            
-            CreateTable(
-                "dbo.Notificacion",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Mensaje = c.String(),
-                        Fecha = c.DateTime(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id);
+                .Index(t => t.Id_Pago)
+                .Index(t => t.Id_Banco);
             
             CreateTable(
                 "dbo.Pagos",
@@ -725,6 +689,45 @@
                 .PrimaryKey(t => t.Id_Pago)
                 .ForeignKey("dbo.Bancos", t => t.Id_Banco, cascadeDelete: true)
                 .Index(t => t.Id_Banco);
+            
+            CreateTable(
+                "dbo.Nota_Paciente",
+                c => new
+                    {
+                        Id_Nota_Paciente = c.Int(nullable: false, identity: true),
+                        Nota_Del_Paciente = c.String(maxLength: 255),
+                    })
+                .PrimaryKey(t => t.Id_Nota_Paciente);
+            
+            CreateTable(
+                "dbo.Notificacion",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Mensaje = c.String(),
+                        Fecha = c.DateTime(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
+                "dbo.Pagos_Diarios",
+                c => new
+                    {
+                        Id_Pago_Diario = c.Int(nullable: false, identity: true),
+                        Id_Contabilidad = c.Int(nullable: false),
+                        Id_Empleado = c.Int(nullable: false),
+                        Fecha_Pago = c.DateTime(nullable: false),
+                        Monto = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        Metodo_Pago = c.String(nullable: false, maxLength: 50),
+                        Estado_Pago = c.String(nullable: false, maxLength: 50),
+                        Observaciones = c.String(maxLength: 255),
+                        Fecha_Registro = c.DateTime(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id_Pago_Diario)
+                .ForeignKey("dbo.Contabilidad", t => t.Id_Contabilidad, cascadeDelete: true)
+                .ForeignKey("dbo.Empleado", t => t.Id_Empleado, cascadeDelete: true)
+                .Index(t => t.Id_Contabilidad)
+                .Index(t => t.Id_Empleado);
             
             CreateTable(
                 "dbo.PagosXNomina",
@@ -801,12 +804,13 @@
             DropForeignKey("dbo.PagosXNomina", "Id_Pago", "dbo.Pagos");
             DropForeignKey("dbo.PagosXNomina", "Id_Empleado", "dbo.Empleado");
             DropForeignKey("dbo.PagosXNomina", "Id_Contabilidad", "dbo.Contabilidad");
-            DropForeignKey("dbo.Pagos", "Id_Banco", "dbo.Bancos");
-            DropForeignKey("dbo.Movimientos_Bancarios", "Id_Pagos_Diarios", "dbo.Pagos_Diarios");
             DropForeignKey("dbo.Pagos_Diarios", "Id_Empleado", "dbo.Empleado");
             DropForeignKey("dbo.Pagos_Diarios", "Id_Contabilidad", "dbo.Contabilidad");
+            DropForeignKey("dbo.Movimientos_Bancarios", "Id_Pago", "dbo.Pagos");
+            DropForeignKey("dbo.Pagos", "Id_Banco", "dbo.Bancos");
             DropForeignKey("dbo.Movimientos_Bancarios", "Id_Diario", "dbo.Diarios_Contables");
             DropForeignKey("dbo.Movimientos_Bancarios", "Id_Conciliacion", "dbo.Conciliaciones_Bancarias");
+            DropForeignKey("dbo.Movimientos_Bancarios", "Id_Banco", "dbo.Bancos");
             DropForeignKey("dbo.Metodo_Pago_Utilizado", "Id_MetodoPago", "dbo.Metodo_Pago");
             DropForeignKey("dbo.Factura", "Metodo_Pago_Utilizado_Id_MetodoPagoUtilizado", "dbo.Metodo_Pago_Utilizado");
             DropForeignKey("dbo.Metodo_Pago_Utilizado", "Id_Factura", "dbo.Factura");
@@ -859,10 +863,11 @@
             DropIndex("dbo.PagosXNomina", new[] { "Id_Empleado" });
             DropIndex("dbo.PagosXNomina", new[] { "Id_Pago" });
             DropIndex("dbo.PagosXNomina", new[] { "Id_Contabilidad" });
-            DropIndex("dbo.Pagos", new[] { "Id_Banco" });
             DropIndex("dbo.Pagos_Diarios", new[] { "Id_Empleado" });
             DropIndex("dbo.Pagos_Diarios", new[] { "Id_Contabilidad" });
-            DropIndex("dbo.Movimientos_Bancarios", new[] { "Id_Pagos_Diarios" });
+            DropIndex("dbo.Pagos", new[] { "Id_Banco" });
+            DropIndex("dbo.Movimientos_Bancarios", new[] { "Id_Banco" });
+            DropIndex("dbo.Movimientos_Bancarios", new[] { "Id_Pago" });
             DropIndex("dbo.Movimientos_Bancarios", new[] { "Id_Conciliacion" });
             DropIndex("dbo.Movimientos_Bancarios", new[] { "Id_Diario" });
             DropIndex("dbo.Metodo_Pago_Utilizado", new[] { "Id_MetodoPago" });
@@ -919,10 +924,10 @@
             DropTable("dbo.Servicio");
             DropTable("dbo.Respaldo");
             DropTable("dbo.PagosXNomina");
-            DropTable("dbo.Pagos");
+            DropTable("dbo.Pagos_Diarios");
             DropTable("dbo.Notificacion");
             DropTable("dbo.Nota_Paciente");
-            DropTable("dbo.Pagos_Diarios");
+            DropTable("dbo.Pagos");
             DropTable("dbo.Movimientos_Bancarios");
             DropTable("dbo.Modificacion_Receta");
             DropTable("dbo.Metodo_Pago_Utilizado");
