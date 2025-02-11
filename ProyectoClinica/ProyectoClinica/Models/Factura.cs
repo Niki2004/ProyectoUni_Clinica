@@ -13,14 +13,9 @@ namespace ProyectoClinica.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id_Factura { get; set; }
 
-        [Required]
         public int Id_Descuento { get; set; }
 
-        public string NumeroRecibo { get; set; }
-
         public DateTime FechaHora { get; set; }
-
-        public string MetodoPago { get; set; }
 
         public string CedulaCliente { get; set; }
 
@@ -28,7 +23,7 @@ namespace ProyectoClinica.Models
 
         public decimal Subtotal { get; set; }
       
-        public decimal Descuento { get; set; } = 0;
+        public decimal Descuento_Aplicado { get; set; } = 0;
 
         public decimal Impuesto { get; set; }
 
@@ -37,7 +32,7 @@ namespace ProyectoClinica.Models
         //Llaves foraneas
 
         [ForeignKey(nameof(Id_Descuento))]
-        public virtual Descuento Descuento_Aplicado { get; set; }
+        public virtual Descuento Descuento { get; set; }
 
         //Relacion de las tablas 
         public virtual ICollection<Reporte> Reportes { get; set; } = new List<Reporte>();
