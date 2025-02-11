@@ -4,6 +4,28 @@
     ViewBag.Title = "Index";
 }
 
+<div style="text-align: center; margin-bottom: 20px;">
+    <a href="@Url.Action("VistaCON", "Contabilidad")" class="custom-btn">
+        <i class="fas fa-home"></i> Inicio
+    </a>
+</div>
+<style>
+    .custom-btn {
+        background-color: #0b7b82 !important;
+        color: white !important;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 16px;
+        text-decoration: none;
+        transition: background 0.3s ease, transform 0.2s ease;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
 <h2>Index</h2>
 
 <p>
@@ -35,35 +57,36 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Nombre_Descuento)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Codigo_Descuento)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Porcentaje_Descuento)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Limite_Usos)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Compania_Afiliada)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Activo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Fecha_Creacion)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id_Descuento }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id_Descuento }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id_Descuento })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre_Descuento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Codigo_Descuento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Porcentaje_Descuento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Limite_Usos)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Compania_Afiliada)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Activo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fecha_Creacion)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id_Descuento }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id_Descuento }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id_Descuento })
+            </td>
+        </tr>
+    }
 
 </table>

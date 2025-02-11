@@ -479,6 +479,7 @@
     <Content Include="Views\MovimientosBancarios\Create.cshtml" />
     <Content Include="Views\MovimientosBancarios\Details.cshtml" />
     <Content Include="Views\MovimientosBancarios\Edit.cshtml" />
+    <Content Include="Views\Contabilidad\VistaCON.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>
