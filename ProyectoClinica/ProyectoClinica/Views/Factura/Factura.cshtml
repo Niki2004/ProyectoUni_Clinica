@@ -62,7 +62,7 @@
                     }
                     <tr>
                         <td>Descuento</td>
-                        <td class="text-end text-danger">$@Model.Descuento.ToString("N2")</td>
+                        <td class="text-end text-danger">$@Model.Descuento_Aplicado.ToString("N2")</td>
                     </tr>
                     <tr>
                         <td>Impuesto</td>
@@ -82,7 +82,6 @@
         <div class="text-center mt-4">
             <form action="/Factura/ConfirmarPago" method="post">
                 @Html.AntiForgeryToken()
-                <input type="hidden" name="Id_Factura" value="@Model.Id_Factura" />
                 <button type="submit" class="btn btn-success w-100">Confirmar</button>
             </form>
         </div>

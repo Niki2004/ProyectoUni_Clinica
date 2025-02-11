@@ -150,7 +150,7 @@ namespace ProyectoClinica.Models
 
             // Configuración para Factura y Descuento
             modelBuilder.Entity<Factura>()
-                .HasRequired(f => f.Descuento_Aplicado)
+                .HasRequired(f => f.Descuento)
                 .WithMany()
                 .HasForeignKey(f => f.Id_Descuento)
                 .WillCascadeOnDelete(false);

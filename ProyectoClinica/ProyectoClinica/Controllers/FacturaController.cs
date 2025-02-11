@@ -130,6 +130,12 @@ namespace ProyectoClinica.Controllers
                 return RedirectToAction("RealizarPago");
             }
 
+            if (factura.Descuento == null)
+            {
+                factura.Descuento = _context.Descuento
+                    .FirstOrDefault(d => d.Nombre_Descuento == "Sin Descuento");
+                factura.Descuento_Aplicado = 0;
+            }
             factura.FechaHora = DateTime.Now;
             _context.Factura.Add(factura);
             _context.SaveChanges();
