@@ -265,10 +265,6 @@
     <Compile Include="Migrations\202502110027063_CambiosDeContabilidadMovimientos.Designer.cs">
       <DependentUpon>202502110027063_CambiosDeContabilidadMovimientos.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202502110204053_UpdateFactura.cs" />
-    <Compile Include="Migrations\202502110204053_UpdateFactura.Designer.cs">
-      <DependentUpon>202502110204053_UpdateFactura.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Administrativa.cs" />
@@ -513,9 +509,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202502110027063_CambiosDeContabilidadMovimientos.resx">
       <DependentUpon>202502110027063_CambiosDeContabilidadMovimientos.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202502110204053_UpdateFactura.resx">
-      <DependentUpon>202502110204053_UpdateFactura.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
