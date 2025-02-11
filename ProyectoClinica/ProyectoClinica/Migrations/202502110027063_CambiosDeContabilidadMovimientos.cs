@@ -347,14 +347,14 @@
                 c => new
                     {
                         Id_Factura = c.Int(nullable: false, identity: true),
-                        Id_Descuento = c.Int(nullable: true),
+                        Id_Descuento = c.Int(nullable: false),
                         NumeroRecibo = c.String(),
                         FechaHora = c.DateTime(nullable: false),
                         MetodoPago = c.String(),
                         CedulaCliente = c.String(),
                         NombreCliente = c.String(),
                         Subtotal = c.Decimal(nullable: false, precision: 18, scale: 2),
-                        Descuento_Aplicado = c.Decimal(nullable: true, precision: 18, scale: 2),
+                        Descuento = c.Decimal(nullable: false, precision: 18, scale: 2),
                         Impuesto = c.Decimal(nullable: false, precision: 18, scale: 2),
                         TotalPagado = c.Decimal(nullable: false, precision: 18, scale: 2),
                         Descuento_Id_Descuento = c.Int(),
