@@ -161,24 +161,66 @@ namespace ProyectoClinica.Controllers
             return View(cita);
         }
 
+        //[HttpPost]
+        //public ActionResult Editar(Cita cita)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        BaseDatos.Entry(cita).State = EntityState.Modified;
+        //        BaseDatos.SaveChanges();
+
+        //        // Agregar mensaje de éxito
+        //        TempData["SuccessMessage"] = "La cita se ha actualizado correctamente.";
+
+        //        return RedirectToAction("VistaCita");
+        //    }
+
+        //    ViewBag.IdMedico = new SelectList(BaseDatos.Medico, "Id_Medico", "Nombre", cita.Id_Medico);
+
+        //    return View(cita);
+        //}
+
         [HttpPost]
         public ActionResult Editar(Cita cita)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                BaseDatos.Entry(cita).State = EntityState.Modified;
-                BaseDatos.SaveChanges();
+                ViewBag.IdMedico = new SelectList(BaseDatos.Medico, "Id_Medico", "Nombre", cita.Id_Medico);
+                return View(cita);
+            }
 
-                // Agregar mensaje de éxito
-                TempData["SuccessMessage"] = "La cita se ha actualizado correctamente.";
+            var citaExistente = BaseDatos.Cita.Find(cita.Id_Cita);
 
+            if (citaExistente == null)
+            {
+                return HttpNotFound();
+            }
+
+            // Verificar si la cita se está intentando modificar el mismo día
+            if (citaExistente.Fecha_Cita.Date == DateTime.Now.Date)
+            {
+                TempData["ErrorMessage"] = "No es posible modificar una cita el mismo día. Por favor, cancele y agende una nueva.";
                 return RedirectToAction("VistaCita");
             }
 
-            ViewBag.IdMedico = new SelectList(BaseDatos.Medico, "Id_Medico", "Nombre", cita.Id_Medico);
+            // Actualizar manualmente los valores en la entidad existente
+            citaExistente.Id_Medico = cita.Id_Medico;
+            citaExistente.Fecha_Cita = cita.Fecha_Cita;
+            citaExistente.Hora_cita = cita.Hora_cita;
+            citaExistente.Modalidad = cita.Modalidad;
 
-            return View(cita);
+            // Marcar la entidad como modificada
+            BaseDatos.Entry(citaExistente).State = EntityState.Modified;
+
+            // Guardar cambios
+            BaseDatos.SaveChanges();
+
+            TempData["SuccessMessage"] = "La cita se ha actualizado correctamente.";
+            return RedirectToAction("VistaCita");
         }
+
+
+
 
         //---------------------------------------------------- Eliminar cita ------------------------------------------------------------
         [HttpGet]

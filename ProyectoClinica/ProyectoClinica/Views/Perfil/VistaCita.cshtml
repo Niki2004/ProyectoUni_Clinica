@@ -153,6 +153,13 @@
 </a>
 
 <center><h2>Citas existentes</h2></center>
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
 
 @if (TempData["SuccessMessage"] != null)
 {
