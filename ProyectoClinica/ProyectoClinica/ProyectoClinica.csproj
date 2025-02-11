@@ -339,12 +339,17 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Imagenes\Consultorio1.jpeg" />
+    <Content Include="Imagenes\Consultorio2.jpeg" />
+    <Content Include="Imagenes\Consultorio4.jpeg" />
+    <Content Include="Imagenes\Exterior.jpeg" />
     <Content Include="Imagenes\Informacion.jpg" />
     <Content Include="Imagenes\Informacion2.jpg" />
     <Content Include="Imagenes\Informacion3.jpg" />
     <Content Include="Imagenes\Informacion4.jpg" />
     <Content Include="Imagenes\Logo.png" />
     <Content Include="Imagenes\PefilPorDefecto.jpg" />
+    <Content Include="Imagenes\Sala_de_espera.jpeg" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
