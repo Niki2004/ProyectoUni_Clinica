@@ -1,0 +1,81 @@
+﻿@model IEnumerable<ProyectoClinica.Models.Movimientos_Bancarios>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            <label>Id Diario</label>
+        </th>
+        <th>
+            <label>Id Conciliación</label>
+        </th>
+        <th>
+            <label>Id Pago</label>
+        </th>
+        <th>
+            <label>Id Banco</label>
+        </th>
+        <th>
+            <label>Ingresos</label>
+        </th>
+        <th>
+            <label>Egresos</label>
+        </th>
+        <th>
+            <label>Saldo</label>
+        </th>
+        <th>
+            <label>Fecha Movimiento</label>
+        </th>
+        <th>
+            <label>Descripción</label>
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id_Diario)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id_Conciliacion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id_Pago)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id_Banco)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Ingresos)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Egresos)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Saldo)
+        </td>
+        <td>
+            <label>@String.Format("{0:dd/MM/yyyy}", item.Fecha_Movimiento)</label>
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Descripcion)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id_Movimiento }) |
+            @Html.ActionLink("Details", "Details", new { id = item.Id_Movimiento }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id_Movimiento })
+        </td>
+    </tr>
+}
+
+</table>
