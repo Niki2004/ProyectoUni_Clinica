@@ -261,13 +261,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202502110027063_CambiosDeContabilidadMovimientos.cs" />
-    <Compile Include="Migrations\202502110027063_CambiosDeContabilidadMovimientos.Designer.cs">
-      <DependentUpon>202502110027063_CambiosDeContabilidadMovimientos.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202502121315017_CambiosMedico.cs" />
-    <Compile Include="Migrations\202502121315017_CambiosMedico.designer.cs">
-      <DependentUpon>202502121315017_CambiosMedico.cs</DependentUpon>
+    <Compile Include="Migrations\202502122043296_ActivosFijosContabilidad.cs" />
+    <Compile Include="Migrations\202502122043296_ActivosFijosContabilidad.Designer.cs">
+      <DependentUpon>202502122043296_ActivosFijosContabilidad.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -283,8 +279,12 @@
     <Compile Include="Models\Busquedas_exportaciones.cs" />
     <Compile Include="Models\Caja_Chica.cs" />
     <Compile Include="Models\Cita.cs" />
+    <Compile Include="Models\Departamentos.cs" />
     <Compile Include="Models\Documento.cs" />
     <Compile Include="Models\Evaluacion.cs" />
+    <Compile Include="Models\Facturacion_Productos_Conta.cs" />
+    <Compile Include="Models\Inventario_Detalle_Conta.cs" />
+    <Compile Include="Models\Inventario_Encabezado_Conta.cs" />
     <Compile Include="Models\Metodo_Pago_Utilizado.cs" />
     <Compile Include="Models\Metodo_Pago.cs" />
     <Compile Include="Models\Conciliaciones_Bancarias.cs" />
@@ -308,6 +308,7 @@
     <Compile Include="Models\Pagos.cs" />
     <Compile Include="Models\PagosXNomina.cs" />
     <Compile Include="Models\Pagos_Diarios.cs" />
+    <Compile Include="Models\Productos_Conta.cs" />
     <Compile Include="Models\Receta.cs" />
     <Compile Include="Models\Reporte.cs" />
     <Compile Include="Models\Respaldo.cs" />
@@ -527,11 +528,8 @@
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.3.11.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202502110027063_CambiosDeContabilidadMovimientos.resx">
-      <DependentUpon>202502110027063_CambiosDeContabilidadMovimientos.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202502121315017_CambiosMedico.resx">
-      <DependentUpon>202502121315017_CambiosMedico.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202502122043296_ActivosFijosContabilidad.resx">
+      <DependentUpon>202502122043296_ActivosFijosContabilidad.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
