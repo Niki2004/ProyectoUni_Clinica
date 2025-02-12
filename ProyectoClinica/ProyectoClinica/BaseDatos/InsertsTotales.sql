@@ -500,7 +500,7 @@ VALUES
     ( 1, 'Empresa', 'Carlos', 'Rodríguez', '003-1122334-0', 'carlos.rodriguez@email.com', 'Completa', GETDATE(), 'Proveedor');
 
 
---[Movimientos_Bancarios]--
+--Movimientos_Bancarios--
 
 INSERT INTO [dbo].[Movimientos_Bancarios]
 ([Id_Diario], [Id_Conciliacion], [Id_Pago], [Id_Banco], [Ingresos], [Egresos], [Saldo], [Fecha_Movimiento], [Descripcion])
@@ -516,3 +516,18 @@ INSERT INTO [dbo].[Movimientos_Bancarios]
 ([Id_Diario], [Id_Conciliacion], [Id_Pago], [Id_Banco], [Ingresos], [Egresos], [Saldo], [Fecha_Movimiento], [Descripcion])
 VALUES
 (3, 3, 3, 3, 2000, 0, 5500.00, '2025-02-10 14:15:00', 'Cobro factura #A-123');
+
+
+--Tipos Regsitros Adicionales--
+
+INSERT INTO [dbo].[Tipo_Registro] ([Nombre], [Descripcion])
+VALUES ('Gastos de suministro medicos', 'Registro de gastos relacionados con la compra de medicamentos y fármacos');
+
+INSERT INTO [dbo].[Tipo_Registro] ([Nombre], [Descripcion])
+VALUES ('Gastos de suministro medicos', 'Registro de gastos de insumos y materiales para procedimientos quirúrgicos');
+
+INSERT INTO [dbo].[Tipo_Registro] ([Nombre], [Descripcion])
+VALUES ('Gastos de suministro medicos', 'Registro de gastos en compra y mantenimiento de equipos médicos');
+
+INSERT INTO [dbo].[Tipo_Registro] ([Nombre], [Descripcion])
+VALUES ('Gastos de suministro medicos', 'Registro de gastos en materiales de uso diario hospitalario como guantes, jeringas, vendas');
