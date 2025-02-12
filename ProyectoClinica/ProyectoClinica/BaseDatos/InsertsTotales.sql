@@ -127,6 +127,15 @@ INSERT INTO [CentroIntegralSD].[dbo].[Medico]
 VALUES 
 (1, 1, 'Psicología', '18:00:00', 'Dra. Ana González', '08:00:00', '2025-02-03', 2, 1);
 
+--Es un cambio ya que agregue una atrubuto a la tabla Medico *El 2 es hombre y el 3 es mujer*
+UPDATE [CentroIntegralSD].[dbo].[Medico]
+SET Imagen = 'https://static.vecteezy.com/system/resources/thumbnails/026/407/945/small/guy-man-grey-african-joy-blue-black-portrait-fashion-red-background-american-american-photo.jpg'
+WHERE Id_Medico = 2;
+
+UPDATE [CentroIntegralSD].[dbo].[Medico]
+SET Imagen = 'https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?cs=srgb&dl=pexels-olly-733872.jpg&fm=jpg'
+WHERE Id_Medico = 3;
+
 --Insert de Roles 
 
 --Rol secretaria
@@ -531,3 +540,8 @@ VALUES ('Gastos de suministro medicos', 'Registro de gastos en compra y mantenim
 
 INSERT INTO [dbo].[Tipo_Registro] ([Nombre], [Descripcion])
 VALUES ('Gastos de suministro medicos', 'Registro de gastos en materiales de uso diario hospitalario como guantes, jeringas, vendas');
+
+--Cambio de fotos *No es necesario cambiarlos*
+UPDATE [CentroIntegralSD].[dbo].[AspNetUsers]
+SET Imagen = 'https://images.pexels.com/photos/13870864/pexels-photo-13870864.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load'
+WHERE Id = '26f1be6c-b0a8-48da-99ae-40944d8a6dca';

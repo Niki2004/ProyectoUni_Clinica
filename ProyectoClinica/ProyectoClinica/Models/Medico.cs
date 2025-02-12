@@ -31,6 +31,10 @@ namespace ProyectoClinica.Models
 
         public DateTime Fecha_creacion { get; set; } = DateTime.Now;
 
+        [Display(Name = "Foto")]
+        [StringLength(255)]
+        public string Imagen { get; set; }
+
         // Llaves foraneas de las clases 
         [ForeignKey("ApplicationUser")]
         public string Id { get; set; } // El campo Id en AspNetUsers es de tipo string.
