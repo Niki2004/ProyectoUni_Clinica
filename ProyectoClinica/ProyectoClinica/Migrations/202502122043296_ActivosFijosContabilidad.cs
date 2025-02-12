@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class CambiosDeContabilidadMovimientos : DbMigration
+    public partial class ActivosFijosContabilidad : DbMigration
     {
         public override void Up()
         {
@@ -101,6 +101,7 @@
                         Nombre = c.String(maxLength: 255),
                         Horario_inicio = c.Time(nullable: false, precision: 7),
                         Fecha_creacion = c.DateTime(nullable: false),
+                        Imagen = c.String(maxLength: 255),
                         Id = c.String(maxLength: 128),
                         Estado_Asistencia_Id_Estado_Asistencia = c.Int(),
                     })
@@ -587,6 +588,21 @@
                 .Index(t => t.Id_Tipo_Registro);
             
             CreateTable(
+                "dbo.Departamentos",
+                c => new
+                    {
+                        Id_Departamento = c.Int(nullable: false, identity: true),
+                        Nombre_Departamento = c.String(nullable: false, maxLength: 255),
+                        Descripcion = c.String(maxLength: 500),
+                        Fecha_Creacion = c.DateTime(nullable: false),
+                        Fecha_Actualizacion = c.DateTime(),
+                        Fecha_Eliminacion = c.DateTime(),
+                        Estatus = c.Boolean(nullable: false),
+                        Id_Usuario_Creador = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id_Departamento);
+            
+            CreateTable(
                 "dbo.Estado_Asistencia",
                 c => new
                     {
@@ -594,6 +610,57 @@
                         Descripcion = c.String(nullable: false, maxLength: 255),
                     })
                 .PrimaryKey(t => t.Id_Estado_Asistencia);
+            
+            CreateTable(
+                "dbo.Facturacion_Productos_Conta",
+                c => new
+                    {
+                        Id_Factura_Producto = c.Int(nullable: false, identity: true),
+                        Id_Factura = c.Int(nullable: false),
+                        Id_Inventario_Encabezado = c.Int(nullable: false),
+                        Id_Producto = c.Int(nullable: false),
+                        Cantidad_Vendida = c.Int(nullable: false),
+                        Costo_Por_Unidad = c.Int(nullable: false),
+                        IVA = c.Single(),
+                        Descuento_Por_Producto = c.Single(),
+                        Subtotal = c.Single(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id_Factura_Producto)
+                .ForeignKey("dbo.Factura", t => t.Id_Factura, cascadeDelete: true)
+                .ForeignKey("dbo.Inventario_Encabezado_Conta", t => t.Id_Inventario_Encabezado, cascadeDelete: true)
+                .ForeignKey("dbo.Productos_Conta", t => t.Id_Producto, cascadeDelete: true)
+                .Index(t => t.Id_Factura)
+                .Index(t => t.Id_Inventario_Encabezado)
+                .Index(t => t.Id_Producto);
+            
+            CreateTable(
+                "dbo.Inventario_Encabezado_Conta",
+                c => new
+                    {
+                        Id_Inventario_Encabezado = c.Int(nullable: false, identity: true),
+                        Id_Usuario = c.Int(nullable: false),
+                        Fecha_Inventario = c.DateTime(nullable: false),
+                        Inventario_Estatus = c.Int(nullable: false),
+                        Inventario_Creacion = c.DateTime(nullable: false),
+                        Inventario_Actualizacion = c.DateTime(),
+                        Inventario_Eliminacion = c.DateTime(),
+                    })
+                .PrimaryKey(t => t.Id_Inventario_Encabezado);
+            
+            CreateTable(
+                "dbo.Productos_Conta",
+                c => new
+                    {
+                        Id_Producto = c.Int(nullable: false, identity: true),
+                        Nombre_producto = c.String(nullable: false, maxLength: 255),
+                        Creacion_producto = c.DateTime(nullable: false),
+                        Actualizacion_producto = c.DateTime(),
+                        Eliminacion_producto = c.DateTime(),
+                        Estatus_producto = c.Boolean(nullable: false),
+                        Tipo_producto = c.String(maxLength: 255),
+                        Id_Usuario = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id_Producto);
             
             CreateTable(
                 "dbo.AspNetRoles",
@@ -606,6 +673,28 @@
                     })
                 .PrimaryKey(t => t.Id)
                 .Index(t => t.Name, unique: true, name: "RoleNameIndex");
+            
+            CreateTable(
+                "dbo.Inventario_Detalle_Conta",
+                c => new
+                    {
+                        Id_Inventario_Detalle = c.Int(nullable: false, identity: true),
+                        Id_Inventario_Encabezado = c.Int(nullable: false),
+                        Id_Departamento = c.Int(),
+                        Id_Producto = c.Int(nullable: false),
+                        Fecha_Entrada = c.DateTime(nullable: false),
+                        Cantidad_Stock = c.Int(),
+                        Fecha_Salida = c.DateTime(),
+                        Cantidad_Salida = c.Int(),
+                        Precio = c.Single(),
+                    })
+                .PrimaryKey(t => t.Id_Inventario_Detalle)
+                .ForeignKey("dbo.Departamentos", t => t.Id_Departamento)
+                .ForeignKey("dbo.Inventario_Encabezado_Conta", t => t.Id_Inventario_Encabezado, cascadeDelete: true)
+                .ForeignKey("dbo.Productos_Conta", t => t.Id_Producto, cascadeDelete: true)
+                .Index(t => t.Id_Inventario_Encabezado)
+                .Index(t => t.Id_Departamento)
+                .Index(t => t.Id_Producto);
             
             CreateTable(
                 "dbo.Metodo_Pago",
@@ -814,6 +903,12 @@
             DropForeignKey("dbo.Metodo_Pago_Utilizado", "Id_MetodoPago", "dbo.Metodo_Pago");
             DropForeignKey("dbo.Factura", "Metodo_Pago_Utilizado_Id_MetodoPagoUtilizado", "dbo.Metodo_Pago_Utilizado");
             DropForeignKey("dbo.Metodo_Pago_Utilizado", "Id_Factura", "dbo.Factura");
+            DropForeignKey("dbo.Inventario_Detalle_Conta", "Id_Producto", "dbo.Productos_Conta");
+            DropForeignKey("dbo.Inventario_Detalle_Conta", "Id_Inventario_Encabezado", "dbo.Inventario_Encabezado_Conta");
+            DropForeignKey("dbo.Inventario_Detalle_Conta", "Id_Departamento", "dbo.Departamentos");
+            DropForeignKey("dbo.Facturacion_Productos_Conta", "Id_Producto", "dbo.Productos_Conta");
+            DropForeignKey("dbo.Facturacion_Productos_Conta", "Id_Inventario_Encabezado", "dbo.Inventario_Encabezado_Conta");
+            DropForeignKey("dbo.Facturacion_Productos_Conta", "Id_Factura", "dbo.Factura");
             DropForeignKey("dbo.Medico", "Estado_Asistencia_Id_Estado_Asistencia", "dbo.Estado_Asistencia");
             DropForeignKey("dbo.Conciliaciones_Bancarias", "Id_Tipo_Registro", "dbo.Tipo_Registro");
             DropForeignKey("dbo.Conciliaciones_Bancarias", "Id_Diario", "dbo.Diarios_Contables");
@@ -872,7 +967,13 @@
             DropIndex("dbo.Movimientos_Bancarios", new[] { "Id_Diario" });
             DropIndex("dbo.Metodo_Pago_Utilizado", new[] { "Id_MetodoPago" });
             DropIndex("dbo.Metodo_Pago_Utilizado", new[] { "Id_Factura" });
+            DropIndex("dbo.Inventario_Detalle_Conta", new[] { "Id_Producto" });
+            DropIndex("dbo.Inventario_Detalle_Conta", new[] { "Id_Departamento" });
+            DropIndex("dbo.Inventario_Detalle_Conta", new[] { "Id_Inventario_Encabezado" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
+            DropIndex("dbo.Facturacion_Productos_Conta", new[] { "Id_Producto" });
+            DropIndex("dbo.Facturacion_Productos_Conta", new[] { "Id_Inventario_Encabezado" });
+            DropIndex("dbo.Facturacion_Productos_Conta", new[] { "Id_Factura" });
             DropIndex("dbo.Conciliaciones_Bancarias", new[] { "Id_Tipo_Registro" });
             DropIndex("dbo.Conciliaciones_Bancarias", new[] { "Id_Diario" });
             DropIndex("dbo.Conciliaciones_Bancarias", new[] { "Id_Banco" });
@@ -932,8 +1033,13 @@
             DropTable("dbo.Modificacion_Receta");
             DropTable("dbo.Metodo_Pago_Utilizado");
             DropTable("dbo.Metodo_Pago");
+            DropTable("dbo.Inventario_Detalle_Conta");
             DropTable("dbo.AspNetRoles");
+            DropTable("dbo.Productos_Conta");
+            DropTable("dbo.Inventario_Encabezado_Conta");
+            DropTable("dbo.Facturacion_Productos_Conta");
             DropTable("dbo.Estado_Asistencia");
+            DropTable("dbo.Departamentos");
             DropTable("dbo.Conciliaciones_Bancarias");
             DropTable("dbo.Caja_Chica");
             DropTable("dbo.Busquedas_exportaciones");

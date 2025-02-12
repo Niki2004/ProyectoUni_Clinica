@@ -64,7 +64,11 @@ namespace ProyectoClinica.Models
         public DbSet<Movimientos_Bancarios> Movimientos_Bancarios { get; set; }
         public DbSet<Pagos> Pagos { get; set; }
         public DbSet<Bancos> Bancos { get; set; }
-
+        public DbSet<Productos_Conta> Productos_Conta { get; set; }
+        public DbSet<Inventario_Encabezado_Conta> Inventario_Encabezado_Conta { get; set; }
+        public DbSet<Facturacion_Productos_Conta> Facturacion_Productos_Conta { get; set; }
+        public DbSet<Departamentos> Departamentos { get; set; }
+        public DbSet<Inventario_Detalle_Conta> Inventario_Detalle_Conta { get; set; }
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -111,7 +115,11 @@ namespace ProyectoClinica.Models
             modelBuilder.Entity<Movimientos_Bancarios>().ToTable("Movimientos_Bancarios");
             modelBuilder.Entity<Pagos>().ToTable("Pagos");
             modelBuilder.Entity<Bancos>().ToTable("Bancos");
-
+            modelBuilder.Entity<Productos_Conta>().ToTable("Productos_Conta");
+            modelBuilder.Entity<Inventario_Encabezado_Conta>().ToTable("Inventario_Encabezado_Conta");
+            modelBuilder.Entity<Facturacion_Productos_Conta>().ToTable("Facturacion_Productos_Conta");
+            modelBuilder.Entity<Departamentos>().ToTable("Departamentos");
+            modelBuilder.Entity<Inventario_Detalle_Conta>().ToTable("Inventario_Detalle_Conta");
 
 
 
