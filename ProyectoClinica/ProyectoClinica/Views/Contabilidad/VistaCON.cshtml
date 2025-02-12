@@ -1,10 +1,18 @@
-﻿@model IEnumerable<ProyectoClinica.Models.Inventario>
-
-@{
-    ViewBag.Title = "Inventario";
+﻿@{
+    ViewBag.Title = "Contador";
 }
 
-<style>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Centro Integral Santo Domingo</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+
+    <style>
         :root {
             --primary-turquoise: #008B8B;
             --secondary-turquoise: #48D1CC;
@@ -181,85 +189,55 @@
             color: #333;
         }
 
-        /* Estilos específicos para la tabla */
-    .table-container {
-        margin-top: 20px;
-        background: white;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        overflow: auto;
-    }
+        .button-container {
+            position: fixed;
+            top: 50px; /* Altura del header */
+            left: 220px; /* Ancho del sidebar */
+            right: 0;
+            bottom: 0;
+            overflow-y: auto;
+            padding: 20px;
+            background-color: var(--background-light);
+        }
 
-    .table {
-        width: 100%;
-        margin-bottom: 0;
-        white-space: nowrap;
-    }
+        /* Estilos para el contenedor principal */
+        .container {
+            max-width: 100%;
+            padding-right: 15px;
+            padding-left: 15px;
+            margin-right: auto;
+            margin-left: auto;
+        }
 
-    .table th {
-        background-color: var(--primary-turquoise);
-        color: white;
-        padding: 12px;
-        font-weight: 500;
-        text-align: center;
-        vertical-align: middle;
-        border-bottom: 2px solid #dee2e6;
-    }
+        /* Ajustes para los botones */
+        .row-cols-4 {
+            margin-right: -15px;
+            margin-left: -15px;
+        }
 
-    .table td {
-        padding: 12px;
-        vertical-align: middle;
-        text-align: center;
-        border: 1px solid #dee2e6;
-    }
+        .col {
+            padding-right: 15px;
+            padding-left: 15px;
+        }
 
-    .table tbody tr:nth-child(even) {
-        background-color: #f8f9fa;
-    }
+        /* Estilo para el scrollbar (opcional) */
+        .button-container::-webkit-scrollbar {
+            width: 8px;
+        }
 
-    .table tbody tr:hover {
-        background-color: #e9ecef;
-    }
+        .button-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
 
-    /* Ajustes para el contenedor principal */
-    .button-container {
-        padding: 20px;
-        background-color: var(--background-light);
-    }
+        .button-container::-webkit-scrollbar-thumb {
+            background: var(--primary-turquoise);
+            border-radius: 4px;
+        }
 
-    /* Estilos para el header y botones de acción */
-    .inventory-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-        padding: 0 15px;
-    }
-
-    .action-buttons {
-        display: flex;
-        gap: 10px;
-    }
-
-    /* Estilos para el scrollbar de la tabla */
-    .table-container::-webkit-scrollbar {
-        height: 8px;
-        width: 8px;
-    }
-
-    .table-container::-webkit-scrollbar-track {
-        background: #f1f1f1;
-    }
-
-    .table-container::-webkit-scrollbar-thumb {
-        background: var(--primary-turquoise);
-        border-radius: 4px;
-    }
-
-    .table-container::-webkit-scrollbar-thumb:hover {
-        background: var(--hover-turquoise);
-    }
-</style>
+            .button-container::-webkit-scrollbar-thumb:hover {
+                background: var(--hover-turquoise);
+            }
+    </style>
 </head>
 <body>
     <div class="container-fluid">
@@ -281,12 +259,12 @@
                         </a>
                     </div><br />
                     <div class="nav flex-column">
-                        <a class="nav-link">
+                        <a href="@Url.Action("Index", "Inventario")" class="nav-link">
                             <i class="fas fa-boxes"></i> Inventario
                         </a>
                     </div><br />
                     <div class="nav flex-column">
-                        <a href="@Url.Action("VistaCON", "Contabilidad")" class="nav-link">
+                        <a class="nav-link">
                             <i class="fas fa-calculator"></i> Contabilidad
                         </a>
                     </div><br />
@@ -305,10 +283,10 @@
                         <a href="@Url.Action("Empleados", "Empleados")" class="nav-link">
                             <i class="fas fa-users"></i> Empleados
                         </a><br />
-                        <a  class="nav-link">
+                        <a class="nav-link">
                             <i class="fas fa-folder-open"></i> Expedientes
                         </a><br />
-                        <a  class="nav-link">
+                        <a class="nav-link">
                             <i class="fas fa-calendar-check"></i> Citas
                         </a>
                     </div>
@@ -317,58 +295,55 @@
             </div>
             <!-- Main Content -->
             <div class="button-container">
-                <div class="inventory-header">
-                    <h2 style="text-align: ri; margin-bottom: 20px;">Inve</h2>
-                    @Html.ActionLink("Crear", "Crear", null, new { @class = "btn text-white", style = "background-color: #3bb4bc; border-radius: 5px;" })
+                <br />
+                <br />
+                <br />
+
+                @if (TempData["SuccessMessage"] != null)
+                {
+                    <div class="alert alert-success" role="alert">
+                        @TempData["SuccessMessage"]
+                    </div>
+                }
+
+                <div class="container">
+                    <div class="row mb-4 text-center row-cols-4 g-3">
+                        <div class="col">
+                            @Html.ActionLink("Registro de contabilidad", "Index", "Contabilidad", null, new { @class = "btn btn-primary btn-sm w-100" })
+                        </div>
+                        <div class="col">
+                            @Html.ActionLink("Registro de pagos", "Index", "Contabilidad", null, new { @class = "btn btn-info btn-sm w-100" })
+                        </div>
+                        <div class="col">
+                            @Html.ActionLink("Conciliaciones bancarias", "Index", "ConciliacionesBancarias", null, new { @class = "btn btn-primary btn-sm w-100" })
+                        </div>
+                    </div>
+
+                    <div class="row mb-4 text-center row-cols-4 g-3">
+                        <div class="col">
+                            @Html.ActionLink("Registro de caja chica", "Index", "CajaChica", null, new { @class = "btn btn-info btn-sm w-100" })
+                        </div>
+                        <div class="col">
+                            @Html.ActionLink("Registro de descuentos", "Index", "Descuento", null, new { @class = "btn btn-info btn-sm w-100" })
+                        </div>
+                        <div class="col">
+                            @Html.ActionLink("Movimientos bancarios", "Index", "MovimientosBancarios", null, new { @class = "btn btn-info btn-sm w-100" })
+                        </div>
+                    </div>
+
+                    <div class="row mb-4 text-center row-cols-4 g-3">
+                        <div class="col">
+                            @Html.ActionLink("Pagos diarios", "Index", "PagosDiarios", null, new { @class = "btn btn-info btn-sm w-100" })
+                        </div>
+                        <div class="col">
+                            @Html.ActionLink("Servicios brindados", "Index", "Servicios", null, new { @class = "btn btn-info btn-sm w-100" })
+                        </div>
+                        <div class="col">
+                            @Html.ActionLink("Pagos x nomina", "Index", "PagosXNomina", null, new { @class = "btn btn-info btn-sm w-100" })
+                        </div>
+                    </div>
                 </div>
 
-                <div class="table-container">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>@Html.DisplayNameFor(model => model.Estado.Descripcion)</th>
-                                <th>@Html.DisplayNameFor(model => model.NombreArticulo)</th>
-                                <th>@Html.DisplayNameFor(model => model.Marca)</th>
-                                <th>@Html.DisplayNameFor(model => model.Cantidad)</th>
-                                <th>@Html.DisplayNameFor(model => model.PrecioUnitario)</th>
-                                <th>@Html.DisplayNameFor(model => model.FechaCaducidad)</th>
-                                <th>@Html.DisplayNameFor(model => model.TipoArticulo)</th>
-                                <th>@Html.DisplayNameFor(model => model.FechaIngreso)</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model)
-                            {
-                                <tr>
-                                    <td>@Html.DisplayFor(modelItem => item.Estado.Descripcion)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.NombreArticulo)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.Marca)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.Cantidad)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.PrecioUnitario)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.FechaCaducidad)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.TipoArticulo)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.FechaIngreso)</td>
-                                    <td class="action-buttons">
-                                        @Html.ActionLink("Editar", "Editar", new { id = item.Id_Articulo }, new { @class = "btn btn-warning me-2 text-white", style = "border-radius: 5px;", title = "Editar" })
-                                        @Html.ActionLink("Eliminar", "Eliminar", new { id = item.Id_Articulo }, new { @class = "btn btn-danger text-white", style = "border-radius: 5px;", title = "Eliminar" })
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
 
-
-            </div>
-
-
-
-        </div>
-
-
-        <script src="~/lib/jquery/dist/jquery.min.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-
-</body>
+                <script src="~/lib/jquery/dist/jquery.min.js"></script>
+                <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

@@ -20,6 +20,14 @@ namespace ProyectoClinica.Controllers
             _context = new ApplicationDbContext();
         }
 
+        //Vista para poder verlo más ordenado 
+        [HttpGet]
+        public ActionResult VistaCON()
+        {
+            return View();
+
+        }
+
         #region Index
         // GET: Contabilidad
         //[Authorize(Roles = "Contador")]
