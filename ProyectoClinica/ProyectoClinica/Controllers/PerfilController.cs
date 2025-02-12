@@ -161,25 +161,6 @@ namespace ProyectoClinica.Controllers
             return View(cita);
         }
 
-        //[HttpPost]
-        //public ActionResult Editar(Cita cita)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        BaseDatos.Entry(cita).State = EntityState.Modified;
-        //        BaseDatos.SaveChanges();
-
-        //        // Agregar mensaje de éxito
-        //        TempData["SuccessMessage"] = "La cita se ha actualizado correctamente.";
-
-        //        return RedirectToAction("VistaCita");
-        //    }
-
-        //    ViewBag.IdMedico = new SelectList(BaseDatos.Medico, "Id_Medico", "Nombre", cita.Id_Medico);
-
-        //    return View(cita);
-        //}
-
         [HttpPost]
         public ActionResult Editar(Cita cita)
         {
@@ -218,9 +199,6 @@ namespace ProyectoClinica.Controllers
             TempData["SuccessMessage"] = "La cita se ha actualizado correctamente.";
             return RedirectToAction("VistaCita");
         }
-
-
-
 
         //---------------------------------------------------- Eliminar cita ------------------------------------------------------------
         [HttpGet]
@@ -347,6 +325,15 @@ namespace ProyectoClinica.Controllers
             return View(notificaciones);
         }
 
+        public ActionResult NotificacionesADM()
+        {
+            var notificaciones = Session["NotificacionesADM"] as List<string> ?? new List<string>();
+
+            // Limpiar el contador después de que el usuario vea las notificaciones
+            Session["ContadorNotificaciones"] = 0;
+
+            return View(notificaciones);
+        }
 
 
 
