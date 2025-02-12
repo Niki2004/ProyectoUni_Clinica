@@ -1,0 +1,81 @@
+﻿@model IEnumerable<ProyectoClinica.Models.Medico>
+
+@{
+    ViewBag.Title = "Doctores";
+}
+
+<div style="padding: 20px; max-width: 800px; margin: auto;">
+    <a href="@Url.Action("VistaCAdmin", "Cita")" class="custom-btn">
+        <i class="fas fa-arrow-left"></i> Regresar
+    </a>
+    <h2 style="text-align: center; margin: 20px 0;">Doctores</h2>
+
+    <div class="doctor-list">
+        @foreach (var item in Model)
+        {
+            <div class="doctor-card">
+                <div class="doctor-img">
+                    <img src="@item.Imagen" alt="Perfil" class="profile-pic" />
+                </div>
+                <div class="doctor-info">
+                    <h3>@item.Especialidad</h3>
+                    <p>@item.Nombre</p>
+                </div>
+                <a href="@Url.Action("EditarMedico", "Cita", new { id = item.Id_Medico })" class="edit-icon">
+                    <i class="fas fa-edit"></i>
+                </a>
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .custom-btn {
+        background-color: #0b7b82;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 16px;
+        margin-bottom: 20px;
+    }
+
+    .doctor-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .doctor-card {
+        display: flex;
+        align-items: center;
+        background: white;
+        padding: 10px;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        position: relative;
+    }
+
+    .doctor-img img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .doctor-info {
+        margin-left: 15px;
+        flex-grow: 1;
+    }
+
+    .edit-icon {
+        position: absolute;
+        right: 15px;
+        color: #0b7b82;
+        font-size: 18px;
+        text-decoration: none;
+    }
+</style>

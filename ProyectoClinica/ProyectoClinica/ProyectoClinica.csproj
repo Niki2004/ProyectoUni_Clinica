@@ -265,6 +265,10 @@
     <Compile Include="Migrations\202502110027063_CambiosDeContabilidadMovimientos.Designer.cs">
       <DependentUpon>202502110027063_CambiosDeContabilidadMovimientos.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202502121315017_CambiosMedico.cs" />
+    <Compile Include="Migrations\202502121315017_CambiosMedico.designer.cs">
+      <DependentUpon>202502121315017_CambiosMedico.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Administrativa.cs" />
@@ -480,6 +484,12 @@
     <Content Include="Views\MovimientosBancarios\Details.cshtml" />
     <Content Include="Views\MovimientosBancarios\Edit.cshtml" />
     <Content Include="Views\Contabilidad\VistaCON.cshtml" />
+    <Content Include="Views\Cita\VistaCAdmin.cshtml" />
+    <Content Include="Views\Cita\GHorarios.cshtml" />
+    <Content Include="Views\Cita\EditarMedico.cshtml" />
+    <Content Include="Views\Cita\PCitas.cshtml" />
+    <Content Include="Views\Cita\CrearADM.cshtml" />
+    <Content Include="Views\Perfil\NotificacionesADM.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -519,6 +529,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202502110027063_CambiosDeContabilidadMovimientos.resx">
       <DependentUpon>202502110027063_CambiosDeContabilidadMovimientos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202502121315017_CambiosMedico.resx">
+      <DependentUpon>202502121315017_CambiosMedico.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
