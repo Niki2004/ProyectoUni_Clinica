@@ -1,0 +1,64 @@
+﻿@model ProyectoClinica.Models.Modificacion_Receta
+
+@{
+    ViewBag.Title = "Modificar Receta";
+}
+
+<div class="text-center">
+    <img src="~/Imagenes/Logo.png" alt="Centro Integral Santo Domingo" class="img-fluid mb-3" style="opacity: 0.10;">
+</div>
+
+@using (Html.BeginForm("RecetaDOC", "Perfil", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
+        <!-- Card Container -->
+        <div class="card" style="width: 400px;">
+            <div class="card-header text-center" style="background-color: #0b7b82; color: white;">
+                <h5>@ViewBag.Title</h5>
+            </div>
+            <div class="card-body">
+
+                <!-- Form Group: Selección de Receta -->
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Id_receta, "Seleccionar Receta")
+                    @Html.DropDownListFor(model => model.Id_receta, (SelectList)ViewBag.Id_Receta, "Seleccionar Receta", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Id_receta, "", new { @class = "text-danger" })
+                </div>
+                <br />
+
+                <!-- Form Group: Fecha -->
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Fecha_Modificacion, "Fecha")
+                    @Html.TextBoxFor(model => model.Fecha_Modificacion, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                    @Html.ValidationMessageFor(model => model.Fecha_Modificacion, "", new { @class = "text-danger" })
+                </div>
+                <br />
+
+                <!-- Form Group: Consentimiento -->
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Consentimiento)
+                    @Html.DropDownListFor(model => model.Consentimiento, new SelectList(new[] { "Aprobado", "Negado" }), "Seleccionar Consentimiento", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Consentimiento)
+                </div>
+                <br />
+
+                <!-- Form Group: Motivo de modificación -->
+                <div class="form-group">
+                    @Html.LabelFor(model => model.motivo_modificacion)
+                    @Html.TextAreaFor(model => model.motivo_modificacion, new { @class = "form-control", rows = 3 })
+                    @Html.ValidationMessageFor(model => model.motivo_modificacion)
+                </div>
+                <br />
+
+                <!-- Submit Button -->
+                <div class="form-group text-center">
+                    <button type="submit" class="btn" style="background-color: #0b7b82; color: white; width: 45%;">Guardar</button>
+                    <button type="button" class="btn btn-secondary" style="width: 45%; margin-left: 10px;" onclick="window.location.href='@Url.Action("ConcenReceta", "Perfil")'">Volver</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}

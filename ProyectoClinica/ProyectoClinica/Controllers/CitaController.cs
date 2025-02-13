@@ -384,5 +384,8 @@ namespace ProyectoClinica.Controllers
                 .ToList();
             return Json(citas, JsonRequestBehavior.AllowGet);
         }
+
+        //---------------------------------------------------- Receta ------------------------------------------------------
+
     }
 }

@@ -34,18 +34,21 @@ INSERT INTO [dbo].[Metodo_Pago] (Nombre)  VALUES  ('Transferencia');
 INSERT INTO [dbo].[Metodo_Pago] (Nombre)  VALUES  ('Crédito');
 
 --Insert de Receta
-INSERT INTO [CentroIntegralSD].[dbo].[Receta] ([Fecha_Creacion], [Nombre_Receta], [Observaciones_Pacientes], [Duracion_Tratamiento]) 
-VALUES ('07-02-2025', 'Receta para hipertensión', 'Tomar con abundante agua', '30 días');
+INSERT INTO [CentroIntegralSD].[dbo].[Receta] 
+    ([Fecha_Creacion], [Nombre_Receta], [Observaciones_Pacientes], [Duracion_Tratamiento], 
+     [Cantidad_Requerida], [Motivo_Solicitud], [Imagen])
+VALUES 
+    ('2025-02-13', 'Receta para hipertensión', 'Tomar en ayunas', '30 Días', '1 tableta', 'Control de presión', 'https://popmexico.com.mx/cdn/shop/products/recetario-medico-imprenta-papeleria_580x.jpg?v=1707077810');
 
-INSERT INTO [CentroIntegralSD].[dbo].[Receta] ([Fecha_Creacion], [Nombre_Receta], [Observaciones_Pacientes], [Duracion_Tratamiento]) 
-VALUES ('07-02-2025', 'Receta para alergia', 'Evitar alimentos que desencadenen reacciones', '15 días');
+INSERT INTO [CentroIntegralSD].[dbo].[Receta] 
+    ([Fecha_Creacion], [Nombre_Receta], [Observaciones_Pacientes], [Duracion_Tratamiento], 
+     [Cantidad_Requerida], [Motivo_Solicitud], [Imagen])
+VALUES 
+    ('2025-02-13', 'Receta para diabetes', 'Evitar azúcares', '30 Días', '1 tableta', 'Control de glucosa', 'https://manzanaprint.com/cdn/shop/files/RecetaMedica.jpg?v=1709050414');
 
 --Insert de Modificacion_Receta
-INSERT INTO [CentroIntegralSD].[dbo].[Modificacion_Receta] ( [Fecha_Modificacion], [motivo_modificacion]) 
-VALUES ('07-02-2025', 'Ajuste de dosis');
-
-INSERT INTO [CentroIntegralSD].[dbo].[Modificacion_Receta] ([Fecha_Modificacion], [motivo_modificacion]) 
-VALUES ('07-02-2025', 'Cambio de medicamento');
+  INSERT INTO [CentroIntegralSD].[dbo].[Modificacion_Receta] ( [Id_receta],[Fecha_Modificacion], [Consentimiento], [motivo_modificacion]) 
+VALUES (1,'07-02-2025','Negado',  'No tenemos ese medicamento');
 
 --Insert de Servicio
 INSERT INTO [CentroIntegralSD].[dbo].[Servicio] ([Nombre_Servicio], [Precio_Servicio], [Especialidad]) 

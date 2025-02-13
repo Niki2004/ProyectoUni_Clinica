@@ -219,8 +219,15 @@
             <ul>
                 @*Solicitar receta*@
                 <li>
-                    <a class="nav-link" href="#">
-                        <i class="fas fa-file-medical-alt"></i> Solicitar receta
+                    <a class="nav-link" href="@Url.Action("CrearReceta", "Perfil")">
+                        <i class="fas fa-file-medical-alt"></i> Solicitar de la receta
+                    </a>
+                </li>
+
+                @*Solicitar receta*@
+                <li>
+                    <a class="nav-link" href="@Url.Action("IndexReceta", "Perfil")">
+                        <i class="fas fa-notes-medical"></i> Información de la receta
                     </a>
                 </li>
 
