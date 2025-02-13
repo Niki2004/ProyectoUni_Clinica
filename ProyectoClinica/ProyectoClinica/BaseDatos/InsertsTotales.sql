@@ -545,3 +545,23 @@ VALUES ('Gastos de suministro medicos', 'Registro de gastos en materiales de uso
 UPDATE [CentroIntegralSD].[dbo].[AspNetUsers]
 SET Imagen = 'https://images.pexels.com/photos/13870864/pexels-photo-13870864.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load'
 WHERE Id = '26f1be6c-b0a8-48da-99ae-40944d8a6dca';
+
+
+--Productos_Conta--
+INSERT INTO [dbo].[Productos_Conta]
+(Nombre_producto, Creacion_producto, Actualizacion_producto, Eliminacion_producto, Estatus_producto, Tipo_producto, Id_Usuario)
+VALUES
+('Libro Mayor', GETDATE(), NULL, NULL, 1, 'Contabilidad General', 1),
+('Balance General', GETDATE(), NULL, NULL, 1, 'Estado Financiero', 2),
+('Estado de Resultados', GETDATE(), NULL, NULL, 1, 'Estado Financiero', 1),
+('Diario General', GETDATE(), NULL, NULL, 1, 'Contabilidad General', 3);
+
+--Departamentos--
+
+INSERT INTO [dbo].[Departamentos]
+(Nombre_Departamento, Descripcion, Fecha_Creacion, Fecha_Actualizacion, Fecha_Eliminacion, Estatus, Id_Usuario_Creador)
+VALUES
+('Contabilidad', 'Departamento encargado de la gestión financiera y contable de la empresa', GETDATE(), NULL, NULL, 1, 1),
+('Recursos Humanos', 'Departamento responsable de la gestión del personal y desarrollo organizacional', GETDATE(), NULL, NULL, 1, 2),
+('Ventas', 'Departamento dedicado a la comercialización y venta de productos y servicios', GETDATE(), NULL, NULL, 1, 1),
+('Sistemas', 'Departamento encargado de la infraestructura tecnológica y desarrollo de software', GETDATE(), NULL, NULL, 1, 3);
