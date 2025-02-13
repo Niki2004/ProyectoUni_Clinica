@@ -263,9 +263,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202502122043296_ActivosFijosContabilidad.cs" />
-    <Compile Include="Migrations\202502122043296_ActivosFijosContabilidad.Designer.cs">
-      <DependentUpon>202502122043296_ActivosFijosContabilidad.cs</DependentUpon>
+    <Compile Include="Migrations\202502131418444_CambiosRecetaModificacion.cs" />
+    <Compile Include="Migrations\202502131418444_CambiosRecetaModificacion.designer.cs">
+      <DependentUpon>202502131418444_CambiosRecetaModificacion.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -312,6 +312,7 @@
     <Compile Include="Models\Pagos_Diarios.cs" />
     <Compile Include="Models\Productos_Conta.cs" />
     <Compile Include="Models\Receta.cs" />
+    <Compile Include="Models\RecetaViewModel.cs" />
     <Compile Include="Models\Reporte.cs" />
     <Compile Include="Models\Respaldo.cs" />
     <Compile Include="Models\RolAsignacion.cs" />
@@ -505,6 +506,10 @@
     <Content Include="Views\ProductosConta\Create.cshtml" />
     <Content Include="Views\Departamentos\Index.cshtml" />
     <Content Include="Views\Departamentos\Create.cshtml" />
+    <Content Include="Views\Perfil\CrearReceta.cshtml" />
+    <Content Include="Views\Perfil\IndexReceta.cshtml" />
+    <Content Include="Views\Perfil\ConcenReceta.cshtml" />
+    <Content Include="Views\Perfil\RecetaDOC.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -542,8 +547,8 @@
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.3.11.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202502122043296_ActivosFijosContabilidad.resx">
-      <DependentUpon>202502122043296_ActivosFijosContabilidad.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202502131418444_CambiosRecetaModificacion.resx">
+      <DependentUpon>202502131418444_CambiosRecetaModificacion.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

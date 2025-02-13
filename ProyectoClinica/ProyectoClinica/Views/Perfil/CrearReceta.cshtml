@@ -1,0 +1,95 @@
+﻿@model ProyectoClinica.Models.Receta
+
+@{
+    ViewBag.Title = "Solicitar Receta";
+}
+
+<style>
+    .bg-teal {
+        background-color: #008080;
+        color: white;
+    }
+
+    .btn-teal {
+        background-color: #008080;
+        color: white;
+        border: none;
+    }
+
+        .btn-teal:hover {
+            background-color: #006666;
+        }
+
+    .custom-btn {
+        background-color: #0b7b82 !important;
+        color: white !important;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 16px;
+        text-decoration: none;
+        transition: background 0.3s ease, transform 0.2s ease;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<div style="text-align: center; margin-bottom: 20px;">
+    <a href="@Url.Action("Index", "Perfil")" class="custom-btn">
+        <i class="fas fa-home"></i> Inicio
+    </a>
+</div>
+
+<div class="container mt-4">
+    <div class="card shadow-sm p-4">
+        <h3 class="text-center text-white bg-teal p-3 rounded">Nueva Solicitud de Receta</h3>
+        <p class="text-center text-muted">Complete los detalles de su solicitud</p>
+
+        @using (Html.BeginForm("CrearReceta", "Perfil", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Nombre_Receta, new { @class = "form-label" })
+                        @Html.TextBoxFor(model => model.Nombre_Receta, new { @class = "form-control", placeholder = "Nombre del Medicamento" })
+                    </div><br />
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Observaciones_Pacientes, new { @class = "form-label" })
+                        @Html.TextBoxFor(model => model.Observaciones_Pacientes, new { @class = "form-control", placeholder = "Observaciones" })
+                    </div><br />
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Duracion_Tratamiento, new { @class = "form-label" })
+                        @Html.TextBoxFor(model => model.Duracion_Tratamiento, new { @class = "form-control", placeholder = "Frecuencia" })
+                    </div><br />
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Cantidad_Requerida, new { @class = "form-label" })
+                        @Html.TextBoxFor(model => model.Cantidad_Requerida, new { @class = "form-control", placeholder = "Cantidad Requerida" })
+                    </div>
+                </div>
+            </div>
+
+            <center><h4 class="mt-4 text-white bg-teal p-2 rounded">Detalles Adicionales</h4></center>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Motivo_Solicitud, new { @class = "form-label" })
+                @Html.TextAreaFor(model => model.Motivo_Solicitud, new { @class = "form-control", placeholder = "Motivo de la Solicitud" })
+            </div>
+
+            <div class="form-group text-center mt-3">
+                <label class="form-label">Adjuntar Documentos</label>
+                <div class="border p-3 rounded bg-light">
+                    <input type="file" name="Imagen" class="form-control" />
+                    <small class="text-muted">Toque para adjuntar receta anterior o documentos</small>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-teal btn-lg">Enviar Solicitud</button>
+            </div>
+        }
+    </div>
+</div>
+
+

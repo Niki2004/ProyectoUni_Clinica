@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class ActivosFijosContabilidad : DbMigration
+    public partial class CambiosRecetaModificacion : DbMigration
     {
         public override void Up()
         {
@@ -140,6 +140,9 @@
                         Nombre_Receta = c.String(maxLength: 255),
                         Observaciones_Pacientes = c.String(maxLength: 255),
                         Duracion_Tratamiento = c.String(maxLength: 255),
+                        Cantidad_Requerida = c.String(maxLength: 60),
+                        Motivo_Solicitud = c.String(maxLength: 255),
+                        Imagen = c.String(),
                     })
                 .PrimaryKey(t => t.Id_receta);
             
@@ -725,10 +728,14 @@
                 c => new
                     {
                         Id_Modificacion_receta = c.Int(nullable: false, identity: true),
+                        Id_receta = c.Int(nullable: false),
                         Fecha_Modificacion = c.DateTime(nullable: false),
+                        Consentimiento = c.String(maxLength: 255),
                         motivo_modificacion = c.String(maxLength: 255),
                     })
-                .PrimaryKey(t => t.Id_Modificacion_receta);
+                .PrimaryKey(t => t.Id_Modificacion_receta)
+                .ForeignKey("dbo.Receta", t => t.Id_receta, cascadeDelete: true)
+                .Index(t => t.Id_receta);
             
             CreateTable(
                 "dbo.Movimientos_Bancarios",
@@ -900,6 +907,7 @@
             DropForeignKey("dbo.Movimientos_Bancarios", "Id_Diario", "dbo.Diarios_Contables");
             DropForeignKey("dbo.Movimientos_Bancarios", "Id_Conciliacion", "dbo.Conciliaciones_Bancarias");
             DropForeignKey("dbo.Movimientos_Bancarios", "Id_Banco", "dbo.Bancos");
+            DropForeignKey("dbo.Modificacion_Receta", "Id_receta", "dbo.Receta");
             DropForeignKey("dbo.Metodo_Pago_Utilizado", "Id_MetodoPago", "dbo.Metodo_Pago");
             DropForeignKey("dbo.Factura", "Metodo_Pago_Utilizado_Id_MetodoPagoUtilizado", "dbo.Metodo_Pago_Utilizado");
             DropForeignKey("dbo.Metodo_Pago_Utilizado", "Id_Factura", "dbo.Factura");
@@ -965,6 +973,7 @@
             DropIndex("dbo.Movimientos_Bancarios", new[] { "Id_Pago" });
             DropIndex("dbo.Movimientos_Bancarios", new[] { "Id_Conciliacion" });
             DropIndex("dbo.Movimientos_Bancarios", new[] { "Id_Diario" });
+            DropIndex("dbo.Modificacion_Receta", new[] { "Id_receta" });
             DropIndex("dbo.Metodo_Pago_Utilizado", new[] { "Id_MetodoPago" });
             DropIndex("dbo.Metodo_Pago_Utilizado", new[] { "Id_Factura" });
             DropIndex("dbo.Inventario_Detalle_Conta", new[] { "Id_Producto" });

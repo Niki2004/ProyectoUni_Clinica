@@ -1,0 +1,81 @@
+﻿@model ProyectoClinica.Models.RecetaViewModel
+
+<style>
+    .card {
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .text-dark {
+        font-weight: bold;
+    }
+
+    .text-primary {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .bg-danger {
+        border-radius: 8px;
+    }
+    /* Botón personalizado */
+    .custom-btn {
+        background-color: #0b7b82 !important;
+        color: white !important;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 16px;
+        text-decoration: none;
+        transition: background 0.3s ease, transform 0.2s ease;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<div style="text-align: center; margin-bottom: 20px;">
+    <a href="@Url.Action("Index", "Perfil")" class="custom-btn">
+        <i class="fas fa-home"></i> Inicio
+    </a>
+</div>
+
+
+<div class="container">
+    <div class="text-center">
+        <img src="~/Imagenes/Logo.png" alt="Centro Integral Santo Domingo" class="img-fluid mb-3" style="opacity: 0.10;">
+    </div>
+
+    @foreach (var receta in Model.Recetas)
+    {
+        <div class="card shadow-lg p-4 mt-4">
+            <h3 class="text-dark">Receta</h3>
+            <hr>
+            <p style="color: #0b7b82;"><strong>Detalles:</strong></p>
+            <ul>
+                <li><strong>Nombre:</strong> @receta.Nombre_Receta</li>
+                <li><strong>Fecha:</strong> @receta.Fecha_Creacion.ToShortDateString()</li>
+                <li><strong>Duración del tratamiento:</strong> @receta.Duracion_Tratamiento</li>
+                <li><strong>Cantidad requerida:</strong> @receta.Cantidad_Requerida</li>
+                <li><strong>Motivo de solicitud:</strong> @receta.Motivo_Solicitud</li>
+            </ul>
+            <p style="color: #0b7b82;"><strong>Comentario</strong></p>
+            <ul>
+                @foreach (var mod in Model.Modificaciones.Where(m => m.Id_receta == receta.Id_receta))
+                {
+                    var panelClase = mod.Consentimiento == "Negado" ? "bg-danger text-white" : (mod.Consentimiento == "Aprobado" ? "bg-success text-white" : "bg-light");
+
+                    <li>
+                        <div class="panel @panelClase p-3 mb-2">
+                            <strong>Doctor:</strong> @mod.Consentimiento <br>
+                            <strong>Fecha:</strong> @mod.Fecha_Modificacion.ToShortDateString() <br>
+                            <strong>Motivo de modificación:</strong> @mod.motivo_modificacion
+                        </div>
+                    </li>
+                }
+            </ul>
+
+        </div>
+    }
+</div>

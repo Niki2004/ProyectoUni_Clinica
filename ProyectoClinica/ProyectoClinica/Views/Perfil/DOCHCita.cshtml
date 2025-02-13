@@ -80,6 +80,8 @@
                         <th>@Html.DisplayNameFor(model => model.Sintomas)</th>
                         <th>@Html.DisplayNameFor(model => model.Fecha_Cita)</th>
                         <th>@Html.DisplayNameFor(model => model.Modalidad)</th>
+                        <th>   </th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -94,9 +96,16 @@
                             <td>@Html.DisplayFor(modelItem => item.Sintomas)</td>
                             <td>@Html.DisplayFor(modelItem => item.Fecha_Cita)</td>
                             <td>@Html.DisplayFor(modelItem => item.Modalidad)</td>
+                            <td>
+                                <!-- Botón de Nota -->
+                                <button class="btn btn-info" @*onclick="window.location.href='@Url.Action("Nota", "Perfil", new { id = item.Id })'"*@>
+                                    Nota
+                                </button>
+                            </td>
                         </tr>
                     }
                 </tbody>
+
             </table>
         </div>
     </div>
