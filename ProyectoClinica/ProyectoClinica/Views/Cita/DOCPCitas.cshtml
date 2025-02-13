@@ -43,7 +43,7 @@
             position: fixed;
             top: 0;
             left: 0;
-            width: 197px;
+            width: 189px;
             height: 100vh;
             background-color: white;
             padding-top: 65px;
@@ -205,46 +205,31 @@
 
                     <br />
 
-                    <center><div class="nav-header">Navegación</div></center>
+                    <center><div class="nav-header">Acciones</div></center>
                     <div class="nav flex-column">
-                        <a class="nav-link">
-                            <i class="fas fa-cash-register"></i> Punto de venta
-                        </a>
-                    </div><br />
-                    <div class="nav flex-column">
-                        <a href="@Url.Action("Index", "Inventario")" class="nav-link">
-                            <i class="fas fa-boxes"></i> Inventario
-                        </a>
-                    </div><br />
-                    <div class="nav flex-column">
-                        <a href="@Url.Action("VistaCON", "Contabilidad")" class="nav-link">
-                            <i class="fas fa-calculator"></i> Contabilidad
-                        </a>
-                    </div><br />
-                    <div class="nav flex-column">
-                        <a class="nav-link">
-                            <i class="fas fa-chart-line"></i> Reportes
+                        <a href="@Url.Action("VistaCita", "Cita")" class="nav-link">
+                            <i class="fas fa-arrow-left"></i>  Inicio
                         </a>
                     </div>
                     <hr />
 
-                    <center><div class="nav-header">Administración</div></center>
+                    <center><div class="nav-header">Plataforma</div></center>
                     <div class="nav flex-column">
                         <a class="nav-link">
-                            <i class="fas fa-user-tie"></i> Administrativo
-                        </a><br />
-                        <a href="@Url.Action("Empleados", "Empleados")" class="nav-link">
-                            <i class="fas fa-users"></i> Empleados
-                        </a><br />
-                            <a class="nav-link">
-                                <a class="nav-link">
+                            <i class="fas fa-calendar-alt"></i> Cita
+                        </a>
+                    </div>
+                    <hr />
 
-                                    <i class="fas fa-folder-open"></i> Expedientes
-                                </a><br />
-                                <a href="@Url.Action("VistaCAdmin", "Cita")" class="nav-link">
-                                    <i class="fas fa-calendar-check"></i> Citas
-                                </a>
-</div>
+                    <center><div class="nav-header">Información</div></center>
+                    <div class="nav flex-column">
+                        <a href="@Url.Action("Especialidad", "Cita")" class="nav-link">
+                            <i class="fas fa-stethoscope"></i> Especialidad
+                        </a>
+                        <a href="@Url.Action("Contactanos", "Cita")" class="nav-link">
+                            <i class="fas fa-phone-alt"></i> Contáctanos
+                        </a>
+                    </div>
 
                 </div>
             </div>
@@ -253,7 +238,14 @@
 
 
 
-                <h2 class="text-center">Calendario</h2>
+                <h2 class="text-center">Calendario de Citas</h2>
+
+                @if (TempData["SuccessMessage"] != null)
+                {
+                    <div class="alert alert-success" role="alert">
+                        @TempData["SuccessMessage"]
+                    </div>
+                }
 
                 <br />
 
@@ -268,7 +260,21 @@
                         <p><strong style="color: #666;">Médico:</strong> <span id="doctor-cita"></span></p>
                         <p><strong style="color: #666;">Fecha:</strong> <span id="fecha-cita"></span></p>
                         <p><strong style="color: #666;">Hora:</strong> <span id="hora-cita"></span></p>
-                        
+                        <p>
+                            <strong style="color: #666;">Si deseas agregar una nota para saber sobre sintomas que te pasaron durante la semana, puedea darle click al botón:</strong>
+                            <button onclick="window.location.href='@Url.Action("CrearNota", "Cita")'" class="btn" style="
+                                     background-color: #00a3cc;
+                                     color: white;
+                                     border: none;
+                                     padding: 4px 15px;
+                                     border-radius: 50px;
+                                     cursor: pointer;
+                                     font-size: 13px;
+                                     margin-left: 10px;
+                                     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                                     transition: background-color 0.3s ease;">
+                                <i class="fas fa-plus" style="margin-right: 5px;"></i>Agregar
+                            </button>
                         </p>
                     </div>
                 </div>
@@ -284,7 +290,7 @@
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
-                events: '/Cita/GetCita', // Obtiene las citas desde el controlador
+                events: '/Cita/GetDOctCitas', // Obtiene las citas desde el controlador
                 headerToolbar: {
                     left: 'prev,next today agendarButton',
                     center: 'title',
@@ -294,7 +300,7 @@
                     agendarButton: {
                         text: 'Agendar Cita',
                         click: function () {
-                            window.location.href = '@Url.Action("CrearADM", "Cita")'; // Redirige al formulario de creación
+                            window.location.href = '@Url.Action("Crear", "Cita")'; // Redirige al formulario de creación
                         }
                     }
                 },
@@ -306,7 +312,7 @@
                 },
                 dateClick: function (info) {
                     if (confirm(`¿Deseas agendar una cita para el día ${info.dateStr}?`)) {
-                        window.location.href = '@Url.Action("CrearADM", "Cita")?fecha=' + info.dateStr;
+                        window.location.href = '@Url.Action("Crear", "Cita")?fecha=' + info.dateStr;
                     }
                 },
                 eventClick: function (info) {
