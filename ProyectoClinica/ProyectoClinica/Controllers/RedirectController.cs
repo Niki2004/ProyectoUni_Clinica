@@ -29,7 +29,7 @@ namespace ProyectoClinica.Controllers
                 return RedirectToAction("VistaCita", "Cita");
 
             if (User.IsInRole("Medico"))
-                return RedirectToAction("Index", "Medico");
+                return RedirectToAction("IndDOC", "Cita");
 
             if (User.IsInRole("Auditor"))
                 return RedirectToAction("Index", "Auditor");

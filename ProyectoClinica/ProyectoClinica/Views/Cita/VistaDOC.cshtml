@@ -206,140 +206,103 @@
                     <br />
 
                     <center><div class="nav-header">Navegación</div></center>
+                   
                     <div class="nav flex-column">
                         <a class="nav-link">
-                            <i class="fas fa-cash-register"></i> Punto de venta
+                            <i class="fas fa-folder-open"></i> Expedientes
                         </a>
                     </div><br />
                     <div class="nav flex-column">
-                        <a href="@Url.Action("Index", "Inventario")" class="nav-link">
-                            <i class="fas fa-boxes"></i> Inventario
+                        <a  class="nav-link">
+                            <i class="fas fa-calendar-check"></i> Citas
                         </a>
                     </div><br />
-                    <div class="nav flex-column">
-                        <a href="@Url.Action("VistaCON", "Contabilidad")" class="nav-link">
-                            <i class="fas fa-calculator"></i> Contabilidad
-                        </a>
-                    </div><br />
-                    <div class="nav flex-column">
-                        <a class="nav-link">
-                            <i class="fas fa-chart-line"></i> Reportes
-                        </a>
+                   
+
+                    
                     </div>
-                    <hr />
-
-                    <center><div class="nav-header">Administración</div></center>
-                    <div class="nav flex-column">
-                        <a class="nav-link">
-                            <i class="fas fa-user-tie"></i> Administrativo
-                        </a><br />
-                        <a href="@Url.Action("Empleados", "Empleados")" class="nav-link">
-                            <i class="fas fa-users"></i> Empleados
-                        </a><br />
-                            <a class="nav-link">
-                                <a class="nav-link">
-
-                                    <i class="fas fa-folder-open"></i> Expedientes
-                                </a><br />
-                                <a href="@Url.Action("VistaCAdmin", "Cita")" class="nav-link">
-                                    <i class="fas fa-calendar-check"></i> Citas
-                                </a>
-</div>
 
                 </div>
             </div>
             <!-- Main Content -->
-            <div class="content">
+        <div class="content">
+
+            <h2 class="text-center">Calendario</h2>
+            <br />
+            <!-- Formato Calendario -->
+            <div id="calendar"></div>
+            <br />
+
+            <!-- Detalles de la Cita Seleccionada -->
+            <div id="cita-detalle" class="card" style="display:none; margin-top: 20px; padding: 15px; border: 1px solid #ccc; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <center><h4 class="card-title" style="color: #333; border-bottom: 1px solid #eee; padding-bottom: 10px;">Detalles de la Cita</h4></center>
+                <div class="card-body">
+                    <p><strong style="color: #666;">Médico:</strong> <span id="doctor-cita"></span></p>
+                    <p><strong style="color: #666;">Fecha:</strong> <span id="fecha-cita"></span></p>
+                    <p><strong style="color: #666;">Hora:</strong> <span id="hora-cita"></span></p>
 
 
-
-                <h2 class="text-center">Calendario</h2>
-
-                <br />
-
-                <!-- Formato Calendario -->
-                <div id="calendar"></div>
-                <br />
-
-                <!-- Detalles de la Cita Seleccionada -->
-                <div id="cita-detalle" class="card" style="display:none; margin-top: 20px; padding: 15px; border: 1px solid #ccc; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                    <center><h4 class="card-title" style="color: #333; border-bottom: 1px solid #eee; padding-bottom: 10px;">Detalles de la Cita</h4></center>
-                    <div class="card-body">
-                        <p><strong style="color: #666;">Médico:</strong> <span id="doctor-cita"></span></p>
-                        <p><strong style="color: #666;">Fecha:</strong> <span id="fecha-cita"></span></p>
-                        <p><strong style="color: #666;">Hora:</strong> <span id="hora-cita"></span></p>
-                        
-                        </p>
-                    </div>
+                    </p>
                 </div>
-
-                @section Scripts {
-                    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
-                    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css" />
-
-                    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var calendarEl = document.getElementById('calendar');
-            var selectedEvent = null; // Variable para almacenar el evento seleccionado
-
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                events: '/Cita/GetCita', // Obtiene las citas desde el controlador
-                headerToolbar: {
-                    left: 'prev,next today agendarButton',
-                    center: 'title',
-                    right: 'dayGridMonth' // Solo muestra la vista mensual
-                },
-                customButtons: {
-                    agendarButton: {
-                        text: 'Agendar Cita',
-                        click: function () {
-                            window.location.href = '@Url.Action("CrearADM", "Cita")'; // Redirige al formulario de creación
-                        }
-                    }
-                },
-                eventColor: 'blue',
-                eventTimeFormat: {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    meridiem: false
-                },
-                dateClick: function (info) {
-                    if (confirm(`¿Deseas agendar una cita para el día ${info.dateStr}?`)) {
-                        window.location.href = '@Url.Action("CrearADM", "Cita")?fecha=' + info.dateStr;
-                    }
-                },
-                eventClick: function (info) {
-                    selectedEvent = info.event;
-
-                    // Mostrar el panel de detalles
-                    document.getElementById('cita-detalle').style.display = 'block';
-
-                    // Obtener y formatear la fecha y hora
-                    const fecha = info.event.start;
-                    const fechaFormateada = fecha.toLocaleDateString('es-ES', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                    });
-                    const horaFormateada = fecha.toLocaleTimeString('es-ES', {
-                        hour: '2-digit',
-                        minute: '2-digit'
-                    });
-
-                    // Actualizar los campos con la información
-                    document.getElementById('doctor-cita').textContent = info.event.title;
-                    document.getElementById('fecha-cita').textContent = fechaFormateada;
-                    document.getElementById('hora-cita').textContent = horaFormateada;
-                }
-            });
-
-            calendar.render();
-        });
-                    </script>
-                }
-
             </div>
+            @section Scripts {
+                <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css" />
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        var calendarEl = document.getElementById('calendar');
+                        var selectedEvent = null; // Variable para almacenar el evento seleccionado
+
+                        var calendar = new FullCalendar.Calendar(calendarEl, {
+                            initialView: 'dayGridMonth',
+                            events: '/Cita/GetDOctCitas', // Obtiene las citas desde el controlador
+                            headerToolbar: {
+                                left: 'prev,next today',
+                                center: 'title',
+                                right: 'dayGridMonth' // Solo muestra la vista mensual
+                            },
+
+                            eventColor: 'blue',
+                            eventTimeFormat: {
+                                hour: '2-digit',
+                                minute: '2-digit',
+                                meridiem: false
+                            },
+
+                            eventClick: function (info) {
+                                selectedEvent = info.event;
+
+                                // Mostrar el panel de detalles
+                                document.getElementById('cita-detalle').style.display = 'block';
+
+                                // Obtener y formatear la fecha y hora
+                                const fecha = info.event.start;
+                                const fechaFormateada = fecha.toLocaleDateString('es-ES', {
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric'
+                                });
+                                const horaFormateada = fecha.toLocaleTimeString('es-ES', {
+                                    hour: '2-digit',
+                                    minute: '2-digit'
+                                });
+
+                                // Actualizar los campos con la información
+                                document.getElementById('doctor-cita').textContent = info.event.title;
+                                document.getElementById('fecha-cita').textContent = fechaFormateada;
+                                document.getElementById('hora-cita').textContent = horaFormateada;
+                            }
+                        });
+
+                        calendar.render();
+                    });
+
+                </script>
+
+            }
+
+        </div>
 
             <script src="~/lib/jquery/dist/jquery.min.js"></script>
             <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

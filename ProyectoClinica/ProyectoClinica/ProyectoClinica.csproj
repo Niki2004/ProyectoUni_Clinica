@@ -491,6 +491,14 @@
     <Content Include="Views\Cita\PCitas.cshtml" />
     <Content Include="Views\Cita\CrearADM.cshtml" />
     <Content Include="Views\Perfil\NotificacionesADM.cshtml" />
+    <Content Include="Views\Cita\CCita.cshtml" />
+    <Content Include="Views\Cita\Eliminar.cshtml" />
+    <Content Include="Views\Cita\VistaDOC.cshtml" />
+    <Content Include="Views\Cita\DOCPCitas.cshtml" />
+    <Content Include="Views\Cita\IndDOC.cshtml" />
+    <Content Include="Views\Perfil\DOCHCita.cshtml" />
+    <Content Include="Views\Perfil\_CitasTable.cshtml" />
+    <Content Include="Views\Perfil\NotasAdicionales.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>

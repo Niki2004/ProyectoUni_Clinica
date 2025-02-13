@@ -15,6 +15,18 @@ namespace ProyectoClinica.Controllers
         //Conexión BD
         private ApplicationDbContext BaseDatos = new ApplicationDbContext();
 
+        public ActionResult IndDOC()
+        {
+            return View();
+
+        }
+
+        public ActionResult VistaDOC()
+        {
+            return View();
+
+        }
+
         public ActionResult VistaCAdmin()
         {
             return View();
@@ -286,6 +298,7 @@ namespace ProyectoClinica.Controllers
                 {
                     Cita.Estado_Asistencia = "Asistida";
                     meNotificacion = "Tu cita ha sido creada exitosamente";
+                
                 }
 
                 // Guardar la Cita
@@ -312,6 +325,64 @@ namespace ProyectoClinica.Controllers
             return View(Cita);
         }
 
+        [HttpGet]
+        public ActionResult CCita()
+        {
+            var cita = BaseDatos.Cita.ToList();
+            return View(cita);
+        }
 
+        [HttpGet]
+        public ActionResult Eliminar(int? id)
+        {
+            if (id == null)
+                return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
+
+            var cita = BaseDatos.Cita.SingleOrDefault(l => l.Id_Cita == id);
+            if (cita == null)
+                return HttpNotFound();
+
+            return View(cita);
+        }
+
+        [HttpPost, ActionName("Eliminar")]
+        public ActionResult EliminarCitaUsuario(int? id)
+        {
+            if (id == null)
+                return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
+
+            var cita = BaseDatos.Cita.Find(id);
+            if (cita == null)
+                return HttpNotFound();
+
+            BaseDatos.Cita.Remove(cita);
+            BaseDatos.SaveChanges();
+
+            // Agregar mensaje de éxito
+            TempData["SuccessMessage"] = "La cita se ha eliminado correctamente.";
+
+            return RedirectToAction("CCita");
+        }
+
+        //---------------------------------------------------- Doctor ------------------------------------------------------
+        [HttpGet]
+        public ActionResult GetDOctCitas()
+        {
+            var citas = BaseDatos.Cita
+                .Include("Medico")
+                .AsEnumerable()
+                .Select(pc => new
+                {
+                    id = pc.Id_Cita,
+                    title = pc.Medico.Nombre,
+                    start = pc.Fecha_Cita.ToString("yyyy-MM-dd") + "T" + pc.Hora_cita.ToString(@"hh\:mm\:ss"),
+                    end = pc.Fecha_Cita.ToString("yyyy-MM-dd") + "T" + pc.Hora_cita.ToString(@"hh\:mm\:ss"),
+                    color = pc.Estado_Asistencia == "No Asistida" ? "red" : (pc.Estado_Asistencia == "Asistida" ? "green" : "orange"),
+                    doctor = pc.Medico.Nombre,  // Añadido
+
+                })
+                .ToList();
+            return Json(citas, JsonRequestBehavior.AllowGet);
+        }
     }
 }
