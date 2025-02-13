@@ -316,10 +316,10 @@
 
                     <div class="row mb-4 text-center row-cols-4 g-3">
                         <div class="col">
-                            @Html.ActionLink("Desactivar perfiles", "DesactivarPerfil", "Empleados", null, new { @class = "btn btn-info btn-sm w-100" })
+                            @Html.ActionLink("Desactivar perfiles", "vistaEliminar", "Empleados", null, new { @class = "btn btn-info btn-sm w-100" })
                         </div>
                         <div class="col">
-                            <a href="~/Employees/Search" class="btn btn-primary btn-sm w-100">Buscar Empleados</a>
+                            @Html.ActionLink("Buscar Empleado", "Buscar", "Empleados", null, new { @class = "btn btn-primary btn-sm w-100" })
                         </div>
                         <div class="col">
                             <a href="~/Employees/Performance" class="btn btn-info btn-sm w-100">Evaluación</a>
