@@ -78,7 +78,7 @@ namespace ProyectoClinica.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    return RedirectToAction("Redirect", "Redirect");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -155,12 +155,8 @@ namespace ProyectoClinica.Controllers
                 {
                     UserManager.AddToRole(user.Id, "Usuario");
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
 
-         
-
-
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("VistaCita", "Cita");
                 }
                 AddErrors(result);
             }

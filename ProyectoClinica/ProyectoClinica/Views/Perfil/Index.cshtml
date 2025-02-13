@@ -110,7 +110,29 @@
         color: #28a745;
         font-size: 0.9rem;
     }
+
+    /* Botón personalizado */
+    .custom-btn {
+        background-color: #0b7b82 !important;
+        color: white !important;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 16px;
+        text-decoration: none;
+        transition: background 0.3s ease, transform 0.2s ease;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
 </style>
+
+<div style="text-align: center; margin-bottom: 20px;">
+    <a href="@Url.Action("VistaCita", "Cita")" class="custom-btn">
+        <i class="fas fa-home"></i> Inicio
+    </a>
+</div>
 
 <main aria-labelledby="title" class="profile-container">
     <!-- Enlace a Font Awesome para los íconos -->
@@ -125,15 +147,14 @@
     }
     else
     {
-        <img src="https://www.google.com/imgres?q=imagen%20de%20perfil%20sin%20foto&imgurl=https%3A%2F%2Fthumbs.dreamstime.com%2Fb%2Ficono-del-perfil-avatar-defecto-105356015.jpg&imgrefurl=https%3A%2F%2Fes.dreamstime.com%2Fimagen-de-marcador-posici%25C3%25B3n-perfil-silueta-gris-sin-foto-una-persona-en-el-avatar-la-predeterminada-se-utiliza-para-dise%25C3%25B1o-web-image176390893&docid=Ti2OFUOuIbKjJM&tbnid=_-9rRi44KwSQlM&vet=12ahUKEwiInrWIoaqLAxWkQzABHROpNw4QM3oECFAQAA..i&w=800&h=800&hcb=2&ved=2ahUKEwiInrWIoaqLAxWkQzABHROpNw4QM3oECFAQAA"
-             alt="Perfil" class="profile-pic" />
+        <img src="~/Imagenes/PerfilPorDefecto.jpg" alt="Perfil" class="profile-pic" />
     }
 
     <div class="profile-details">
         <h2 class="profile-name">@Model.Nombre @Model.Apellido</h2>
         <p class="profile-email">@Model.Email</p>
     </div>
-   
+
     <div class="profile-sections">
         <div class="section">
             <h3>Cuenta</h3>
@@ -198,8 +219,15 @@
             <ul>
                 @*Solicitar receta*@
                 <li>
-                    <a class="nav-link" href="#">
-                        <i class="fas fa-file-medical-alt"></i> Solicitar receta
+                    <a class="nav-link" href="@Url.Action("CrearReceta", "Perfil")">
+                        <i class="fas fa-file-medical-alt"></i> Solicitar de la receta
+                    </a>
+                </li>
+
+                @*Solicitar receta*@
+                <li>
+                    <a class="nav-link" href="@Url.Action("IndexReceta", "Perfil")">
+                        <i class="fas fa-notes-medical"></i> Información de la receta
                     </a>
                 </li>
 

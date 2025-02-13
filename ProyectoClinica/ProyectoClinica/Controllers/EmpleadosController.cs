@@ -23,10 +23,14 @@ namespace ProyectoClinica.Controllers
         //Base de datos
         private ApplicationDbContext BaseDatos = new ApplicationDbContext();
 
-        // GET: Empleados
-        //[Authorize(Roles = "Administrador")]
-
         [HttpGet]
+        //Información de la clinica
+        public ActionResult VistaAdmin()
+        {
+            return View();
+
+        }
+
         public ActionResult Empleados()
         {
             var empleados = BaseDatos.Empleado.ToList(); // Obtiene la lista de empleados

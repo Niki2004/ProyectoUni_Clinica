@@ -31,6 +31,91 @@ namespace ProyectoClinica.Controllers
             return View(modelo);
         }
 
+        [Authorize(Roles = "Administrador")]
+        public async Task<ActionResult> PerfilADM()
+        {
+            var userId = User.Identity.GetUserId();
+            var usuario = await BaseDatos.Users.FirstAsync(u => u.Id == userId);
+
+            var modelo = new IndexViewModel
+            {
+                Email = usuario.Email,
+                Nombre = usuario.Nombre,
+                Apellido = usuario.Apellido,
+                Imagen = usuario.Imagen
+            };
+
+            return View(modelo);
+        }
+
+        [Authorize(Roles = "Medico")]
+        public async Task<ActionResult> PerfilMED()
+        {
+            var userId = User.Identity.GetUserId();
+            var usuario = await BaseDatos.Users.FirstAsync(u => u.Id == userId);
+
+            var modelo = new IndexViewModel
+            {
+                Email = usuario.Email,
+                Nombre = usuario.Nombre,
+                Apellido = usuario.Apellido,
+                Imagen = usuario.Imagen
+            };
+
+            return View(modelo);
+        }
+
+        [Authorize(Roles = "Auditor")]
+        public async Task<ActionResult> PerfilAUD()
+        {
+            var userId = User.Identity.GetUserId();
+            var usuario = await BaseDatos.Users.FirstAsync(u => u.Id == userId);
+
+            var modelo = new IndexViewModel
+            {
+                Email = usuario.Email,
+                Nombre = usuario.Nombre,
+                Apellido = usuario.Apellido,
+                Imagen = usuario.Imagen
+            };
+
+            return View(modelo);
+        }
+
+        [Authorize(Roles = "Contador")]
+        public async Task<ActionResult> PerfilCON()
+        {
+            var userId = User.Identity.GetUserId();
+            var usuario = await BaseDatos.Users.FirstAsync(u => u.Id == userId);
+
+            var modelo = new IndexViewModel
+            {
+                Email = usuario.Email,
+                Nombre = usuario.Nombre,
+                Apellido = usuario.Apellido,
+                Imagen = usuario.Imagen
+            };
+
+            return View(modelo);
+        }
+
+        [Authorize(Roles = "Secretaria")]
+        public async Task<ActionResult> PerfilSEC()
+        {
+            var userId = User.Identity.GetUserId();
+            var usuario = await BaseDatos.Users.FirstAsync(u => u.Id == userId);
+
+            var modelo = new IndexViewModel
+            {
+                Email = usuario.Email,
+                Nombre = usuario.Nombre,
+                Apellido = usuario.Apellido,
+                Imagen = usuario.Imagen
+            };
+
+            return View(modelo);
+        }
+
         //---------------------------------------------------- Vista de citas ------------------------------------------------------------
         public ActionResult VistaCita()
         {
@@ -79,20 +164,40 @@ namespace ProyectoClinica.Controllers
         [HttpPost]
         public ActionResult Editar(Cita cita)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                BaseDatos.Entry(cita).State = EntityState.Modified;
-                BaseDatos.SaveChanges();
+                ViewBag.IdMedico = new SelectList(BaseDatos.Medico, "Id_Medico", "Nombre", cita.Id_Medico);
+                return View(cita);
+            }
 
-                // Agregar mensaje de éxito
-                TempData["SuccessMessage"] = "La cita se ha actualizado correctamente.";
+            var citaExistente = BaseDatos.Cita.Find(cita.Id_Cita);
 
+            if (citaExistente == null)
+            {
+                return HttpNotFound();
+            }
+
+            // Verificar si la cita se está intentando modificar el mismo día
+            if (citaExistente.Fecha_Cita.Date == DateTime.Now.Date)
+            {
+                TempData["ErrorMessage"] = "No es posible modificar una cita el mismo día. Por favor, cancele y agende una nueva.";
                 return RedirectToAction("VistaCita");
             }
 
-            ViewBag.IdMedico = new SelectList(BaseDatos.Medico, "Id_Medico", "Nombre", cita.Id_Medico);
+            // Actualizar manualmente los valores en la entidad existente
+            citaExistente.Id_Medico = cita.Id_Medico;
+            citaExistente.Fecha_Cita = cita.Fecha_Cita;
+            citaExistente.Hora_cita = cita.Hora_cita;
+            citaExistente.Modalidad = cita.Modalidad;
 
-            return View(cita);
+            // Marcar la entidad como modificada
+            BaseDatos.Entry(citaExistente).State = EntityState.Modified;
+
+            // Guardar cambios
+            BaseDatos.SaveChanges();
+
+            TempData["SuccessMessage"] = "La cita se ha actualizado correctamente.";
+            return RedirectToAction("VistaCita");
         }
 
         //---------------------------------------------------- Eliminar cita ------------------------------------------------------------
@@ -220,7 +325,146 @@ namespace ProyectoClinica.Controllers
             return View(notificaciones);
         }
 
+        public ActionResult NotificacionesADM()
+        {
+            var notificaciones = Session["NotificacionesADM"] as List<string> ?? new List<string>();
 
+            // Limpiar el contador después de que el usuario vea las notificaciones
+            Session["ContadorNotificaciones"] = 0;
+
+            return View(notificaciones);
+        }
+
+        //---------------------------------------------------- Medico ------------------------------------------------------------
+        [HttpGet]
+        public ActionResult DOCHCita()
+        {
+            var Medico = BaseDatos.Cita.ToList();
+            return View(Medico);
+        }
+
+        // Acción para filtrar citas
+        public ActionResult FiltrarCitas(string tipoConsulta)
+        {
+            try
+            {
+                var citas = BaseDatos.Cita.Include(c => c.Medico).AsQueryable();
+
+                if (!string.IsNullOrEmpty(tipoConsulta))
+                {
+                    citas = citas.Where(c => c.Modalidad.ToLower() == tipoConsulta.ToLower());
+                }
+
+                var filteredCitas = citas.ToList().Select(c => new
+                {
+                    NombreMedico = c.Medico != null ? c.Medico.Nombre : "",
+                    c.Nombre_Paciente,
+                    c.Estado_Asistencia,
+                    Hora_cita = c.Hora_cita.ToString(@"hh\:mm"),
+                    c.Descripcion_Complicaciones,
+                    c.Sintomas,
+                    Fecha_Cita = c.Fecha_Cita.ToString("dd/MM/yyyy"),
+                    c.Modalidad
+                });
+
+                return Json(filteredCitas, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { error = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpGet]
+        public ActionResult NotasAdicionales()
+        {
+            var Medico = BaseDatos.Nota_Paciente.ToList();
+            return View(Medico);
+        }
+
+        public ActionResult ConcenReceta()
+        {
+            var Receta = BaseDatos.Receta.ToList();
+            return View(Receta);
+        }
+
+        public ActionResult RecetaDOC()
+        {
+            ViewBag.Id_Receta = new SelectList(BaseDatos.Receta, "Id_receta", "Nombre_Receta");
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult RecetaDOC(Modificacion_Receta modificacion_receta)
+        {
+            if (ModelState.IsValid)
+            {
+                // Crear una nueva modificación de receta basada en la receta seleccionada
+                BaseDatos.Modificacion_Receta.Add(modificacion_receta);
+
+                // Guardar los cambios en la base de datos
+                BaseDatos.SaveChanges();
+
+                // Redirigir a la vista de la lista de recetas
+                return RedirectToAction("ConcenReceta");
+            }
+            ViewBag.Id_Receta = new SelectList(BaseDatos.Receta, "Id_receta", "Nombre_Receta");
+            // Si hay errores, regresar con el modelo para mostrar los errores de validación
+            return View(modificacion_receta);
+        }
+
+        //---------------------------------------------------- Receta ------------------------------------------------------
+
+        public ActionResult CrearReceta()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CrearReceta(Receta receta)
+        {
+            if (ModelState.IsValid)
+            {
+                BaseDatos.Receta.Add(receta);
+                BaseDatos.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+
+            return View(receta);
+        }
+
+        public ActionResult IndexReceta()
+        {
+            var viewModel = new RecetaViewModel
+            {
+                Recetas = BaseDatos.Receta.ToList(),
+                Modificaciones = BaseDatos.Modificacion_Receta.ToList()
+            };
+
+            return View(viewModel);
+        }
+
+        //---------------------------------------------------- Nota ------------------------------------------------------
+        //public ActionResult Nota()
+        //{
+        //    return View();
+        //}
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Nota(Receta receta)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        BaseDatos.Receta.Add(receta);
+        //        BaseDatos.SaveChangesAsync();
+        //        return RedirectToAction("Index");
+        //    }
+
+        //    return View(receta);
+        //}
 
 
     }

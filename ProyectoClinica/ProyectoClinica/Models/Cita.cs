@@ -17,13 +17,15 @@ namespace ProyectoClinica.Models
         public int Id_Medico { get; set; }
 
         [StringLength(255)]
-        [Display(Name = "Nombre")]
+        [Display(Name = "Paciente")]
         public string Nombre_Paciente { get; set; }
 
         [StringLength(255)]
+        [Display(Name = "Estado")]
         public string Estado_Asistencia { get; set; } //Asistida o no asistida
 
         [Required]
+        [Display(Name = "Hora")]
         public TimeSpan Hora_cita { get; set; }
 
         [StringLength(255)]

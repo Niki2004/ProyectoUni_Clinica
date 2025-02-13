@@ -1,0 +1,104 @@
+﻿@model IEnumerable<ProyectoClinica.Models.PagosXNomina>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div style="text-align: center; margin-bottom: 20px;">
+    <a href="@Url.Action("VistaCON", "Contabilidad")" class="custom-btn">
+        <i class="fas fa-home"></i> Inicio
+    </a>
+</div>
+<style>
+    .custom-btn {
+        background-color: #0b7b82 !important;
+        color: white !important;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 16px;
+        text-decoration: none;
+        transition: background 0.3s ease, transform 0.2s ease;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            <label>Id de Contabilidad</label>
+        </th>
+        <th>
+            <label>Número de Referencia</label>
+        </th>
+        <th>
+            <label>Empleado</label>
+        </th>
+        <th>
+            <label>Fecha de Pago</label>
+        </th>
+        <th>
+            <label>Monto de Pago</label>
+        </th>
+        <th>
+            <label>Metodo de Pago</label>
+        </th>
+        <th>
+            <label>Estado de Pago</label>
+        </th>
+        <th>
+            <label>Observaciones</label>
+        </th>
+        <th>
+            <label>Fecha de Registro</label>
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id_Contabilidad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Pagos.Numero_Referencia)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Empleado.Nombre)
+            </td>
+            <td>
+                <label>@String.Format("{0:dd/MM/yyyy}", item.Fecha_Pago)</label>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Monto_Pago)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Metodo_Pago)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Estado_Pago)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Observaciones)
+            </td>
+            <td>
+                <label>@String.Format("{0:dd/MM/yyyy}", item.Fecha_Registro)</label>
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id_PagosXNomina }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id_PagosXNomina }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id_PagosXNomina })
+            </td>
+        </tr>
+    }
+
+</table>

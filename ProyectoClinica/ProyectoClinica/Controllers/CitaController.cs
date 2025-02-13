@@ -15,12 +15,36 @@ namespace ProyectoClinica.Controllers
         //Conexión BD
         private ApplicationDbContext BaseDatos = new ApplicationDbContext();
 
+        public ActionResult IndDOC()
+        {
+            return View();
+
+        }
+
+        public ActionResult VistaDOC()
+        {
+            return View();
+
+        }
+
+        public ActionResult VistaCAdmin()
+        {
+            return View();
+
+        }
+
         // GET: Cita
         [Authorize(Roles = "Usuario")]
         public ActionResult Index()
         {
             var citas = BaseDatos.Cita.ToList();
             return View(citas);
+        }
+
+        //Información de la clinica
+        public ActionResult VistaCita()
+        {
+            return View();
         }
 
         //Información de la clinica
@@ -169,7 +193,199 @@ namespace ProyectoClinica.Controllers
             return View(notaPaciente);
         }
 
+        //---------------------------------------------------- Gestión horario ------------------------------------------------------
+        [HttpGet]
+        public ActionResult GHorarios()
+        {
+            var Medico = BaseDatos.Medico.ToList();
+            return View(Medico);
+        }
 
+        //Editar
+        [HttpGet]
+        public ActionResult EditarMedico(int id)
+        {
+            var medico = BaseDatos.Medico.Find(id);
+            if (medico == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.Id_Cita = new SelectList(BaseDatos.Cita, "Id_Cita", "Hora_cita");
+            ViewBag.Id_receta = new SelectList(BaseDatos.Receta, "Id_receta", "Nombre_Receta");
+            ViewBag.Id = new SelectList(BaseDatos.Users, "Id", "Nombre");
+
+            return View(medico);
+        }
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditarMedico(Medico medico)
+        {
+            if (ModelState.IsValid)
+            {
+                BaseDatos.Entry(medico).State = EntityState.Modified;
+                BaseDatos.SaveChanges();
+                return RedirectToAction("GHorarios");
+            }
+
+            ViewBag.Id_Cita = new SelectList(BaseDatos.Cita, "Id_Cita", "Hora_cita");
+            ViewBag.Id_receta = new SelectList(BaseDatos.Receta, "Id_receta", "Nombre_Receta");
+            ViewBag.Id = new SelectList(BaseDatos.Users, "Id", "Nombre");
+
+            return View(medico);
+        }
+
+        //---------------------------------------------------- Reprogramar horario ------------------------------------------------------
+        [HttpGet]
+        public ActionResult GetCita()
+        {
+            var citas = BaseDatos.Cita
+                .Include("Medico")
+                .AsEnumerable()
+                .Select(pc => new
+                {
+                    id = pc.Id_Cita,
+                    title = pc.Medico.Nombre,
+                    start = pc.Fecha_Cita.ToString("yyyy-MM-dd") + "T" + pc.Hora_cita.ToString(@"hh\:mm\:ss"),
+                    end = pc.Fecha_Cita.ToString("yyyy-MM-dd") + "T" + pc.Hora_cita.ToString(@"hh\:mm\:ss"),
+                    color = pc.Estado_Asistencia == "No Asistida" ? "red" : (pc.Estado_Asistencia == "Asistida" ? "green" : "orange"),
+                    doctor = pc.Medico.Nombre,  // Añadido
+
+                })
+                .ToList();
+            return Json(citas, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult PCitas()
+        {
+            var Medico = BaseDatos.Cita.ToList();
+            return View(Medico);
+        }
+
+        [HttpGet]
+        public ActionResult CrearADM()
+        {
+
+            ViewBag.Id_Medico = new SelectList(BaseDatos.Medico, "Id_Medico", "Nombre");
+            return View();
+
+        }
+
+        [HttpPost]
+        public ActionResult CrearADM(Cita Cita)
+        {
+            if (ModelState.IsValid)
+            {
+                var CitaExistente = BaseDatos.Cita
+                .FirstOrDefault(r =>
+                    r.Fecha_Cita == Cita.Fecha_Cita &&
+                    r.Id_Medico == Cita.Id_Medico &&
+                    (
+                        (Cita.Hora_cita >= r.Hora_cita && Cita.Hora_cita < DbFunctions.AddMinutes(r.Hora_cita, 30)) ||
+                        (Cita.Hora_cita <= r.Hora_cita && DbFunctions.AddMinutes(Cita.Hora_cita, 30) > r.Hora_cita)
+                    ));
+
+                string meNotificacion;
+
+                if (CitaExistente != null)
+                {
+                    Cita.Estado_Asistencia = "No Asistida";
+                    meNotificacion = "La cita se ha creado, pero hay un conflicto de horario. Buscar otro horario";
+                }
+                else
+                {
+                    Cita.Estado_Asistencia = "Asistida";
+                    meNotificacion = "Tu cita ha sido creada exitosamente";
+                
+                }
+
+                // Guardar la Cita
+                BaseDatos.Cita.Add(Cita);
+                BaseDatos.SaveChanges();
+
+                // Manejo de la sesión de notificaciones
+                if (Session["NotificacionesADM"] == null)
+                {
+                    Session["NotificacionesADM"] = new List<string>();
+                }
+
+                var liNotificaciones = (List<string>)Session["NotificacionesADM"];
+                liNotificaciones.Add(meNotificacion);
+
+                // Guardar el número total de notificaciones en la sesión
+                Session["ContadorNotificaciones"] = liNotificaciones.Count;
+
+                // Redirigir a la vista de índice
+                return RedirectToAction("PCitas");
+            }
+
+            // Si el modelo no es válido, regresar la vista con los errores
+            return View(Cita);
+        }
+
+        [HttpGet]
+        public ActionResult CCita()
+        {
+            var cita = BaseDatos.Cita.ToList();
+            return View(cita);
+        }
+
+        [HttpGet]
+        public ActionResult Eliminar(int? id)
+        {
+            if (id == null)
+                return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
+
+            var cita = BaseDatos.Cita.SingleOrDefault(l => l.Id_Cita == id);
+            if (cita == null)
+                return HttpNotFound();
+
+            return View(cita);
+        }
+
+        [HttpPost, ActionName("Eliminar")]
+        public ActionResult EliminarCitaUsuario(int? id)
+        {
+            if (id == null)
+                return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
+
+            var cita = BaseDatos.Cita.Find(id);
+            if (cita == null)
+                return HttpNotFound();
+
+            BaseDatos.Cita.Remove(cita);
+            BaseDatos.SaveChanges();
+
+            // Agregar mensaje de éxito
+            TempData["SuccessMessage"] = "La cita se ha eliminado correctamente.";
+
+            return RedirectToAction("CCita");
+        }
+
+        //---------------------------------------------------- Doctor ------------------------------------------------------
+        [HttpGet]
+        public ActionResult GetDOctCitas()
+        {
+            var citas = BaseDatos.Cita
+                .Include("Medico")
+                .AsEnumerable()
+                .Select(pc => new
+                {
+                    id = pc.Id_Cita,
+                    title = pc.Medico.Nombre,
+                    start = pc.Fecha_Cita.ToString("yyyy-MM-dd") + "T" + pc.Hora_cita.ToString(@"hh\:mm\:ss"),
+                    end = pc.Fecha_Cita.ToString("yyyy-MM-dd") + "T" + pc.Hora_cita.ToString(@"hh\:mm\:ss"),
+                    color = pc.Estado_Asistencia == "No Asistida" ? "red" : (pc.Estado_Asistencia == "Asistida" ? "green" : "orange"),
+                    doctor = pc.Medico.Nombre,  // Añadido
+
+                })
+                .ToList();
+            return Json(citas, JsonRequestBehavior.AllowGet);
+        }
+
+        //---------------------------------------------------- Receta ------------------------------------------------------
 
     }
 }

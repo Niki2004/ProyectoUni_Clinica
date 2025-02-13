@@ -4,71 +4,371 @@
     ViewBag.Title = "Inventario";
 }
 
-<h2>Inventario</h2>
+<style>
+        :root {
+            --primary-turquoise: #008B8B;
+            --secondary-turquoise: #48D1CC;
+            --hover-turquoise: #20B2AA;
+            --background-light: #F5F5F5;
+        }
 
-<p>
-    @Html.ActionLink("Crear", "Crear",null ,new { @class = "btn w-100", style = "background-color: #3bb4bc; color: white;" })
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Estado.Descripcion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NombreArticulo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Marca)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Cantidad)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PrecioUnitario)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FechaCaducidad)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TipoArticulo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FechaIngreso)
-        </th>
-        <th></th>
-    </tr>
+        body {
+            background-color: var(--background-light);
+            font-family: Arial, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+        }
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Estado.Descripcion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.NombreArticulo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Marca)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Cantidad)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PrecioUnitario)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FechaCaducidad)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TipoArticulo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FechaIngreso)
-        </td>
-        <td>
-            @Html.ActionLink("Editar", "Editar", new { id=item.Id_Articulo }, new { @class = "btn w-100", style = "background-color: #3bb4bc; color: white;" }) |
-            @Html.ActionLink("Eliminar", "Eliminar", new { id=item.Id_Articulo }, new { @class = "btn w-100", style = "background-color: #3bb4bc; color: white;" })
-        </td>
-    </tr>
-}
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background-color: #008B8B;
+            z-index: 1001;
+        }
 
-</table>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 220px; /*Ancho*/
+            height: 100vh;
+            background-color: white;
+            padding-top: 5px; /*Espacio*/
+            padding-left: 5px; /*Espacio*/
+            padding-right: 5px; /*Espacio*/
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+            .sidebar a {
+                display: block;
+                color: #000000;
+                padding: 5px 10px;
+                text-decoration: none;
+                font-size: 18px;
+                margin-bottom: 2px;
+            }
+
+                .sidebar a:hover {
+                    background-color: #3bb4bc80;
+                    border-radius: 5px;
+                }
+
+
+        .content {
+            padding: 20px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+            .content h2 {
+                color: #0b7b82;
+                text-align: left;
+                margin-bottom: 20px;
+                padding-left: 20px;
+            }
+
+            .content p {
+                text-align: left;
+                padding-left: 20px;
+                margin-bottom: 10px;
+                line-height: 1.6;
+            }
+
+        .nav-link {
+            color: #333;
+            padding: 10px 15px;
+        }
+
+            .nav-link:hover {
+                background-color: #3bb4bc;
+                color: white;
+            }
+
+        .nav-header {
+            padding: 10px 15px;
+            color: #0b7b82;
+            font-size: 0.8em;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            padding: 20px;
+        }
+
+        .content-wrapper {
+            background-color: white;
+            padding: 50px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+
+        /* Button Styles */
+        .btn {
+            padding: 15px 25px;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-transform: none;
+            margin-bottom: 15px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-turquoise);
+            border-color: var(--primary-turquoise);
+            color: white;
+        }
+
+            .btn-primary:hover {
+                background-color: var(--hover-turquoise);
+                border-color: var(--hover-turquoise);
+                transform: translateY(-2px);
+            }
+
+        .btn-info {
+            background-color: var(--secondary-turquoise);
+            border-color: var(--secondary-turquoise);
+            color: white;
+        }
+
+            .btn-info:hover {
+                background-color: var(--hover-turquoise);
+                border-color: var(--hover-turquoise);
+                transform: translateY(-2px);
+            }
+
+        .gallery-container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .gallery-item {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+            .gallery-image:hover {
+                transform: scale(1.05);
+            }
+
+        .image-caption {
+            padding: 10px;
+            text-align: center;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        /* Estilos específicos para la tabla */
+    .table-container {
+        margin-top: 20px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        overflow: auto;
+    }
+
+    .table {
+        width: 100%;
+        margin-bottom: 0;
+        white-space: nowrap;
+    }
+
+    .table th {
+        background-color: var(--primary-turquoise);
+        color: white;
+        padding: 12px;
+        font-weight: 500;
+        text-align: center;
+        vertical-align: middle;
+        border-bottom: 2px solid #dee2e6;
+    }
+
+    .table td {
+        padding: 12px;
+        vertical-align: middle;
+        text-align: center;
+        border: 1px solid #dee2e6;
+    }
+
+    .table tbody tr:nth-child(even) {
+        background-color: #f8f9fa;
+    }
+
+    .table tbody tr:hover {
+        background-color: #e9ecef;
+    }
+
+    /* Ajustes para el contenedor principal */
+    .button-container {
+        padding: 20px;
+        background-color: var(--background-light);
+    }
+
+    /* Estilos para el header y botones de acción */
+    .inventory-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding: 0 15px;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 10px;
+    }
+
+    /* Estilos para el scrollbar de la tabla */
+    .table-container::-webkit-scrollbar {
+        height: 8px;
+        width: 8px;
+    }
+
+    .table-container::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    .table-container::-webkit-scrollbar-thumb {
+        background: var(--primary-turquoise);
+        border-radius: 4px;
+    }
+
+    .table-container::-webkit-scrollbar-thumb:hover {
+        background: var(--hover-turquoise);
+    }
+</style>
+</head>
+<body>
+    <div class="container-fluid">
+
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 sidebar">
+                <div class="sidebar">
+                    <div class="text-center p-3">
+                        <img src="~/Imagenes/Logo.png" alt="Centro Integral Santo Domingo Logo" class="img-fluid" style="max-width: 150px; height: auto;" />
+                    </div>
+
+                    <br />
+
+                    <center><div class="nav-header">Navegación</div></center>
+                    <div class="nav flex-column">
+                        <a class="nav-link">
+                            <i class="fas fa-cash-register"></i> Punto de venta
+                        </a>
+                    </div><br />
+                    <div class="nav flex-column">
+                        <a class="nav-link">
+                            <i class="fas fa-boxes"></i> Inventario
+                        </a>
+                    </div><br />
+                    <div class="nav flex-column">
+                        <a href="@Url.Action("VistaCON", "Contabilidad")" class="nav-link">
+                            <i class="fas fa-calculator"></i> Contabilidad
+                        </a>
+                    </div><br />
+                    <div class="nav flex-column">
+                        <a class="nav-link">
+                            <i class="fas fa-chart-line"></i> Reportes
+                        </a>
+                    </div>
+                    <hr />
+
+                    <center><div class="nav-header">Administración</div></center>
+                    <div class="nav flex-column">
+                        <a class="nav-link">
+                            <i class="fas fa-user-tie"></i> Administrativo
+                        </a><br />
+                        <a href="@Url.Action("Empleados", "Empleados")" class="nav-link">
+                            <i class="fas fa-users"></i> Empleados
+                        </a><br />
+                        <a class="nav-link">
+                            <i class="fas fa-folder-open"></i> Expedientes
+                        </a><br />
+                        <a href="@Url.Action("VistaCAdmin", "Cita")" class="nav-link">
+                            <i class="fas fa-calendar-check"></i> Citas
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+            <!-- Main Content -->
+            <div class="button-container">
+                <div class="inventory-header">
+                    <h2 style="text-align: ri; margin-bottom: 20px;">Inve</h2>
+                    @Html.ActionLink("Crear", "Crear", null, new { @class = "btn text-white", style = "background-color: #3bb4bc; border-radius: 5px;" })
+                </div>
+
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.Estado.Descripcion)</th>
+                                <th>@Html.DisplayNameFor(model => model.NombreArticulo)</th>
+                                <th>@Html.DisplayNameFor(model => model.Marca)</th>
+                                <th>@Html.DisplayNameFor(model => model.Cantidad)</th>
+                                <th>@Html.DisplayNameFor(model => model.PrecioUnitario)</th>
+                                <th>@Html.DisplayNameFor(model => model.FechaCaducidad)</th>
+                                <th>@Html.DisplayNameFor(model => model.TipoArticulo)</th>
+                                <th>@Html.DisplayNameFor(model => model.FechaIngreso)</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.Estado.Descripcion)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.NombreArticulo)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Marca)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Cantidad)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.PrecioUnitario)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.FechaCaducidad)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.TipoArticulo)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.FechaIngreso)</td>
+                                    <td class="action-buttons">
+                                        @Html.ActionLink("Editar", "Editar", new { id = item.Id_Articulo }, new { @class = "btn btn-warning me-2 text-white", style = "border-radius: 5px;", title = "Editar" })
+                                        @Html.ActionLink("Eliminar", "Eliminar", new { id = item.Id_Articulo }, new { @class = "btn btn-danger text-white", style = "border-radius: 5px;", title = "Eliminar" })
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+            </div>
+
+
+
+        </div>
+
+
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>

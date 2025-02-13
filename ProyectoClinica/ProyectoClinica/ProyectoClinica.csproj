@@ -244,22 +244,28 @@
     <Compile Include="Controllers\CitaController.cs" />
     <Compile Include="Controllers\ConciliacionesBancariasController.cs" />
     <Compile Include="Controllers\ContabilidadController.cs" />
+    <Compile Include="Controllers\DepartamentosController.cs" />
     <Compile Include="Controllers\DescuentoController.cs" />
     <Compile Include="Controllers\EmpleadosController.cs" />
     <Compile Include="Controllers\FacturaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InventarioController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MovimientosBancariosController.cs" />
     <Compile Include="Controllers\PagosController.cs" />
+    <Compile Include="Controllers\PagosDiariosController.cs" />
+    <Compile Include="Controllers\PagosXNominaController.cs" />
     <Compile Include="Controllers\PerfilController.cs" />
+    <Compile Include="Controllers\ProductosContaController.cs" />
+    <Compile Include="Controllers\RedirectController.cs" />
     <Compile Include="Controllers\ServiciosBrindadosController.cs" />
     <Compile Include="Controllers\ServiciosController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202502070059061_ModuloContabilidad.cs" />
-    <Compile Include="Migrations\202502070059061_ModuloContabilidad.Designer.cs">
-      <DependentUpon>202502070059061_ModuloContabilidad.cs</DependentUpon>
+    <Compile Include="Migrations\202502131418444_CambiosRecetaModificacion.cs" />
+    <Compile Include="Migrations\202502131418444_CambiosRecetaModificacion.designer.cs">
+      <DependentUpon>202502131418444_CambiosRecetaModificacion.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -275,8 +281,12 @@
     <Compile Include="Models\Busquedas_exportaciones.cs" />
     <Compile Include="Models\Caja_Chica.cs" />
     <Compile Include="Models\Cita.cs" />
+    <Compile Include="Models\Departamentos.cs" />
     <Compile Include="Models\Documento.cs" />
     <Compile Include="Models\Evaluacion.cs" />
+    <Compile Include="Models\Facturacion_Productos_Conta.cs" />
+    <Compile Include="Models\Inventario_Detalle_Conta.cs" />
+    <Compile Include="Models\Inventario_Encabezado_Conta.cs" />
     <Compile Include="Models\Metodo_Pago_Utilizado.cs" />
     <Compile Include="Models\Metodo_Pago.cs" />
     <Compile Include="Models\Conciliaciones_Bancarias.cs" />
@@ -300,7 +310,9 @@
     <Compile Include="Models\Pagos.cs" />
     <Compile Include="Models\PagosXNomina.cs" />
     <Compile Include="Models\Pagos_Diarios.cs" />
+    <Compile Include="Models\Productos_Conta.cs" />
     <Compile Include="Models\Receta.cs" />
+    <Compile Include="Models\RecetaViewModel.cs" />
     <Compile Include="Models\Reporte.cs" />
     <Compile Include="Models\Respaldo.cs" />
     <Compile Include="Models\RolAsignacion.cs" />
@@ -315,6 +327,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="BaseDatos\InsertsTotales.sql" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />
@@ -334,10 +347,17 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Imagenes\Consultorio1.jpeg" />
+    <Content Include="Imagenes\Consultorio2.jpeg" />
+    <Content Include="Imagenes\Consultorio4.jpeg" />
+    <Content Include="Imagenes\Exterior.jpeg" />
     <Content Include="Imagenes\Informacion.jpg" />
     <Content Include="Imagenes\Informacion2.jpg" />
     <Content Include="Imagenes\Informacion3.jpg" />
     <Content Include="Imagenes\Informacion4.jpg" />
+    <Content Include="Imagenes\Logo.png" />
+    <Content Include="Imagenes\PefilPorDefecto.jpg" />
+    <Content Include="Imagenes\Sala_de_espera.jpeg" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -444,6 +464,52 @@
     <Content Include="Views\Empleados\Create.cshtml" />
     <Content Include="Views\Empleados\Edit.cshtml" />
     <Content Include="Views\Empleados\Rol.cshtml" />
+    <Content Include="Views\Redirect\Redirect.cshtml" />
+    <Content Include="Views\Cita\VistaCita.cshtml" />
+    <Content Include="Views\Perfil\PerfilADM.cshtml" />
+    <Content Include="Views\Perfil\PerfilMED.cshtml" />
+    <Content Include="Views\Perfil\PerfilAUD.cshtml" />
+    <Content Include="Views\Perfil\PerfilCON.cshtml" />
+    <Content Include="Views\Perfil\PerfilSEC.cshtml" />
+    <Content Include="Views\Contabilidad\Pagos.cshtml" />
+    <Content Include="Views\PagosDiarios\Index.cshtml" />
+    <Content Include="Views\PagosDiarios\Create.cshtml" />
+    <Content Include="Views\PagosDiarios\Details.cshtml" />
+    <Content Include="Views\PagosDiarios\Edit.cshtml" />
+    <Content Include="Views\PagosXNomina\Index.cshtml" />
+    <Content Include="Views\PagosXNomina\Create.cshtml" />
+    <Content Include="Views\PagosXNomina\Details.cshtml" />
+    <Content Include="Views\PagosXNomina\Edit.cshtml" />
+    <Content Include="Views\PagosXNomina\IndexProveedor.cshtml" />
+    <Content Include="Views\Empleados\VistaAdmin.cshtml" />
+    <Content Include="Views\Factura\VistaSEC.cshtml" />
+    <Content Include="Views\MovimientosBancarios\Index.cshtml" />
+    <Content Include="Views\MovimientosBancarios\Create.cshtml" />
+    <Content Include="Views\MovimientosBancarios\Details.cshtml" />
+    <Content Include="Views\MovimientosBancarios\Edit.cshtml" />
+    <Content Include="Views\Contabilidad\VistaCON.cshtml" />
+    <Content Include="Views\Cita\VistaCAdmin.cshtml" />
+    <Content Include="Views\Cita\GHorarios.cshtml" />
+    <Content Include="Views\Cita\EditarMedico.cshtml" />
+    <Content Include="Views\Cita\PCitas.cshtml" />
+    <Content Include="Views\Cita\CrearADM.cshtml" />
+    <Content Include="Views\Perfil\NotificacionesADM.cshtml" />
+    <Content Include="Views\Cita\CCita.cshtml" />
+    <Content Include="Views\Cita\Eliminar.cshtml" />
+    <Content Include="Views\Cita\VistaDOC.cshtml" />
+    <Content Include="Views\Cita\DOCPCitas.cshtml" />
+    <Content Include="Views\Cita\IndDOC.cshtml" />
+    <Content Include="Views\Perfil\DOCHCita.cshtml" />
+    <Content Include="Views\Perfil\_CitasTable.cshtml" />
+    <Content Include="Views\Perfil\NotasAdicionales.cshtml" />
+    <Content Include="Views\ProductosConta\Index.cshtml" />
+    <Content Include="Views\ProductosConta\Create.cshtml" />
+    <Content Include="Views\Departamentos\Index.cshtml" />
+    <Content Include="Views\Departamentos\Create.cshtml" />
+    <Content Include="Views\Perfil\CrearReceta.cshtml" />
+    <Content Include="Views\Perfil\IndexReceta.cshtml" />
+    <Content Include="Views\Perfil\ConcenReceta.cshtml" />
+    <Content Include="Views\Perfil\RecetaDOC.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -477,12 +543,12 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.3.3.4\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
-    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.3.3.4\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
+    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.3.11.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
+    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.3.11.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202502070059061_ModuloContabilidad.resx">
-      <DependentUpon>202502070059061_ModuloContabilidad.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202502131418444_CambiosRecetaModificacion.resx">
+      <DependentUpon>202502131418444_CambiosRecetaModificacion.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

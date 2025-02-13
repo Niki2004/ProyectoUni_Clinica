@@ -1,0 +1,259 @@
+﻿@model IEnumerable<ProyectoClinica.Models.Empleado>
+
+@{
+    ViewBag.Title = "Administrador";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Centro Integral Santo Domingo</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+
+    <style>
+        :root {
+            --primary-turquoise: #008B8B;
+            --secondary-turquoise: #48D1CC;
+            --hover-turquoise: #20B2AA;
+            --background-light: #F5F5F5;
+        }
+
+        body {
+            background-color: var(--background-light);
+            font-family: Arial, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background-color: #008B8B;
+            z-index: 1001;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 220px; /*Ancho*/
+            height: 100vh;
+            background-color: white;
+            padding-top: 5px; /*Espacio*/
+            padding-left: 5px; /*Espacio*/
+            padding-right: 5px; /*Espacio*/
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+            .sidebar a {
+                display: block;
+                color: #000000;
+                padding: 5px 10px;
+                text-decoration: none;
+                font-size: 18px;
+                margin-bottom: 2px;
+            }
+
+                .sidebar a:hover {
+                    background-color: #3bb4bc80;
+                    border-radius: 5px;
+                }
+
+
+        .content {
+            padding: 20px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+            .content h2 {
+                color: #0b7b82;
+                text-align: left;
+                margin-bottom: 20px;
+                padding-left: 20px;
+            }
+
+            .content p {
+                text-align: left;
+                padding-left: 20px;
+                margin-bottom: 10px;
+                line-height: 1.6;
+            }
+
+        .nav-link {
+            color: #333;
+            padding: 10px 15px;
+        }
+
+            .nav-link:hover {
+                background-color: #3bb4bc;
+                color: white;
+            }
+
+        .nav-header {
+            padding: 10px 15px;
+            color: #0b7b82;
+            font-size: 0.8em;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            padding: 20px;
+        }
+
+        .content-wrapper {
+            background-color: white;
+            padding: 50px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+
+        /* Button Styles */
+        .btn {
+            padding: 15px 25px;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-transform: none;
+            margin-bottom: 15px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-turquoise);
+            border-color: var(--primary-turquoise);
+            color: white;
+        }
+
+            .btn-primary:hover {
+                background-color: var(--hover-turquoise);
+                border-color: var(--hover-turquoise);
+                transform: translateY(-2px);
+            }
+
+        .btn-info {
+            background-color: var(--secondary-turquoise);
+            border-color: var(--secondary-turquoise);
+            color: white;
+        }
+
+            .btn-info:hover {
+                background-color: var(--hover-turquoise);
+                border-color: var(--hover-turquoise);
+                transform: translateY(-2px);
+            }
+
+        .gallery-container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .gallery-item {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+            .gallery-image:hover {
+                transform: scale(1.05);
+            }
+
+        .image-caption {
+            padding: 10px;
+            text-align: center;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 sidebar">
+                <div class="sidebar">
+                    <div class="text-center p-3">
+                        <img src="~/Imagenes/Logo.png" alt="Centro Integral Santo Domingo Logo" class="img-fluid" style="max-width: 150px; height: auto;" />
+                    </div>
+
+                    <br />
+
+                    <center><div class="nav-header">Navegación</div></center>
+                    <div class="nav flex-column">
+                        <a class="nav-link">
+                            <i class="fas fa-cash-register"></i> Punto de venta
+                        </a>
+                    </div><br />
+                    <div class="nav flex-column">
+                        <a href="@Url.Action("Index", "Inventario")" class="nav-link">
+                            <i class="fas fa-boxes"></i> Inventario
+                        </a>
+                    </div><br />
+                    <div class="nav flex-column">
+                        <a href="@Url.Action("VistaCON", "Contabilidad")" class="nav-link">
+                            <i class="fas fa-calculator"></i> Contabilidad
+                        </a>
+                    </div><br />
+                    <div class="nav flex-column">
+                        <a class="nav-link">
+                            <i class="fas fa-chart-line"></i> Reportes
+                        </a>
+                    </div>
+                    <hr />
+
+                    <center><div class="nav-header">Administración</div></center>
+                    <div class="nav flex-column">
+                        <a class="nav-link">
+                            <i class="fas fa-user-tie"></i> Administrativo
+                        </a><br />
+                        <a href="@Url.Action("Empleados", "Empleados")" class="nav-link">
+                            <i class="fas fa-users"></i> Empleados
+                        </a><br />
+                        <a class="nav-link">
+                            <i class="fas fa-folder-open"></i> Expedientes
+                        </a><br />
+                        <a href="@Url.Action("VistaCAdmin", "Cita")" class="nav-link">
+                            <i class="fas fa-calendar-check"></i> Citas
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+            <!-- Main Content -->
+            <div class="content">
+                <div class="text-center p-3">
+                    <img src="~/Imagenes/Logo.png" alt="Centro Integral Santo Domingo Logo" class="img-fluid"
+                         style="max-width: 600px; height: auto; opacity: 0.10;" />
+                </div>
+            </div>
+
+
+            <script src="~/lib/jquery/dist/jquery.min.js"></script>
+            <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
