@@ -36,7 +36,7 @@
         height: 100px;
         border-radius: 50%;
         object-fit: cover;
-        border: 3px solid #007bff;
+        border: 3px solid #3bb4bc;
     }
 
     .profile-details {
@@ -109,8 +109,31 @@
     .text-success {
         color: #28a745;
         font-size: 0.9rem;
+        /* Botón personalizado */
+    }
+    
+ .custom-btn
+    {
+        background-color: #0b7b82 !important;
+        color: white !important;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 16px;
+        text-decoration: none;
+        transition: background 0.3s ease, transform 0.2s ease;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     }
 </style>
+
+<div style="text-align: center; margin-bottom: 20px;">
+    <a href="@Url.Action("IndDOC", "Cita")" class="custom-btn">
+        <i class="fas fa-home"></i> Inicio
+    </a>
+</div>
 
 <main aria-labelledby="title" class="profile-container">
     <!-- Enlace a Font Awesome para los íconos -->
@@ -154,6 +177,18 @@
                     <li>
                         <a class="nav-link" id="btnNotificaciones" href="@Url.Action("", "")">
                             <i class="fas fa-user-md"></i> Pacientes
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <hr />
+
+            <div class="section">
+                <h3>Historial de citas</h3>
+                <ul>
+                    <li>
+                        <a class="nav-link" id="btnNotificaciones" href="@Url.Action("DOCHCita", "Perfil")">
+                            <i class="fas fa-calendar-check"></i> Historial de citas
                         </a>
                     </li>
                 </ul>

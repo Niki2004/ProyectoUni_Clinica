@@ -335,7 +335,53 @@ namespace ProyectoClinica.Controllers
             return View(notificaciones);
         }
 
+        //---------------------------------------------------- Medico ------------------------------------------------------------
+        [HttpGet]
+        public ActionResult DOCHCita()
+        {
+            var Medico = BaseDatos.Cita.ToList();
+            return View(Medico);
+        }
 
+        // Acción para filtrar citas
+        public ActionResult FiltrarCitas(string tipoConsulta)
+        {
+            try
+            {
+                var citas = BaseDatos.Cita.Include(c => c.Medico).AsQueryable();
 
+                if (!string.IsNullOrEmpty(tipoConsulta))
+                {
+                    citas = citas.Where(c => c.Modalidad.ToLower() == tipoConsulta.ToLower());
+                }
+
+                var filteredCitas = citas.ToList().Select(c => new
+                {
+                    NombreMedico = c.Medico != null ? c.Medico.Nombre : "",
+                    c.Nombre_Paciente,
+                    c.Estado_Asistencia,
+                    Hora_cita = c.Hora_cita.ToString(@"hh\:mm"),
+                    c.Descripcion_Complicaciones,
+                    c.Sintomas,
+                    Fecha_Cita = c.Fecha_Cita.ToString("dd/MM/yyyy"),
+                    c.Modalidad
+                });
+
+                return Json(filteredCitas, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { error = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpGet]
+        public ActionResult NotasAdicionales()
+        {
+            var Medico = BaseDatos.Nota_Paciente.ToList();
+            return View(Medico);
+        }
     }
+
+
 }
