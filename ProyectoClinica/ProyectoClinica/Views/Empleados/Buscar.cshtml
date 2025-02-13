@@ -1,152 +1,133 @@
-﻿
+﻿@model IEnumerable<ProyectoClinica.Models.Empleado>
+
 @{
-    ViewBag.Title = "Buscar";
+    ViewBag.Title = "Lista de Empleados";
 }
+<div class="form-actions no-color">
+    
+    @Html.ActionLink("Regresar", "Empleados/Empleados")
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <!-- Main Content -->
+        <div class="button-container">
+            <div class="content-wrapper">
+                <h2 class="mb-4">Búsqueda de Empleados</h2>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <style>
-        .container {
-            max-width: 900px;
-            margin: 15px auto;
-            padding: 15px;
-            font-family: Arial, sans-serif;
-        }
+                <form method="get" action="@Url.Action("Buscar")" class="search-form mb-4">
+                    <div class="row g-3">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label class="form-label">Nombre:</label>
+                                <input type="text" name="nombre" value="@Request.QueryString["nombre"]" class="form-control" placeholder="Ingrese el nombre" />
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label class="form-label">Cédula:</label>
+                                <input type="text" name="cedula" value="@Request.QueryString["cedula"]" class="form-control" placeholder="Ingrese la cédula" />
+                            </div>
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fas fa-search me-2"></i>Buscar
+                            </button>
+                        </div>
+                    </div>
+                </form>
 
-        .search-section {
-            background-color: #f8f8f8;
-            padding: 20px;
-            border-radius: 6px;
-            margin-bottom: 20px;
-        }
-
-        .search-form {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .form-control {
-            flex: 1;
-            padding: 8px 10px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            height: 38px;
-        }
-
-        .search-button {
-            padding: 8px 20px;
-            background-color: #0B877D;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-
-            .search-button:hover {
-                background-color: #096b63;
-            }
-
-        .results-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-            .results-table th,
-            .results-table td {
-                padding: 12px;
-                text-align: left;
-                border-bottom: 1px solid #ddd;
-            }
-
-            .results-table th {
-                background-color: #f8f8f8;
-                font-weight: bold;
-            }
-
-        .action-buttons {
-            display: flex;
-            gap: 8px;
-        }
-
-        .edit-button,
-        .delete-button {
-            padding: 6px 12px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            text-decoration: none;
-            font-size: 14px;
-        }
-
-        .edit-button {
-            background-color: #0B877D;
-            color: white;
-        }
-
-        .delete-button {
-            background-color: #dc3545;
-            color: white;
-        }
-
-        .no-results {
-            text-align: center;
-            padding: 20px;
-            color: #666;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="search-section">
-            <form class="search-form">
-                <input type="text" class="form-control" name="searchTerm" placeholder="Buscar empleado por nombre...">
-                <button type="submit" class="search-button">Buscar</button>
-            </form>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Apellido</th>
+                                <th>Cédula</th>
+                                <th>Correo</th>
+                                <th>Jornada</th>
+                                <th>Departamento</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var empleado in Model)
+                            {
+                                <tr>
+                                    <td>@empleado.Nombre</td>
+                                    <td>@empleado.Apellido</td>
+                                    <td>@empleado.Cedula</td>
+                                    <td>@empleado.Correo</td>
+                                    <td>@empleado.Jornada</td>
+                                    <td>@empleado.Departamento</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-
-        <table class="results-table">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Apellidos</th>
-                    <th>Cedula</th>
-                    <th>Correo</th>
-                    <th>Departamento</th>
-                    <th>Roles</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (Model != null && Model.Any())
-                {
-                    foreach (var empleado in Model)
-                    {
-                        <tr>
-                            <td>@empleado.Nombre</td>
-                            <td>@empleado.Apellidos</td>
-                            <td>@empleado.Cedula</td>
-                            <td>@empleado.Correo</td>
-                            <td>@empleado.Departamento</td>
-                            <td>@empleado.Roles</td>
-                            <td class="action-buttons">
-                                
-                                <button class="delete-button" onclick="deleteEmployee(@empleado.Id)">Eliminar</button>
-                            </td>
-                        </tr>
-                    }
-                }
-                else
-                {
-                    <tr>
-                        <td colspan="7" class="no-results">No se encontraron resultados</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
     </div>
-</body>
-</html>
+</div>
 
+<style>
+    .search-form {
+        background-color: #f8f9fa;
+        padding: 25px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .form-label {
+        color: #0b7b82;
+        font-weight: 500;
+        margin-bottom: 8px;
+    }
+
+    .form-control {
+        border: 1px solid #ced4da;
+        padding: 0.75rem;
+        border-radius: 6px;
+        transition: border-color 0.2s ease-in-out;
+    }
+
+        .form-control:focus {
+            border-color: #008B8B;
+            box-shadow: 0 0 0 0.2rem rgba(0, 139, 139, 0.25);
+        }
+
+    .table thead th {
+        background-color: #008B8B;
+        color: white;
+        border: none;
+        padding: 12px;
+        font-weight: 500;
+    }
+
+    .table tbody tr:hover {
+        background-color: #3bb4bc20;
+        cursor: pointer;
+    }
+
+    .table td {
+        padding: 12px;
+        vertical-align: middle;
+        border-color: #e9ecef;
+    }
+
+    .btn-primary {
+        background-color: #008B8B;
+        border-color: #008B8B;
+        padding: 0.75rem 1.5rem;
+        font-weight: 500;
+    }
+
+        .btn-primary:hover {
+            background-color: #20B2AA;
+            border-color: #20B2AA;
+            transform: translateY(-1px);
+        }
+
+    .content-wrapper {
+        margin-top: 70px;
+        padding: 30px;
+    }
+</style>
