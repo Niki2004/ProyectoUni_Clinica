@@ -1,0 +1,69 @@
+﻿@model IEnumerable<ProyectoClinica.Models.Productos_Conta>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            <label>Nombre del Producto</label>
+        </th>
+        <th>
+            <label>Creación del Producto</label>
+        </th>
+        <th>
+            <label>Actualización del Producto</label>
+        </th>
+        <th>
+            <label>Eliminación del Producto</label>
+        </th>
+        <th>
+            <label>Estado del Producto</label>
+        </th>
+        <th>
+            <label>Tipo del Producto</label>
+        </th>
+        <th>
+            <label>Id del Usuario</label>
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nombre_producto)
+        </td>
+        <td>
+            <label>@String.Format("{0:dd/MM/yyyy}", item.Creacion_producto)</label>
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Actualizacion_producto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Eliminacion_producto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Estatus_producto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Tipo_producto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id_Usuario)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id_Producto }) |
+            @Html.ActionLink("Details", "Details", new { id = item.Id_Producto }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id_Producto })
+        </td>
+    </tr>
+}
+
+</table>
