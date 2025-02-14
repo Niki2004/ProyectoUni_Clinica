@@ -534,13 +534,13 @@ namespace ProyectoClinica.Controllers
         {
             try
             {
-                var notaMedico = BaseDatos.Nota_Paciente.Find(id);
+                var notaMedico = BaseDatos.Nota_Medico.Find(id);
                 if (notaMedico == null)
                 {
                     return HttpNotFound();
                 }
 
-                BaseDatos.Nota_Paciente.Remove(notaMedico);
+                BaseDatos.Nota_Medico.Remove(notaMedico);
                 BaseDatos.SaveChanges();
 
                 // Agregar mensaje de éxito

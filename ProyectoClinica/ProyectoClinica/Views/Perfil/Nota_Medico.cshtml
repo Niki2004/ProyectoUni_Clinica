@@ -1,43 +1,102 @@
 ﻿@model ProyectoClinica.Models.Nota_Medico
 
 @{
-    ViewBag.Title = "Medico";
+    ViewBag.Title = "Médico";
 }
 
-<h2>Nota del Medico</h2>
+<style>
+    .card-container {
+        max-width: 600px;
+        margin: 40px auto;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
+    .card-header {
+        background-color: #3bb4bc;
+        color: white;
+        text-align: center;
+        padding: 15px;
+        font-size: 20px;
+        font-weight: bold;
+    }
 
-    <div class="form-horizontal">
-        <h4>Nota_Medico</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Observacion, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Observacion, new { htmlAttributes = new { @class = "form-control" } })
+    .card-body {
+        padding: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .btn-submit {
+        background-color: #3bb4bc;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+
+        .btn-submit:hover {
+            background-color: #2a9298;
+        }
+
+    .btn-back {
+        display: block;
+        text-align: center;
+        margin-top: 15px;
+        color: #3bb4bc;
+        font-weight: bold;
+        text-decoration: none;
+        transition: 0.3s;
+    }
+
+        .btn-back:hover {
+            color: #2a9298;
+        }
+
+    .form-control {
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        padding: 10px;
+        width: 100%;
+    }
+</style>
+
+<div class="card-container">
+    <div class="card-header">
+        Nota del Médico
+    </div>
+    <div class="card-body">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                @Html.LabelFor(model => model.Observacion, new { @class = "form-label" })
+                @Html.TextAreaFor(model => model.Observacion, new { @class = "form-control", rows = "3" })
                 @Html.ValidationMessageFor(model => model.Observacion, "", new { @class = "text-danger" })
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Recomendacion, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Recomendacion, new { htmlAttributes = new { @class = "form-control" } })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Recomendacion, new { @class = "form-label" })
+                @Html.TextAreaFor(model => model.Recomendacion, new { @class = "form-control", rows = "3" })
                 @Html.ValidationMessageFor(model => model.Recomendacion, "", new { @class = "text-danger" })
             </div>
-        </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
+            <button type="submit" class="btn-submit">
+                Guardar
+            </button>
+        }
+
+        <a href="@Url.Action("DOCHCita")" class="btn-back">Regresar</a>
     </div>
-}
-
-<div>
-    @Html.ActionLink("Regresar", "DOCHCita")
 </div>
