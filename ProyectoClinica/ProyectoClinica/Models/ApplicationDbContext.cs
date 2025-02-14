@@ -69,7 +69,7 @@ namespace ProyectoClinica.Models
         public DbSet<Facturacion_Productos_Conta> Facturacion_Productos_Conta { get; set; }
         public DbSet<Departamentos> Departamentos { get; set; }
         public DbSet<Inventario_Detalle_Conta> Inventario_Detalle_Conta { get; set; }
-
+        public DbSet<Nota_Medico> Nota_Medico { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -120,8 +120,9 @@ namespace ProyectoClinica.Models
             modelBuilder.Entity<Facturacion_Productos_Conta>().ToTable("Facturacion_Productos_Conta");
             modelBuilder.Entity<Departamentos>().ToTable("Departamentos");
             modelBuilder.Entity<Inventario_Detalle_Conta>().ToTable("Inventario_Detalle_Conta");
+            modelBuilder.Entity<Nota_Medico>().ToTable("Nota_Medico");
 
-
+            
 
             // Configuración de relaciones para evitar ciclos de cascada
             // Relación entre Reporte y Cita
