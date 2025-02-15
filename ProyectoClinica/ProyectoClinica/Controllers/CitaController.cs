@@ -12,6 +12,7 @@ namespace ProyectoClinica.Controllers
 {
     public class CitaController : Controller
     {
+        //Prueba
         //Conexión BD
         private ApplicationDbContext BaseDatos = new ApplicationDbContext();
 
