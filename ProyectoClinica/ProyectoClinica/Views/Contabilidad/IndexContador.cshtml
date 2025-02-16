@@ -255,44 +255,18 @@
                     <center><div class="nav-header">Navegación</div></center>
                     <div class="nav flex-column">
                         <a class="nav-link">
-                            <i class="fas fa-cash-register"></i> Punto de venta
-                        </a>
-                    </div><br />
-                    <div class="nav flex-column">
-                        <a href="@Url.Action("Index", "Inventario")" class="nav-link">
-                            <i class="fas fa-boxes"></i> Inventario
-                        </a>
-                    </div><br />
-                    <div class="nav flex-column">
-                        <a class="nav-link">
                             <i class="fas fa-calculator"></i> Contabilidad
                         </a>
                     </div><br />
+
                     <div class="nav flex-column">
                         <a class="nav-link">
                             <i class="fas fa-chart-line"></i> Reportes
                         </a>
                     </div>
-                    <hr />
-
-                    <center><div class="nav-header">Administración</div></center>
-                    <div class="nav flex-column">
-                        <a class="nav-link">
-                            <i class="fas fa-user-tie"></i> Administrativo
-                        </a><br />
-                        <a href="@Url.Action("Empleados", "Empleados")" class="nav-link">
-                            <i class="fas fa-users"></i> Empleados
-                        </a><br />
-                        <a class="nav-link">
-                            <i class="fas fa-folder-open"></i> Expedientes
-                        </a><br />
-                        <a href="@Url.Action("VistaCAdmin", "Cita")" class="nav-link">
-                            <i class="fas fa-calendar-check"></i> Citas
-                        </a>
-                    </div>
-
                 </div>
             </div>
+
             <!-- Main Content -->
             <div class="button-container">
                 <br />
@@ -314,9 +288,10 @@
                         <div class="col">
                             @Html.ActionLink("Registro de pagos", "Index", "Contabilidad", null, new { @class = "btn btn-info btn-sm w-100" })
                         </div>
-                        <div class="col">
+                        <div class="col"> 
                             @Html.ActionLink("Conciliaciones bancarias", "Index", "ConciliacionesBancarias", null, new { @class = "btn btn-primary btn-sm w-100" })
                         </div>
+
                     </div>
 
                     <div class="row mb-4 text-center row-cols-4 g-3">
@@ -324,22 +299,10 @@
                             @Html.ActionLink("Registro de caja chica", "Index", "CajaChica", null, new { @class = "btn btn-info btn-sm w-100" })
                         </div>
                         <div class="col">
-                            @Html.ActionLink("Registro de descuentos", "Index", "Descuento", null, new { @class = "btn btn-primary btn-sm w-100" })
+                            @Html.ActionLink("Detalles de inventario", "Index", "InventarioDetalleConta", null, new { @class = "btn btn-primary btn-sm w-100" })
                         </div>
                         <div class="col">
-                            @Html.ActionLink("Movimientos bancarios", "Index", "MovimientosBancarios", null, new { @class = "btn btn-info btn-sm w-100" })
-                        </div>
-                    </div>
-
-                    <div class="row mb-4 text-center row-cols-4 g-3">
-                        <div class="col">
-                            @Html.ActionLink("Pagos diarios", "Index", "PagosDiarios", null, new { @class = "btn btn-primary btn-sm w-100" })
-                        </div>
-                        <div class="col">
-                            @Html.ActionLink("Servicios brindados", "Index", "Servicios", null, new { @class = "btn btn-info btn-sm w-100" })
-                        </div>
-                        <div class="col">
-                            @Html.ActionLink("Pagos x nomina", "Index", "PagosXNomina", null, new { @class = "btn btn-primary btn-sm w-100" })
+                            @Html.ActionLink("Inventario contable", "Index", "InventarioEncabezadoConta", null, new { @class = "btn btn-info btn-sm w-100" })
                         </div>
                     </div>
                 </div>

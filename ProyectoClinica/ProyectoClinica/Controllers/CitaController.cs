@@ -202,6 +202,14 @@ namespace ProyectoClinica.Controllers
             return View(Medico);
         }
 
+        [HttpGet]
+        public ActionResult HCita()
+        {
+            var Cita = BaseDatos.Cita.ToList();
+            return View(Cita);
+        }
+
+
         //Editar
         [HttpGet]
         public ActionResult EditarMedico(int id)

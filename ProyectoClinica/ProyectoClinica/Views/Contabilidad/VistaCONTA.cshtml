@@ -188,55 +188,6 @@
             background-color: #f8f9fa;
             color: #333;
         }
-
-        .button-container {
-            position: fixed;
-            top: 50px; /* Altura del header */
-            left: 220px; /* Ancho del sidebar */
-            right: 0;
-            bottom: 0;
-            overflow-y: auto;
-            padding: 20px;
-            background-color: var(--background-light);
-        }
-
-        /* Estilos para el contenedor principal */
-        .container {
-            max-width: 100%;
-            padding-right: 15px;
-            padding-left: 15px;
-            margin-right: auto;
-            margin-left: auto;
-        }
-
-        /* Ajustes para los botones */
-        .row-cols-4 {
-            margin-right: -15px;
-            margin-left: -15px;
-        }
-
-        .col {
-            padding-right: 15px;
-            padding-left: 15px;
-        }
-
-        /* Estilo para el scrollbar (opcional) */
-        .button-container::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .button-container::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-
-        .button-container::-webkit-scrollbar-thumb {
-            background: var(--primary-turquoise);
-            border-radius: 4px;
-        }
-
-            .button-container::-webkit-scrollbar-thumb:hover {
-                background: var(--hover-turquoise);
-            }
     </style>
 </head>
 <body>
@@ -252,19 +203,9 @@
 
                     <br />
 
-                    <center><div class="nav-header">Navegación</div></center>
+                    <center><div class="nav-header">Navegación</div></center> 
                     <div class="nav flex-column">
-                        <a class="nav-link">
-                            <i class="fas fa-cash-register"></i> Punto de venta
-                        </a>
-                    </div><br />
-                    <div class="nav flex-column">
-                        <a href="@Url.Action("Index", "Inventario")" class="nav-link">
-                            <i class="fas fa-boxes"></i> Inventario
-                        </a>
-                    </div><br />
-                    <div class="nav flex-column">
-                        <a class="nav-link">
+                        <a href="@Url.Action("IndexContador", "Contabilidad")" class="nav-link">
                             <i class="fas fa-calculator"></i> Contabilidad
                         </a>
                     </div><br />
@@ -274,76 +215,16 @@
                         </a>
                     </div>
                     <hr />
-
-                    <center><div class="nav-header">Administración</div></center>
-                    <div class="nav flex-column">
-                        <a class="nav-link">
-                            <i class="fas fa-user-tie"></i> Administrativo
-                        </a><br />
-                        <a href="@Url.Action("Empleados", "Empleados")" class="nav-link">
-                            <i class="fas fa-users"></i> Empleados
-                        </a><br />
-                        <a class="nav-link">
-                            <i class="fas fa-folder-open"></i> Expedientes
-                        </a><br />
-                        <a href="@Url.Action("VistaCAdmin", "Cita")" class="nav-link">
-                            <i class="fas fa-calendar-check"></i> Citas
-                        </a>
-                    </div>
-
                 </div>
             </div>
             <!-- Main Content -->
-            <div class="button-container">
-                <br />
-                <br />
-                <br />
-
-                @if (TempData["SuccessMessage"] != null)
-                {
-                    <div class="alert alert-success" role="alert">
-                        @TempData["SuccessMessage"]
-                    </div>
-                }
-
-                <div class="container">
-                    <div class="row mb-4 text-center row-cols-4 g-3">
-                        <div class="col">
-                            @Html.ActionLink("Registro de contabilidad", "Index", "Contabilidad", null, new { @class = "btn btn-primary btn-sm w-100" })
-                        </div>
-                        <div class="col">
-                            @Html.ActionLink("Registro de pagos", "Index", "Contabilidad", null, new { @class = "btn btn-info btn-sm w-100" })
-                        </div>
-                        <div class="col">
-                            @Html.ActionLink("Conciliaciones bancarias", "Index", "ConciliacionesBancarias", null, new { @class = "btn btn-primary btn-sm w-100" })
-                        </div>
-                    </div>
-
-                    <div class="row mb-4 text-center row-cols-4 g-3">
-                        <div class="col">
-                            @Html.ActionLink("Registro de caja chica", "Index", "CajaChica", null, new { @class = "btn btn-info btn-sm w-100" })
-                        </div>
-                        <div class="col">
-                            @Html.ActionLink("Registro de descuentos", "Index", "Descuento", null, new { @class = "btn btn-primary btn-sm w-100" })
-                        </div>
-                        <div class="col">
-                            @Html.ActionLink("Movimientos bancarios", "Index", "MovimientosBancarios", null, new { @class = "btn btn-info btn-sm w-100" })
-                        </div>
-                    </div>
-
-                    <div class="row mb-4 text-center row-cols-4 g-3">
-                        <div class="col">
-                            @Html.ActionLink("Pagos diarios", "Index", "PagosDiarios", null, new { @class = "btn btn-primary btn-sm w-100" })
-                        </div>
-                        <div class="col">
-                            @Html.ActionLink("Servicios brindados", "Index", "Servicios", null, new { @class = "btn btn-info btn-sm w-100" })
-                        </div>
-                        <div class="col">
-                            @Html.ActionLink("Pagos x nomina", "Index", "PagosXNomina", null, new { @class = "btn btn-primary btn-sm w-100" })
-                        </div>
-                    </div>
+            <div class="content">
+                <div class="text-center p-3">
+                    <img src="~/Imagenes/Logo.png" alt="Centro Integral Santo Domingo Logo" class="img-fluid"
+                         style="max-width: 600px; height: auto; opacity: 0.10;" />
                 </div>
+            </div>
 
 
-                <script src="~/lib/jquery/dist/jquery.min.js"></script>
-                <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="~/lib/jquery/dist/jquery.min.js"></script>
+            <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

@@ -536,6 +536,11 @@
     <Content Include="Views\InventarioDetalleConta\Create.cshtml" />
     <Content Include="Views\InventarioDetalleConta\Details.cshtml" />
     <Content Include="Views\InventarioDetalleConta\Edit.cshtml" />
+    <Content Include="Views\Cita\HCita.cshtml" />
+    <Content Include="Views\Contabilidad\VistaCONTA.cshtml" />
+    <Content Include="Views\Contabilidad\VistaAUD.cshtml" />
+    <Content Include="Views\Contabilidad\IndexAUD.cshtml" />
+    <Content Include="Views\Contabilidad\IndexContador.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>
