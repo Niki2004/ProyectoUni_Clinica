@@ -136,8 +136,11 @@
             @Html.DisplayFor(modelItem => item.Modalidad)
         </td>
         <td>
-            @Html.ActionLink("Cancelar", "Eliminar", new { id=item.Id_Cita })
+            <a href="@Url.Action("Eliminar", new { id = item.Id_Cita })" class="btn btn-danger">
+                <i class="fas fa-trash-alt"></i> 
+            </a>
         </td>
+
     </tr>
 }
 
