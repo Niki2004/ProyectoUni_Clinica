@@ -27,7 +27,22 @@ namespace ProyectoClinica.Controllers
             return View();
 
         }
+        public ActionResult VistaGastos()
+        {
+            var idSuministrosMedicos = _context.Tipo_Registro
+                .Where(s => s.Nombre == "Gastos de suministro medicos")
+                .Select(s => s.Id_Tipo_Registro)
+                .FirstOrDefault(); // O SingleOrDefault() si solo debería haber un resultado
 
+
+
+            var suministrosconta = _context.Contabilidad
+            .Where(s => s.Id_Tipo_Registro == idSuministrosMedicos)
+            .ToList();
+
+            return View(suministrosconta);
+
+        }
         #region Index
         // GET: Contabilidad
         //[Authorize(Roles = "Contador")]
@@ -37,7 +52,7 @@ namespace ProyectoClinica.Controllers
             return View(listaRegistros);
 
         }
-        #endregion
+        #endregion    
 
         public ActionResult Pagos(int id)
         {

@@ -521,6 +521,7 @@
     <Content Include="Views\Perfil\NotasMedicas.cshtml" />
     <Content Include="Views\Perfil\EditarNotaMedico.cshtml" />
     <Content Include="Views\Perfil\EliminarNotaMedico.cshtml" />
+    <Content Include="Views\Contabilidad\VistaGastos.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>

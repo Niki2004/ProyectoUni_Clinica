@@ -475,18 +475,6 @@ VALUES
 'Transferencia', 'Completado', 'Pago diario medio tiempo', GETDATE());
 
 
---Movimientos_Bancarios--
-
-INSERT INTO [dbo].[Movimientos_Bancarios]
-([Id_Diario], [Id_Conciliacion], [Id_Pagos_Diarios], [Ingresos], [Egresos], 
-[Saldo], [Fecha_Movimiento], [Descripcion])
-VALUES
-(1, 1, 3, 10000, 45000, 155000.00, '2025-02-08 14:30:00',
-'Pago diario a empleado Carlos Rodríguez - Tiempo Completo'),
-
-(2, 2, 4, 8000, 25000, 130000.00, '2025-02-08 14:45:00',
-'Pago diario a empleado María González - Medio Tiempo');
-
 
 --PagosXNomina--
 
@@ -534,15 +522,6 @@ VALUES
 
 INSERT INTO [dbo].[Tipo_Registro] ([Nombre], [Descripcion])
 VALUES ('Gastos de suministro medicos', 'Registro de gastos relacionados con la compra de medicamentos y fármacos');
-
-INSERT INTO [dbo].[Tipo_Registro] ([Nombre], [Descripcion])
-VALUES ('Gastos de suministro medicos', 'Registro de gastos de insumos y materiales para procedimientos quirúrgicos');
-
-INSERT INTO [dbo].[Tipo_Registro] ([Nombre], [Descripcion])
-VALUES ('Gastos de suministro medicos', 'Registro de gastos en compra y mantenimiento de equipos médicos');
-
-INSERT INTO [dbo].[Tipo_Registro] ([Nombre], [Descripcion])
-VALUES ('Gastos de suministro medicos', 'Registro de gastos en materiales de uso diario hospitalario como guantes, jeringas, vendas');
 
 --Cambio de fotos *No es necesario cambiarlos*
 UPDATE [CentroIntegralSD].[dbo].[AspNetUsers]
