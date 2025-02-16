@@ -46,6 +46,12 @@
     </a>
 </div>
 
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["SuccessMessage"]
+    </div>
+}
 <div class="container" style="margin-top: 50px;">
     <div class="card shadow-lg" style="border-radius: 15px;">
         <div class="card-header text-center" style="background-color: #0b7b82; color: white; border-radius: 15px 15px 0 0;">
@@ -55,7 +61,7 @@
             <div class="filter-form">
                 <form id="filterForm">
                     <div class="row">
-                      
+
                         <div class="col-md-4">
                             <label for="tipoConsulta">Tipo de Consulta:</label>
                             <select class="form-control" id="tipoConsulta" name="tipoConsulta">
@@ -80,6 +86,8 @@
                         <th>@Html.DisplayNameFor(model => model.Sintomas)</th>
                         <th>@Html.DisplayNameFor(model => model.Fecha_Cita)</th>
                         <th>@Html.DisplayNameFor(model => model.Modalidad)</th>
+                        <th>   </th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -94,9 +102,16 @@
                             <td>@Html.DisplayFor(modelItem => item.Sintomas)</td>
                             <td>@Html.DisplayFor(modelItem => item.Fecha_Cita)</td>
                             <td>@Html.DisplayFor(modelItem => item.Modalidad)</td>
+                            <td>
+                                <!-- Botón de Nota -->
+                                <button class="btn btn-info" onclick="window.location.href='@Url.Action("Nota_Medico", "Perfil")'">
+                                    Nota
+                                </button>
+                            </td>
                         </tr>
                     }
                 </tbody>
+
             </table>
         </div>
     </div>
@@ -106,7 +121,11 @@
 
 <div style="text-align: center; margin-bottom: 20px;">
     <a href="@Url.Action("NotasAdicionales", "Perfil")" class="custom-btn">
-        <i class=""></i> Notas Adicionales
+        <i class=""></i> Notas adicionales
+    </a>
+
+    <a href="@Url.Action("NotasMedicas", "Perfil")" class="custom-btn">
+        <i class=""></i> Notas medicas
     </a>
 </div>
 

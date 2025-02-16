@@ -12,6 +12,7 @@ namespace ProyectoClinica.Controllers
 {
     public class CitaController : Controller
     {
+        //Prueba
         //Conexión BD
         private ApplicationDbContext BaseDatos = new ApplicationDbContext();
 
@@ -384,5 +385,8 @@ namespace ProyectoClinica.Controllers
                 .ToList();
             return Json(citas, JsonRequestBehavior.AllowGet);
         }
+
+        //---------------------------------------------------- Receta ------------------------------------------------------
+
     }
 }

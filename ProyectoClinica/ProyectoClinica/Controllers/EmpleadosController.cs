@@ -44,6 +44,13 @@ namespace ProyectoClinica.Controllers
             return View(empleados);
         }
 
+        [HttpGet]
+        public ActionResult vistaEliminar()
+        {
+            var empleados=BaseDatos.Empleado.ToList();
+            return View(empleados);
+        }
+
 
         //-----------------------------------------------------------------controller creacion de empleados----------------------------------------------------------------------
 
@@ -139,11 +146,57 @@ namespace ProyectoClinica.Controllers
 
         //-----------------------------------------------------------------Controller Desactivar -------------------------------------------------------------------------------------
 
-        ////preguntar
-        //public ActionResult DesactivarPerfil()
-        //{
-        //    return View();
-        //}
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Empleado empleado = BaseDatos.Empleado.Find(id);
+            if (empleado == null)
+            {
+                return HttpNotFound();
+            }
+            return View(empleado);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            Empleado empleado = BaseDatos.Empleado.Find(id);
+            if (empleado != null)
+            {
+                BaseDatos.Empleado.Remove(empleado);
+                BaseDatos.SaveChanges();
+            }
+            return RedirectToAction("vistaEliminar");
+        }
+
+        //-----------------------------------------------------------------Controller Buscar -------------------------------------------------------------------------------------
+
+        public ActionResult Buscar(string nombre, string cedula)
+        {
+            var empleados = BaseDatos.Empleado.AsQueryable();
+
+            if (!string.IsNullOrEmpty(nombre))
+            {
+                empleados = empleados.Where(e => e.Nombre.Contains(nombre));
+            }
+
+            if (!string.IsNullOrEmpty(cedula))
+            {
+                empleados = empleados.Where(e => e.Cedula.Contains(cedula));
+            }
+
+            return View(empleados.ToList());
+        }
+
+        //-----------------------------------------------------------------Controller  -------------------------------------------------------------------------------------
+
+
+
+
 
 
 
