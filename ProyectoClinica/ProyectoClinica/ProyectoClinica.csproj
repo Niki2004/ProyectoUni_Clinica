@@ -249,6 +249,8 @@
     <Compile Include="Controllers\EmpleadosController.cs" />
     <Compile Include="Controllers\FacturaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InventarioDetalleContaController.cs" />
+    <Compile Include="Controllers\InventarioEncabezadoContaController.cs" />
     <Compile Include="Controllers\InventarioController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MovimientosBancariosController.cs" />
@@ -521,6 +523,19 @@
     <Content Include="Views\Perfil\NotasMedicas.cshtml" />
     <Content Include="Views\Perfil\EditarNotaMedico.cshtml" />
     <Content Include="Views\Perfil\EliminarNotaMedico.cshtml" />
+    <Content Include="Views\Contabilidad\VistaGastos.cshtml" />
+    <Content Include="Views\ProductosConta\Details.cshtml" />
+    <Content Include="Views\ProductosConta\Edit.cshtml" />
+    <Content Include="Views\Departamentos\Details.cshtml" />
+    <Content Include="Views\Departamentos\Edit.cshtml" />
+    <Content Include="Views\InventarioEncabezadoConta\Index.cshtml" />
+    <Content Include="Views\InventarioEncabezadoConta\Create.cshtml" />
+    <Content Include="Views\InventarioEncabezadoConta\Details.cshtml" />
+    <Content Include="Views\InventarioEncabezadoConta\Edit.cshtml" />
+    <Content Include="Views\InventarioDetalleConta\Index.cshtml" />
+    <Content Include="Views\InventarioDetalleConta\Create.cshtml" />
+    <Content Include="Views\InventarioDetalleConta\Details.cshtml" />
+    <Content Include="Views\InventarioDetalleConta\Edit.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>

@@ -1,10 +1,12 @@
 ﻿using ProyectoClinica.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
 
 namespace ProyectoClinica.Controllers
 {
@@ -24,15 +26,25 @@ namespace ProyectoClinica.Controllers
         }
 
         // GET: ProductosConta/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(int? id)
         {
-            return View();
+            if (id == null)
+                return View();
+
+            var productos = _context.Productos_Conta.Find(id);
+
+            if (productos == null)
+            {
+                return View(productos);
+            }
+
+            return View(productos);
         }
 
         // GET: ProductosConta/Create
         public ActionResult Create()
         {
-            ViewBag.Facturacion_Productos_Conta = new SelectList(_context.Facturacion_Productos_Conta, "Id_Factura_Producto", "Cantidad_Vendida");
+            
             return View();
         }
 
@@ -78,23 +90,28 @@ namespace ProyectoClinica.Controllers
         // GET: ProductosConta/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var productos = _context.Productos_Conta.Find(id);
+
+            if (productos == null)
+            {
+                return new HttpStatusCodeResult(System.Net.HttpStatusCode.NotFound);
+            }
+
+            return View(productos);
         }
 
         // POST: ProductosConta/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public async Task<ActionResult> Edit(Productos_Conta productos)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add update logic here
-
+                _context.Entry(productos).State = EntityState.Modified;
+                _context.SaveChanges();
                 return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+
+            return View(productos);
         }
 
         // GET: ProductosConta/Delete/5
