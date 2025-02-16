@@ -1,0 +1,75 @@
+﻿@model IEnumerable<ProyectoClinica.Models.Inventario_Detalle_Conta>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            <label>Id del Inventario Encabezado</label>
+        </th>
+        <th>
+            <label>Id del Departamento</label>
+        </th>
+        <th>
+            <label>Id del Producto</label>
+        </th>
+        <th>
+            <label>Fecha de Entrada</label>
+        </th>
+        <th>
+            <label>Cantidad del Stock</label>
+        </th>
+        <th>
+            <label>Fecha de Salida</label>
+        </th>
+        <th>
+            <label>Cantidad de Salida</label>
+        </th>
+        <th>
+            <label>Precio</label>
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id_Inventario_Encabezado)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id_Departamento)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id_Producto)
+        </td>
+        <td>
+            <label>@String.Format("{0:dd/MM/yyyy}", item.Fecha_Entrada)</label>
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cantidad_Stock)
+        </td>
+        <td>
+            <label>@String.Format("{0:dd/MM/yyyy}", item.Fecha_Salida)</label>
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cantidad_Salida)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Precio)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id_Inventario_Detalle }) |
+            @Html.ActionLink("Details", "Details", new { id = item.Id_Inventario_Detalle }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id_Inventario_Detalle })
+        </td>
+    </tr>
+}
+
+</table>
