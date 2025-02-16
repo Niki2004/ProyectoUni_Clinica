@@ -139,243 +139,8 @@ UPDATE [CentroIntegralSD].[dbo].[Medico]
 SET Imagen = 'https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?cs=srgb&dl=pexels-olly-733872.jpg&fm=jpg'
 WHERE Id_Medico = 3;
 
---Insert de Roles 
 
---Rol secretaria
-INSERT INTO [CentroIntegralSD].[dbo].[AspNetUsers] (
-    [Id],
-    [Nombre],
-    [Apellido],
-    [Edad_Paciente],
-    [Direccion],
-    [Cedula],
-    [Imagen],
-    [Email],
-    [EmailConfirmed],
-    [PasswordHash],
-    [SecurityStamp],
-    [PhoneNumber],
-    [PhoneNumberConfirmed],
-    [TwoFactorEnabled],
-    [LockoutEndDateUtc],
-    [LockoutEnabled],
-    [AccessFailedCount],
-    [UserName]
-)
-VALUES (
-    NEWID(), 
-    'María Carmen',
-    'Maroto Hidalgo',
-    22,
-    'Guanacaste, cañas',
-    '11-53456789',
-    'https://blog.oxfamintermon.org/wp-content/uploads/2018/05/derechos-de-las-mujeres.jpg', 
-    'MMaroto01CentrointegralSD@gmail.com',
-    1, 
-    '123456JMaro+', 
-    NEWID(), 
-    '1234567890',
-    1, 
-    0, 
-    NULL, 
-    0, 
-    0, 
-    'María.Carmen' 
-);
-
-INSERT INTO AspNetUserRoles (UserId, RoleId)
-SELECT u.Id, r.Id
-FROM AspNetUsers u, AspNetRoles r
-WHERE u.Email = 'MMaroto01CentrointegralSD@gmail.com' 
-AND r.Name = 'Secretaria'
-
-
---Rol medico
-INSERT INTO [CentroIntegralSD].[dbo].[AspNetUsers] (
-    [Id],
-    [Nombre],
-    [Apellido],
-    [Edad_Paciente],
-    [Direccion],
-    [Cedula],
-    [Imagen],
-    [Email],
-    [EmailConfirmed],
-    [PasswordHash],
-    [SecurityStamp],
-    [PhoneNumber],
-    [PhoneNumberConfirmed],
-    [TwoFactorEnabled],
-    [LockoutEndDateUtc],
-    [LockoutEnabled],
-    [AccessFailedCount],
-    [UserName]
-)
-VALUES (
-    NEWID(), -- Genera un nuevo ID único
-    'Juan Pablo',
-    'Aguiar Maroto',
-    30,
-    'Guanacaste',
-    '11-43456789',
-    'https://lh3.googleusercontent.com/HIt2iEXOtDWPd58HyHFRN50FHrvo3ZERnTfVPMxrQ2912i8IkKrRzBDjA9i2tYo65t5qJqf_GrmUTaHUr1Egj20xjYP8BHNHWVxubxKFL-qE7uW8wEsuqhejuyKm5XjszQ=w1280', 
-    'JAguilar01CentrointegralSD@gmail.com',
-    1, 
-    '123456JAgui+', -- Sustituye con el hash real
-    NEWID(), -- SecurityStamp (puedes generar uno)
-    '1234567890',
-    1, -- PhoneNumber confirmado
-    0, -- TwoFactorEnabled
-    NULL, -- LockoutEndDateUtc (NULL si no tiene bloqueo)
-    0, -- LockoutEnabled (1 = true, 0 = false)
-    0, -- AccessFailedCount
-    'Juan.Pablo' -- Nombre de usuario
-);
-
-INSERT INTO AspNetUserRoles (UserId, RoleId)
-SELECT u.Id, r.Id
-FROM AspNetUsers u, AspNetRoles r
-WHERE u.Email = 'JAguilar01CentrointegralSD@gmail.com' 
-AND r.Name = 'Medico'
-
---Rol Contador
-INSERT INTO [CentroIntegralSD].[dbo].[AspNetUsers] (
-    [Id],
-    [Nombre],
-    [Apellido],
-    [Edad_Paciente],
-    [Direccion],
-    [Cedula],
-    [Imagen],
-    [Email],
-    [EmailConfirmed],
-    [PasswordHash],
-    [SecurityStamp],
-    [PhoneNumber],
-    [PhoneNumberConfirmed],
-    [TwoFactorEnabled],
-    [LockoutEndDateUtc],
-    [LockoutEnabled],
-    [AccessFailedCount],
-    [UserName]
-)
-VALUES (
-    NEWID(), 
-    'Andrés',
-    'Camacho Ulate',
-    30,
-    'Guanacaste',
-    '11-43336789',
-    'https://plus.unsplash.com/premium_photo-1661627681947-4431c8c97659?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aG9tYnJlJTIwZXNwYSVDMyVCMW9sfGVufDB8fDB8fHww', 
-    'ACamacho01CentrointegralSD@gmail.com',
-    1, 
-    '123456JACama+', 
-    NEWID(), 
-    '1234567890',
-    1, 
-    0, 
-    NULL, 
-    0, 
-    0, 
-    'Andrés' 
-);
-
-INSERT INTO AspNetUserRoles (UserId, RoleId)
-SELECT u.Id, r.Id
-FROM AspNetUsers u, AspNetRoles r
-WHERE u.Email = 'ACamacho01CentrointegralSD@gmail.com' 
-AND r.Name = 'Contador'
-
---Rol Auditor
-INSERT INTO [CentroIntegralSD].[dbo].[AspNetUsers] (
-    [Id],
-    [Nombre],
-    [Apellido],
-    [Edad_Paciente],
-    [Direccion],
-    [Cedula],
-    [Imagen],
-    [Email],
-    [EmailConfirmed],
-    [PasswordHash],
-    [SecurityStamp],
-    [PhoneNumber],
-    [PhoneNumberConfirmed],
-    [TwoFactorEnabled],
-    [LockoutEndDateUtc],
-    [LockoutEnabled],
-    [AccessFailedCount],
-    [UserName]
-)
-VALUES (
-    NEWID(), 
-    'Ashely Nicole',
-    'Chavarria Hidalgo',
-    29,
-    'Guanacaste, cañas',
-    '11-43459039',
-    'https://images.ecestaticos.com/eBvaltTEE03goqkr6_DLbrNOQxw=/484x270:5299x3536/992x700/filters:fill(white):format(jpg)/f.elconfidencial.com%2Foriginal%2Fb0d%2F0c8%2F01d%2Fb0d0c801d29a3fc13d9ec30ef361d0cf.jpg', 
-    'AChavarria01CentrointegralSD@gmail.com',
-    1, 
-    '123456ACha+',
-    NEWID(), 
-    '1234567890',
-    1, 
-    0,
-    NULL, 
-    0, 
-    0, 
-    'Ashely.Nicole' 
-);
-
-INSERT INTO AspNetUserRoles (UserId, RoleId)
-SELECT u.Id, r.Id
-FROM AspNetUsers u, AspNetRoles r
-WHERE u.Email = 'AChavarria01CentrointegralSD@gmail.com' 
-AND r.Name = 'Auditor'
-
---Rol Administrador
-INSERT INTO [CentroIntegralSD].[dbo].[AspNetUsers] (
-    [Id],
-    [Nombre],
-    [Apellido],
-    [Edad_Paciente],
-    [Direccion],
-    [Cedula],
-    [Imagen],
-    [Email],
-    [EmailConfirmed],
-    [PasswordHash],
-    [SecurityStamp],
-    [PhoneNumber],
-    [PhoneNumberConfirmed],
-    [TwoFactorEnabled],
-    [LockoutEndDateUtc],
-    [LockoutEnabled],
-    [AccessFailedCount],
-    [UserName]
-)
-VALUES (
-    NEWID(), 
-    'Carmen',
-    'Ulate Arias',
-    30,
-    'Guanacaste',
-    '11-43489789',
-    'https://st3.depositphotos.com/12985790/15794/i/450/depositphotos_157947226-stock-photo-man-looking-at-camera.jpg', 
-    'AUlate01CentrointegralSD@gmail.com',
-    1, 
-    '123456AUlat+', 
-    NEWID(), 
-    '1234567890',
-    1, 
-    0, 
-    NULL,
-    0, 
-    0, 
-    'Anderson.Adrian' 
-);
-
+--Cambiar Roles Según Necesario--
 INSERT INTO AspNetUserRoles (UserId, RoleId)
 SELECT u.Id, r.Id
 FROM AspNetUsers u, AspNetRoles r
@@ -547,3 +312,41 @@ VALUES
 ('Recursos Humanos', 'Departamento responsable de la gestión del personal y desarrollo organizacional', GETDATE(), NULL, NULL, 1, 2),
 ('Ventas', 'Departamento dedicado a la comercialización y venta de productos y servicios', GETDATE(), NULL, NULL, 1, 1),
 ('Sistemas', 'Departamento encargado de la infraestructura tecnológica y desarrollo de software', GETDATE(), NULL, NULL, 1, 3);
+
+--Insert de InventarioEncabezadoConta--
+
+INSERT INTO [dbo].[Inventario_Encabezado_Conta]
+([Id_Usuario], [Fecha_Inventario], [Inventario_Estatus], [Inventario_Creacion], [Inventario_Actualizacion], [Inventario_Eliminacion])
+VALUES
+(1, '2025-02-15 09:00:00', 1, '2025-02-15 09:00:00', NULL, NULL),
+(2, '2025-02-15 10:30:00', 1, '2025-02-15 10:30:00', '2025-02-15 11:00:00', NULL),
+(3, '2025-02-14 14:15:00', 2, '2025-02-14 14:15:00', NULL, NULL),
+(4, '2025-02-13 16:45:00', 3, '2025-02-13 16:45:00', '2025-02-14 08:00:00', '2025-02-15 09:30:00');
+
+
+
+--Insert de InventarioDetalleConta--
+
+INSERT INTO [dbo].[Inventario_Detalle_Conta]
+([Id_Inventario_Encabezado], [Id_Departamento], [Id_Producto], [Fecha_Entrada], 
+[Cantidad_Stock], [Fecha_Salida], [Cantidad_Salida], [Precio])
+VALUES
+(1, 1, 1, '2025-02-15 09:00:00', 100, NULL, NULL, 25.50);
+
+INSERT INTO [dbo].[Inventario_Detalle_Conta]
+([Id_Inventario_Encabezado], [Id_Departamento], [Id_Producto], [Fecha_Entrada], 
+[Cantidad_Stock], [Fecha_Salida], [Cantidad_Salida], [Precio])
+VALUES
+(2, 2, 2, '2025-02-15 10:30:00', 75, '2025-02-15 14:00:00', 25, 32.75);
+
+INSERT INTO [dbo].[Inventario_Detalle_Conta]
+([Id_Inventario_Encabezado], [Id_Departamento], [Id_Producto], [Fecha_Entrada], 
+[Cantidad_Stock], [Fecha_Salida], [Cantidad_Salida], [Precio])
+VALUES
+(3, 3, 3, '2025-02-15 11:45:00', 150, NULL, NULL, 15.99);
+
+INSERT INTO [dbo].[Inventario_Detalle_Conta]
+([Id_Inventario_Encabezado], [Id_Departamento], [Id_Producto], [Fecha_Entrada], 
+[Cantidad_Stock], [Fecha_Salida], [Cantidad_Salida], [Precio])
+VALUES
+(4, 4, 4, '2025-02-15 13:15:00', 200, '2025-02-15 16:30:00', 50, 45.25);

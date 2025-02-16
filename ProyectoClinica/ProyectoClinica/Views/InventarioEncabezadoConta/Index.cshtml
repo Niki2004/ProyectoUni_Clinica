@@ -1,0 +1,77 @@
+﻿@model IEnumerable<ProyectoClinica.Models.Inventario_Encabezado_Conta>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            <label>Id del Usuario</label>
+        </th>
+        <th>
+            <label>Fecha del Inventario </label>
+        </th>
+        <th>
+            <label>Estatus del Inventario</label>
+        </th>
+        <th>
+            <label>Creación del Inventario </label>
+        </th>
+        <th>
+            <label>Actualización del Inventario</label>
+        </th>
+        <th>
+            <label>Eliminación del Inventario</label>
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id_Usuario)
+        </td>
+        <td>
+            <label>@String.Format("{0:dd/MM/yyyy}", item.Fecha_Inventario)</label>
+        </td>
+        <td>
+            @switch (item.Inventario_Estatus)
+            {
+                case 1:
+                    @:Aprobado
+                    break;
+                case 2:
+                    @:En Proceso
+                    break;
+                case 3:
+                    @:Cancelado
+                    break;
+                default:
+                    @:Desconocido
+                    break;
+            }
+        </td>
+        <td>
+            <label>@String.Format("{0:dd/MM/yyyy}", item.Inventario_Creacion)</label>
+        </td>
+        <td>
+            <label>@String.Format("{0:dd/MM/yyyy}", item.Inventario_Actualizacion)</label>
+        </td>
+        <td>
+            <label>@String.Format("{0:dd/MM/yyyy}", item.Inventario_Eliminacion)</label>
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id_Inventario_Encabezado }) |
+            @Html.ActionLink("Details", "Details", new { id = item.Id_Inventario_Encabezado }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id_Inventario_Encabezado })
+        </td>
+    </tr>
+}
+
+</table>
