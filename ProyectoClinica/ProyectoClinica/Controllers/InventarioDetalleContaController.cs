@@ -9,47 +9,46 @@ using System.Web.Mvc;
 
 namespace ProyectoClinica.Controllers
 {
-    public class DepartamentosController : Controller
+    public class InventarioDetalleContaController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public DepartamentosController()
+        public InventarioDetalleContaController()
         {
             _context = new ApplicationDbContext();
         }
-        // GET: Departamentos
+        // GET: ProductosConta
         public ActionResult Index()
         {
-            var listaRegistros = _context.Departamentos.ToList();
+            var listaRegistros = _context.Inventario_Detalle_Conta.ToList();
             return View(listaRegistros);
         }
 
-        // GET: Departamentos/Details/5
+        // GET: InventarioDetalleConta/Details/5
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
                 return View();
 
-            var departamentos = _context.Departamentos.Find(id);
+            var detalles = _context.Inventario_Detalle_Conta.Find(id);
 
-            if (departamentos == null)
+            if (detalles == null)
             {
-                return View(departamentos);
+                return View(detalles);
             }
 
-            return View(departamentos);
+            return View(detalles);
         }
 
-        // GET: Departamentos/Create
+        // GET: InventarioDetalleConta/Create
         public ActionResult Create()
         {
-            ViewBag.Inventario_Detalle_Conta = new SelectList(_context.Inventario_Detalle_Conta, "Id_Inventario_Detalle", "Cantidad_Stock");
             return View();
         }
 
-        // POST: Departamentos/Create
+        // POST: InventarioDetalleConta/Create
         [HttpPost]
-        public ActionResult Create(Departamentos model)
+        public ActionResult Create(Inventario_Detalle_Conta model)
         {
             try
             {
@@ -59,7 +58,7 @@ namespace ProyectoClinica.Controllers
                     try
                     {
                         //Guardar en la base de datos
-                        _context.Departamentos.Add(model);
+                        _context.Inventario_Detalle_Conta.Add(model);
                         _context.SaveChanges();
 
                         return RedirectToAction("Index");
@@ -76,7 +75,7 @@ namespace ProyectoClinica.Controllers
 
                 // Si el modelo no es válido o hubo un error, repite el proceso y pasa la vista con el modelo
                 // Esto permitirá que los datos enviados por el usuario se mantengan en el formulario
-                ViewBag.Departamentos = new SelectList(_context.Departamentos, "Id_");
+                ViewBag.Inventario_Detalle_Conta = new SelectList(_context.Inventario_Detalle_Conta, "Id_Producto");
                 return View(model);
             }
             catch
@@ -85,40 +84,40 @@ namespace ProyectoClinica.Controllers
             }
         }
 
-        // GET: Departamentos/Edit/5
+        // GET: InventarioDetalleConta/Edit/5
         public ActionResult Edit(int id)
         {
-            var departamentos = _context.Departamentos.Find(id);
+            var detalles = _context.Inventario_Detalle_Conta.Find(id);
 
-            if (departamentos == null)
+            if (detalles == null)
             {
                 return new HttpStatusCodeResult(System.Net.HttpStatusCode.NotFound);
             }
 
-            return View(departamentos);
+            return View(detalles);
         }
 
-        // POST: Departamentos/Edit/5
+        // POST: InventarioDetalleConta/Edit/5
         [HttpPost]
-        public async Task<ActionResult> Edit(Departamentos departamentos)
+        public async Task<ActionResult> Edit(Inventario_Detalle_Conta detalles)
         {
             if (ModelState.IsValid)
             {
-                _context.Entry(departamentos).State = EntityState.Modified;
+                _context.Entry(detalles).State = EntityState.Modified;
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(departamentos);
+            return View(detalles);
         }
 
-        // GET: Departamentos/Delete/5
+        // GET: InventarioDetalleConta/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: Departamentos/Delete/5
+        // POST: InventarioDetalleConta/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {

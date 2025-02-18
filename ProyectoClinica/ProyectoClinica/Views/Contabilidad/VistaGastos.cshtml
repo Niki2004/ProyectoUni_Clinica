@@ -1,57 +1,14 @@
 ﻿@model IEnumerable<ProyectoClinica.Models.Contabilidad>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "VistaGastos";
 }
 
-<div style="text-align: center; margin-bottom: 20px;">
-    <a href="@Url.Action("VistaCON", "Contabilidad")" class="custom-btn">
-        <i class="fas fa-home"></i> Inicio
-    </a>
-</div>
-
-<h2>Index</h2>
-
+<h2>Gastos</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
-    @Html.ActionLink("Ver Gastos", "VistaGastos")
 </p>
-
-
-<style>
-    .btn-pago {
-        background-color: #0b7b82; /* Azul */
-        color: white; /* Letras blancas */
-        border: none;
-        padding: 8px 12px;
-        border-radius: 5px;
-        text-decoration: none;
-        display: inline-block;
-        margin-top: 5px;
-        text-align: center;
-    }
-
-        .btn-pago:hover {
-            background-color: #0056b3; /* Azul más oscuro al pasar el mouse */
-        }
-
-    .custom-btn {
-        background-color: #0b7b82 !important;
-        color: white !important;
-        border: none;
-        padding: 12px 24px;
-        border-radius: 8px;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 16px;
-        text-decoration: none;
-        transition: background 0.3s ease, transform 0.2s ease;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    }
-</style>
-
 <div style="overflow-x: auto;">
     <table class="table">
         <tr>
@@ -170,40 +127,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Observaciones_Ingresos)
                 </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id_Contabilidad }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id_Contabilidad }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id_Contabilidad })
-                </td>
-
-                <td>
-                    @if (item.Tipo_Registro.Nombre == "Pago de Nómina")
-                    {
-                        <br />
-                        <a href="@Url.Action("Index", "PagosXNomina", new { id = item.Id_Contabilidad })" class="btn-pago">
-                            Actualizar información salarial
-                        </a>
-                    }
-                    else if ((item.Tipo_Registro.Nombre == "Ingreso" || item.Tipo_Registro.Nombre == "Egreso") && item.Conta_pago == "En Proceso")
-                    {
-                        <a href="@Url.Action("IndexProveedor", "PagosXNomina", new { id = item.Id_Contabilidad })" class="btn-pago">
-                            Analisis de Nómina
-                        </a>
-                    }
-
-
-                </td>
-                @*<td>
-                        @if (item.Tipo_Registro.Nombre == "Ingreso" || item.Tipo_Registro.Nombre == "Egreso")
-                        {
-                            <br />
-                            <a href="@Url.Action("Index", "PagosXNomina", new { id = item.Conta_pago })" class="btn-pago">
-                                Análisis de nómina
-                            </a>
-                        }
-                    </td>*@
             </tr>
         }
 
     </table>
-</div>

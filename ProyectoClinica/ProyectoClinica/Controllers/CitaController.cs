@@ -12,6 +12,7 @@ namespace ProyectoClinica.Controllers
 {
     public class CitaController : Controller
     {
+        //Prueba
         //Conexión BD
         private ApplicationDbContext BaseDatos = new ApplicationDbContext();
 
@@ -200,6 +201,14 @@ namespace ProyectoClinica.Controllers
             var Medico = BaseDatos.Medico.ToList();
             return View(Medico);
         }
+
+        [HttpGet]
+        public ActionResult HCita()
+        {
+            var Cita = BaseDatos.Cita.ToList();
+            return View(Cita);
+        }
+
 
         //Editar
         [HttpGet]

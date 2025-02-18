@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -22,6 +23,7 @@ namespace ProyectoClinica.Controllers
         {
             var listaRegistros = _context.Pagos.ToList();
             return View(listaRegistros);
+
         }
 
         // GET: Pagos/Details/5

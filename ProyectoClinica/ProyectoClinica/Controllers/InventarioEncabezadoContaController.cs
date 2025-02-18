@@ -3,53 +3,56 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
 namespace ProyectoClinica.Controllers
 {
-    public class DepartamentosController : Controller
+    public class InventarioEncabezadoContaController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public DepartamentosController()
+        public InventarioEncabezadoContaController()
         {
             _context = new ApplicationDbContext();
         }
         // GET: Departamentos
         public ActionResult Index()
         {
-            var listaRegistros = _context.Departamentos.ToList();
-            return View(listaRegistros);
+
+            var listaRegistros = _context.Inventario_Encabezado_Conta.ToList();
+
+            return View(listaRegistros);  
+
         }
 
-        // GET: Departamentos/Details/5
+        // GET: InventarioContaEncabezado/Details/5
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
                 return View();
 
-            var departamentos = _context.Departamentos.Find(id);
+            var inventario = _context.Inventario_Encabezado_Conta.Find(id);
 
-            if (departamentos == null)
+            if (inventario == null)
             {
-                return View(departamentos);
+                return View(inventario);
             }
 
-            return View(departamentos);
+            return View(inventario);
         }
 
-        // GET: Departamentos/Create
+        // GET: InventarioContaEncabezado/Create
         public ActionResult Create()
         {
-            ViewBag.Inventario_Detalle_Conta = new SelectList(_context.Inventario_Detalle_Conta, "Id_Inventario_Detalle", "Cantidad_Stock");
             return View();
         }
 
-        // POST: Departamentos/Create
+        // POST: InventarioContaEncabezado/Create
         [HttpPost]
-        public ActionResult Create(Departamentos model)
+        public ActionResult Create(Inventario_Encabezado_Conta model)
         {
             try
             {
@@ -59,7 +62,7 @@ namespace ProyectoClinica.Controllers
                     try
                     {
                         //Guardar en la base de datos
-                        _context.Departamentos.Add(model);
+                        _context.Inventario_Encabezado_Conta.Add(model);
                         _context.SaveChanges();
 
                         return RedirectToAction("Index");
@@ -76,7 +79,7 @@ namespace ProyectoClinica.Controllers
 
                 // Si el modelo no es válido o hubo un error, repite el proceso y pasa la vista con el modelo
                 // Esto permitirá que los datos enviados por el usuario se mantengan en el formulario
-                ViewBag.Departamentos = new SelectList(_context.Departamentos, "Id_");
+                ViewBag.Inventario_Encabezado_Conta = new SelectList(_context.Inventario_Encabezado_Conta, "Id_Inventario_Encabezado");
                 return View(model);
             }
             catch
@@ -85,40 +88,40 @@ namespace ProyectoClinica.Controllers
             }
         }
 
-        // GET: Departamentos/Edit/5
-        public ActionResult Edit(int id)
+        // GET: InventarioContaEncabezado/Edit/5
+        public ActionResult Edit(int? id)
         {
-            var departamentos = _context.Departamentos.Find(id);
+            var inventario = _context.Inventario_Encabezado_Conta.Find(id);
 
-            if (departamentos == null)
+            if (inventario == null)
             {
                 return new HttpStatusCodeResult(System.Net.HttpStatusCode.NotFound);
             }
 
-            return View(departamentos);
+            return View(inventario);
         }
 
-        // POST: Departamentos/Edit/5
+        // POST: InventarioContaEncabezado/Edit/5
         [HttpPost]
-        public async Task<ActionResult> Edit(Departamentos departamentos)
+        public async Task<ActionResult> Edit(Inventario_Encabezado_Conta inventario)
         {
             if (ModelState.IsValid)
             {
-                _context.Entry(departamentos).State = EntityState.Modified;
+                _context.Entry(inventario).State = EntityState.Modified;
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(departamentos);
+            return View(inventario);
         }
 
-        // GET: Departamentos/Delete/5
+        // GET: InventarioContaEncabezado/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: Departamentos/Delete/5
+        // POST: InventarioContaEncabezado/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {

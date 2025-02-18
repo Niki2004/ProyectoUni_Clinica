@@ -25,6 +25,7 @@ namespace ProyectoClinica.Controllers
             return View(listaRegistros);
         }
 
+
         // GET: MovimientosBancarios/Details/5
         public async Task<ActionResult> Details(int? id)
         {

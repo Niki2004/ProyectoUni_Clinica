@@ -447,25 +447,112 @@ namespace ProyectoClinica.Controllers
         }
 
         //---------------------------------------------------- Nota ------------------------------------------------------
-        //public ActionResult Nota()
-        //{
-        //    return View();
-        //}
+        public ActionResult NotasMedicas()
+        {
+            var citas = BaseDatos.Nota_Medico.ToList();
+            return View(citas);
+        }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Nota(Receta receta)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        BaseDatos.Receta.Add(receta);
-        //        BaseDatos.SaveChangesAsync();
-        //        return RedirectToAction("Index");
-        //    }
+        //Crear Nota
+        [HttpGet]
+        public ActionResult Nota_Medico()
+        {
+            return View();
+        }
 
-        //    return View(receta);
-        //}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Nota_Medico(Nota_Medico nota_medico)
+        {
+            if (ModelState.IsValid)
+            {
+                BaseDatos.Nota_Medico.Add(nota_medico);
+                BaseDatos.SaveChangesAsync();
 
+                TempData["SuccessMessage"] = "La nota se ha creado correctamente.";
 
+                return RedirectToAction("DOCHCita");
+            }
+
+            return View(nota_medico);
+        }
+
+        //Editar Nota
+        [HttpGet]
+        public ActionResult EditarNotaMedico(int id)
+        {
+            var NotaMedico = BaseDatos.Nota_Medico.Find(id);
+            if (NotaMedico == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(NotaMedico);
+        }
+
+        // POST: Editar Nota
+        [HttpPost]
+        public ActionResult EditarNotaMedico(Nota_Medico nota_medico)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    BaseDatos.Entry(nota_medico).State = EntityState.Modified;
+                    BaseDatos.SaveChanges();
+
+                    // Agregar mensaje de éxito
+                    TempData["SuccessMessage"] = "La nota se ha actualizado correctamente.";
+
+                    return RedirectToAction("NotasMedicas");
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "Error al actualizar la nota: " + ex.Message);
+                }
+            }
+
+            return View(nota_medico);
+        }
+
+        //Eliminar Nota
+        [HttpGet]
+        public ActionResult EliminarNotaMedico(int id)
+        {
+            var notaMedico = BaseDatos.Nota_Medico.Find(id);
+            if (notaMedico == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(notaMedico);
+        }
+
+        // POST: Eliminar Nota
+        [HttpPost, ActionName("EliminarNotaMedico")]
+        public ActionResult ConfirmarEliminarNotaMedico(int id)
+        {
+            try
+            {
+                var notaMedico = BaseDatos.Nota_Medico.Find(id);
+                if (notaMedico == null)
+                {
+                    return HttpNotFound();
+                }
+
+                BaseDatos.Nota_Medico.Remove(notaMedico);
+                BaseDatos.SaveChanges();
+
+                // Agregar mensaje de éxito
+                TempData["SuccessMessage"] = "La nota se ha eliminado correctamente.";
+
+                return RedirectToAction("NotasMedicas");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", "Error al eliminar la nota: " + ex.Message);
+                return RedirectToAction("EliminarNotaMedico", new { id });
+            }
+        }
     }
 }

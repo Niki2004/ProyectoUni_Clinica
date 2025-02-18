@@ -1,0 +1,105 @@
+﻿@model IEnumerable<ProyectoClinica.Models.Cita>
+
+@{
+    ViewBag.Title = "HCita";
+}
+
+<!-- Estilos CSS -->
+<style>
+    body {
+        background: url('../../imagenes/logo.png') no-repeat center center fixed;
+        background-size: 650px; 
+    }
+
+    .background-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.7);
+        z-index: -1;
+    }
+
+    .custom-btn {
+        background-color: #0b7b82 !important;
+        color: white !important;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 16px;
+        text-decoration: none;
+        transition: background 0.3s ease, transform 0.2s ease;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+        .custom-btn:hover {
+            background-color: #085f64 !important;
+            transform: scale(1.05);
+        }
+
+    .container {
+        max-width: 900px;
+        margin: auto;
+        padding: 20px;
+    }
+
+    .card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-bottom: 20px;
+        transition: transform 0.2s ease;
+    }
+
+        .card:hover {
+            transform: scale(1.02);
+        }
+
+    .card-title {
+        font-size: 20px;
+        font-weight: bold;
+        color: #3bb4bc;
+    }
+
+    .card-body {
+        font-size: 16px;
+    }
+
+        .card-body p {
+            margin: 5px 0;
+        }
+</style>
+
+<div class="background-overlay"></div>
+
+<div style="text-align: center; margin-bottom: 20px;">
+    <a href="@Url.Action("VistaCAdmin", "Cita")" class="custom-btn">
+        <i class="fas fa-home"></i> Inicio
+    </a>
+</div>
+
+<h2 style="text-align: center; color: #0b7b82;">Historial de Citas</h2>
+
+<div class="container">
+    @foreach (var item in Model)
+    {
+        <div class="card">
+            <div class="card-title">
+                @Html.DisplayFor(modelItem => item.Medico.Nombre) - Paciente: @Html.DisplayFor(modelItem => item.Nombre_Paciente)
+            </div>
+            <div class="card-body">
+                <p><strong>Estado Asistencia:</strong> @Html.DisplayFor(modelItem => item.Estado_Asistencia)</p>
+                <p><strong>Hora de la Cita:</strong> @Html.DisplayFor(modelItem => item.Hora_cita)</p>
+                <p><strong>Fecha de la Cita:</strong> @Html.DisplayFor(modelItem => item.Fecha_Cita)</p>
+                <p><strong>Modalidad:</strong> @Html.DisplayFor(modelItem => item.Modalidad)</p>
+                <p><strong>Síntomas:</strong> @Html.DisplayFor(modelItem => item.Sintomas)</p>
+                <p><strong>Complicaciones:</strong> @Html.DisplayFor(modelItem => item.Descripcion_Complicaciones)</p>
+            </div>
+        </div>
+    }
+</div>
