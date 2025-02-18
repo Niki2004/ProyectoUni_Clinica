@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class CambiosRecetaModificacion : DbMigration
+    public partial class PDF : DbMigration
     {
         public override void Up()
         {
@@ -787,6 +787,16 @@
                 .Index(t => t.Id_Banco);
             
             CreateTable(
+                "dbo.Nota_Medico",
+                c => new
+                    {
+                        Id_Nota_Medico = c.Int(nullable: false, identity: true),
+                        Observacion = c.String(maxLength: 255),
+                        Recomendacion = c.String(maxLength: 255),
+                    })
+                .PrimaryKey(t => t.Id_Nota_Medico);
+            
+            CreateTable(
                 "dbo.Nota_Paciente",
                 c => new
                     {
@@ -847,6 +857,17 @@
                 .Index(t => t.Id_Contabilidad)
                 .Index(t => t.Id_Pago)
                 .Index(t => t.Id_Empleado);
+            
+            CreateTable(
+                "dbo.PDF",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Nombre = c.String(),
+                        Ruta = c.String(),
+                        FechaSubida = c.DateTime(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.Respaldo",
@@ -1033,10 +1054,12 @@
             DropTable("dbo.Servicios_Brindados");
             DropTable("dbo.Servicio");
             DropTable("dbo.Respaldo");
+            DropTable("dbo.PDF");
             DropTable("dbo.PagosXNomina");
             DropTable("dbo.Pagos_Diarios");
             DropTable("dbo.Notificacion");
             DropTable("dbo.Nota_Paciente");
+            DropTable("dbo.Nota_Medico");
             DropTable("dbo.Pagos");
             DropTable("dbo.Movimientos_Bancarios");
             DropTable("dbo.Modificacion_Receta");

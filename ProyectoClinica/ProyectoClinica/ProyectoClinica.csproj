@@ -265,13 +265,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202502131418444_CambiosRecetaModificacion.cs" />
-    <Compile Include="Migrations\202502131418444_CambiosRecetaModificacion.designer.cs">
-      <DependentUpon>202502131418444_CambiosRecetaModificacion.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202502140119260_CambiosNotaMedico.cs" />
-    <Compile Include="Migrations\202502140119260_CambiosNotaMedico.designer.cs">
-      <DependentUpon>202502140119260_CambiosNotaMedico.cs</DependentUpon>
+    <Compile Include="Migrations\202502182045118_PDF.cs" />
+    <Compile Include="Migrations\202502182045118_PDF.Designer.cs">
+      <DependentUpon>202502182045118_PDF.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -317,6 +313,7 @@
     <Compile Include="Models\Pagos.cs" />
     <Compile Include="Models\PagosXNomina.cs" />
     <Compile Include="Models\Pagos_Diarios.cs" />
+    <Compile Include="Models\PDF.cs" />
     <Compile Include="Models\Productos_Conta.cs" />
     <Compile Include="Models\Receta.cs" />
     <Compile Include="Models\RecetaViewModel.cs" />
@@ -541,6 +538,7 @@
     <Content Include="Views\Contabilidad\VistaAUD.cshtml" />
     <Content Include="Views\Contabilidad\IndexAUD.cshtml" />
     <Content Include="Views\Contabilidad\IndexContador.cshtml" />
+    <Content Include="Views\Empleados\File.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -578,11 +576,8 @@
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.3.11.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202502131418444_CambiosRecetaModificacion.resx">
-      <DependentUpon>202502131418444_CambiosRecetaModificacion.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202502140119260_CambiosNotaMedico.resx">
-      <DependentUpon>202502140119260_CambiosNotaMedico.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202502182045118_PDF.resx">
+      <DependentUpon>202502182045118_PDF.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
