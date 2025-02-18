@@ -71,6 +71,11 @@ namespace ProyectoClinica.Models
         public DbSet<Inventario_Detalle_Conta> Inventario_Detalle_Conta { get; set; }
         public DbSet<Nota_Medico> Nota_Medico { get; set; }
 
+        public DbSet<PDF> PDF { get; set; }
+       
+        
+        
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -121,8 +126,9 @@ namespace ProyectoClinica.Models
             modelBuilder.Entity<Departamentos>().ToTable("Departamentos");
             modelBuilder.Entity<Inventario_Detalle_Conta>().ToTable("Inventario_Detalle_Conta");
             modelBuilder.Entity<Nota_Medico>().ToTable("Nota_Medico");
+            modelBuilder.Entity<PDF>().ToTable("PDF");
 
-            
+
 
             // Configuración de relaciones para evitar ciclos de cascada
             // Relación entre Reporte y Cita

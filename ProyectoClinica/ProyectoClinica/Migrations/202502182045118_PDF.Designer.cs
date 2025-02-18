@@ -7,13 +7,13 @@ namespace ProyectoClinica.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class CambiosNotaMedico : IMigrationMetadata
+    public sealed partial class PDF : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(CambiosNotaMedico));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(PDF));
         
         string IMigrationMetadata.Id
         {
-            get { return "202502140119260_CambiosNotaMedico"; }
+            get { return "202502182045118_PDF"; }
         }
         
         string IMigrationMetadata.Source
