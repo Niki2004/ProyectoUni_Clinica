@@ -26,7 +26,25 @@
         transition: background 0.3s ease, transform 0.2s ease;
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     }
-</style> 
+</style>
+
+
+<style>
+    .btn-ajustes {
+        background-color: #0b7b82 !important;
+        color: white !important;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 16px;
+        text-decoration: none;
+        transition: background 0.3s ease, transform 0.2s ease;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+</style>
 
 <h2>Index</h2>
 
@@ -99,6 +117,11 @@
                 @Html.ActionLink("Edit", "Edit", new { id = item.Id_Movimiento }) |
                 @Html.ActionLink("Details", "Details", new { id = item.Id_Movimiento }) |
                 @Html.ActionLink("Delete", "Delete", new { id = item.Id_Movimiento })
+                @if (item.Saldo > 0)
+                {
+                    <br />
+                    <a href="@Url.Action("AjustesBancarios", "MovimientosBancarios", new { id = item.Id_Movimiento })" class="btn-ajustes" style="margin-top: 5px;">Ajustes Bancarios</a>
+                }
             </td>
         </tr>
     }
