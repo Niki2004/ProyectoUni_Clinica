@@ -1,88 +1,85 @@
 ﻿@model ProyectoClinica.Models.Cita
 
 @{
-    ViewBag.Title = "Eliminar";
+    ViewBag.Title = "Cancelar Cita";
 }
 
-<h2>Eliminar</h2>
+<center><h2 class="text-danger">Cancelar Cita</h2></center>
+<br />
+<center><h3>¿Estás seguro de que deseas cancelar esta cita?</h3></center>
+<br />
+    <div class="card p-3 shadow-sm">
+            <center><h4 style="color: #0b7b82;">Detalles de la Cita</h4></center>
+            <hr />
 
-<h3>Estás seguro que deseas cancelar la cita?</h3>
-<div>
-    <h4>Cita</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Id_Medico)
-        </dt>
+            <dl class="row">
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Medico.Nombre)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Medico.Nombre)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Id_Medico)
-        </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Nombre_Paciente)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Nombre_Paciente)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Nombre_Paciente)
-        </dt>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Estado_Asistencia)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Estado_Asistencia)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Nombre_Paciente)
-        </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Hora_cita)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Hora_cita)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Estado_Asistencia)
-        </dt>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Descripcion_Complicaciones)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Descripcion_Complicaciones)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Estado_Asistencia)
-        </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Sintomas)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Sintomas)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Hora_cita)
-        </dt>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Fecha_Cita)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Fecha_Cita)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Hora_cita)
-        </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Modalidad)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Modalidad)
+                </dd>
+            </dl>
+</div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Descripcion_Complicaciones)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Descripcion_Complicaciones)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Sintomas)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Sintomas)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Fecha_Cita)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Fecha_Cita)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Modalidad)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Modalidad)
-        </dd>
-
-    </dl>
-
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm())
+    {
         @Html.AntiForgeryToken()
 
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Regresar", "CCita")
+        <div class="mt-4">
+            <button type="submit" class="btn btn-danger">
+                <i class="fas fa-trash-alt"></i> Cancelar Cita
+            </button>
+
+            @Html.ActionLink("Regresar", "CCita", null, new { @class = "btn btn-secondary ms-2" })
         </div>
     }
-</div>

@@ -27,6 +27,38 @@ namespace ProyectoClinica.Controllers
             return View();
 
         }
+
+        //Vista para poder verlo más ordenado
+        [HttpGet]
+        public ActionResult VistaCONTA()
+        {
+            return View();
+
+        }
+
+        //Vista para poder verlo más ordenado
+        [HttpGet]
+        public ActionResult VistaAUD()
+        {
+            return View();
+
+        }
+
+        //BTN PARA LOS ROLES DEL ANDRÉS 
+        [HttpGet]
+        public ActionResult IndexAUD()
+        {
+            return View();
+
+        }
+
+        [HttpGet]
+        public ActionResult IndexContador()
+        {
+            return View();
+
+        }
+
         public ActionResult VistaGastos()
         {
             var idSuministrosMedicos = _context.Tipo_Registro
