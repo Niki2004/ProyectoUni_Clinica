@@ -15,6 +15,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using System.Net;
+using System.IO;
 
 namespace ProyectoClinica.Controllers
 {
@@ -192,11 +193,98 @@ namespace ProyectoClinica.Controllers
             return View(empleados.ToList());
         }
 
-        //-----------------------------------------------------------------Controller  -------------------------------------------------------------------------------------
+        //-----------------------------------------------------------------Controller Agregar archivos  -------------------------------------------------------------------------------------
 
 
 
+         // aun no descarga el pdf solo lo sube a la base de datos
+        public ActionResult file()
+        {
+            return View();
+        }
 
+       
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult File(HttpPostedFileBase file, string nombre)
+        {
+            if (file != null && file.ContentLength > 0)
+            {
+                
+                if (Path.GetExtension(file.FileName).ToLower() != ".pdf")
+                {
+                    ModelState.AddModelError("file", "Solo se permiten archivos PDF.");
+                    return View();
+                }
+
+                
+                var fileName = Path.GetFileName(file.FileName);
+                var uniqueFileName = Guid.NewGuid().ToString() + "_" + fileName;
+
+                
+                var uploadDir = "~/Uploads/PDFs";
+                var uploadPath = Server.MapPath(uploadDir);
+
+                
+                if (!Directory.Exists(uploadPath))
+                {
+                    Directory.CreateDirectory(uploadPath);
+                }
+
+                var path = Path.Combine(uploadPath, uniqueFileName);
+
+                
+                file.SaveAs(path);
+
+               
+                PDF pdfRecord = new PDF
+                {
+                    Nombre = nombre,
+                    Ruta = Path.Combine(uploadDir, uniqueFileName),
+                    FechaSubida = DateTime.Now
+                };
+
+                BaseDatos.PDF.Add(pdfRecord);
+                BaseDatos.SaveChanges();
+
+                TempData["SuccessMessage"] = "El PDF se subio con exito.";
+                return RedirectToAction("Empleados/Empleados");
+            }
+            else
+            {
+                ModelState.AddModelError("file", "Debe seleccionar un archivo PDF.");
+            }
+
+            return View();
+        }
+
+        ////// Ejemplo de una acción Index para listar los PDFs subidos
+        //public ActionResult verPDF()
+        //{
+        //    var pdfs = BaseDatos.PDF;
+        //    return View(pdfs);
+        //}
+
+        //// No olvides implementar el Dispose para liberar recursos del contexto
+        //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        BaseDatos.Dispose();
+        //    }
+        //    base.Dispose(disposing);
+        //}
+
+        //-----------------------------------------------------------------Controller Historial -------------------------------------------------------------------------------------
+
+        //public ActionResult Historial()
+        //{
+        //    ViewBag.Empleados = BaseDatos.Empleado.ToList();
+        //    ViewBag.RolesAsignacion = BaseDatos.RolAsignacion.ToList();
+        //    ViewBag.PDFs = BaseDatos.PDF.ToList();
+
+        //    return View();
+        //}
 
 
 
