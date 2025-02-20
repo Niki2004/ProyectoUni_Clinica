@@ -26,6 +26,56 @@ namespace ProyectoClinica.Controllers
         }
 
 
+        public ActionResult AjustesBancarios(int id)
+        {
+            var movimiento = _context.Movimientos_Bancarios.Find(id);
+            if (movimiento == null)
+            {
+                return HttpNotFound();
+            }
+
+            // Calcular la diferencia entre ingresos y egresos
+            decimal diferencia = movimiento.Ingresos - movimiento.Egresos;
+
+            if (diferencia != 0)
+            {
+                // Crear un nuevo registro para ajustar el saldo
+                var ajuste = new Movimientos_Bancarios
+                {
+                    Id_Diario = movimiento.Id_Diario,
+                    Id_Conciliacion = movimiento.Id_Conciliacion,
+                    Id_Pago = movimiento.Id_Pago,
+                    Id_Banco = movimiento.Id_Banco,
+                    Fecha_Movimiento = DateTime.Now,
+                    Descripcion = "Ajuste automático de conciliación"
+                };
+
+                if (diferencia > 0)
+                {
+                    // Faltan egresos, registrar egreso
+                    ajuste.Ingresos = 0;
+                    ajuste.Egresos = (int)diferencia;
+                }
+                else
+                {
+                    // Faltan ingresos, registrar ingreso
+                    ajuste.Ingresos = (int)Math.Abs(diferencia);
+                    ajuste.Egresos = 0;
+                }
+
+                // Ajustar el saldo del registro original a 0
+                movimiento.Saldo = 0;
+
+                // Agregar el ajuste y guardar los cambios
+                _context.Movimientos_Bancarios.Add(ajuste);
+                _context.SaveChanges();
+            }
+
+            return RedirectToAction("Index");
+        }
+     
+
+
         // GET: MovimientosBancarios/Details/5
         public async Task<ActionResult> Details(int? id)
         {

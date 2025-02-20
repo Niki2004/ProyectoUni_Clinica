@@ -14,10 +14,11 @@
 
 
 <p>
-    @Html.ActionLink("Create New", "Create")
-    @Html.ActionLink("Ver Gastos", "VistaGastos")
+    @Html.ActionLink("Create New", "Create", null, new { @class = "btn-pago" })
+    @Html.ActionLink("Ver Gastos", "VistaGastos", null, new { @class = "btn-pago" })
+    @Html.ActionLink("Cierre Mensual", "CierreMensual", null, new { @class = "btn-pago" })
+    @Html.ActionLink("Cierre Anual", "CierreAnual", null, new { @class = "btn-pago" })
 </p>
-
 
 <style>
     .btn-pago {
@@ -68,7 +69,7 @@
                 <label>Cliente / Proveedor</label>
             </th>
             <th>
-                <label>Estatus Pago</label>
+                <label>Estatus </label>
             </th>
 
             <th>
@@ -193,15 +194,6 @@
 
 
                 </td>
-                @*<td>
-                        @if (item.Tipo_Registro.Nombre == "Ingreso" || item.Tipo_Registro.Nombre == "Egreso")
-                        {
-                            <br />
-                            <a href="@Url.Action("Index", "PagosXNomina", new { id = item.Conta_pago })" class="btn-pago">
-                                Análisis de nómina
-                            </a>
-                        }
-                    </td>*@
             </tr>
         }
 
