@@ -59,6 +59,71 @@ namespace ProyectoClinica.Controllers
 
         }
 
+        public ActionResult CierreMensual()
+        {
+            try
+            {
+                // Filtrar los registros con Estado de Contabilidad "Cierre Mensual"
+                var registros = _context.Contabilidad.Where(c => c.Estado_Contabilidad.Nombre == "Cierre Mensual").ToList();
+
+                if (registros.Any())
+                {
+                    foreach (var registro in registros)
+                    {
+                        registro.Conta_pago = "Cierre Mensual Completado"; // O el estado que corresponda después del cierre
+                        registro.Fecha_Cierre = DateTime.Now; // Actualiza la fecha de cierre
+                    }
+
+                    _context.SaveChanges(); // Guardar cambios en la base de datos
+                    TempData["Mensaje"] = "Cierre mensual realizado con éxito.";
+                }
+                else
+                {
+                    TempData["Mensaje"] = "No hay registros para cerrar.";
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["Mensaje"] = "Error al realizar el cierre mensual: " + ex.Message;
+            }
+
+            return RedirectToAction("Index"); // Redirige de vuelta al listado
+        }
+
+
+        public ActionResult CierreAnual()
+        {
+            try
+            {
+                // Filtrar los registros con Estado de Contabilidad "Cierre Mensual"
+                var registros = _context.Contabilidad.Where(c => c.Estado_Contabilidad.Nombre == "Cierre Anual").ToList();
+
+                if (registros.Any())
+                {
+                    foreach (var registro in registros)
+                    {
+                        registro.Conta_pago = "Cierre Anual Completado"; // O el estado que corresponda después del cierre
+                        registro.Fecha_Cierre = DateTime.Now; // Actualiza la fecha de cierre
+                    }
+
+                    _context.SaveChanges(); // Guardar cambios en la base de datos
+                    TempData["Mensaje"] = "Cierre anual realizado con éxito.";
+                }
+                else
+                {
+                    TempData["Mensaje"] = "No hay registros para cerrar.";
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["Mensaje"] = "Error al realizar el cierre anual: " + ex.Message;
+            }
+
+            return RedirectToAction("Index"); // Redirige de vuelta al listado
+        }
+
+
+
         public ActionResult VistaGastos()
         {
             var idSuministrosMedicos = _context.Tipo_Registro
