@@ -350,3 +350,12 @@ INSERT INTO [dbo].[Inventario_Detalle_Conta]
 [Cantidad_Stock], [Fecha_Salida], [Cantidad_Salida], [Precio])
 VALUES
 (4, 4, 4, '2025-02-15 13:15:00', 200, '2025-02-15 16:30:00', 50, 45.25);
+
+
+--Estado de Contabilidad--
+
+INSERT INTO [dbo].[Estado_Contabilidad] ([Nombre], [Descripcion])
+VALUES ('Cierre Mensual', 'Estado que indica el cierre contable del mes');
+
+INSERT INTO [dbo].[Estado_Contabilidad] ([Nombre], [Descripcion]) 
+VALUES ('Cierre Anual', 'Estado que indica el cierre contable del año');
