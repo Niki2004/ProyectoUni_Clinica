@@ -1,0 +1,124 @@
+﻿@model ProyectoClinica.Models.Evaluacion
+
+@{
+    ViewBag.Title = "Evaluacion";
+}
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Evaluación</h2>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+<div class="form-container">
+    <h4 class="text-center">Detalles de la Evaluación</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <!-- Fecha de Evaluación -->
+    <div class="form-group">
+        @Html.LabelFor(model => model.Fecha_Evaluacion, new { @class = "form-label" })
+        <input type="date" name="Fecha_Evaluacion" class="form-control"
+               value="@(Model != null ? Model.Fecha_Evaluacion.ToString("yyyy-MM-dd") : DateTime.Now.ToString("yyyy-MM-dd"))" />
+        @Html.ValidationMessageFor(model => model.Fecha_Evaluacion, "", new { @class = "text-danger" })
+    </div>
+    <br />
+
+    <!-- Empleado -->
+    <div class="form-group">
+        @Html.LabelFor(model => model.Id_Empleado, "Empleado", new { @class = "form-label" })
+        @Html.DropDownList("Id_Empleado", null, "-- Seleccione un empleado --", new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Id_Empleado, "", new { @class = "text-danger" })
+    </div>
+    <br />
+    <!-- Calificación con Estrellas -->
+    <div class="form-group">
+        @Html.LabelFor(model => model.Calificacion, new { @class = "form-label" })
+        <div class="rating">
+            @for (int i = 5; i >= 1; i--)
+            {
+                <input type="radio" id="star-@i" name="Calificacion" value="@i"
+                       @(Model != null && Model.Calificacion == i ? "checked" : "") />
+                <label for="star-@i">&#9733;</label>
+            }
+        </div>
+        @Html.ValidationMessageFor(model => model.Calificacion, "", new { @class = "text-danger" })
+    </div>
+
+    <!-- Comentarios -->
+    <div class="form-group">
+        @Html.LabelFor(model => model.Comentarios, new { @class = "form-label" })
+        @Html.TextAreaFor(model => model.Comentarios, new { @class = "form-control", rows = 4 })
+        @Html.ValidationMessageFor(model => model.Comentarios, "", new { @class = "text-danger" })
+    </div>
+
+    <!-- Botón de envío -->
+    <div class="text-center mt-3">
+        <button type="submit" class="btn custom-btn">Crear Evaluación</button>
+    </div>
+</div>
+    }
+
+    <div class="text-center mt-3">
+        @Html.ActionLink("Volver a la lista", "VistaEvaluacion","Empleados", null, new { @class = "btn custom-btn" })
+    </div>
+</div>
+
+<!-- Estilos personalizados -->
+<style>
+    .custom-btn {
+        background-color: #0b7b82 !important;
+        color: white !important;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-size: 16px;
+        text-decoration: none;
+        transition: background 0.3s ease, transform 0.2s ease;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+        .custom-btn:hover {
+            background-color: #096b6e !important;
+            transform: translateY(-2px);
+        }
+
+    .form-container {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-label {
+        font-weight: bold;
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    /* Estilos para la calificación con estrellas */
+    .rating {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: flex-end; /* Alineado a la izquierda */
+        font-size: 2rem;
+        gap: 5px;
+    }
+
+        .rating input {
+            display: none;
+        }
+
+        .rating label {
+            color: lightgray;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+            .rating input:checked ~ label,
+            .rating label:hover,
+            .rating label:hover ~ label {
+                color: gold;
+            }
+</style>

@@ -322,7 +322,7 @@
                             @Html.ActionLink("Buscar Empleado", "Buscar", "Empleados", null, new { @class = "btn btn-primary btn-sm w-100" })
                         </div>
                         <div class="col">
-                            <a href="~/Employees/Performance" class="btn btn-info btn-sm w-100">Evaluación</a>
+                            @Html.ActionLink("Evaluacion", "vistaEvaluacion", "Empleados", null, new { @class = "btn btn-info btn-sm w-100" })
                         </div>
                     </div>
 
@@ -332,6 +332,9 @@
                         </div>
                         <div class="col">
                             <a href="~/Employees/History" class="btn btn-info btn-sm w-100">Historial del empleado</a>
+                        </div>
+                        <div class="col">
+                            @Html.ActionLink("Ver PDF", "vistaPDF", "Empleados", null, new { @class = "btn btn-primary btn-sm w-100" })
                         </div>
                     </div>
                 </div>
