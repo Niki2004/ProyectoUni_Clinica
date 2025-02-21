@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<ProyectoClinica.Models.Contabilidad>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Contabilidad";
 }
 
 <div style="text-align: center; margin-bottom: 20px;">
@@ -10,20 +10,33 @@
     </a>
 </div>
 
-<h2>Index</h2>
+
+</br>
+
+<h2 class="text-center">Contabilidad</h2>
+
+</br>
 
 
 <p>
-    @Html.ActionLink("Create New", "Create", null, new { @class = "btn-pago" })
+    @Html.ActionLink("Crear Contabilidad", "Create", null, new { @class = "btn-pago" })
     @Html.ActionLink("Ver Gastos", "VistaGastos", null, new { @class = "btn-pago" })
-    @Html.ActionLink("Cierre Mensual", "CierreMensual", null, new { @class = "btn-pago" })
-    @Html.ActionLink("Cierre Anual", "CierreAnual", null, new { @class = "btn-pago" })
+    <span style="float: right;">
+        @Html.ActionLink("Cierre Mensual", "CierreMensual", null, new { @class = "btn-pago", style = "margin-right: 10px;" })
+        @Html.ActionLink("Cierre Anual", "CierreAnual", null, new { @class = "btn-pago" })
+    </span>
 </p>
+
+</br>
+
+
+
 
 <style>
     .btn-pago {
-        background-color: #0b7b82; /* Azul */
-        color: white; /* Letras blancas */
+        /* Los estilos existentes se mantienen */
+        background-color: #0b7b82;
+        color: white;
         border: none;
         padding: 8px 12px;
         border-radius: 5px;
@@ -34,10 +47,11 @@
     }
 
         .btn-pago:hover {
-            background-color: #0056b3; /* Azul más oscuro al pasar el mouse */
+            background-color: #0056b3;
         }
 
     .custom-btn {
+        /* Los estilos existentes se mantienen */
         background-color: #0b7b82 !important;
         color: white !important;
         border: none;
@@ -51,151 +65,200 @@
         transition: background 0.3s ease, transform 0.2s ease;
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     }
-</style>
 
-<div style="overflow-x: auto;">
-    <table class="table">
-        <tr>
-            <th>
-                <label>Tipo de Registro</label>
-            </th>
-            <th>
-                <label>Estado de Contabilidad</label>
-            </th>
-            <th>
-                <label>Tipo de Transacción</label>
-            </th>
-            <th>
-                <label>Cliente / Proveedor</label>
-            </th>
-            <th>
-                <label>Estatus </label>
-            </th>
+    /* Nuevos estilos para la tabla */
+    .table {
+        width: 100%;
+        font-size: 1rem;
+        table-layout: fixed;
+    }
 
-            <th>
-                <label>Proceso de Nómina</label>
-            </th>
-            <th>
-                <label>Fecha de Registro</label>
-            </th>
-            <th>
-                <label>Fecha de Vencimiento</label>
-            </th>
-            <th>
-                <label>Monto</label>
-            </th>
-            <th>
-                <label>Monto Anticipo</label>
-            </th>
-            <th>
-                <label>Impuesto Aplicado</label>
-            </th>
-            <th>
-                <label>Descuento Aplicado</label>
-            </th>
-            <th>
-                <label>Comentarios</label>
-            </th>
-            <th>
-                <label>Fecha de Cierre</label>
-            </th>
-            <th>
-                <label>Ingresos Totales</label>
-            </th>
-            <th>
-                <label>Total Pagos Pendientes</label>
-            </th>
-            <th>
-                <label>Total Sueldos</label>
-            </th>
-            <th>
-                <label>Observaciones Ingresos</label>
-            </th>
-            <th></th>
-        </tr>
-
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Tipo_Registro.Nombre)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Estado_Contabilidad.Nombre)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Tipo_Transaccion.Nombre)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ClienteProveedor)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Conta_pago)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Estatus_pago)
-                </td>
-                <td>
-                    <label>@String.Format("{0:dd/MM/yyyy}", item.Fecha_Registro)</label>
-                </td>
-                <td>
-                    <label>@String.Format("{0:dd/MM/yyyy}", item.Fecha_Vencimiento)</label>
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Monto)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Monto_Anticipo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Impuesto_Aplicado)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Descuento_Aplicado)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Comentarios)
-                </td>
-                <td>
-                    <label>@String.Format("{0:dd/MM/yyyy}", item.Fecha_Cierre)</label>
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Ingresos_Totales)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Total_Pagos_Pendientes)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Total_Sueldos)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Observaciones_Ingresos)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id_Contabilidad }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id_Contabilidad }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id_Contabilidad })
-                </td>
-
-                <td>
-                    @if (item.Tipo_Registro.Nombre == "Pago de Nómina")
-                    {
-                        <br />
-                        <a href="@Url.Action("Index", "PagosXNomina", new { id = item.Id_Contabilidad })" class="btn-pago">
-                            Actualizar información salarial
-                        </a>
-                    }
-                    else if ((item.Tipo_Registro.Nombre == "Ingreso" || item.Tipo_Registro.Nombre == "Egreso") && item.Conta_pago == "En Proceso")
-                    {
-                        <a href="@Url.Action("IndexProveedor", "PagosXNomina", new { id = item.Id_Contabilidad })" class="btn-pago">
-                            Analisis de Nómina
-                        </a>
-                    }
-
-
-                </td>
-            </tr>
+        .table th,
+        .table td {
+            padding: 6px 8px;
+            word-wrap: break-word;
+            max-width: 150px;
         }
 
+        .table th {
+            font-size: 1.1rem;
+            background-color: #0b7b82;
+            color: white;
+        }
+
+        .table td {
+            font-size: 1rem;
+        }
+
+            /* Ajustar el ancho de las columnas */
+            .table th:nth-child(1),
+            .table td:nth-child(1) {
+                width: 6%;
+            }
+            /* Registro */
+
+            .table th:nth-child(2),
+            .table td:nth-child(2) {
+                width: 9%;
+            }
+            /* Transacción */
+
+            .table th:nth-child(3),
+            .table td:nth-child(3) {
+                width: 6%;
+            }
+            /* Cliente */
+
+            .table th:nth-child(4),
+            .table td:nth-child(4) {
+                width: 8%;
+            }
+            /* Estatus */
+
+            .table th:nth-child(5),
+            .table td:nth-child(5) {
+                width: 6%;
+            }
+            /* Nómina */
+
+            .table th:nth-child(6),
+            .table td:nth-child(6) {
+                width: 6%;
+            }
+            /* Monto */
+
+            .table th:nth-child(7),
+            .table td:nth-child(7) {
+                width: 8%;
+            }
+            /* Anticipo */
+
+            .table th:nth-child(8),
+            .table td:nth-child(8) {
+                width: 8%;
+            }
+            /* Descuento */
+
+            .table th:nth-child(9),
+            .table td:nth-child(9) {
+                width: 8%;
+            }
+            /* Ingresos */
+
+            .table th:nth-child(10),
+            .table td:nth-child(10) {
+                width: 8%;
+            }
+            /* Pendientes */
+
+            .table th:nth-child(11),
+            .table td:nth-child(11) {
+                width: 8%;
+            }
+            /* Sueldos */
+
+            .table th:nth-child(12),
+            .table td:nth-child(12) {
+                    width:  9%;
+            }
+        </style>
+
+<div>
+    <table class="table">
+        <tr>
+            <th style="padding: 15px;">
+                <label>Registro</label>
+            </th>
+            <th style="padding: 15px;">
+                <label>Transacción</label>
+            </th>
+            <th style="padding: 15px;">
+                <label>Cliente</label>
+            </th>
+            <th style="padding: 15px;">
+                <label>Estatus</label>
+            </th>
+            <th style="padding: 15px;">
+                <label>Nómina</label>
+            </th>
+            <th style="padding: 15px;">
+                <label>Monto</label>
+            </th>
+            <th style="padding: 15px;">
+                <label>Anticipo</label>
+            </th>
+            <th style="padding: 15px;">
+                <label>Descuento</label>
+            </th>
+            <th style="padding: 15px;">
+                <label>Ingresos</label>
+            </th>
+            <th style="padding: 15px;">
+                <label>Pendientes</label>
+            </th>
+            <th style="padding: 15px;">
+                <label>Sueldos</label>
+            </th>
+            <th style="padding: 15px;"></th>
+            <th style="padding: 15px;"></th>
+        </tr>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td style="padding: 12px;">
+                        @Html.DisplayFor(modelItem => item.Tipo_Registro.Nombre)
+                    </td>
+                    <td style="padding: 12px;">
+                        @Html.DisplayFor(modelItem => item.Tipo_Transaccion.Nombre)
+                    </td>
+                    <td style="padding: 12px;">
+                        @Html.DisplayFor(modelItem => item.ClienteProveedor)
+                    </td>
+                    <td style="padding: 12px;">
+                        @Html.DisplayFor(modelItem => item.Conta_pago)
+                    </td>
+                    <td style="padding: 12px;">
+                        @Html.DisplayFor(modelItem => item.Estatus_pago)
+                    </td>
+                    <td style="padding: 12px;">
+                        @Html.DisplayFor(modelItem => item.Monto)
+                    </td>
+                    <td style="padding: 12px;">
+                        @Html.DisplayFor(modelItem => item.Monto_Anticipo)
+                    </td>
+                    <td style="padding: 12px;">
+                        @Html.DisplayFor(modelItem => item.Descuento_Aplicado)
+                    </td>
+                    <td style="padding: 12px;">
+                        @Html.DisplayFor(modelItem => item.Ingresos_Totales)
+                    </td>
+                    <td style="padding: 12px;">
+                        @Html.DisplayFor(modelItem => item.Total_Pagos_Pendientes)
+                    </td>
+                    <td style="padding: 12px;">
+                        @Html.DisplayFor(modelItem => item.Total_Sueldos)
+                    </td>
+                    <td style="padding: 12px;">
+                        @Html.ActionLink("Detalle", "Details", new { id = item.Id_Contabilidad }, new { @class = "btn-pago" })
+                    </td>
+                    <td style="padding: 12px;">
+                        @if (item.Tipo_Registro.Nombre == "Pago de Nómina")
+                        {
+                            <br />
+                            <a href="@Url.Action("Index", "PagosXNomina", new { id = item.Id_Contabilidad })" class="btn-pago">
+                                Actualizar
+                            </a>
+                        }
+                        else if ((item.Tipo_Registro.Nombre == "Ingreso" || item.Tipo_Registro.Nombre == "Egreso") && item.Conta_pago == "En Proceso")
+                        {
+                            <a href="@Url.Action("IndexProveedor", "PagosXNomina", new { id = item.Id_Contabilidad })" class="btn-pago">
+                                Nómina
+                            </a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
     </table>
 </div>
