@@ -12,6 +12,78 @@
             --background-light: #F5F5F5;
         }
 
+    /* Contenedor de filtros */
+    .filters-container {
+        display: flex;
+        flex-wrap: wrap; /* Permite que los filtros se ajusten en pantallas pequeñas */
+        justify-content: center; /* Centra los filtros */
+        align-items: center;
+        gap: 10px; /* Espaciado entre los filtros */
+        margin-bottom: 20px;
+    }
+
+        /* Ajuste para los inputs y selects */
+        .filters-container input,
+        .filters-container select {
+            width: 220px; /* Ajusta el ancho uniforme */
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+    /* Alineación de los botones */
+    .filter-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 10px; /* Espaciado entre los botones */
+    }
+
+
+    /* Evita el desplazamiento horizontal en la tabla */
+    .table-container {
+        width: 100%;
+        overflow-x: hidden; /* 🔹 Evita la barra de desplazamiento horizontal */
+    }
+
+    /* Ajusta la tabla para que se adapte bien sin hacer scroll */
+    .table {
+        width: 100%;
+        table-layout: auto; /* 🔹 Permite que las columnas se ajusten automáticamente */
+        word-wrap: break-word;
+        white-space: normal; /* 🔹 Evita que las celdas hagan que la tabla se expanda */
+    }
+
+    /* Ajusta la celda de acciones para que los botones queden en línea */
+    .action-buttons {
+        display: flex;
+        justify-content: center; /* Centra los botones en la celda */
+        align-items: center;
+        gap: 5px; /* Espacio entre los botones */
+        flex-wrap: nowrap; /* Evita que los botones se pongan en vertical */
+    }
+
+        /* Ajusta los botones para que tengan un tamaño uniforme */
+        .action-buttons a {
+            padding: 6px 10px;
+            font-size: 14px;
+            white-space: nowrap; /* Evita que el texto de los botones se divida */
+        }
+
+
+    /* Mantiene los filtros alineados y responsivos */
+    .row.mb-3 {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    /* Evita el desplazamiento horizontal en toda la página */
+    body {
+        overflow-x: hidden;
+    }
+
+
         body {
             background-color: var(--background-light);
             font-family: Arial, sans-serif;
@@ -318,9 +390,29 @@
             <!-- Main Content -->
             <div class="button-container">
                 <div class="inventory-header">
-                    <h2 style="text-align: ri; margin-bottom: 20px;">Inve</h2>
+                    <h2 style="text-align: ri; margin-bottom: 20px;">Inventario</h2>
                     @Html.ActionLink("Crear", "Crear", null, new { @class = "btn text-white", style = "background-color: #3bb4bc; border-radius: 5px;" })
                 </div>
+
+                @using (Html.BeginForm("Index", "Inventario", FormMethod.Get))
+                {
+                    <div class="filters-container">
+                        <!-- Buscar por nombre -->
+                        <input type="text" name="searchString" class="form-control" placeholder="Buscar por nombre..." value="@Request.QueryString["searchString"]">
+
+                        <!-- Filtrar por Tipo de Producto -->
+                        @Html.DropDownList("tipoArticulo", ViewBag.TiposArticulo as SelectList, "Filtrar por tipo", new { @class = "form-control" })
+
+                        <!-- Filtrar por Marca -->
+                        @Html.DropDownList("marca", ViewBag.Marcas as SelectList, "Filtrar por marca", new { @class = "form-control" })
+                    </div>
+
+                    <!-- Botones de acción -->
+                    <div class="filter-buttons">
+                        <button type="submit" class="btn btn-primary">Filtrar</button>
+                        <a href="@Url.Action("Index")" class="btn btn-secondary">Limpiar</a>
+                    </div>
+                }
 
                 <div class="table-container">
                     <table class="table">
@@ -346,13 +438,15 @@
                                     <td>@Html.DisplayFor(modelItem => item.Marca)</td>
                                     <td>@Html.DisplayFor(modelItem => item.Cantidad)</td>
                                     <td>@Html.DisplayFor(modelItem => item.PrecioUnitario)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.FechaCaducidad)</td>
+                                    <td>@item.FechaCaducidad.ToString("dd/MM/yyyy")</td>
                                     <td>@Html.DisplayFor(modelItem => item.TipoArticulo)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.FechaIngreso)</td>
+                                    <td>@item.FechaIngreso.ToString("dd/MM/yyyy")</td>
                                     <td class="action-buttons">
-                                        @Html.ActionLink("Editar", "Editar", new { id = item.Id_Articulo }, new { @class = "btn btn-warning me-2 text-white", style = "border-radius: 5px;", title = "Editar" })
-                                        @Html.ActionLink("Eliminar", "Eliminar", new { id = item.Id_Articulo }, new { @class = "btn btn-danger text-white", style = "border-radius: 5px;", title = "Eliminar" })
+                                        @Html.ActionLink("Detalles", "Detalles", new { id = item.Id_Articulo }, new { @class = "btn btn-info text-white", title = "Ver Detalles" })
+                                        @Html.ActionLink("Editar", "Editar", new { id = item.Id_Articulo }, new { @class = "btn btn-warning text-white", title = "Editar" })
+                                        @Html.ActionLink("Eliminar", "Eliminar", new { id = item.Id_Articulo }, new { @class = "btn btn-danger text-white", title = "Eliminar" })
                                     </td>
+
                                 </tr>
                             }
                         </tbody>

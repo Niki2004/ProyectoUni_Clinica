@@ -2,6 +2,21 @@
     ViewBag.Title = "Pago de Servicios";
 }
 
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.querySelector("form");
+        const listBox = document.getElementById("serviciosSeleccionados"); // Verifica que el ID sea correcto
+
+        form.addEventListener("submit", function (event) {
+            if (!listBox || listBox.selectedOptions.length === 0) {
+                event.preventDefault(); // Evita el envío del formulario
+                alert("Debe seleccionar al menos un servicio antes de continuar.");
+            }
+        });
+    });
+</script>
+
+
 <div class="container mt-5">
     <h2 class="text-center">Seleccione los Servicios</h2>
 
@@ -44,3 +59,4 @@
         margin-bottom: 20px;
     }
 </style>
+
