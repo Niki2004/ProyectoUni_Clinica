@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "Especialidad";
+    ViewBag.Title = "Ubicación";
 }
 
 <!DOCTYPE html>
@@ -222,13 +222,13 @@
 
                     <center><div class="nav-header">Información</div></center>
                     <div class="nav flex-column">
-                        <a class="nav-link">
+                        <a href="@Url.Action("Especialidad", "Cita")" class="nav-link">
                             <i class="fas fa-stethoscope"></i> Especialidad
                         </a>
                         <a href="@Url.Action("Contactanos", "Cita")" class="nav-link">
                             <i class="fas fa-phone-alt"></i> Contáctanos
                         </a>
-                        <a href="@Url.Action("Ubicacion", "Cita")" class="nav-link">
+                        <a  class="nav-link">
                             <i class="fas fa-map-marker-alt"></i> Ubicación
                         </a>
                     </div>
@@ -237,42 +237,30 @@
             </div>
             <!-- Main Content -->
             <div class="content">
-
-                <h2 class="text-center" style="color: #0b7b82;">Sobre nuestros servicios</h2>
+                <h2 class="text-center" style="color: #0b7b82;">¿Dónde nos encontramos?</h2>
                 <p style="text-align: justify;">
-                    En el Centro Integral Santo Domingo ofrecemos una amplia gama de servicios médicos para cuidar de tu salud y bienestar.
-                    Contamos con Medicina General, Dermatología, Pediatría, Psicología, Nutrición, Radiología, Psiquiatría, Gastroenterología,
-                    Endocrinología, Psicopedagogía, Terapia de Voz y Lenguaje, Ginecología, Cirugía, Medicina Familiar y Comunitaria, Ortopedia,
-                    Otorrinolaringología, Urología, Neumología y atención especializada para el Adulto Mayor. Estamos aquí para brindarte el mejor
-                    cuidado integral en un solo lugar.
+                    Nos encontramos en Guanacaste, en el cantón de Cañas, Costa Rica, una región conocida por su calidez, belleza natural y hospitalidad.
+                    Nuestra ubicación es de fácil acceso, permitiéndonos ofrecer nuestros servicios a la comunidad local y a quienes nos visitan desde otras
+                    partes del país. Te invitamos a conocernos y disfrutar de una atención personalizada en un ambiente acogedor.
                 </p>
+                <br />
 
-
-                <h2 class="text-center" style="color: #0b7b82;">Servicios</h2>
-
-                <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
-                    <p width: 45%;">• Medicina General</p>
-                    <p width: 45%;">• Consulta Dermatología</p>
-                    <p width: 45%;">• Pediatría</p>
-                    <p width: 45%;">• Psicología</p>
-                    <p width: 45%;">• Nutrición</p>
-                    <p width: 45%;">• Radiología</p>
-                    <p width: 45%;">• Psiquiatría</p>
-                    <p width: 45%;">• Gastroenterología</p>
-                    <p width: 45%;">• Consulta en Endocrinología</p>
-                    <p width: 45%;">• Psicopedagogía</p>
-                    <p width: 45%;">• Terapia de voz y lenguaje</p>
-                    <p width: 45%;">• Ginecología</p>
-                    <p width: 45%;">• Consulta en Cirugía</p>
-                    <p width: 45%;">• Medicina Familiar y Comunitaria</p>
-                    <p width: 45%;">• Ortopedia</p>
-                    <p width: 45%;">• Otorrinolaringología</p>
-                    <p width: 45%;">• Urología</p>
-                    <p width: 45%;">• Consulta en Neumología</p>
-                    <p width: 45%;">• Consulta en Atención al Adulto Mayor</p>
+                <div style="text-align: center;">
+                    <iframe src="https://embed.waze.com/iframe?zoom=16&lat=10.427912&lon=-85.095679&pin=1&desc=Centro%20Integral%20Santo%20Domingo"
+                            width="100%"
+                            height="400"
+                            style="border:0; border-radius: 10px; box-shadow: 2px 2px 10px rgba(0,0,0,0.1);"
+                            allowfullscreen>
+                    </iframe>
                 </div>
 
-                <br />
+                <div style="text-align: center; margin-top: 10px;">
+                    <a href="https://www.waze.com/live-map/directions?to=place.w.180158568.1801651219.24000398"
+                       target="_blank"
+                       style="display: inline-block; padding: 10px 20px; background-color: #0b7b82; color: white; text-decoration: none; border-radius: 5px;">
+                        Abrir en Waze
+                    </a>
+                </div>
             </div>
 
             <script src="~/lib/jquery/dist/jquery.min.js"></script>

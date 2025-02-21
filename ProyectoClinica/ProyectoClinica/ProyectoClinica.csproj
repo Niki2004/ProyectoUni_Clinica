@@ -361,6 +361,15 @@
     <Content Include="Imagenes\Informacion4.jpg" />
     <Content Include="Imagenes\Logo.png" />
     <Content Include="Imagenes\PefilPorDefecto.jpg" />
+    <Content Include="Imagenes\Profecional01.PNG" />
+    <Content Include="Imagenes\Profecional02.PNG" />
+    <Content Include="Imagenes\Profecional03.PNG" />
+    <Content Include="Imagenes\Profecional04.PNG" />
+    <Content Include="Imagenes\Profecional05.PNG" />
+    <Content Include="Imagenes\Profecional06.PNG" />
+    <Content Include="Imagenes\Profecional07.PNG" />
+    <Content Include="Imagenes\Profecional08.PNG" />
+    <Content Include="Imagenes\Profecional09.PNG" />
     <Content Include="Imagenes\Sala_de_espera.jpeg" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
@@ -539,6 +548,11 @@
     <Content Include="Views\Contabilidad\IndexAUD.cshtml" />
     <Content Include="Views\Contabilidad\IndexContador.cshtml" />
     <Content Include="Views\Empleados\File.cshtml" />
+    <Content Include="Views\Empleados\vistaPDF.cshtml" />
+    <Content Include="Views\Empleados\Evaluacion.cshtml" />
+    <Content Include="Views\Empleados\vistaEvaluacion.cshtml" />
+    <Content Include="Views\Inventario\Detalles.cshtml" />
+    <Content Include="Views\Cita\Ubicacion.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>

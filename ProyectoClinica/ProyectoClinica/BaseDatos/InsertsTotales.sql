@@ -90,10 +90,14 @@ VALUES
 
 --Insert de Descuento
 INSERT INTO [dbo].[Descuento] ([Nombre_Descuento],[Codigo_Descuento],[Porcentaje_Descuento],[Limite_Usos],[Compania_Afiliada],[Activo],[Fecha_Creacion])
+VALUES ('Sin Descuento','Ninguno',0, 0, 'Ninguna', 1, GETDATE() );
+
+INSERT INTO [dbo].[Descuento] ([Nombre_Descuento],[Codigo_Descuento],[Porcentaje_Descuento],[Limite_Usos],[Compania_Afiliada],[Activo],[Fecha_Creacion])
 VALUES ('Descuento de Verano','SUMMER2025',15.00, 100, 'Compañía XYZ', 1, GETDATE() );
 
 INSERT INTO [dbo].[Descuento] ([Nombre_Descuento],[Codigo_Descuento],[Porcentaje_Descuento],[Limite_Usos],[Compania_Afiliada],[Activo],[Fecha_Creacion])
 VALUES ('Descuento Navidad','XMAS2025',20000, 50, 'Compañía ABC', 0, GETDATE() );
+
 
 --Factura
 INSERT INTO [dbo].[Factura] ( [Id_Descuento], [NumeroRecibo], [FechaHora], [MetodoPago], [CedulaCliente], [NombreCliente], [Subtotal], [Descuento], [Impuesto], [TotalPagado], [Descuento_Id_Descuento])

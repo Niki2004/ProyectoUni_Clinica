@@ -222,7 +222,7 @@ namespace ProyectoClinica.Controllers
                 var uniqueFileName = Guid.NewGuid().ToString() + "_" + fileName;
 
                 
-                var uploadDir = "~/Uploads/PDFs";
+                var uploadDir = "~/Uploads";
                 var uploadPath = Server.MapPath(uploadDir);
 
                 
@@ -258,22 +258,26 @@ namespace ProyectoClinica.Controllers
             return View();
         }
 
-        ////// Ejemplo de una acción Index para listar los PDFs subidos
-        //public ActionResult verPDF()
-        //{
-        //    var pdfs = BaseDatos.PDF;
-        //    return View(pdfs);
-        //}
+        //-----------------------------------------------------------------Controller ver los pdfs -------------------------------------------------------------------------------------
 
-        //// No olvides implementar el Dispose para liberar recursos del contexto
-        //protected override void Dispose(bool disposing)
-        //{
-        //    if (disposing)
-        //    {
-        //        BaseDatos.Dispose();
-        //    }
-        //    base.Dispose(disposing);
-        //}
+
+        public ActionResult vistaPDF()
+        {
+            // Mapea la ruta ~/Uploads en el servidor
+            var uploadsPath = Server.MapPath("~/Uploads");
+
+            // Si la carpeta no existe, puedes crearla o manejar el error
+            if (!Directory.Exists(uploadsPath))
+            {
+                Directory.CreateDirectory(uploadsPath);
+            }
+
+            // Obtiene todos los archivos con extensión .pdf
+            var pdfFiles = Directory.GetFiles(uploadsPath, "*.pdf");
+
+            return View(pdfFiles);
+        }
+
 
         //-----------------------------------------------------------------Controller Historial -------------------------------------------------------------------------------------
 
@@ -287,6 +291,55 @@ namespace ProyectoClinica.Controllers
         //}
 
 
+
+
+
+
+        //-----------------------------------------------------------------Controller Evaluacion -------------------------------------------------------------------------------------
+
+
+
+        public ActionResult Evaluacion()
+        {
+            
+            ViewBag.Id_Empleado = new SelectList(BaseDatos.Empleado, "Id_Empleado", "Nombre");
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Evaluacion(Evaluacion evaluacion)//creacion de la evaluacion 
+        {
+            if (ModelState.IsValid)
+            {
+                
+                BaseDatos.Evaluacion.Add(evaluacion);
+                BaseDatos.SaveChanges();
+                TempData["SuccessMessage"] = "Se evaluo con exito";
+                return RedirectToAction("vistaEvaluacion"); // Redirige a una lista de evaluaciones o a donde gustes
+            }
+
+            // Si la validación falla, vuelve a cargar los datos necesarios para la vista
+            ViewBag.Id_Empleado = new SelectList(BaseDatos.Empleado, "Id_Empleado", "Nombre");
+            return View(evaluacion);
+        }
+
+       
+        public ActionResult vistaEvaluacion()
+        {
+            
+            var evaluaciones = BaseDatos.Evaluacion.Include("Empleado").ToList();
+            return View(evaluaciones);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                BaseDatos.Dispose();
+            }
+            base.Dispose(disposing);
+        }
 
     }
 

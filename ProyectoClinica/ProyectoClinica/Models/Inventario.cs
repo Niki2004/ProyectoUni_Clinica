@@ -15,19 +15,24 @@ namespace ProyectoClinica.Models
 
         [Required]
         public int Id_Estado { get; set; }
-       
+
+        [Display(Name = "Articulo")]
         public string NombreArticulo { get; set; }
 
         public string Marca { get; set; }
 
         public int Cantidad { get; set; }
 
+        [Display(Name = "Precio")]
         public decimal PrecioUnitario { get; set; }
 
+        [Display(Name = "Caducidad")]
         public DateTime FechaCaducidad { get; set; }
 
+        [Display(Name = "Tipo de articulo")]
         public string TipoArticulo { get; set; }
 
+        [Display(Name = "Ingreso")]
         public DateTime FechaIngreso { get; set; } = DateTime.Now;
 
         //Llave foranea
