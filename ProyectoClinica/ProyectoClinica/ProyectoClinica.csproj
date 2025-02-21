@@ -423,7 +423,6 @@
     <Content Include="Views\Cita\Crear.cshtml" />
     <Content Include="Views\Contabilidad\Index.cshtml" />
     <Content Include="Views\Contabilidad\Create.cshtml" />
-    <Content Include="Views\Contabilidad\Delete.cshtml" />
     <Content Include="Views\Descuento\Index.cshtml" />
     <Content Include="Views\Descuento\Delete.cshtml" />
     <Content Include="Views\ServiciosBrindados\Index.cshtml" />
