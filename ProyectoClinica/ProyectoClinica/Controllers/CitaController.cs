@@ -60,6 +60,19 @@ namespace ProyectoClinica.Controllers
             return View();
         }
 
+        //Información de la clinica
+        public ActionResult Ubicacion()
+        {
+            return View();
+        }
+
+        //Sprint 3
+        public ActionResult AtencionCliente()
+        {
+            return View();
+        }
+
+        
         //Me trae directamente la especialidad del doct
         [HttpGet]
         public JsonResult GetEspecialidadPorMedico(int idMedico)
@@ -394,7 +407,7 @@ namespace ProyectoClinica.Controllers
             return Json(citas, JsonRequestBehavior.AllowGet);
         }
 
-        //---------------------------------------------------- Receta ------------------------------------------------------
+        //---------------------------------------------------- Atención cliente ------------------------------------------------------
 
     }
 }
