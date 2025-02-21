@@ -1,6 +1,7 @@
 ﻿using ProyectoClinica.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -122,29 +123,45 @@ namespace ProyectoClinica.Controllers
 
 
         [HttpPost]
-        public ActionResult ConfirmarPago(Factura factura, Dictionary<int, decimal> pagosPorMetodo, int[] serviciosSeleccionados)
+        public ActionResult ConfirmarPago(Factura factura, int[] metodosPagoSeleccionados, int[] serviciosSeleccionados)
         {
-            if (factura == null || pagosPorMetodo == null || pagosPorMetodo.Values.Sum() != factura.TotalPagado)
+
+            Debug.WriteLine("Factura Recibida:");
+            Debug.WriteLine($"CedulaCliente: {factura.CedulaCliente}");
+            Debug.WriteLine($"NombreCliente: {factura.NombreCliente}");
+            Debug.WriteLine($"Subtotal: {factura.Subtotal}");
+            Debug.WriteLine($"Impuesto: {factura.Impuesto}");
+            Debug.WriteLine($"TotalPagado: {factura.TotalPagado}");
+
+
+            if (factura == null && metodosPagoSeleccionados == null && serviciosSeleccionados == null)
             {
-                ModelState.AddModelError("", "El total de los pagos no coincide con el total de la factura.");
+                ModelState.AddModelError("", "Alguno de los items es nulo");
                 return RedirectToAction("RealizarPago");
             }
+
+            if (factura.Id_Descuento == 0) {
+                factura.Id_Descuento = 1;
+            }
+
 
             factura.FechaHora = DateTime.Now;
             _context.Factura.Add(factura);
             _context.SaveChanges();
 
             // Guardar los métodos de pago utilizados
-            foreach (var metodoPago in pagosPorMetodo)
+            foreach (var metodoPago in metodosPagoSeleccionados)
             {
                 var metodoPagoUtilizado = new Metodo_Pago_Utilizado
                 {
-                    Id_Factura = factura.Id_Factura,
-                    Id_MetodoPago = metodoPago.Key,
-                    Monto = metodoPago.Value
+                    Id_Factura = factura.Id_Factura, 
+                    Id_MetodoPago = metodoPago,
+                    Monto = 0
                 };
                 _context.Metodo_Pago_Utilizado.Add(metodoPagoUtilizado);
             }
+            _context.SaveChanges(); 
+        
 
             // Guardar los servicios brindados
             foreach (var servicioId in serviciosSeleccionados)

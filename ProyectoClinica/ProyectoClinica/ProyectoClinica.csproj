@@ -539,6 +539,10 @@
     <Content Include="Views\Contabilidad\IndexAUD.cshtml" />
     <Content Include="Views\Contabilidad\IndexContador.cshtml" />
     <Content Include="Views\Empleados\File.cshtml" />
+    <Content Include="Views\Empleados\vistaPDF.cshtml" />
+    <Content Include="Views\Empleados\Evaluacion.cshtml" />
+    <Content Include="Views\Empleados\vistaEvaluacion.cshtml" />
+    <Content Include="Views\Inventario\Detalles.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>

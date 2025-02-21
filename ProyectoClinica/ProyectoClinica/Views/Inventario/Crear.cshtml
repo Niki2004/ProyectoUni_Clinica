@@ -66,15 +66,24 @@
     <div class="form-group">
         @Html.LabelFor(model => model.TipoArticulo, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.TipoArticulo, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.DropDownListFor(model => model.TipoArticulo,
+                     new List<SelectListItem>
+                     {
+                new SelectListItem { Text = "Equipo Médico", Value = "Equipo Médico" },
+                new SelectListItem { Text = "Medicamento", Value = "Medicamento" },
+                new SelectListItem { Text = "Suministro", Value = "Suministro" }
+                         },
+                     "Seleccione una opción",
+                     new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.TipoArticulo, "", new { @class = "text-danger" })
         </div>
     </div>
+
     <br />
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Crear" class="btn w-100" style="background-color: #3bb4bc; color: white;"/>
+            <input type="submit" value="Crear" class="btn w-100" style="background-color: #3bb4bc; color: white;" />
         </div>
     </div>
 

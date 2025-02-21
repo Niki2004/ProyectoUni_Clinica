@@ -5,6 +5,10 @@
     var MetodosPagoSeleccionados = ViewBag.MetodosPagoSeleccionados as List<ProyectoClinica.Models.Metodo_Pago>;
 }
 
+
+
+
+
 <div class="container mt-5">
     <div class="card shadow-sm p-4 mb-3">
         <!-- Encabezado -->
@@ -78,13 +82,35 @@
             </table>
         </div>
 
-        <!-- Botón para Confirmar -->
-        <div class="text-center mt-4">
-            <form action="/Factura/ConfirmarPago" method="post">
-                @Html.AntiForgeryToken()
-                <input type="hidden" name="Id_Factura" value="@Model.Id_Factura" />
-                <button type="submit" class="btn btn-success w-100">Confirmar</button>
-            </form>
-        </div>
+        <form action="/Factura/ConfirmarPago" method="post">
+            @Html.AntiForgeryToken()
+
+            <!-- Datos de la Factura -->
+            <input type="hidden" name="CedulaCliente" value="@Model.CedulaCliente" />
+            <input type="hidden" name="NombreCliente" value="@Model.NombreCliente" />
+            <input type="hidden" name="Subtotal" value="@Model.Subtotal" />
+            <input type="hidden" name="Impuesto" value="@Model.Impuesto" />
+            <input type="hidden" name="TotalPagado" value="@Model.TotalPagado" />
+
+            <!-- Métodos de Pago -->
+            @if (MetodosPagoSeleccionados != null && MetodosPagoSeleccionados.Any())
+            {
+                foreach (var metodo in MetodosPagoSeleccionados)
+                {
+                    <input type="hidden" name="metodosPagoSeleccionados" value="@metodo.Id_MetodoPago" />
+                }
+            }
+
+            <!-- Servicios Seleccionados -->
+            @if (serviciosSeleccionados != null && serviciosSeleccionados.Any())
+            {
+                foreach (var servicio in serviciosSeleccionados)
+                {
+                    <input type="hidden" name="serviciosSeleccionados" value="@servicio.Id_Servicio" />
+                }
+            }
+
+            <button type="submit" class="btn btn-success w-100">Confirmar</button>
+        </form>
     </div>
 </div>
