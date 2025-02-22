@@ -1,14 +1,16 @@
 ﻿@model IEnumerable<ProyectoClinica.Models.PagosXNomina>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Pagos X Nomina";
 }
+
 
 <div style="text-align: center; margin-bottom: 20px;">
     <a href="@Url.Action("VistaCON", "Contabilidad")" class="custom-btn">
         <i class="fas fa-home"></i> Inicio
     </a>
 </div>
+
 <style>
     .custom-btn {
         background-color: #0b7b82 !important;
@@ -24,79 +26,179 @@
         transition: background 0.3s ease, transform 0.2s ease;
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     }
+
+    .table {
+        width: 100%;
+        font-size: 1rem;
+        table-layout: fixed;
+    }
+
+        .table th,
+        .table td {
+            padding: 6px 8px;
+            word-wrap: break-word;
+            max-width: 150px;
+        }
+
+        .table th {
+            font-size: 1.1rem;
+            background-color: #0b7b82;
+            color: white;
+        }
+
+        .table td {
+            font-size: 1rem;
+        }
+
+            /* Ajustar el ancho de las columnas */
+            .table th:nth-child(1),
+            .table td:nth-child(1) {
+                width: 9%;
+            }
+            /* Registro */
+
+            .table th:nth-child(2),
+            .table td:nth-child(2) {
+                width: 8%;
+            }
+            /* Transacción */
+
+            .table th:nth-child(3),
+            .table td:nth-child(3) {
+                width: 8%;
+            }
+            /* Cliente */
+
+            .table th:nth-child(4),
+            .table td:nth-child(4) {
+                width: 8%;
+            }
+            /* Estatus */
+
+            .table th:nth-child(5),
+            .table td:nth-child(5) {
+                width: 8%;
+            }
+            /* Nómina */
+
+            .table th:nth-child(6),
+            .table td:nth-child(6) {
+                width: 8%;
+            }
+            /* Monto */
+
+            .table th:nth-child(7),
+            .table td:nth-child(7) {
+                width: 8%;
+            }
+            /* Anticipo */
+
+            .table th:nth-child(8),
+            .table td:nth-child(8) {
+                width: 10%;
+            }
+            /* Descuento */
+
+            .table th:nth-child(9),
+            .table td:nth-child(9) {
+                width: 8%;
+            }
+            /* Ingresos */
+
+            .table th:nth-child(10),
+            .table td:nth-child(10) {
+                width: 8%;
+            }
+            /* Pendientes */
+
+            .table th:nth-child(11),
+            .table td:nth-child(11) {
+                width: 8%;
+            }
+            /* Sueldos */
+
+            .table th:nth-child(12),
+            .table td:nth-child(12) {
+                width:  9%;
+            }
 </style>
 
-<h2>Index</h2>
+</br>
+
+<h2 class="text-center">Nómina de Pagos</h2>
+
+</br>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Crear Nómina", "Create", null, new { @class = "custom-btn" })
 </p>
+
+</br>
 <table class="table">
     <tr>
-        <th>
-            <label>Id de Contabilidad</label>
+        <th style="padding: 15px;">
+            <label>Identificación</label>
         </th>
-        <th>
-            <label>Número de Referencia</label>
+        <th style="padding: 15px;">
+            <label>Referencia</label>
         </th>
-        <th>
+        <th style="padding: 15px;">
             <label>Empleado</label>
         </th>
-        <th>
+        <th style="padding: 15px;">
             <label>Fecha de Pago</label>
         </th>
-        <th>
+        <th style="padding: 15px;">
             <label>Monto de Pago</label>
         </th>
-        <th>
+        <th style="padding: 15px;">
             <label>Metodo de Pago</label>
         </th>
-        <th>
+        <th style="padding: 15px;">
             <label>Estado de Pago</label>
         </th>
-        <th>
+        <th style="padding: 15px;">
             <label>Observaciones</label>
         </th>
-        <th>
+        <th style="padding: 15px;">
             <label>Fecha de Registro</label>
         </th>
-        <th></th>
+        <th style="padding: 15px;"></th>
+        <th style="padding: 15px;"></th>
     </tr>
 
     @foreach (var item in Model)
     {
         <tr>
-            <td>
+            <td style="padding: 12px;">
                 @Html.DisplayFor(modelItem => item.Id_Contabilidad)
             </td>
-            <td>
+            <td style="padding: 12px;">
                 @Html.DisplayFor(modelItem => item.Pagos.Numero_Referencia)
             </td>
-            <td>
+            <td style="padding: 12px;">
                 @Html.DisplayFor(modelItem => item.Empleado.Nombre)
             </td>
-            <td>
+            <td style="padding: 12px;">
                 <label>@String.Format("{0:dd/MM/yyyy}", item.Fecha_Pago)</label>
             </td>
-            <td>
+            <td style="padding: 12px;">
                 @Html.DisplayFor(modelItem => item.Monto_Pago)
             </td>
-            <td>
+            <td style="padding: 12px;">
                 @Html.DisplayFor(modelItem => item.Metodo_Pago)
             </td>
-            <td>
+            <td style="padding: 12px;">
                 @Html.DisplayFor(modelItem => item.Estado_Pago)
             </td>
-            <td>
+            <td style="padding: 12px;">
                 @Html.DisplayFor(modelItem => item.Observaciones)
             </td>
-            <td>
+            <td style="padding: 12px;">
                 <label>@String.Format("{0:dd/MM/yyyy}", item.Fecha_Registro)</label>
             </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id_PagosXNomina }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id_PagosXNomina }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id_PagosXNomina })
+            <td style="padding: 12px;">
+                @Html.ActionLink("Detalle", "Details", new { id = item.Id_Contabilidad }, new { @class = "custom-btn" })
             </td>
         </tr>
     }

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
@@ -111,28 +112,23 @@ namespace ProyectoClinica.Controllers
         // GET: Pagos/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
-            ViewBag.Bancos = new SelectList(_context.Bancos, "Id_Banco", "Nombre_Banco");
-
-            var pago = _context.Pagos.Find(id);
             
-            if (pago == null)
+            if (id == null)
             {
-                return new HttpStatusCodeResult(System.Net.HttpStatusCode.NotFound);
+                return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
             }
 
-            // Obtener la lista de bancos desde la base de datos
-            var bancos = _context.Bancos
-                                 .Select(b => new SelectListItem
-                                 {
-                                     Value = b.Id_Banco.ToString(),
-                                     Text = b.Nombre_Banco
-                                 })
-                                 .ToList();
+            // Usar SingleOrDefaultAsync para búsqueda asíncrona
+            var pago = await _context.Pagos.SingleOrDefaultAsync(p => p.Id_Pago == id);
 
-            Console.WriteLine(bancos);
+            if (pago == null)
+            {
+                return HttpNotFound();
+            }
 
-            // Pasar la lista de bancos a la vista usando ViewBag
-            ViewBag.Banco = new SelectList(bancos, "Value", "Text", pago.Id_Banco);
+            // Cargar la lista de bancos una sola vez
+            var bancos = await _context.Bancos.ToListAsync();
+            ViewBag.Banco = new SelectList(bancos, "Id_Banco", "Nombre_Banco", pago.Id_Banco);
 
             return View(pago);
         }
@@ -143,12 +139,36 @@ namespace ProyectoClinica.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Entry(pago).State = EntityState.Modified;
-                _context.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    // Obtener el pago existente de la base de datos
+                    var pagoExistente = await _context.Pagos.SingleOrDefaultAsync(p => p.Id_Pago == pago.Id_Pago);
+
+                    if (pagoExistente == null)
+                    {
+                        return HttpNotFound();
+                    }
+
+                    // Mantener el Id_Banco original
+                    pago.Id_Banco = pagoExistente.Id_Banco;
+
+                    // Actualizar solo los campos modificables
+                    _context.Entry(pagoExistente).CurrentValues.SetValues(pago);
+
+                    // Guardar los cambios
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+                catch (DbUpdateException ex)
+                {
+                    ModelState.AddModelError("", "No se pudo guardar los cambios. Inténtelo de nuevo y si el problema persiste, contacte al administrador.");
+                }
             }
-            //ViewBag.Bancos = new SelectList(_context.Bancos, "Id_Banco", "Nombre_Banco");
-            
+
+            // Si llegamos aquí, algo falló, volver a cargar los bancos
+            var bancos = await _context.Bancos.ToListAsync();
+            ViewBag.Banco = new SelectList(bancos, "Id_Banco", "Nombre_Banco", pago.Id_Banco);
+
             return View(pago);
         }
 
