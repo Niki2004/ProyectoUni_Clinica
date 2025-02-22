@@ -20,7 +20,6 @@
 
 <p>
     @Html.ActionLink("Crear Contabilidad", "Create", null, new { @class = "btn-pago" })
-    @Html.ActionLink("Ver Gastos", "VistaGastos", null, new { @class = "btn-pago" })
     <span style="float: right;">
         @Html.ActionLink("Cierre Mensual", "CierreMensual", null, new { @class = "btn-pago", style = "margin-right: 10px;" })
         @Html.ActionLink("Cierre Anual", "CierreAnual", null, new { @class = "btn-pago" })
@@ -252,7 +251,7 @@
                         }
                         else if ((item.Tipo_Registro.Nombre == "Ingreso" || item.Tipo_Registro.Nombre == "Egreso") && item.Conta_pago == "En Proceso")
                         {
-                            <a href="@Url.Action("IndexProveedor", "PagosXNomina", new { id = item.Id_Contabilidad })" class="btn-pago">
+                            <a href="@Url.Action("Index", "PagosXNomina", new { id = item.Id_Contabilidad })" class="btn-pago">
                                 Nómina
                             </a>
                         }

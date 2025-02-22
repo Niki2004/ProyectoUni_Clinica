@@ -30,9 +30,13 @@ namespace ProyectoClinica.Controllers
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
-                return View();
+                return RedirectToAction("Index"); 
 
-            var pagos_diarios = _context.Pagos_Diarios.Find(id);
+            var pagos_diarios = await _context.Pagos_Diarios
+                                              .FirstOrDefaultAsync(p => p.Id_Pago_Diario == id);
+
+            if (pagos_diarios == null)
+                return RedirectToAction("Index");
 
 
             // Obtener la lista de bancos desde la base de datos
@@ -53,16 +57,9 @@ namespace ProyectoClinica.Controllers
                                  .ToList();
 
 
-            ViewBag.Contabilidad = new SelectList(contabilidad, "Value", "Text", pagos_diarios.Id_Contabilidad);
-            ViewBag.Empleado = new SelectList(empleado, "Value", "Text", pagos_diarios.Id_Empleado);
+            ViewBag.Contabilidad = new SelectList(contabilidad, "Value", "Text", pagos_diarios?.Id_Contabilidad);
+            ViewBag.Empleado = new SelectList(empleado, "Value", "Text", pagos_diarios?.Id_Empleado);
 
-
-
-
-            if (pagos_diarios == null)
-            {
-                return View(pagos_diarios);
-            }
 
             return View(pagos_diarios);
         }
