@@ -549,6 +549,7 @@
     <Content Include="Views\Empleados\vistaEvaluacion.cshtml" />
     <Content Include="Views\Inventario\Detalles.cshtml" />
     <Content Include="Views\Cita\Ubicacion.cshtml" />
+    <Content Include="Views\Factura\OpcionesDespuesDePago.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>

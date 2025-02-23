@@ -1,0 +1,93 @@
+﻿@model ProyectoClinica.Models.Factura
+
+<div class="container mt-5">
+    <h4 class="text-center mb-3">Opciones de Factura</h4>
+
+    <!-- Información de la Factura -->
+    <div class="card shadow-sm p-4 mb-3">
+        <h5><strong>No. Recibo:</strong> @Model.Id_Factura</h5>
+        <h6><strong>Fecha:</strong> @Model.FechaHora.ToString("dd/MM/yyyy HH:mm")</h6>
+
+        <h5 class="text-primary"><strong>Subtotal:</strong> $@Model.Subtotal.ToString("N2")</h5>
+        <h5 class="text-primary"><strong>Descuento:</strong> $@Model.Descuento.ToString("N2")</h5>
+        <h5 class="text-primary"><strong>Impuesto:</strong> $@Model.Impuesto.ToString("N2")</h5>
+        <h5 class="text-primary"><strong>Total Pagado:</strong> $@Model.TotalPagado.ToString("N2")</h5>
+    </div>
+
+    <!-- Métodos de Pago Utilizados -->
+    <div class="card shadow-sm p-3 mb-3">
+        <h5>Métodos de Pago Utilizados</h5>
+        <ul>
+            @if (ViewBag.MetodosPago != null && ((List<string>)ViewBag.MetodosPago).Any())
+            {
+                foreach (var metodo in (List<string>)ViewBag.MetodosPago)
+                {
+                    <li>@metodo</li>
+                }
+            }
+            else
+            {
+                <li>No se registraron métodos de pago.</li>
+            }
+        </ul>
+    </div>
+
+    <!-- Servicios Brindados -->
+    <div class="card shadow-sm p-3 mb-3">
+        <h5>Servicios Brindados</h5>
+        <ul>
+            @if (ViewBag.Servicios != null && ((List<string>)ViewBag.Servicios).Any())
+            {
+                foreach (var servicio in (List<string>)ViewBag.Servicios)
+                {
+                    <li>@servicio</li>
+                }
+            }
+            else
+            {
+                <li>No se registraron servicios.</li>
+            }
+        </ul>
+    </div>
+
+    <!-- Botones de Acción -->
+    <div class="d-flex justify-content-center gap-3 mt-4">
+        <button class="btn btn-primary" onclick="imprimirFactura()">Imprimir Factura</button>
+        <input type="text" id="correoCliente" class="form-control w-50" placeholder="Correos separados por comas">
+        <button class="btn btn-success" onclick="enviarCorreo()">Enviar por Correo</button>
+        <button class="btn btn-info">Ambas</button>
+    </div>
+</div>
+
+<script>
+    function enviarCorreo() {
+        let emailInput = document.getElementById("correoCliente").value.trim();
+        if (!emailInput) {
+            alert("⚠️ Por favor ingrese al menos un correo electrónico.");
+            return;
+        }
+
+        let emails = emailInput.split(',').map(e => e.trim());
+
+        fetch('/Factura/EnviarFacturaCorreo', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ idFactura: @Model.Id_Factura, correos: emails })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("✅ " + data.message);
+            } else {
+                alert("❌ " + data.message);
+            }
+        })
+        .catch(error => {
+            console.error("Error al enviar correo:", error);
+            alert("❌ Hubo un problema al enviar el correo.");
+        });
+    }
+</script>
+
+
+
