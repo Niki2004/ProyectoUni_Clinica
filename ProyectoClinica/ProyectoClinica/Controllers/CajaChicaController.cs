@@ -41,6 +41,8 @@ namespace ProyectoClinica.Controllers
                 return View(caja);
             }
 
+            ViewBag.Contabilidad = new SelectList(_context.Contabilidad, "Id_Contabilidad", "ClienteProveedor");
+
             return View(caja);
         }
 
@@ -48,6 +50,7 @@ namespace ProyectoClinica.Controllers
         public ActionResult Create()
         {
             ViewBag.Servicio = new SelectList(_context.Caja_Chica, "Id_Caja_Chica");
+            ViewBag.Contabilidad = new SelectList(_context.Contabilidad, "Id_Contabilidad", "ClienteProveedor");
             return View();
         }
 
@@ -102,6 +105,7 @@ namespace ProyectoClinica.Controllers
             if (caja == null)
                 return HttpNotFound();
             ViewBag.Caja_Chica = new SelectList(_context.Caja_Chica, "Id_Caja_Chica");
+            ViewBag.Contabilidad = new SelectList(_context.Contabilidad, "Id_Contabilidad", "ClienteProveedor");
             return View(caja);
         }
 

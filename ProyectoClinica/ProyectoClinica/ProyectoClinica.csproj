@@ -456,7 +456,6 @@
     <Content Include="Views\CajaChica\Create.cshtml" />
     <Content Include="Views\CajaChica\Index.cshtml" />
     <Content Include="Views\CajaChica\Details.cshtml" />
-    <Content Include="Views\CajaChica\Delete.cshtml" />
     <Content Include="Views\Empleados\VistaEmpleados.cshtml" />
     <Content Include="Views\Descuento\Edit.cshtml" />
     <Content Include="Views\Servicios\Edit.cshtml" />
