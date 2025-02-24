@@ -11,25 +11,42 @@
         <i class="fas fa-home"></i> Inicio
     </a>
 </div>
+
+
+</br>
+
+<h2 class="text-center">Movimientos Bancarios</h2>
+
+</br>
+
+
+<p>
+    @Html.ActionLink("Crear Movimiento Bancario", "Create", null, new { @class = "btn-pago" })
+</p>
+
+</br>
+
+
+
+
 <style>
-    .custom-btn {
-        background-color: #0b7b82 !important;
-        color: white !important;
+    .btn-pago {
+        /* Los estilos existentes se mantienen */
+        background-color: #0b7b82;
+        color: white;
         border: none;
-        padding: 12px 24px;
-        border-radius: 8px;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 16px;
+        padding: 8px 12px;
+        border-radius: 5px;
         text-decoration: none;
-        transition: background 0.3s ease, transform 0.2s ease;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        display: inline-block;
+        margin-top: 5px;
+        text-align: center;
     }
-</style>
 
+        .btn-pago:hover {
+            background-color: #0056b3;
+        }
 
-<style>
     .btn-ajustes {
         background-color: #0b7b82 !important;
         color: white !important;
@@ -44,40 +61,147 @@
         transition: background 0.3s ease, transform 0.2s ease;
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     }
+
+    .custom-btn {
+        /* Los estilos existentes se mantienen */
+        background-color: #0b7b82 !important;
+        color: white !important;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 16px;
+        text-decoration: none;
+        transition: background 0.3s ease, transform 0.2s ease;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Nuevos estilos para la tabla */
+    .table {
+        width: 100%;
+        font-size: 1rem;
+        table-layout: fixed;
+    }
+
+        .table th,
+        .table td {
+            padding: 6px 8px;
+            word-wrap: break-word;
+            max-width: 150px;
+        }
+
+        .table th {
+            font-size: 1.1rem;
+            background-color: #0b7b82;
+            color: white;
+        }
+
+        .table td {
+            font-size: 1rem;
+        }
+
+            /* Ajustar el ancho de las columnas */
+            .table th:nth-child(1),
+            .table td:nth-child(1) {
+                width: 6%;
+            }
+            /* Registro */
+
+            .table th:nth-child(2),
+            .table td:nth-child(2) {
+                width: 8%;
+            }
+            /* Transacción */
+
+            .table th:nth-child(3),
+            .table td:nth-child(3) {
+                width: 6%;
+            }
+            /* Cliente */
+
+            .table th:nth-child(4),
+            .table td:nth-child(4) {
+                width: 6%;
+            }
+            /* Estatus */
+
+            .table th:nth-child(5),
+            .table td:nth-child(5) {
+                width: 6%;
+            }
+            /* Nómina */
+
+            .table th:nth-child(6),
+            .table td:nth-child(6) {
+                width: 6%;
+            }
+            /* Monto */
+
+            .table th:nth-child(7),
+            .table td:nth-child(7) {
+                width: 6%;
+            }
+            /* Anticipo */
+
+            .table th:nth-child(8),
+            .table td:nth-child(8) {
+                width: 6%;
+            }
+            /* Descuento */
+
+            .table th:nth-child(9),
+            .table td:nth-child(9) {
+                width: 6%;
+            }
+            /* Ingresos */
+
+            .table th:nth-child(10),
+            .table td:nth-child(10) {
+                width: 6%;
+            }
+            /* Pendientes */
+
+            .table th:nth-child(11),
+            .table td:nth-child(11) {
+                width: 6%;
+            }
+            /* Sueldos */
+
+            .table th:nth-child(12),
+            .table td:nth-child(12) {
+                    width:  6%;
+            }
 </style>
 
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
-        <th>
-            <label>Id Diario</label>
+        <th style="padding: 15px;">
+            <label>Diario</label>
         </th>
-        <th>
-            <label>Id Conciliación</label>
+        <th style="padding: 15px;">
+            <label>Conciliación</label>
         </th>
-        <th>
-            <label>Id Pago</label>
+        <th style="padding: 15px;">
+            <label>Pago</label>
         </th>
-        <th>
-            <label>Id Banco</label>
+        <th style="padding: 15px;">
+            <label>Banco</label>
         </th>
-        <th>
+        <th style="padding: 15px;">
             <label>Ingresos</label>
         </th>
-        <th>
+        <th style="padding: 15px;">
             <label>Egresos</label>
         </th>
-        <th>
-            <label>Saldo</label>
+        <th style="padding: 15px;">
+            <label>Saldo Cuenta</label>
         </th>
-        <th>
+        <th style="padding: 15px;">
             <label>Fecha Movimiento</label>
         </th>
-        <th>
+        <th style="padding: 15px;">
             <label>Descripción</label>
         </th>
         <th></th>
@@ -86,43 +210,43 @@
     @foreach (var item in Model)
     {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id_Diario)
+            <td style="padding: 15px;">
+                @Html.DisplayFor(modelItem => item.Diarios_Contables.Codigo_Diario)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id_Conciliacion)
+            <td style="padding: 15px;">
+                @Html.DisplayFor(modelItem => item.Conciliaciones_Bancarias.Saldo_Banco)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id_Pago)
+            <td style="padding: 15px;">
+                @Html.DisplayFor(modelItem => item.Pagos.Beneficiario)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id_Banco)
+            <td style="padding: 15px;">
+                @Html.DisplayFor(modelItem => item.Bancos.Nombre_Banco)
             </td>
-            <td>
+            <td style="padding: 15px;">
                 @Html.DisplayFor(modelItem => item.Ingresos)
             </td>
-            <td>
+            <td style="padding: 15px;">
                 @Html.DisplayFor(modelItem => item.Egresos)
             </td>
-            <td>
+            <td style="padding: 15px;">
                 @Html.DisplayFor(modelItem => item.Saldo)
             </td>
-            <td>
+            <td style="padding: 15px;">
                 <label>@String.Format("{0:dd/MM/yyyy}", item.Fecha_Movimiento)</label>
             </td>
-            <td>
+            <td style="padding: 15px;">
                 @Html.DisplayFor(modelItem => item.Descripcion)
             </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id_Movimiento }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id_Movimiento }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id_Movimiento })
+            <td style="padding: 12px;">
+                @Html.ActionLink("Detalle", "Details", new { id = item.Id_Movimiento }, new { @class = "btn-pago" })
+
                 @if (item.Saldo > 0)
                 {
                     <br />
-                    <a href="@Url.Action("AjustesBancarios", "MovimientosBancarios", new { id = item.Id_Movimiento })" class="btn-ajustes" style="margin-top: 5px;">Ajustes Bancarios</a>
+                    <a href="@Url.Action("AjustesBancarios", "MovimientosBancarios", new { id = item.Id_Movimiento })" class="btn-pago" style="margin-top: 10px;">Ajustes</a>
                 }
             </td>
+
         </tr>
     }
 

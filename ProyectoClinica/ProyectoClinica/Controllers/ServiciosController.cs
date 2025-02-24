@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -95,10 +97,13 @@ namespace ProyectoClinica.Controllers
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
-                return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
-            var servicios = _context.Servicio.Find(id);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            var servicios = await _context.Servicio.FindAsync(id);
+
             if (servicios == null)
                 return HttpNotFound();
+
             ViewBag.Servicio = new SelectList(_context.Servicio, "Id_Servicio");
             return View(servicios);
         }
@@ -109,13 +114,23 @@ namespace ProyectoClinica.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Entry(servicio).State = EntityState.Modified;
-                _context.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    _context.Entry(servicio).State = EntityState.Modified;
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "Error al guardar los cambios: " + ex.Message);
+                }
             }
+
             ViewBag.Servicio = new SelectList(_context.Servicio, "Id_Servicio");
             return View(servicio);
+
         }
+        
 
         // GET: Servicios/Delete/5
         public ActionResult Delete(int id)
