@@ -281,16 +281,12 @@ namespace ProyectoClinica.Controllers
 
         //-----------------------------------------------------------------Controller Historial -------------------------------------------------------------------------------------
 
-        //public ActionResult Historial()
-        //{
-        //    ViewBag.Empleados = BaseDatos.Empleado.ToList();
-        //    ViewBag.RolesAsignacion = BaseDatos.RolAsignacion.ToList();
-        //    ViewBag.PDFs = BaseDatos.PDF.ToList();
-
-        //    return View();
-        //}
-
-
+        public ActionResult vistaHistorial()
+        {
+            var RolAsignacion = BaseDatos.RolAsignacion.ToList();
+            ViewBag.Id_Empleado = new SelectList(BaseDatos.Empleado, "Id_Empleado", "Nombre");
+            return View(RolAsignacion);
+        }
 
 
 
