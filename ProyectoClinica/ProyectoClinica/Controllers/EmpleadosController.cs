@@ -283,8 +283,7 @@ namespace ProyectoClinica.Controllers
 
         public ActionResult vistaHistorial()
         {
-            var RolAsignacion = BaseDatos.RolAsignacion.ToList();
-            ViewBag.Id_Empleado = new SelectList(BaseDatos.Empleado, "Id_Empleado", "Nombre");
+            var RolAsignacion = BaseDatos.RolAsignacion.Include("Empleado").ToList();
             return View(RolAsignacion);
         }
 
