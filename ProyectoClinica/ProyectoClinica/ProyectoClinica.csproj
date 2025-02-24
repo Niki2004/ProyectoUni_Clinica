@@ -423,16 +423,13 @@
     <Content Include="Views\Cita\Crear.cshtml" />
     <Content Include="Views\Contabilidad\Index.cshtml" />
     <Content Include="Views\Contabilidad\Create.cshtml" />
-    <Content Include="Views\Contabilidad\Delete.cshtml" />
     <Content Include="Views\Descuento\Index.cshtml" />
-    <Content Include="Views\Descuento\Delete.cshtml" />
     <Content Include="Views\ServiciosBrindados\Index.cshtml" />
     <Content Include="Views\ServiciosBrindados\Details.cshtml" />
     <Content Include="Views\ServiciosBrindados\Create.cshtml" />
     <Content Include="Views\ServiciosBrindados\Edit.cshtml" />
     <Content Include="Views\ServiciosBrindados\Delete.cshtml" />
     <Content Include="Views\Servicios\Index.cshtml" />
-    <Content Include="Views\Servicios\Delete.cshtml" />
     <Content Include="Views\Perfil\VistaCita.cshtml" />
     <Content Include="Views\Perfil\Editar.cshtml" />
     <Content Include="Views\Perfil\EliminarCita.cshtml" />
@@ -459,7 +456,6 @@
     <Content Include="Views\CajaChica\Create.cshtml" />
     <Content Include="Views\CajaChica\Index.cshtml" />
     <Content Include="Views\CajaChica\Details.cshtml" />
-    <Content Include="Views\CajaChica\Delete.cshtml" />
     <Content Include="Views\Empleados\VistaEmpleados.cshtml" />
     <Content Include="Views\Descuento\Edit.cshtml" />
     <Content Include="Views\Servicios\Edit.cshtml" />
@@ -490,9 +486,7 @@
     <Content Include="Views\PagosDiarios\Edit.cshtml" />
     <Content Include="Views\PagosXNomina\Index.cshtml" />
     <Content Include="Views\PagosXNomina\Create.cshtml" />
-    <Content Include="Views\PagosXNomina\Details.cshtml" />
     <Content Include="Views\PagosXNomina\Edit.cshtml" />
-    <Content Include="Views\PagosXNomina\IndexProveedor.cshtml" />
     <Content Include="Views\Empleados\VistaAdmin.cshtml" />
     <Content Include="Views\Factura\VistaSEC.cshtml" />
     <Content Include="Views\MovimientosBancarios\Index.cshtml" />
@@ -553,6 +547,9 @@
     <Content Include="Views\Empleados\vistaEvaluacion.cshtml" />
     <Content Include="Views\Inventario\Detalles.cshtml" />
     <Content Include="Views\Cita\Ubicacion.cshtml" />
+    <Content Include="Views\Factura\OpcionesDespuesDePago.cshtml" />
+    <Content Include="Views\PagosXNomina\Details.cshtml" />
+    <Content Include="Views\Empleados\vistaHistorial.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>

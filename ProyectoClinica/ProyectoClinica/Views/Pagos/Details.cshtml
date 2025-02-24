@@ -4,123 +4,204 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<style>
+    .container-details {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
 
-<div>
-    <h4>Pagos</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <div class="form-group">
-            <label for="Id_Banco">Banco</label>
-            @Html.DropDownListFor(model => model.Id_Banco, ViewBag.Banco as SelectList, "Seleccione una opción", new { @class = "form-control" })
-        </div>
+    .page-title {
+        color: #0b7b82;
+        text-align: center;
+        margin-bottom: 30px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #0b7b82;
+    }
 
+    .details-section {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .section-title {
+        color: #0b7b82;
+        margin-bottom: 20px;
+        font-size: 1.2em;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .control-label {
+        font-weight: 600;
+        color: #2c3e50;
+        width: 200px;
+        padding: 8px 15px 8px 0;
+    }
+
+    .field-value {
+        flex: 1;
+        min-width: 250px;
+        padding: 8px;
+        background-color: #f8f9fa;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+
+    .action-buttons {
+        text-align: center;
+        margin-top: 20px;
+        padding: 20px 0;
+    }
+
+    .btn-action {
+        background-color: #0b7b82;
+        color: white;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+        margin: 0 10px;
+        display: inline-block;
+        transition: all 0.3s ease;
+    }
+
+        .btn-action:hover {
+            background-color: #096c72;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+</style>
+
+<div class="container-details">
+    <h2 class="page-title">Detalles del Pago</h2>
+
+    <div class="details-section">
+        <h4 class="section-title">Información Bancaria</h4>
         <div class="form-group">
-            @Html.LabelFor(model => model.Numero_Referencia, "Número de Referencia", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Numero_Referencia, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Numero_Referencia, "", new { @class = "text-danger" })
+            <label class="control-label">Banco</label>
+            <div class="field-value">
+                @Html.DropDownListFor(model => model.Id_Banco, ViewBag.Banco as SelectList, "Seleccione una opción", new { @class = "form-control", disabled = "disabled" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Fecha_Pago, "Fecha de Pago", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(model => model.Fecha_Pago, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
-                @Html.ValidationMessageFor(model => model.Fecha_Pago, "", new { @class = "text-danger" })
+            <label class="control-label">Número de Referencia</label>
+            <div class="field-value">
+                @Html.DisplayFor(model => model.Numero_Referencia)
+            </div>
+        </div>
+    </div>
+
+    <div class="details-section">
+        <h4 class="section-title">Detalles del Pago</h4>
+        <div class="form-group">
+            <label class="control-label">Fecha de Pago</label>
+            <div class="field-value">
+                @Html.DisplayFor(model => model.Fecha_Pago)
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Tipo_Pago, "Tipo de Pago", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Tipo_Pago, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Tipo_Pago, "", new { @class = "text-danger" })
+            <label class="control-label">Tipo de Pago</label>
+            <div class="field-value">
+                @Html.DisplayFor(model => model.Tipo_Pago)
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Monto, "Monto", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Monto, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Monto, "", new { @class = "text-danger" })
+            <label class="control-label">Monto</label>
+            <div class="field-value">
+                @Html.DisplayFor(model => model.Monto)
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Beneficiario, "Beneficiario", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Beneficiario, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Beneficiario, "", new { @class = "text-danger" })
+            <label class="control-label">Estado de Pago</label>
+            <div class="field-value">
+                @Html.DisplayFor(model => model.Estado_Pago)
+            </div>
+        </div>
+    </div>
+
+    <div class="details-section">
+        <h4 class="section-title">Información del Beneficiario</h4>
+        <div class="form-group">
+            <label class="control-label">Beneficiario</label>
+            <div class="field-value">
+                @Html.DisplayFor(model => model.Beneficiario)
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Cuenta_Beneficiario, "Cuenta del Beneficiario", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Cuenta_Beneficiario, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Cuenta_Beneficiario, "", new { @class = "text-danger" })
+            <label class="control-label">Cuenta del Beneficiario</label>
+            <div class="field-value">
+                @Html.DisplayFor(model => model.Cuenta_Beneficiario)
+            </div>
+        </div>
+    </div>
+
+    <div class="details-section">
+        <h4 class="section-title">Detalles Adicionales</h4>
+        <div class="form-group">
+            <label class="control-label">Descripción</label>
+            <div class="field-value">
+                @Html.DisplayFor(model => model.Descripcion)
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Estado_Pago, "Estado de Pago", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Estado_Pago, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Estado_Pago, "", new { @class = "text-danger" })
+            <label class="control-label">Observaciones</label>
+            <div class="field-value">
+                @Html.DisplayFor(model => model.Observaciones)
             </div>
         </div>
+    </div>
+
+    <div class="details-section">
+        <h4 class="section-title">Información de Registro</h4>
         <div class="form-group">
-            @Html.LabelFor(model => model.Descripcion, "Descripcion", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+            <label class="control-label">Usuario Registro</label>
+            <div class="field-value">
+                @Html.DisplayFor(model => model.Usuario_Registro)
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Observaciones, "Observaciones", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Observaciones, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Observaciones, "", new { @class = "text-danger" })
+            <label class="control-label">Fecha de Registro</label>
+            <div class="field-value">
+                @Html.DisplayFor(model => model.Fecha_Registro)
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Usuario_Registro, "Regsistro de Usuario", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Usuario_Registro, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Usuario_Registro, "", new { @class = "text-danger" })
+            <label class="control-label">Usuario Modificación</label>
+            <div class="field-value">
+                @Html.DisplayFor(model => model.Usuario_Modificacion)
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Fecha_Registro, "Fecha de Registro", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(model => model.Fecha_Registro, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
-                @Html.ValidationMessageFor(model => model.Fecha_Registro, "", new { @class = "text-danger" })
+            <label class="control-label">Fecha de Modificación</label>
+            <div class="field-value">
+                @Html.DisplayFor(model => model.Fecha_Modificacion)
             </div>
         </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Usuario_Modificacion, "Modificación de Usuario", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Usuario_Modificacion, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Usuario_Modificacion, "", new { @class = "text-danger" })
-            </div>
-        </div>
+    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Fecha_Modificacion, "Fecha de Modificación", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(model => model.Fecha_Modificacion, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
-                @Html.ValidationMessageFor(model => model.Fecha_Modificacion, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-
-    </dl>
+    <div class="action-buttons">
+        @Html.ActionLink("Editar", "Edit", new { id = Model.Id_Pago }, new { @class = "btn-action" })
+        @Html.ActionLink("Volver a la Lista", "Index", null, new { @class = "btn-action" })
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id_Pago }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

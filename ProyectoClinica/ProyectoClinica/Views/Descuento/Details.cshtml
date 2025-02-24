@@ -1,74 +1,160 @@
 ﻿@model ProyectoClinica.Models.Descuento
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Detalles Descuento";
 }
 
-<h2>Details</h2>
+<style>
+    .container-form {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
 
-<div>
-    <h4>Descuento</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <div class="form-group">
-            @Html.LabelFor(model => model.Nombre_Descuento, "Nombre del Descuento", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+    .page-title {
+        color: #0b7b82;
+        text-align: center;
+        margin-bottom: 30px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #0b7b82;
+    }
+
+    .form-section {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+        .form-section h4 {
+            color: #0b7b82;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+    .form-group {
+        display: grid;
+        grid-template-columns: 1fr 3fr;
+        gap: 15px;
+        margin-bottom: 15px;
+        align-items: center;
+    }
+
+    .control-label {
+        font-weight: 600;
+        color: #2c3e50;
+        text-align: right;
+    }
+
+    .form-control {
+        color: #495057;
+        padding: 8px;
+        background-color: #fff;
+        border-radius: 4px;
+        border: 1px solid #dee2e6;
+        width: 100%;
+    }
+
+    .text-danger {
+        color: #dc3545;
+        display: block;
+        margin-top: 5px;
+    }
+
+    .btn-form {
+        background-color: #0b7b82;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 20px;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+
+        .btn-form:hover {
+            background-color: #096c72;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            color: white;
+            text-decoration: none;
+        }
+</style>
+
+
+
+<div class="container-form">
+    <h2 class="page-title">Detalles del Descuento</h2>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-section">
+            <h4>Información del Descuento</h4>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Nombre_Descuento, "Nombre del Descuento", htmlAttributes: new { @class = "form-label fw-bold" })
                 @Html.EditorFor(model => model.Nombre_Descuento, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Nombre_Descuento, "", new { @class = "text-danger" })
             </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Codigo_Descuento, "Codigo del Descuento", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Codigo_Descuento, "Código del Descuento", htmlAttributes: new { @class = "form-label fw-bold" })
                 @Html.EditorFor(model => model.Codigo_Descuento, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Codigo_Descuento, "", new { @class = "text-danger" })
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Porcentaje_Descuento, "Porcentaje del Descuento", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Porcentaje_Descuento, "Porcentaje del Descuento", htmlAttributes: new { @class = "form-label fw-bold" })
                 @Html.EditorFor(model => model.Porcentaje_Descuento, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Porcentaje_Descuento, "", new { @class = "text-danger" })
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Limite_Usos, "Limite de Usos", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Limite_Usos, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Limite_Usos, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Compania_Afiliada, "Compañia Afiliada", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Compania_Afiliada, "Compañía Afiliada", htmlAttributes: new { @class = "form-label fw-bold" })
                 @Html.EditorFor(model => model.Compania_Afiliada, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Compania_Afiliada, "", new { @class = "text-danger" })
             </div>
         </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Activo, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.Activo)
-                    @Html.ValidationMessageFor(model => model.Activo, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Fecha_Creacion, "Fecha Creación", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+        <div class="form-section">
+            <h4>Detalles del Descuento</h4>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Limite_Usos, "Límite de Usos", htmlAttributes: new { @class = "form-label fw-bold" })
+                @Html.EditorFor(model => model.Limite_Usos, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Limite_Usos, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.EditorFor(model => model.Activo, new { htmlAttributes = new { @class = "form-check-input" } })
+                @Html.LabelFor(model => model.Activo, htmlAttributes: new { @class = "form-check-label fw-bold" })
+                @Html.ValidationMessageFor(model => model.Activo, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Fecha_Creacion, "Fecha de Creación", htmlAttributes: new { @class = "form-label fw-bold" })
                 @Html.TextBoxFor(model => model.Fecha_Creacion, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
                 @Html.ValidationMessageFor(model => model.Fecha_Creacion, "", new { @class = "text-danger" })
             </div>
         </div>
 
-    </dl>
+        <div class="text-center" style="margin-top: 20px;">
+            @Html.ActionLink("Editar", "Edit", new { id = Model.Id_Descuento }, new { @class = "btn-form" })
+            @Html.ActionLink("Regresar a la Lista", "Index", null, new { @class = "btn-form" })
+        </div>
+    }
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new {  /* id = Model.PrimaryKey */ }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
