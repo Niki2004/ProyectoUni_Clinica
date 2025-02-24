@@ -331,7 +331,7 @@
                             @Html.ActionLink("Subir PDF", "File", "Empleados", null, new { @class = "btn btn-primary btn-sm w-100" })
                         </div>
                         <div class="col">
-                            <a href="~/Employees/History" class="btn btn-info btn-sm w-100">Historial del empleado</a>
+                            @Html.ActionLink("Historial del empleado", "vistaHistorial", "Empleados", null, new { @class = "btn btn-primary btn-sm w-100" })
                         </div>
                         <div class="col">
                             @Html.ActionLink("Ver PDF", "vistaPDF", "Empleados", null, new { @class = "btn btn-primary btn-sm w-100" })
