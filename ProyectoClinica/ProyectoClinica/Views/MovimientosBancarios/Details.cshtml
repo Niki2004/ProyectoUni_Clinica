@@ -1,96 +1,163 @@
 ﻿@model ProyectoClinica.Models.Movimientos_Bancarios
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Detalles Movimientos Bancarios";
 }
 
-<h2>Details</h2>
+<style>
+    .container-form {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
 
-<div>
-    <h4>Movimientos_Bancarios</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <div class="form-group">
-            @Html.LabelFor(model => model.Id_Diario, "Diario", htmlAttributes: new { @class = "control-label col-md-2" })
-            @Html.DropDownList("Id_Diario", ViewBag.Diarios_Contables as SelectList, "Seleccione una opción", new { @class = "form-control" })
-            @*<div class="col-md-10">
-               @Html.EditorFor(model => model.Id_Tipo_Registro, new { htmlAttributes = new { @class = "form-control" } })
-               @Html.ValidationMessageFor(model => model.Id_Tipo_Registro, "", new { @class = "text-danger" })
-            </div>*@
-        </div>
+    .page-title {
+        color: #0b7b82;
+        text-align: center;
+        margin-bottom: 30px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #0b7b82;
+    }
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Id_Conciliacion, "Id Conciliacion", htmlAttributes: new { @class = "control-label col-md-2" })
-            @Html.DropDownList("Id_Conciliacion", ViewBag.Conciliaciones_Bancarias as SelectList, "Seleccione una opción", new { @class = "form-control" })
-            @*<div class="col-md-10">
-               @Html.EditorFor(model => model.Id_Tipo_Registro, new { htmlAttributes = new { @class = "form-control" } })
-               @Html.ValidationMessageFor(model => model.Id_Tipo_Registro, "", new { @class = "text-danger" })
-            </div>*@
-        </div>
+    .form-section {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Id_Pago, "Id del Pagos", htmlAttributes: new { @class = "control-label col-md-2" })
-            @Html.DropDownList("Id_Pago", ViewBag.Pagos as SelectList, "Seleccione una opción", new { @class = "form-control" })
-            @*<div class="col-md-10">
-               @Html.EditorFor(model => model.Id_Tipo_Registro, new { htmlAttributes = new { @class = "form-control" } })
-               @Html.ValidationMessageFor(model => model.Id_Tipo_Registro, "", new { @class = "text-danger" })
-            </div>*@
-        </div>
+    .form-group {
+        margin-bottom: 20px;
+    }
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Id_Banco, "Banco", htmlAttributes: new { @class = "control-label col-md-2" })
-            @Html.DropDownList("Id_Banco", ViewBag.Bancos as SelectList, "Seleccione una opción", new { @class = "form-control" })
-            @*<div class="col-md-10">
-               @Html.EditorFor(model => model.Id_Tipo_Registro, new { htmlAttributes = new { @class = "form-control" } })
-               @Html.ValidationMessageFor(model => model.Id_Tipo_Registro, "", new { @class = "text-danger" })
-            </div>*@
-        </div>
+    .control-label {
+        font-weight: 600;
+        color: #2c3e50;
+    }
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Ingresos, "Ingresos", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Ingresos, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Ingresos, "", new { @class = "text-danger" })
+    .form-control {
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 8px 12px;
+        transition: border-color 0.3s ease;
+        width: 100%;
+    }
+
+        .form-control:focus {
+            border-color: #0b7b82;
+            box-shadow: 0 0 0 0.2rem rgba(11, 123, 130, 0.25);
+        }
+
+    .btn-pago {
+        background-color: #0b7b82;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 5px;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+
+        .btn-pago:hover {
+            background-color: #096c72;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .text-danger {
+        color: #dc3545;
+        font-size: 0.875rem;
+        margin-top: 4px;
+    }
+</style>
+
+<div class="container-form">
+    <h2 class="page-title">Detalles de Pagos Diarios</h2>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id_Movimiento)
+
+        <div class="form-section">
+            <h4>Detalles del Movimiento Bancariario</h4>
+            <div class="form-grid">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Id_Diario, "Diario  Contable", new { @class = "control-label" })
+                    @Html.DropDownList("Id_Diario", ViewBag.Diarios_Contables as SelectList, "Seleccione una opción", new { @class = "form-control" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Id_Conciliacion, "Conciliación Bancaria", new { @class = "control-label" })
+                    @Html.DropDownList("Id_Conciliacion", ViewBag.Conciliaciones_Bancarias as SelectList, "Seleccione una opción", new { @class = "form-control" })
+                </div>
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Id_Pago, "Pago", new { @class = "control-label" })
+                    @Html.DropDownList("Id_Pago", ViewBag.Pagos as SelectList, "Seleccione una opción", new { @class = "form-control" })
+                </div>
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Id_Banco, "Banco", new { @class = "control-label" })
+                    @Html.DropDownList("Id_Banco", ViewBag.Bancos as SelectList, "Seleccione una opción", new { @class = "form-control" })
+                </div>
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Egresos, "Egresos", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Egresos, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Egresos, "", new { @class = "text-danger" })
+        <div class="form-section">
+            <h4>Información del Movimiento Bancario</h4>
+            <div class="form-grid">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Ingresos, "Ingresos", new { @class = "control-label" })
+                    @Html.EditorFor(model => model.Ingresos, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Egresos, "Egresos", new { @class = "control-label" })
+                    @Html.EditorFor(model => model.Egresos, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Saldo, "Saldo", new { @class = "control-label" })
+                    @Html.EditorFor(model => model.Saldo, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Saldo, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Saldo, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Saldo, "", new { @class = "text-danger" })
+        <div class="form-section">
+            <h4>Información de Registro del Movimiento Bancario</h4>
+            <div class="form-grid">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Fecha_Movimiento, "Fecha del Movimiento", new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.Fecha_Movimiento, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Descripcion, "Descripcion", new { @class = "control-label" })
+                    @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Fecha_Movimiento, "Fecha Movimiento", htmlAttributes: new { @class = "control-label col-md-2" })
 
-            <div class="col-md-10">
-                @Html.TextBoxFor(model => model.Fecha_Movimiento, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
-                @Html.ValidationMessageFor(model => model.Fecha_Movimiento, "", new { @class = "text-danger" })
-            </div>
+        <div class="form-group text-center">
+            @Html.ActionLink("Editar", "Edit", new { id = Model.Id_Movimiento }, new { @class = "btn-pago" })
+            @Html.ActionLink("Volver a la Lista", "Index", null, new { @class = "btn-pago" })
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Descripcion, "Descripcion", htmlAttributes: new { @class = "control-label col-md-2" })
-
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id_Movimiento }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+    }
