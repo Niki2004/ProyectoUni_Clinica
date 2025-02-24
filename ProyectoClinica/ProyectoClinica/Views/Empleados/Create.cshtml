@@ -1,99 +1,206 @@
 ﻿@model ProyectoClinica.Models.Empleado
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Crear Empleado";
 }
 
-<h2>Create</h2>
+<style>
+    .container-form {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
 
-@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Empleado</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Id_Estado, "Id_Estado", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("Id_Estado", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Id_Estado, "", new { @class = "text-danger" })
-            </div>
-        </div>
+    .page-title {
+        color: #0b7b82;
+        text-align: center;
+        margin-bottom: 30px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #0b7b82;
+    }
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Comentarios, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Comentarios, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Comentarios, "", new { @class = "text-danger" })
-            </div>
-        </div>
+    .form-section {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .control-label {
+        font-weight: 600;
+        color: #2c3e50;
+    }
+
+    .form-control {
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 8px 12px;
+        transition: border-color 0.3s ease;
+    }
+
+        .form-control:focus {
+            border-color: #0b7b82;
+            box-shadow: 0 0 0 0.2rem rgba(11, 123, 130, 0.25);
+        }
+
+    .btn-submit {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: all 0.3s ease;
+    }
+
+        .btn-submit:hover {
+            background-color: #218838;
+            transform: translateY(-1px);
+        }
+
+    .btn-submit, .btn-pago {
+        background-color: #0b7b82;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+        .btn-submit:hover, .btn-pago:hover {
+            background-color: #096c72;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+    .text-danger {
+        color: #dc3545;
+        font-size: 0.875rem;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+    .custom-btn {
+        background-color: #0b7b82 !important;
+        color: white !important;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 16px;
+        text-decoration: none;
+        transition: background 0.3s ease, transform 0.2s ease;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<div class="container-form">
+    <h2 class="page-title">Crear Empleado</h2>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-section">
+        <h4>Información del Empleado</h4>
+        <div class="form-grid">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Nombre, new { @class = "control-label" })
                 @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Apellido, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Apellido, new { @class = "control-label" })
                 @Html.EditorFor(model => model.Apellido, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Apellido, "", new { @class = "text-danger" })
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Cedula, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Cedula, new { @class = "control-label" })
                 @Html.EditorFor(model => model.Cedula, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Cedula, "", new { @class = "text-danger" })
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Correo, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Correo, new { @class = "control-label" })
                 @Html.EditorFor(model => model.Correo, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Correo, "", new { @class = "text-danger" })
             </div>
         </div>
+    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Jornada, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+    <div class="form-section">
+        <h4>Detalles de Trabajo</h4>
+        <div class="form-grid">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Id_Estado, "Estado", new { @class = "control-label" })
+                @Html.DropDownList("Id_Estado", null, "Seleccione una opción", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Id_Estado, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Jornada, new { @class = "control-label" })
                 @Html.EditorFor(model => model.Jornada, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Jornada, "", new { @class = "text-danger" })
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Fecha_registro, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Departamento, new { @class = "control-label" })
+                @Html.EditorFor(model => model.Departamento, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Departamento, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Fecha_registro, "Fecha de Registro", new { @class = "control-label" })
                 @Html.TextBoxFor(model => model.Fecha_registro, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
                 @Html.ValidationMessageFor(model => model.Fecha_registro, "", new { @class = "text-danger" })
             </div>
         </div>
+    </div>
 
+    <div class="form-section">
+        <h4>Comentarios</h4>
         <div class="form-group">
-            @Html.LabelFor(model => model.Departamento, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Departamento, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Departamento, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
+            @Html.LabelFor(model => model.Comentarios, new { @class = "control-label" })
+            @Html.TextAreaFor(model => model.Comentarios, new { @class = "form-control", rows = "3" })
         </div>
     </div>
-}
 
-<div>
-    @Html.ActionLink("Back to List", "Empleados/Empleados")
+    <div class="form-group text-center">
+        <input type="submit" value="Crear Empleado" class="btn-submit" />
+    </div>
+    <div style="text-align: center; margin-bottom: 20px;">
+        <a href="@Url.Action("Empleados", "Empleados")" class="custom-btn">
+            <i class="fas fa-home"></i> Inicio
+        </a>
+    </div>
+
 </div>
+    }
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
