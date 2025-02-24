@@ -487,7 +487,6 @@
     <Content Include="Views\PagosDiarios\Edit.cshtml" />
     <Content Include="Views\PagosXNomina\Index.cshtml" />
     <Content Include="Views\PagosXNomina\Create.cshtml" />
-    <Content Include="Views\PagosXNomina\Details.cshtml" />
     <Content Include="Views\PagosXNomina\Edit.cshtml" />
     <Content Include="Views\Empleados\VistaAdmin.cshtml" />
     <Content Include="Views\Factura\VistaSEC.cshtml" />
@@ -550,6 +549,7 @@
     <Content Include="Views\Inventario\Detalles.cshtml" />
     <Content Include="Views\Cita\Ubicacion.cshtml" />
     <Content Include="Views\Factura\OpcionesDespuesDePago.cshtml" />
+    <Content Include="Views\PagosXNomina\Details.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>
