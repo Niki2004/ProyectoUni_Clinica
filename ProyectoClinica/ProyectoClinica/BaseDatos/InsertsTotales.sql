@@ -90,10 +90,14 @@ VALUES
 
 --Insert de Descuento
 INSERT INTO [dbo].[Descuento] ([Nombre_Descuento],[Codigo_Descuento],[Porcentaje_Descuento],[Limite_Usos],[Compania_Afiliada],[Activo],[Fecha_Creacion])
+VALUES ('Sin Descuento','Ninguno',0, 0, 'Ninguna', 1, GETDATE() );
+
+INSERT INTO [dbo].[Descuento] ([Nombre_Descuento],[Codigo_Descuento],[Porcentaje_Descuento],[Limite_Usos],[Compania_Afiliada],[Activo],[Fecha_Creacion])
 VALUES ('Descuento de Verano','SUMMER2025',15.00, 100, 'Compañía XYZ', 1, GETDATE() );
 
 INSERT INTO [dbo].[Descuento] ([Nombre_Descuento],[Codigo_Descuento],[Porcentaje_Descuento],[Limite_Usos],[Compania_Afiliada],[Activo],[Fecha_Creacion])
 VALUES ('Descuento Navidad','XMAS2025',20000, 50, 'Compañía ABC', 0, GETDATE() );
+
 
 --Factura
 INSERT INTO [dbo].[Factura] ( [Id_Descuento], [NumeroRecibo], [FechaHora], [MetodoPago], [CedulaCliente], [NombreCliente], [Subtotal], [Descuento], [Impuesto], [TotalPagado], [Descuento_Id_Descuento])
@@ -359,3 +363,27 @@ VALUES ('Cierre Mensual', 'Estado que indica el cierre contable del mes');
 
 INSERT INTO [dbo].[Estado_Contabilidad] ([Nombre], [Descripcion]) 
 VALUES ('Cierre Anual', 'Estado que indica el cierre contable del año');
+
+--Caja Chica--
+
+INSERT INTO [dbo].[Caja_Chica] 
+    ([Id_Contabilidad], [Numero_Comprobante], [Fecha_Movimiento], [Tipo_Movimiento], 
+    [Concepto], [Monto], [Saldo_Anterior], [Saldo_Actual], [Beneficiario], 
+    [Categoria_Gasto], [Numero_Factura], [Estado], [Observaciones], 
+    [Usuario_Registro], [Fecha_Registro], [Usuario_Modificacion], [Fecha_Modificacion])
+VALUES 
+    (1, 'COMP-001', '2024-02-23 10:30:00', 'Ingreso', 'Depósito inicial', 
+    1000.00, 0.00, 1000.00, 'Empresa ABC', 'Capital', 'FAC-20240227', 'Activo', 
+    'Depósito de inicio', 'admin', '2024-02-23 10:30:00', 'admin', '2024-02-23 10:30:00'),
+
+    (2, 'COMP-002', '2024-02-24 14:15:00', 'Egreso', 'Compra de papelería', 
+    200.50, 1000.00, 799.50, 'Papelería XYZ', 'Material de Oficina', 'FAC-20240224', 
+    'Procesado', 'Compra de suministros', 'admin', '2024-02-24 14:15:00', 'admin', '2024-02-24 14:15:00'),
+
+    (3, 'COMP-003', '2024-02-25 09:45:00', 'Egreso', 'Pago de servicios públicos', 
+    150.00, 799.50, 649.50, 'Empresa de Luz S.A.', 'Servicios', 'FAC-20240225', 
+    'Pendiente', 'Pago de factura de electricidad', 'usuario1', '2024-02-25 09:45:00', 'usuario1', '2024-02-25 09:45:00'),
+
+    (4, 'COMP-004', '2024-02-26 16:00:00', 'Ingreso', 'Reembolso de caja chica', 
+    500.00, 649.50, 1149.50, 'Tesorería Interna', 'Reintegro', 'FAC-20240289', 'Confirmado', 
+    'Reembolso autorizado', 'usuario2', '2024-02-26 16:00:00', 'usuario2', '2024-02-26 16:00:00');

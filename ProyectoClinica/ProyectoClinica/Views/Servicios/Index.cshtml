@@ -9,8 +9,40 @@
         <i class="fas fa-home"></i> Inicio
     </a>
 </div>
+
+</br>
+
+<h2 class="text-center">Servicios</h2>
+
+</br>
+
+
+<p>
+    @Html.ActionLink("Crear Servicios", "Create", null, new { @class = "btn-pago" })
+</p>
+
+</br>
+
 <style>
+    .btn-pago {
+        /* Los estilos existentes se mantienen */
+        background-color: #0b7b82;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 5px;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 5px;
+        text-align: center;
+    }
+
+        .btn-pago:hover {
+            background-color: #0056b3;
+        }
+
     .custom-btn {
+        /* Los estilos existentes se mantienen */
         background-color: #0b7b82 !important;
         color: white !important;
         border: none;
@@ -24,22 +56,113 @@
         transition: background 0.3s ease, transform 0.2s ease;
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     }
+
+    /* Nuevos estilos para la tabla */
+    .table {
+        width: 100%;
+        font-size: 1rem;
+        table-layout: fixed;
+    }
+
+        .table th,
+        .table td {
+            padding: 6px 8px;
+            word-wrap: break-word;
+            max-width: 150px;
+        }
+
+        .table th {
+            font-size: 1.1rem;
+            background-color: #0b7b82;
+            color: white;
+        }
+
+        .table td {
+            font-size: 1rem;
+        }
+
+            /* Ajustar el ancho de las columnas */
+            .table th:nth-child(1),
+            .table td:nth-child(1) {
+                width: 10%;
+            }
+            /* Registro */
+
+            .table th:nth-child(2),
+            .table td:nth-child(2) {
+                width: 9%;
+            }
+            /* Transacción */
+
+            .table th:nth-child(3),
+            .table td:nth-child(3) {
+                width: 6%;
+            }
+            /* Cliente */
+
+            .table th:nth-child(4),
+            .table td:nth-child(4) {
+                width: 8%;
+            }
+            /* Estatus */
+
+            .table th:nth-child(5),
+            .table td:nth-child(5) {
+                width: 6%;
+            }
+            /* Nómina */
+
+            .table th:nth-child(6),
+            .table td:nth-child(6) {
+                width: 9%;
+            }
+            /* Monto */
+
+            .table th:nth-child(7),
+            .table td:nth-child(7) {
+                width: 6%;
+            }
+            /* Anticipo */
+
+            .table th:nth-child(8),
+            .table td:nth-child(8) {
+                width: 9%;
+            }
+            /* Descuento */
+
+            .table th:nth-child(9),
+            .table td:nth-child(9) {
+                width: 11%;
+            }
+            /* Ingresos */
+
+            .table th:nth-child(10),
+            .table td:nth-child(10) {
+                width: 8%;
+            }
+            /* Pendientes */
+
+            .table th:nth-child(11),
+            .table td:nth-child(11) {
+                width: 8%;
+            }
+            /* Sueldos */
+
+            .table th:nth-child(12),
+            .table td:nth-child(12) {
+                width: 11%;
+            }
 </style>
 
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
-        <th>
+        <th  style="padding: 15px;">
             <label>Nombre del Servicio</label>
         </th>
-        <th>
+        <th  style="padding: 15px;">
             <label>Precio del Servicio</label>
         </th>
-        <th>
+        <th  style="padding: 15px;">
             <label>Especialidad del Servicio</label>
         </th>
         <th></th>
@@ -48,19 +171,17 @@
     @foreach (var item in Model)
     {
         <tr>
-            <td>
+            <td  style="padding: 15px;">
                 @Html.DisplayFor(modelItem => item.Nombre_Servicio)
             </td>
-            <td>
+            <td  style="padding: 15px;">
                 @Html.DisplayFor(modelItem => item.Precio_Servicio)
             </td>
-            <td>
+            <td  style="padding: 15px;">
                 @Html.DisplayFor(modelItem => item.Especialidad)
             </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id_Servicio }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id_Servicio }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id_Servicio })
+            <td style="padding: 12px;">
+                @Html.ActionLink("Detalle", "Details", new { id = item.Id_Servicio }, new { @class = "btn-pago" })
             </td>
         </tr>
     }

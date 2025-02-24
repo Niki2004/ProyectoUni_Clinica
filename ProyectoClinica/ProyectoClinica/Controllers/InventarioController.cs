@@ -17,12 +17,53 @@ namespace ProyectoClinica.Controllers
             _context = new ApplicationDbContext();
         }
         // GET: Inventario
-        public ActionResult Index()
+        public ActionResult Index(string searchString, string tipoArticulo, string marca)
         {
-            var Inventario = _context.Inventario.ToList();
-            var Estado = _context.Estado.ToList();
-            return View(Inventario);
+            var inventario = _context.Inventario.AsQueryable();
+
+            // Filtrar por nombre del artículo
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                inventario = inventario.Where(i => i.NombreArticulo.Contains(searchString));
+            }
+
+            // Filtrar por tipo de artículo
+            if (!string.IsNullOrEmpty(tipoArticulo))
+            {
+                inventario = inventario.Where(i => i.TipoArticulo == tipoArticulo);
+            }
+
+            // Filtrar por marca
+            if (!string.IsNullOrEmpty(marca))
+            {
+                inventario = inventario.Where(i => i.Marca == marca);
+            }
+
+            // Obtener lista única de marcas para el filtro
+            ViewBag.Marcas = new SelectList(_context.Inventario.Select(i => i.Marca).Distinct());
+
+            // Obtener lista única de tipos de artículo
+            ViewBag.TiposArticulo = new SelectList(new List<string> { "Equipo Médico", "Medicamento", "Suministro" });
+
+            return View(inventario.ToList());
         }
+
+        public ActionResult Detalles(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
+            }
+
+            var inventario = _context.Inventario.Find(id);
+            if (inventario == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(inventario);
+        }
+
 
         [HttpGet]
         public ActionResult Crear()
@@ -91,6 +132,9 @@ namespace ProyectoClinica.Controllers
             _context.SaveChanges();
             return RedirectToAction("Index");
         }
+
+
+
     }
 
 }

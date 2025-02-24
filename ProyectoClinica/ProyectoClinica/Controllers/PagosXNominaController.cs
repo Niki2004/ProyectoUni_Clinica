@@ -39,53 +39,53 @@ namespace ProyectoClinica.Controllers
         }
 
         // GET: PagosXNomina/Details/5
+        [HttpGet]
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
-                return View();
+            {
+                return HttpNotFound(); // Mejor indicar que el ID es inválido
+            }
 
-            var pagosxnomina = _context.PagosXNomina.Find(id);
+            var pagosxnomina = await _context.PagosXNomina
+                                    .FirstOrDefaultAsync(p => p.Id_PagosXNomina == id); // Asegura que traes el dato correcto
 
+            if (pagosxnomina == null)
+            {
+                return HttpNotFound(); // Si el pago no existe, muestra un error 404
+            }
 
             // Obtener la lista de bancos desde la base de datos
-            var contabilidad = _context.Contabilidad
-                                 .Select(b => new SelectListItem
-                                 {
-                                     Value = b.Id_Contabilidad.ToString(),
-                                     Text = b.ClienteProveedor
-                                 })
-                                 .ToList();
+            var contabilidad = await _context.Contabilidad
+                                   .Select(b => new SelectListItem
+                                   {
+                                       Value = b.Id_Contabilidad.ToString(),
+                                       Text = b.ClienteProveedor
+                                   })
+                                   .ToListAsync();
 
-            var pagos = _context.Pagos
-                                 .Select(b => new SelectListItem
-                                 {
-                                     Value = b.Id_Pago.ToString(),
-                                     Text = b.Numero_Referencia
-                                 })
-                                 .ToList();
+            var pagos = await _context.Pagos
+                                   .Select(b => new SelectListItem
+                                   {
+                                       Value = b.Id_Pago.ToString(),
+                                       Text = b.Numero_Referencia
+                                   })
+                                   .ToListAsync();
 
-            var empleado = _context.Empleado
-                                 .Select(b => new SelectListItem
-                                 {
-                                     Value = b.Id_Empleado.ToString(),
-                                     Text = b.Nombre
-                                 })
-                                 .ToList();
+            var empleado = await _context.Empleado
+                                   .Select(b => new SelectListItem
+                                   {
+                                       Value = b.Id_Empleado.ToString(),
+                                       Text = b.Nombre
+                                   })
+                                   .ToListAsync();
 
-
+            // Asignar datos a ViewBag (siempre que haya un pago existente)
             ViewBag.Contabilidad = new SelectList(contabilidad, "Value", "Text", pagosxnomina.Id_Contabilidad);
             ViewBag.Pagos = new SelectList(pagos, "Value", "Text", pagosxnomina.Id_Pago);
             ViewBag.Empleado = new SelectList(empleado, "Value", "Text", pagosxnomina.Id_Empleado);
 
-
-
-
-            if (pagosxnomina == null)
-            {
-                return View(pagosxnomina);
-            }
-
-            return View(pagosxnomina);
+            return View(pagosxnomina); // Retorna la vista con el modelo cargado
         }
 
         // GET: PagosXNomina/Create

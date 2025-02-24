@@ -4,6 +4,31 @@
     var serviciosSeleccionados = ViewBag.ServiciosSeleccionados as List<ProyectoClinica.Models.Servicio>;
 }
 
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.querySelector("form");
+        const metodosPagoCheckboxes = document.querySelectorAll("input[name='MetodosPagoSeleccionados']");
+
+        form.addEventListener("submit", function (event) {
+            let seleccionado = false;
+
+            // Recorre todos los checkboxes para verificar si hay al menos uno seleccionado
+            metodosPagoCheckboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    seleccionado = true;
+                }
+            });
+
+            if (!seleccionado) {
+                event.preventDefault(); // Evita el envío del formulario
+                alert("Debe seleccionar al menos un método de pago antes de confirmar.");
+            }
+        });
+    });
+</script>
+
+
+
 <div class="container mt-5">
     <h2 class="text-center">Detalles del Pago</h2>
 
@@ -57,14 +82,11 @@
         <!-- Métodos de Pago -->
         <div class="card shadow-sm p-4 mb-3">
             <h4>Métodos de Pago</h4>
-            @foreach (var metodo in ViewBag.MetodosPago)
+            @foreach (var metodo in ViewBag.MetodosPago as List<ProyectoClinica.Models.Metodo_Pago>)
             {
                 <div class="form-check">
-                    <input type="checkbox" class="form-check-input"
-                           id="Metodo_@metodo.Id_MetodoPago"
-                           name="metodosPagoSeleccionados"
-                           value="@metodo.Id_MetodoPago" />
-                    <label class="form-check-label" for="Metodo_@metodo.Id_MetodoPago">@metodo.Nombre</label>
+                    <input class="form-check-input" type="checkbox" name="MetodosPagoSeleccionados" value="@metodo.Id_MetodoPago" id="metodo_@metodo.Id_MetodoPago">
+                    <label class="form-check-label" for="metodo_@metodo.Id_MetodoPago">@metodo.Nombre</label>
                 </div>
             }
         </div>
