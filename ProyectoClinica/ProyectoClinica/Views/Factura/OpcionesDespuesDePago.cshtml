@@ -53,7 +53,7 @@
     <!-- Botones de Acción -->
     <div class="d-flex justify-content-center gap-3 mt-4">
         <button class="btn btn-primary" onclick="imprimirFactura()">Imprimir Factura</button>
-        <input type="text" id="correoCliente" class="form-control w-50" placeholder="Correos separados por comas">
+        <input type="text" id="correoCliente" class="form-control w-50" placeholder="Correo del cliente"/>
         <button class="btn btn-success" onclick="enviarCorreo()">Enviar por Correo</button>
         <button class="btn btn-info">Ambas</button>
     </div>
@@ -63,16 +63,14 @@
     function enviarCorreo() {
         let emailInput = document.getElementById("correoCliente").value.trim();
         if (!emailInput) {
-            alert("⚠️ Por favor ingrese al menos un correo electrónico.");
+            alert("⚠️ Por favor ingrese un correo electrónico.");
             return;
         }
-
-        let emails = emailInput.split(',').map(e => e.trim());
 
         fetch('/Factura/EnviarFacturaCorreo', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ idFactura: @Model.Id_Factura, correos: emails })
+            body: JSON.stringify({ idFactura: @Model.Id_Factura, correo: emailInput })
         })
         .then(response => response.json())
         .then(data => {
