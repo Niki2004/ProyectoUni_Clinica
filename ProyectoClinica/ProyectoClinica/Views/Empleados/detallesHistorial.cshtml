@@ -1,77 +1,102 @@
 ﻿@model ProyectoClinica.Models.RolAsignacion
 
 @{
-    ViewBag.Title = "detallesHistorial";
+    ViewBag.Title = "Detalles del Historial";
 }
 
-<h2>detallesHistorial</h2>
+<style>
+    .container-form {
+        max-width: 600px;
+        margin: 30px auto;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
 
-<div>
-    <h4>RolAsignacion</h4>
+    .page-title {
+        color: #0b7b82;
+        text-align: center;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #0b7b82;
+    }
+
+    .dl-horizontal dt {
+        float: left;
+        width: 45%;
+        font-weight: 600;
+        color: #2c3e50;
+        clear: both;
+        margin-bottom: 8px;
+    }
+
+    .dl-horizontal dd {
+        margin-left: 47%;
+        margin-bottom: 8px;
+        color: #555;
+    }
+
+    .btn-container {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .custom-btn {
+        background-color: #0b7b82;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-size: 16px;
+        text-decoration: none;
+        transition: background 0.3s ease, transform 0.2s ease;
+        display: inline-block;
+    }
+
+        .custom-btn:hover,
+        .custom-btn:focus {
+            background-color: #096c72;
+            transform: translateY(-1px);
+            color: white !important;
+            text-decoration: none;
+        }
+</style>
+
+<div class="container-form">
+    <h2 class="page-title">Detalles del Historial</h2>
+    <h4>Rol Asignación</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Empleado.Nombre)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Empleado.Nombre)
-        </dd>
+        <dt>@Html.DisplayNameFor(model => model.Empleado.Nombre)</dt>
+        <dd>@Html.DisplayFor(model => model.Empleado.Nombre)</dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Empleado.Apellido)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Empleado.Apellido)
-        </dd>
+        <dt>@Html.DisplayNameFor(model => model.Empleado.Apellido)</dt>
+        <dd>@Html.DisplayFor(model => model.Empleado.Apellido)</dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Empleado.Cedula)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Empleado.Cedula)
-        </dd>
+        <dt>@Html.DisplayNameFor(model => model.Empleado.Cedula)</dt>
+        <dd>@Html.DisplayFor(model => model.Empleado.Cedula)</dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Empleado.Correo)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Empleado.Correo)
-        </dd>
+        <dt>@Html.DisplayNameFor(model => model.Empleado.Correo)</dt>
+        <dd>@Html.DisplayFor(model => model.Empleado.Correo)</dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Empleado.Departamento)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Empleado.Departamento)
-        </dd>
+        <dt>@Html.DisplayNameFor(model => model.Empleado.Departamento)</dt>
+        <dd>@Html.DisplayFor(model => model.Empleado.Departamento)</dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Empleado.Comentarios)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Empleado.Comentarios)
-        </dd>
+        <dt>@Html.DisplayNameFor(model => model.Empleado.Comentarios)</dt>
+        <dd>@Html.DisplayFor(model => model.Empleado.Comentarios)</dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Empleado.Jornada)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Empleado.Jornada)
-        </dd>
+        <dt>@Html.DisplayNameFor(model => model.Empleado.Jornada)</dt>
+        <dd>@Html.DisplayFor(model => model.Empleado.Jornada)</dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Empleado.Fecha_registro)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Empleado.Fecha_registro)
-        </dd>
+        <dt>@Html.DisplayNameFor(model => model.Empleado.Fecha_registro)</dt>
+        <dd>@Html.DisplayFor(model => model.Empleado.Fecha_registro)</dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Nombre)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Nombre)
-        </dd>
-
+        <dt>@Html.DisplayNameFor(model => model.Nombre)</dt>
+        <dd>@Html.DisplayFor(model => model.Nombre)</dd>
     </dl>
+
+    <div class="btn-container">
+        @Html.ActionLink("Regresar", "vistaHistorial", null, new { @class = "custom-btn" })
+    </div>
 </div>
