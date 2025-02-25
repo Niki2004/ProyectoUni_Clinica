@@ -170,6 +170,7 @@ namespace ProyectoClinica.Controllers
             {
                 BaseDatos.Empleado.Remove(empleado);
                 BaseDatos.SaveChanges();
+                TempData["SuccessMessage"] = "Se Elimino Correctamente";
             }
             return RedirectToAction("vistaEliminar");
         }
