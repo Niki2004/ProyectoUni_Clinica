@@ -17,6 +17,7 @@ namespace ProyectoClinica.Models
 
         [Required]
         [MaxLength(50)]
+        [Display(Name = "Rol")]
         public string Nombre { get; set; }
 
         [ForeignKey("Id_Empleado")]

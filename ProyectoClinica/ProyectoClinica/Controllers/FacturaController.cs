@@ -11,6 +11,8 @@ using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
 using Newtonsoft.Json;
+using System.Net.Mail;
+using System.Net;
 
 namespace ProyectoClinica.Controllers
 {
@@ -214,105 +216,115 @@ namespace ProyectoClinica.Controllers
             return View(factura);
         }
 
+
+
         [HttpPost]
         public JsonResult EnviarFacturaCorreo(int idFactura, string correo)
         {
-            var factura = _context.Factura.Find(idFactura);
-            if (factura == null)
-            {
-                return Json(new { success = false, message = "Factura no encontrada" });
-            }
-
-            // Obtener métodos de pago utilizados
-            var metodosPago = _context.Metodo_Pago_Utilizado
-                .Where(mp => mp.Id_Factura == idFactura)
-                .Select(mp => mp.MetodoPago.Nombre)
-                .ToList();
-
-            // Obtener servicios brindados
-            var servicios = _context.Servicios_Brindados
-                .Where(sb => sb.Id_Factura == idFactura)
-                .Select(sb => sb.Servicio.Nombre_Servicio)
-                .ToList();
-
-            string mensaje = $"Factura No: {factura.Id_Factura}\n" +
-                             $"Fecha: {factura.FechaHora:dd/MM/yyyy HH:mm}\n" +
-                             $"Total Pagado: ${factura.TotalPagado:N2}\n\n" +
-                             "Métodos de Pago Utilizados:\n" +
-                             (metodosPago.Any() ? string.Join("\n", metodosPago) : "No registrados") + "\n\n" +
-                             "Servicios Brindados:\n" +
-                             (servicios.Any() ? string.Join("\n", servicios) : "No registrados");
-
             try
             {
-                // Aquí puedes integrar un servicio de correo real como SendGrid o SMTP
-                Debug.WriteLine($"Enviando factura al correo: {correo}\n{mensaje}");
-                return Json(new { success = true, message = "Factura enviada con éxito" });
-            }
-            catch (Exception ex)
-            {
-                return Json(new { success = false, message = $"Error al enviar el correo: {ex.Message}" });
-            }
-        }
-
-
-        [HttpPost]
-        public async Task<JsonResult> EnviarFacturaCorreo(int idFactura, List<string> correos)
-        {
-            try
-            {
-                if (correos == null || !correos.Any())
-                {
-                    return Json(new { success = false, message = "❌ No se han proporcionado correos electrónicos." });
-                }
-
                 var factura = _context.Factura.Find(idFactura);
                 if (factura == null)
                 {
                     return Json(new { success = false, message = "❌ Factura no encontrada." });
                 }
 
-                string apiKey = WebConfigurationManager.AppSettings["ResendApiKey"];
-                if (string.IsNullOrEmpty(apiKey))
+                if (string.IsNullOrEmpty(correo))
                 {
-                    return Json(new { success = false, message = "❌ API Key de Resend no configurada." });
+                    return Json(new { success = false, message = "❌ No se ha proporcionado un correo electrónico." });
                 }
 
-                using (var client = new HttpClient())
+                // Obtener Métodos de Pago Utilizados
+                var metodosPago = _context.Metodo_Pago_Utilizado
+                    .Where(mp => mp.Id_Factura == idFactura)
+                    .Select(mp => mp.MetodoPago.Nombre)
+                    .ToList();
+
+                // Obtener Servicios Brindados con sus Precios
+                var servicios = _context.Servicios_Brindados
+                    .Where(sb => sb.Id_Factura == idFactura)
+                    .Select(sb => new { sb.Servicio.Nombre_Servicio, sb.Servicio.Precio_Servicio })
+                    .ToList();
+
+                // Construir el contenido del correo con todos los detalles de la factura
+                var body = new StringBuilder();
+                body.Append("<html><body style='font-family: Arial, sans-serif;'>");
+                body.Append("<h2 style='color:#4CAF50;'>Factura de Pago</h2>");
+                body.Append($"<p><strong>Factura No:</strong> {factura.Id_Factura}</p>");
+                body.Append($"<p><strong>Fecha:</strong> {factura.FechaHora:dd/MM/yyyy HH:mm}</p>");
+                body.Append($"<p><strong>Cliente:</strong> {factura.NombreCliente}</p>");
+                body.Append($"<p><strong>Cédula:</strong> {factura.CedulaCliente}</p>");
+                body.Append($"<p><strong>Subtotal:</strong> ${factura.Subtotal:N2}</p>");
+                body.Append($"<p><strong>Descuento:</strong> -${factura.Descuento:N2}</p>");
+                body.Append($"<p><strong>Impuesto:</strong> ${factura.Impuesto:N2}</p>");
+                body.Append($"<h3 style='color:blue;'>Total Pagado: <strong>${factura.TotalPagado:N2}</strong></h3>");
+
+                // Métodos de Pago Utilizados
+                body.Append("<h3>Método de Pago:</h3><ul>");
+                if (metodosPago.Any())
                 {
-                    client.DefaultRequestHeaders.Authorization =
-                        new AuthenticationHeaderValue("Bearer", apiKey);
-
-                    var emailRequest = new
+                    foreach (var metodo in metodosPago)
                     {
-                        from = "onboarding@resend.dev",
-                        to = correos,
-                        subject = $"Factura #{factura.Id_Factura}",
-                        html = $"<h2>Factura de Pago</h2><p><strong>Total:</strong> ${factura.TotalPagado:N2}</p>"
-                    };
-
-                    var content = new StringContent(JsonConvert.SerializeObject(emailRequest), Encoding.UTF8, "application/json");
-
-                    var response = await client.PostAsync("https://api.resend.com/emails", content);
-                    string responseContent = await response.Content.ReadAsStringAsync();
-
-                    if (!response.IsSuccessStatusCode)
-                    {
-                        return Json(new { success = false, message = $"❌ Error en Resend: {response.StatusCode} - {responseContent}" });
+                        body.Append($"<li>{metodo}</li>");
                     }
+                }
+                else
+                {
+                    body.Append("<li>No registrado</li>");
+                }
+                body.Append("</ul>");
+
+                // Servicios Brindados con Precios
+                body.Append("<h3>Servicios Brindados:</h3><table border='1' cellpadding='5' cellspacing='0' style='width:100%;border-collapse:collapse;'>");
+                body.Append("<tr style='background-color:#f2f2f2;'><th>Servicio</th><th>Precio</th></tr>");
+                if (servicios.Any())
+                {
+                    foreach (var servicio in servicios)
+                    {
+                        body.Append($"<tr><td>{servicio.Nombre_Servicio}</td><td style='text-align:right;'>${servicio.Precio_Servicio:N2}</td></tr>");
+                    }
+                }
+                else
+                {
+                    body.Append("<tr><td colspan='2' style='text-align:center;'>No registrados</td></tr>");
+                }
+                body.Append("</table>");
+                body.Append("</body></html>");
+
+                // Configuración SMTP desde `web.config`
+                string smtpServer = WebConfigurationManager.AppSettings["SmtpServer"];
+                int smtpPort = int.Parse(WebConfigurationManager.AppSettings["SmtpPort"]);
+                string smtpUser = WebConfigurationManager.AppSettings["SmtpUser"];
+                string smtpPassword = WebConfigurationManager.AppSettings["SmtpPassword"];
+
+                MailMessage mensaje = new MailMessage
+                {
+                    From = new MailAddress("facturas@demo.com", "Centro Integral Santo Domingo"),
+                    Subject = $"Factura #{factura.Id_Factura}",
+                    Body = body.ToString(),
+                    IsBodyHtml = true
+                };
+
+                mensaje.To.Add(new MailAddress(correo));
+
+                using (SmtpClient smtp = new SmtpClient(smtpServer, smtpPort))
+                {
+                    smtp.Credentials = new NetworkCredential(smtpUser, smtpPassword);
+                    smtp.EnableSsl = true; // Habilita seguridad TLS
+                    smtp.Send(mensaje);
                 }
 
                 return Json(new { success = true, message = "✅ Factura enviada con éxito." });
             }
             catch (Exception ex)
             {
-                return Json(new { success = false, message = $"❌ Error en el servidor: {ex.Message}" });
+                return Json(new { success = false, message = $"❌ Error al enviar el correo: {ex.Message}" });
             }
         }
-    
 
 
 
 
-}
+
+    }
 }

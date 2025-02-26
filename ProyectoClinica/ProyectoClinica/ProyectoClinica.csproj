@@ -549,6 +549,8 @@
     <Content Include="Views\Cita\Ubicacion.cshtml" />
     <Content Include="Views\Factura\OpcionesDespuesDePago.cshtml" />
     <Content Include="Views\PagosXNomina\Details.cshtml" />
+    <Content Include="Views\Empleados\vistaHistorial.cshtml" />
+    <Content Include="Views\Empleados\detallesHistorial.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>
