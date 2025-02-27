@@ -75,7 +75,7 @@ namespace ProyectoClinica.Controllers
 
                 // Si el modelo no es válido o hubo un error, repite el proceso y pasa la vista con el modelo
                 // Esto permitirá que los datos enviados por el usuario se mantengan en el formulario
-                ViewBag.Inventario_Detalle_Conta = new SelectList(_context.Inventario_Detalle_Conta, "Id_Producto");
+                ViewBag.Inventario_Detalle_Conta = new SelectList(_context.Inventario_Detalle_Conta, "Id_Inventario_Detalle");
                 return View(model);
             }
             catch

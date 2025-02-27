@@ -4,91 +4,186 @@
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
+<style>
+    .container-form {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
 
+    .page-title {
+        color: #0b7b82;
+        text-align: center;
+        margin-bottom: 30px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #0b7b82;
+    }
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    
-<div class="form-horizontal">
-    <h4>Departamentos</h4>
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @Html.HiddenFor(model => model.Id_Departamento)
+    .form-section {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Nombre_Departamento, "Nombre del Departamento", htmlAttributes: new { @class = "control-label col-md-2" })
+    .section-title {
+        color: #0b7b82;
+        margin-bottom: 20px;
+        font-size: 1.2em;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+    }
 
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Nombre_Departamento, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Nombre_Departamento, "", new { @class = "text-danger" })
-        </div>
-    </div>
+    .form-group {
+        margin-bottom: 15px;
+        display: grid;
+        grid-template-columns: 200px 1fr;
+        gap: 15px;
+        align-items: center;
+    }
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Descripcion, "Descripción", htmlAttributes: new { @class = "control-label col-md-2" })
+    .control-label {
+        font-weight: 600;
+        color: #2c3e50;
+    }
 
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.Fecha_Creacion, "Fecha Creación", htmlAttributes: new { @class = "control-label col-md-2" })
+    .form-control {
+        width: 100%;
+        padding: 8px 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        transition: border-color 0.3s ease;
+    }
 
-        <div class="col-md-10">
-            @Html.TextBoxFor(model => model.Fecha_Creacion, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
-            @Html.ValidationMessageFor(model => model.Fecha_Creacion, "", new { @class = "text-danger" })
-        </div>
-    </div>
+        .form-control:focus {
+            border-color: #0b7b82;
+            box-shadow: 0 0 0 0.2rem rgba(11, 123, 130, 0.25);
+            outline: none;
+        }
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Fecha_Actualizacion, "Fecha Actualización", htmlAttributes: new { @class = "control-label col-md-2" })
+    .text-danger {
+        color: #dc3545;
+        font-size: 0.875rem;
+        margin-top: 4px;
+        grid-column: 2;
+    }
 
-        <div class="col-md-10">
-            @Html.TextBoxFor(model => model.Fecha_Actualizacion, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
-            @Html.ValidationMessageFor(model => model.Fecha_Actualizacion, "", new { @class = "text-danger" })
-        </div>
-    </div>
+    .action-buttons {
+        text-align: center;
+        margin-top: 20px;
+        padding: 20px 0;
+    }
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Fecha_Eliminacion, "Fecha Eliminación", htmlAttributes: new { @class = "control-label col-md-2" })
+    .btn-submit {
+        background-color: #0b7b82;
+        color: white;
+        border: none;
+        padding: 10px 30px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        margin-right: 10px;
+    }
 
-        <div class="col-md-10">
-            @Html.TextBoxFor(model => model.Fecha_Eliminacion, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
-            @Html.ValidationMessageFor(model => model.Fecha_Eliminacion, "", new { @class = "text-danger" })
-        </div>
-    </div>
+        .btn-submit:hover {
+            background-color: #096c72;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Estatus, "Estatus", new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            <div class="checkbox">
-                @Html.EditorFor(model => model.Estatus)
-                @Html.ValidationMessageFor(model => model.Estatus, "", new { @class = "text-danger" })
+    .btn-back {
+        background-color: #6c757d;
+        color: white;
+        text-decoration: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        display: inline-block;
+        transition: all 0.3s ease;
+    }
+
+        .btn-back:hover {
+            background-color: #5a6268;
+            color: white;
+            text-decoration: none;
+        }
+</style>
+
+<div class="container-form">
+    <h2 class="page-title">Editar Departamento</h2>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id_Departamento)
+
+        <div class="form-section">
+            <h4>Información del Departamento</h4>
+            <div class="form-grid">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Nombre_Departamento, "Nombre del Departamento", new { @class = "control-label" })
+                    @Html.EditorFor(model => model.Nombre_Departamento, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Descripcion, "Descripcion", new { @class = "control-label" })
+                    @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Id_Usuario_Creador, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Id_Usuario_Creador, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Id_Usuario_Creador, "", new { @class = "text-danger" })
+        <div class="form-section">
+            <h4>Fechas</h4>
+            <div class="form-grid">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Fecha_Creacion, "Fecha de Creación", new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.Fecha_Creacion, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Fecha_Actualizacion, "Fecha de Actualización", new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.Fecha_Actualizacion, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Fecha_Eliminacion, "Fecha de Eliminación", new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.Fecha_Eliminacion, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                </div>
+
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Save" class="btn btn-default" />
+        <div class="form-section">
+            <h4>Información de Registro</h4>
+            <div class="form-grid">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Id_Usuario_Creador, "Usuario Registro", new { @class = "control-label" })
+                    @Html.EditorFor(model => model.Id_Usuario_Creador, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Estatus, "Estado", new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.Estatus,
+                        new List<SelectListItem> {
+                            new SelectListItem { Text = "Activo", Value = "true", Selected = (Model?.Estatus == true) },
+                            new SelectListItem { Text = "Inactivo", Value = "false", Selected = (Model?.Estatus == false) }
+                        },
+                        new { @class = "form-control estatus-dropdown" })
+                    @Html.ValidationMessageFor(model => model.Estatus, "", new { @class = "text-danger" })
+                </div>
+            </div>
         </div>
-    </div>
-</div>
-}
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
+        <div class="action-buttons">
+            <input type="submit" value="Guardar Cambios" class="btn-submit" />
+            @Html.ActionLink("Volver a la Lista", "Index", null, new { @class = "btn-back" })
+        </div>
+    }
 </div>
 
 @section Scripts {
