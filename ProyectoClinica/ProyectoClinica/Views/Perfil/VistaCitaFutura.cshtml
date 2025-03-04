@@ -1,0 +1,132 @@
+﻿@model IEnumerable<ProyectoClinica.Models.Cita>
+
+@{
+    ViewBag.Title = "Citas Futuras";
+}
+
+<center><h2>Citas Futuras</h2></center>
+
+<style>
+    .appointments-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-top: 20px;
+    }
+
+        .appointments-table thead {
+            background: linear-gradient(to right, #0b7b82, #3bb4bc);
+            color: white;
+        }
+
+        .appointments-table th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        .appointments-table tbody tr {
+            transition: background-color 0.3s ease;
+        }
+
+            .appointments-table tbody tr:nth-child(even) {
+                background-color: #f9f9f9;
+            }
+
+            .appointments-table tbody tr:hover {
+                background-color: rgba(11, 123, 130, 0.08);
+            }
+
+        .appointments-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 0.95rem;
+            color: #333;
+        }
+
+    .status-badge {
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+
+    .status-pendiente {
+        background-color: #ffc107;
+        color: #333;
+    }
+
+    .status-confirmado {
+        background-color: #28a745;
+        color: white;
+    }
+
+    .status-cancelado {
+        background-color: #dc3545;
+        color: white;
+    }
+
+
+    .custom-btn {
+        background-color: #0b7b82 !important;
+        color: white !important;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 16px;
+        text-decoration: none;
+        transition: background 0.3s ease, transform 0.2s ease;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<br />
+<center><a href="@Url.Action("Index", "Perfil")" class="btn custom-btn">
+    <i class="fas fa-home"></i> Inicio
+</a></center>
+
+<br />
+<table class="appointments-table">
+    <thead>
+        <tr>
+            <th>Médico</th>
+            <th>Paciente</th>
+            <th>Estado</th>
+            <th>Hora</th>
+            <th>Complicaciones</th>
+            <th>Síntomas</th>
+            <th>Fecha</th>
+            <th>Modalidad</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Medico.Nombre)</td>
+                <td>@Html.DisplayFor(modelItem => item.Nombre_Paciente)</td>
+                <td>
+                    <span class="status-badge status-@(item.Estado_Asistencia.ToLower())">
+                        @Html.DisplayFor(modelItem => item.Estado_Asistencia)
+                    </span>
+                </td>
+                <td>@Html.DisplayFor(modelItem => item.Hora_cita)</td>
+                <td>@Html.DisplayFor(modelItem => item.Descripcion_Complicaciones)</td>
+                <td>@Html.DisplayFor(modelItem => item.Sintomas)</td>
+                <td>@Html.DisplayFor(modelItem => item.Fecha_Cita)</td>
+                <td>@Html.DisplayFor(modelItem => item.Modalidad)</td>
+            </tr>
+        }
+    </tbody>
+</table>
