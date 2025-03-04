@@ -554,5 +554,17 @@ namespace ProyectoClinica.Controllers
                 return RedirectToAction("EliminarNotaMedico", new { id });
             }
         }
+
+        //---------------------------------------------------- Vista de citas F ------------------------------------------------------------
+        public ActionResult VistaCitaFutura()
+        {
+            var citasFuturas = BaseDatos.Cita
+                .Where(c => c.Fecha_Cita > DateTime.Now)
+                .ToList();
+
+            return View(citasFuturas);
+        }
+
+
     }
 }
