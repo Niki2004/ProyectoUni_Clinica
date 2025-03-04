@@ -4,92 +4,158 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
+<style>
+    .container-form {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
 
+    .page-title {
+        color: #0b7b82;
+        text-align: center;
+        margin-bottom: 30px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #0b7b82;
+    }
 
-@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
-    
-<div class="form-horizontal">
-    <h4>Productos Conta</h4>
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(model => model.Nombre_producto, "Nombre Producto", htmlAttributes: new { @class = "control-label col-md-2" })
+    .form-section {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
 
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Nombre_producto, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Nombre_producto, "", new { @class = "text-danger" })
-        </div>
-    </div>
+    .form-group {
+        margin-bottom: 20px;
+    }
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Creacion_producto, "Creación del Producto", htmlAttributes: new { @class = "control-label col-md-2" })
+    .control-label {
+        font-weight: 600;
+        color: #2c3e50;
+    }
 
-        <div class="col-md-10">
-            @Html.TextBoxFor(model => model.Creacion_producto, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
-            @Html.ValidationMessageFor(model => model.Creacion_producto, "", new { @class = "text-danger" })
-        </div>
-    </div>
+    .form-control {
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 8px 12px;
+        transition: border-color 0.3s ease;
+        width: 100%;
+    }
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Actualizacion_producto, "Actualización del Producto", htmlAttributes: new { @class = "control-label col-md-2" })
+        .form-control:focus {
+            border-color: #0b7b82;
+            box-shadow: 0 0 0 0.2rem rgba(11, 123, 130, 0.25);
+        }
 
-        <div class="col-md-10">
-            @Html.TextBoxFor(model => model.Actualizacion_producto, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
-            @Html.ValidationMessageFor(model => model.Actualizacion_producto, "", new { @class = "text-danger" })
-        </div>
-    </div>
+    .btn-pago {
+        background-color: #0b7b82;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 5px;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Eliminacion_producto, "Eliminación del Producto", htmlAttributes: new { @class = "control-label col-md-2" })
+        .btn-pago:hover {
+            background-color: #096c72;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
 
-        <div class="col-md-10">
-            @Html.TextBoxFor(model => model.Eliminacion_producto, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
-            @Html.ValidationMessageFor(model => model.Eliminacion_producto, "", new { @class = "text-danger" })
-        </div>
-    </div>
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Estatus_producto, "Estatus del Producto", new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            <div class="checkbox">
-                @Html.EditorFor(model => model.Estatus_producto)
-                @Html.ValidationMessageFor(model => model.Estatus_producto, "", new { @class = "text-danger" })
+    .text-danger {
+        color: #dc3545;
+        font-size: 0.875rem;
+        margin-top: 4px;
+    }
+</style>
+
+<div class="container-form">
+    <h2 class="page-title">Crear Producto</h2>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-section">
+            <h4>Información Producto</h4>
+            <div class="form-grid">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Nombre_producto, "Nombre del Producto", new { @class = "control-label" })
+                    @Html.EditorFor(model => model.Nombre_producto, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Tipo_producto, "Tipo del Producto", new { @class = "control-label" })
+                    @Html.EditorFor(model => model.Tipo_producto, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Tipo_producto, "Tipo del Producto", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="form-section">
+            <h4>Fechas del Producto</h4>
+            <div class="form-grid">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Creacion_producto, "Fecha de Creación", new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.Creacion_producto, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                </div>
 
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Tipo_producto, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Tipo_producto, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Actualizacion_producto, "Fecha de Actualización", new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.Actualizacion_producto, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Eliminacion_producto, "Fecha de Eliminación", new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.Eliminacion_producto, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                </div>
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Id_Usuario, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Id_Usuario, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Id_Usuario, "", new { @class = "text-danger" })
+        <div class="form-section">
+            <h4>Detalles Adicionales</h4>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Id_Usuario, "Usuario", new { @class = "control-label" })
+                @Html.EditorFor(model => model.Id_Usuario, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Estatus_producto, "Estado", new { @class = "control-label" })
+                @Html.DropDownListFor(model => model.Estatus_producto,
+                    new List<SelectListItem> {
+                        new SelectListItem { Text = "Activo", Value = "true", Selected = (Model?.Estatus_producto == true) },
+                        new SelectListItem { Text = "Inactivo", Value = "false", Selected = (Model?.Estatus_producto == false) }
+                    },
+                    new { @class = "form-control estatus-dropdown" })
+                @Html.ValidationMessageFor(model => model.Estatus_producto, "", new { @class = "text-danger" })
+            </div>
+
         </div>
-    </div>
 
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Create" class="btn btn-default" />
+        <div class="form-group text-center">
+            <input type="submit" value="Crear Producto" class="btn-pago" />
+            @Html.ActionLink("Regresar a la Lista", "Index", null, new { @class = "btn-pago", style = "margin-left: 10px;" })
         </div>
-    </div>
-</div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
+    }
 </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+
+

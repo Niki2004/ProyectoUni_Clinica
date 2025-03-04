@@ -532,7 +532,6 @@
     <Content Include="Views\InventarioEncabezadoConta\Create.cshtml" />
     <Content Include="Views\InventarioEncabezadoConta\Details.cshtml" />
     <Content Include="Views\InventarioEncabezadoConta\Edit.cshtml" />
-    <Content Include="Views\InventarioDetalleConta\Index.cshtml" />
     <Content Include="Views\InventarioDetalleConta\Create.cshtml" />
     <Content Include="Views\InventarioDetalleConta\Details.cshtml" />
     <Content Include="Views\InventarioDetalleConta\Edit.cshtml" />
@@ -551,6 +550,7 @@
     <Content Include="Views\PagosXNomina\Details.cshtml" />
     <Content Include="Views\Empleados\vistaHistorial.cshtml" />
     <Content Include="Views\Empleados\detallesHistorial.cshtml" />
+    <Content Include="Views\InventarioDetalleConta\Index.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>
