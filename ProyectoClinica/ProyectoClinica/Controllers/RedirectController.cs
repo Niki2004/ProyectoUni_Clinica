@@ -20,31 +20,37 @@ namespace ProyectoClinica.Controllers
         }
 
         // GET: Redirect
-        public ActionResult Redirect()
+   
+       public ActionResult Redirect()
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+                return RedirectToAction("Login", "Account");
+            }
 
-            if(User.IsInRole("Administrador"))
-                return RedirectToAction("VistaAdmin", "Empleados");  //Lista la vista de empleados
+            if (User.IsInRole("Administrador"))
+                return RedirectToAction("VistaAdmin", "Empleados");
 
-            if (User.IsInRole("Usuario"))
-                return RedirectToAction("VistaCita", "Cita"); //Lista la vista de usuarios
+            else if (User.IsInRole("Medico"))
+                return RedirectToAction("IndDOC", "Cita");
 
-            if (User.IsInRole("Medico"))
-                return RedirectToAction("IndDOC", "Cita"); //Lista la vista de medicos
+            else if (User.IsInRole("Auditor"))
+                return RedirectToAction("VistaAUD", "Contabilidad");
 
-            if (User.IsInRole("Auditor"))
-                return RedirectToAction("VistaAUD", "Auditor"); 
+            else if (User.IsInRole("Contador"))
+                return RedirectToAction("VistaCONTA", "Contabilidad");
 
-            if (User.IsInRole("Contador"))
-                return RedirectToAction("VistaCONTA", "Contador");
+            else if (User.IsInRole("Secretaria"))
+                return RedirectToAction("VistaSEC", "Factura");
 
-            if (User.IsInRole("Secretaria"))
-                return RedirectToAction("VistaSEC", "Factura");  //Lista la vista de secretarias
+            else if (User.IsInRole("Usuario"))
+                return RedirectToAction("VistaCita", "Cita");
 
+          
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            ModelState.AddModelError("", "El usuario no tiene ningun Rol");
-
-            return RedirectToAction("Login", "Account"); ;
+            ModelState.AddModelError("", "El usuario no tiene un rol válido");
+            return RedirectToAction("Login", "Account");
         }
     }
 }

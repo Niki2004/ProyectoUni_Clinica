@@ -148,61 +148,64 @@
         }
 </style>
 
-<a href="@Url.Action("Index", "Perfil")" class="btn custom-btn">
-    <i class="fas fa-home"></i> Inicio
-</a>
+<center>
+    <a href="@Url.Action("Index", "Perfil")" class="btn custom-btn">
+        <i class="fas fa-home"></i> Inicio
+    </a>
+</center>
+    <br />
 
-<center><h2>Citas existentes</h2></center>
-@if (TempData["ErrorMessage"] != null)
-{
-    <div class="alert alert-success" role="alert">
-        @TempData["ErrorMessage"]
-    </div>
-}
+    <center><h2>Citas existentes</h2></center>
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-success" role="alert">
+            @TempData["ErrorMessage"]
+        </div>
+    }
 
 
-@if (TempData["SuccessMessage"] != null)
-{
-    <div class="alert alert-success" role="alert">
-        @TempData["SuccessMessage"]
-    </div>
-}
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success" role="alert">
+            @TempData["SuccessMessage"]
+        </div>
+    }
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Nombre del Médico</th>
-            <th>Nombre del Paciente</th>
-            <th>Estado de Asistencia</th>
-            <th>Hora de la Cita</th>
-            <th>Descripción de Complicaciones</th>
-            <th>Síntomas</th>
-            <th>Fecha de la Cita</th>
-            <th>Modalidad</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+    <table class="table">
+        <thead>
             <tr>
-                <td>@item.Medico.Nombre</td>
-                <td>@item.Nombre_Paciente</td>
-                <td>@item.Estado_Asistencia</td>
-                <td>@item.Hora_cita</td>
-                <td>@item.Descripcion_Complicaciones</td>
-                <td>@item.Sintomas</td>
-                <td>@item.Fecha_Cita.ToString("dd/MM/yyyy")</td>
-                <td>@item.Modalidad</td>
-                <td>
-                    <a class="nav-link" href="@Url.Action("Editar", "Perfil", new { id = item.Id_Cita })">
-                        <i class="fas fa-edit"></i> Editar
-                    </a>
-                </td>
-
+                <th>Médico</th>
+                <th>Paciente</th>
+                <th>Estado</th>
+                <th>Hora</th>
+                <th>Complicaciones</th>
+                <th>Síntomas</th>
+                <th>Fecha</th>
+                <th>Modalidad</th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Medico.Nombre</td>
+                    <td>@item.Nombre_Paciente</td>
+                    <td>@item.Estado_Asistencia</td>
+                    <td>@item.Hora_cita</td>
+                    <td>@item.Descripcion_Complicaciones</td>
+                    <td>@item.Sintomas</td>
+                    <td>@item.Fecha_Cita.ToString("dd/MM/yyyy")</td>
+                    <td>@item.Modalidad</td>
+                    <td>
+                        <a class="nav-link" href="@Url.Action("Editar", "Perfil", new { id = item.Id_Cita })">
+                            <i class="fas fa-edit"></i> Editar
+                        </a>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
 
 

@@ -551,6 +551,7 @@
     <Content Include="Views\Empleados\vistaHistorial.cshtml" />
     <Content Include="Views\Empleados\detallesHistorial.cshtml" />
     <Content Include="Views\InventarioDetalleConta\Index.cshtml" />
+    <Content Include="Views\Perfil\VistaCitaFutura.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>
