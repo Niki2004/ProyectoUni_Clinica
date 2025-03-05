@@ -301,35 +301,6 @@ namespace ProyectoClinica.Controllers
             return View(rolAsignacion);
         }
 
-        //public ActionResult EditarHistorial(int id)//editta lo de la vista del historial
-        //{
-        //    var rolAsignacion = BaseDatos.RolAsignacion
-        //        .Include("Empleado")
-        //        .FirstOrDefault(r => r.Id_Rol == id);
-
-        //    if (rolAsignacion == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-
-        //    return View(rolAsignacion);
-        //}
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult EditarHistorial(RolAsignacion rolAsignacion)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        BaseDatos.Entry(rolAsignacion).State = EntityState.Modified;
-        //        BaseDatos.Entry(rolAsignacion.Empleado).State = EntityState.Modified;
-        //        BaseDatos.SaveChanges();
-        //        return RedirectToAction("vistaHistorial");
-        //    }
-
-        //    return View(rolAsignacion);
-        //}
-
 
         //-----------------------------------------------------------------Controller Evaluacion -------------------------------------------------------------------------------------
 
