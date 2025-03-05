@@ -240,6 +240,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdministrativosController.cs" />
     <Compile Include="Controllers\CajaChicaController.cs" />
     <Compile Include="Controllers\CitaController.cs" />
     <Compile Include="Controllers\ConciliacionesBancariasController.cs" />
@@ -552,6 +553,15 @@
     <Content Include="Views\Empleados\detallesHistorial.cshtml" />
     <Content Include="Views\InventarioDetalleConta\Index.cshtml" />
     <Content Include="Views\Perfil\VistaCitaFutura.cshtml" />
+    <Content Include="Views\Administrativos\Administrativo.cshtml" />
+    <Content Include="Views\Administrativos\Create.cshtml" />
+    <Content Include="Views\Administrativos\Rol.cshtml" />
+    <Content Include="Views\Administrativos\Edit.cshtml" />
+    <Content Include="Views\Administrativos\VistaADM.cshtml" />
+    <Content Include="Views\Administrativos\VistaEliminar.cshtml" />
+    <Content Include="Views\Administrativos\Delete.cshtml" />
+    <Content Include="Views\Administrativos\VistaListar.cshtml" />
+    <Content Include="Views\Administrativos\DetallesHistorial.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>

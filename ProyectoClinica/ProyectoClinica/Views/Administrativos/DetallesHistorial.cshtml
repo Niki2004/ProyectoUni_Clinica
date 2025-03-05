@@ -1,7 +1,7 @@
 ﻿@model ProyectoClinica.Models.RolAsignacion
 
 @{
-    ViewBag.Title = "Detalles del Historial";
+    ViewBag.Title = "Detalles del Usuario";
 }
 
 <style>
@@ -64,7 +64,7 @@
 </style>
 
 <div class="container-form">
-    <h2 class="page-title">Detalles del Historial</h2>
+    <h2 class="page-title">Detalles del Usuario</h2>
     <h4>Rol Asignación</h4>
     <hr />
     <dl class="dl-horizontal">
@@ -97,6 +97,6 @@
     </dl>
 
     <div class="btn-container">
-        @Html.ActionLink("Regresar", "VistaHistorial", null, new { @class = "custom-btn" })
+        @Html.ActionLink("Regresar", "VistaListar", null, new { @class = "custom-btn" })
     </div>
 </div>

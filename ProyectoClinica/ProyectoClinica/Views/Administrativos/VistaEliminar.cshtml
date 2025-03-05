@@ -1,0 +1,151 @@
+﻿@model IEnumerable<ProyectoClinica.Models.Empleado>
+
+@{
+    ViewBag.Title = "Deshabilitar Usuario";
+}
+
+<style>
+    .container-form {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+
+    .page-title {
+        color: #0b7b82;
+        text-align: center;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #0b7b82;
+    }
+
+    .custom-btn {
+        background-color: #0b7b82;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-size: 14px;
+        text-decoration: none;
+        transition: background 0.3s ease, transform 0.2s ease;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        display: inline-block;
+        text-align: center;
+    }
+
+        .custom-btn:hover {
+            background-color: #096c72;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+        .table th, .table td {
+            padding: 12px;
+            border: 1px solid #dee2e6;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .table th {
+            background-color: #0b7b82;
+            color: white;
+            font-weight: bold;
+        }
+
+        .table tr:nth-child(even) td {
+            background-color: #f2f2f2;
+        }
+
+    .action-link {
+        background-color: #dc3545;
+        color: white;
+        padding: 6px 12px;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background 0.3s ease, transform 0.2s ease;
+        display: inline-block;
+        font-size: 14px;
+    }
+
+        .action-link:hover {
+            background-color: #c82333;
+            transform: translateY(-2px);
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.15);
+        }
+
+    .custom-btn {
+        background-color: #0b7b82 !important;
+        color: white !important;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 16px;
+        text-decoration: none;
+        transition: background 0.3s ease, transform 0.2s ease;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<div class="container-form">
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success" role="alert">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+    <h2 class="page-title">Deshabilitar Usuario</h2>
+
+    <div style="text-align: center; margin-bottom: 20px;">
+        <a href="@Url.Action("Administrativo", "Administrativos")" class="custom-btn">
+            <i class="fas fa-home"></i> Inicio
+        </a>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.First().Estado.Descripcion)</th>
+                <th>@Html.DisplayNameFor(model => model.First().Comentarios)</th>
+                <th>@Html.DisplayNameFor(model => model.First().Nombre)</th>
+                <th>@Html.DisplayNameFor(model => model.First().Apellido)</th>
+                <th>@Html.DisplayNameFor(model => model.First().Cedula)</th>
+
+                <th>@Html.DisplayNameFor(model => model.First().Jornada)</th>
+
+                <th>@Html.DisplayNameFor(model => model.First().Departamento)</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Estado.Descripcion)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Comentarios)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Nombre)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Apellido)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Cedula)</td>
+
+                    <td>@Html.DisplayFor(modelItem => item.Jornada)</td>
+
+                    <td>@Html.DisplayFor(modelItem => item.Departamento)</td>
+                    <td>
+                        @Html.ActionLink("Deshabilitar", "Delete", new { id = item.Id_Empleado }, new { @class = "action-link" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
