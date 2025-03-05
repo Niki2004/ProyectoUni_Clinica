@@ -261,6 +261,7 @@
     <Compile Include="Controllers\PerfilController.cs" />
     <Compile Include="Controllers\ProductosContaController.cs" />
     <Compile Include="Controllers\RedirectController.cs" />
+    <Compile Include="Controllers\ReporteController.cs" />
     <Compile Include="Controllers\ServiciosBrindadosController.cs" />
     <Compile Include="Controllers\ServiciosController.cs" />
     <Compile Include="Global.asax.cs">
@@ -562,6 +563,9 @@
     <Content Include="Views\Administrativos\Delete.cshtml" />
     <Content Include="Views\Administrativos\VistaListar.cshtml" />
     <Content Include="Views\Administrativos\DetallesHistorial.cshtml" />
+    <Content Include="Views\Reporte\VistaAdmRep.cshtml" />
+    <Content Include="Views\Reporte\VistaReporteConta.cshtml" />
+    <Content Include="Views\Reporte\AsistenciaConsulta.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>
