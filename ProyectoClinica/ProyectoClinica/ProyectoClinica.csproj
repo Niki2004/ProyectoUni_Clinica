@@ -291,6 +291,14 @@
     <Compile Include="Migrations\202502182045118_PDF.Designer.cs">
       <DependentUpon>202502182045118_PDF.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202503061847295_GeneroRegistro.cs" />
+    <Compile Include="Migrations\202503061847295_GeneroRegistro.designer.cs">
+      <DependentUpon>202503061847295_GeneroRegistro.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202503061856576_NumeroRegistro.cs" />
+    <Compile Include="Migrations\202503061856576_NumeroRegistro.designer.cs">
+      <DependentUpon>202503061856576_NumeroRegistro.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Administrativa.cs" />
@@ -626,6 +634,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202502182045118_PDF.resx">
       <DependentUpon>202502182045118_PDF.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202503061847295_GeneroRegistro.resx">
+      <DependentUpon>202503061847295_GeneroRegistro.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202503061856576_NumeroRegistro.resx">
+      <DependentUpon>202503061856576_NumeroRegistro.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

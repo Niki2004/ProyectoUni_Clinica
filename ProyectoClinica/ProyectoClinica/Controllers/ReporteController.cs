@@ -250,6 +250,95 @@ namespace ProyectoClinica.Controllers
         }
 
         //Historia de usuario 03 
+        public ActionResult AreaMejora(string nombreReceta)
+        {
+            var recetas = _context.Receta.AsQueryable();
+            if (!string.IsNullOrEmpty(nombreReceta))
+            {
+                recetas = recetas.Where(r => r.Nombre_Receta.Contains(nombreReceta));
+            }
+            ViewBag.NombreReceta = nombreReceta;
+            return View(recetas.ToList());
+        }
+
+        public ActionResult ExportarExcelAreaMejora(string nombreReceta)
+        {
+            // Establecer el contexto de la licencia de EPPlus
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+            var recetas = _context.Receta.AsQueryable();
+
+            if (!string.IsNullOrEmpty(nombreReceta))
+            {
+                recetas = recetas.Where(r => r.Nombre_Receta.Contains(nombreReceta));
+            }
+
+            var listaRecetas = recetas.ToList();
+
+            using (var package = new ExcelPackage())
+            {
+                var worksheet = package.Workbook.Worksheets.Add("Informe de recetas");
+
+                // Encabezados de tabla
+                worksheet.Cells["A1"].Value = "Fecha de creación";
+                worksheet.Cells["B1"].Value = "Nombre de la receta";
+                worksheet.Cells["C1"].Value = "Observaciones de pacientes";
+                worksheet.Cells["D1"].Value = "Duración del tratamiento";
+                worksheet.Cells["E1"].Value = "Cantidad requerida";
+                worksheet.Cells["F1"].Value = "Motivo de la solicitud";
+
+                // Estilo de encabezado
+                using (var range = worksheet.Cells["A1:F1"])
+                {
+                    range.Style.Font.Bold = true;
+                    range.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    range.Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#26a69a"));
+                    range.Style.Font.Color.SetColor(System.Drawing.Color.White);
+                    range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                }
+
+                // Agregar datos
+                int row = 2;
+                foreach (var receta in listaRecetas)
+                {
+                    worksheet.Cells[row, 1].Value = receta.Fecha_Creacion.ToString("dd/MM/yy");
+                    worksheet.Cells[row, 2].Value = receta.Nombre_Receta;
+                    worksheet.Cells[row, 3].Value = receta.Observaciones_Pacientes;
+                    worksheet.Cells[row, 4].Value = receta.Duracion_Tratamiento;
+                    worksheet.Cells[row, 5].Value = receta.Cantidad_Requerida;
+                    worksheet.Cells[row, 6].Value = receta.Motivo_Solicitud;
+
+                    using (var range = worksheet.Cells[row, 1, row, 6])
+                    {
+                        range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                        range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                    }
+
+                    row++;
+                }
+
+                // Configuración de ancho de columnas
+                worksheet.Column(1).Width = 20; // Fecha de creación
+                worksheet.Column(2).Width = 25; // Nombre de la receta
+                worksheet.Column(3).Width = 30; // Observaciones
+                worksheet.Column(4).Width = 25; // Duración del tratamiento
+                worksheet.Column(5).Width = 20; // Cantidad requerida
+                worksheet.Column(6).Width = 25; // Motivo de la solicitud
+
+                var stream = new MemoryStream(package.GetAsByteArray());
+                string fileName = "Informe_Recetas";
+
+                if (!string.IsNullOrEmpty(nombreReceta))
+                {
+                    fileName += "_" + nombreReceta.Replace(" ", "_");
+                }
+
+                fileName += ".xlsx";
+
+                return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+            }
+        }
 
         //Historia de usuario 04
     }

@@ -18,11 +18,15 @@ namespace ProyectoClinica.Models
 
         public int Edad_Paciente { get; set; }
 
+        public string Genero_Paciente { get; set; }
+
         public string Direccion { get; set; }
 
         public string Cedula { get; set; }
 
         public string Imagen { get; set; }
+
+        public string PhoneNumber { get; set; }
 
         // Relación con tablas 
         public ICollection<Administrativa> Administrativa { get; set; } = new List<Administrativa>();
