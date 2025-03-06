@@ -595,6 +595,8 @@
     <Content Include="Views\Reporte\VistaReporteConta.cshtml" />
     <Content Include="Views\Reporte\AsistenciaConsulta.cshtml" />
     <Content Include="Views\Reporte\ResultadoTratamiento.cshtml" />
+    <Content Include="Views\Reporte\CostosTratamiento.cshtml" />
+    <Content Include="Views\Reporte\Personalizacion.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>

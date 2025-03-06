@@ -254,10 +254,10 @@ namespace ProyectoClinica.Controllers
                 body.Append($"<p><strong>Fecha:</strong> {factura.FechaHora:dd/MM/yyyy HH:mm}</p>");
                 body.Append($"<p><strong>Cliente:</strong> {factura.NombreCliente}</p>");
                 body.Append($"<p><strong>Cédula:</strong> {factura.CedulaCliente}</p>");
-                body.Append($"<p><strong>Subtotal:</strong> ${factura.Subtotal:N2}</p>");
-                body.Append($"<p><strong>Descuento:</strong> -${factura.Descuento:N2}</p>");
-                body.Append($"<p><strong>Impuesto:</strong> ${factura.Impuesto:N2}</p>");
-                body.Append($"<h3 style='color:blue;'>Total Pagado: <strong>${factura.TotalPagado:N2}</strong></h3>");
+                body.Append($"<p><strong>Subtotal:</strong> ₡{factura.Subtotal:N2}</p>");
+                body.Append($"<p><strong>Descuento:</strong> -₡{factura.Descuento:N2}</p>");
+                body.Append($"<p><strong>Impuesto:</strong> ₡{factura.Impuesto:N2}</p>");
+                body.Append($"<h3 style='color:blue;'>Total Pagado: <strong>₡{factura.TotalPagado:N2}</strong></h3>");
 
                 // Métodos de Pago Utilizados
                 body.Append("<h3>Método de Pago:</h3><ul>");
@@ -281,7 +281,7 @@ namespace ProyectoClinica.Controllers
                 {
                     foreach (var servicio in servicios)
                     {
-                        body.Append($"<tr><td>{servicio.Nombre_Servicio}</td><td style='text-align:right;'>${servicio.Precio_Servicio:N2}</td></tr>");
+                        body.Append($"<tr><td>{servicio.Nombre_Servicio}</td><td style='text-align:right;'>₡{servicio.Precio_Servicio:N2}</td></tr>");
                     }
                 }
                 else

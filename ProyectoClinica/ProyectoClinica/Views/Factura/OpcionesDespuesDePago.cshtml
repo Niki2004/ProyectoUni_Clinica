@@ -8,10 +8,10 @@
         <h5><strong>No. Recibo:</strong> @Model.Id_Factura</h5>
         <h6><strong>Fecha:</strong> @Model.FechaHora.ToString("dd/MM/yyyy HH:mm")</h6>
 
-        <h5 class="text-primary"><strong>Subtotal:</strong> $@Model.Subtotal.ToString("N2")</h5>
-        <h5 class="text-primary"><strong>Descuento:</strong> $@Model.Descuento.ToString("N2")</h5>
-        <h5 class="text-primary"><strong>Impuesto:</strong> $@Model.Impuesto.ToString("N2")</h5>
-        <h5 class="text-primary"><strong>Total Pagado:</strong> $@Model.TotalPagado.ToString("N2")</h5>
+        <h5 class="text-primary"><strong>Subtotal:</strong> ₡@Model.Subtotal.ToString("N2")</h5>
+        <h5 class="text-primary"><strong>Descuento:</strong> ₡@Model.Descuento.ToString("N2")</h5>
+        <h5 class="text-primary"><strong>Impuesto:</strong> ₡@Model.Impuesto.ToString("N2")</h5>
+        <h5 class="text-primary"><strong>Total Pagado:</strong> ₡@Model.TotalPagado.ToString("N2")</h5>
     </div>
 
     <!-- Métodos de Pago Utilizados -->

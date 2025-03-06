@@ -9,6 +9,7 @@ using OfficeOpenXml;
 using System.IO;
 using OfficeOpenXml.Style;
 using System.Drawing;
+using Microsoft.AspNet.Identity;
 
 namespace ProyectoClinica.Controllers
 {
@@ -250,45 +251,163 @@ namespace ProyectoClinica.Controllers
         }
 
         //Historia de usuario 03 
-        public ActionResult AreaMejora(string nombreReceta)
+
+        //Historia de usuario 04
+        [HttpGet]
+        public ActionResult CostosTratamiento(string Procedimientocostos, string servicio2)
         {
-            var recetas = _context.Receta.AsQueryable();
-            if (!string.IsNullOrEmpty(nombreReceta))
+            var costos = _context.Servicio.AsQueryable();
+
+            // Comprobar si ambos filtros están presentes y hacer la comparación de ambos
+            if (!string.IsNullOrEmpty(Procedimientocostos) && !string.IsNullOrEmpty(servicio2))
             {
-                recetas = recetas.Where(r => r.Nombre_Receta.Contains(nombreReceta));
+                // Filtra los servicios que contengan al menos uno de los dos
+                costos = costos.Where(r => r.Nombre_Servicio.Contains(Procedimientocostos)
+                                         || r.Nombre_Servicio.Contains(servicio2));
             }
-            ViewBag.NombreReceta = nombreReceta;
-            return View(recetas.ToList());
+            // Si solo hay un filtro
+            else if (!string.IsNullOrEmpty(Procedimientocostos))
+            {
+                costos = costos.Where(r => r.Nombre_Servicio.Contains(Procedimientocostos));
+            }
+            else if (!string.IsNullOrEmpty(servicio2))
+            {
+                costos = costos.Where(r => r.Nombre_Servicio.Contains(servicio2));
+            }
+
+            // Asignar los valores de los filtros al ViewBag para mantener la selección después del postback
+            ViewBag.ProcedimientoCostos = Procedimientocostos;
+            ViewBag.Servicio2 = servicio2;
+
+            return View(costos.ToList());
         }
 
-        public ActionResult ExportarExcelAreaMejora(string nombreReceta)
+        public ActionResult ExportarExcelCostosTratamiento(string Procedimientocostos, string servicio2)
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+            var Procedimiento = _context.Servicio.AsQueryable();
+
+            if (!string.IsNullOrEmpty(Procedimientocostos) && !string.IsNullOrEmpty(servicio2))
+            {
+                Procedimiento = Procedimiento.Where(r => r.Nombre_Servicio.Contains(Procedimientocostos)
+                                                       || r.Nombre_Servicio.Contains(servicio2));
+            }
+
+            else if (!string.IsNullOrEmpty(Procedimientocostos))
+            {
+                Procedimiento = Procedimiento.Where(r => r.Nombre_Servicio.Contains(Procedimientocostos));
+            }
+            else if (!string.IsNullOrEmpty(servicio2))
+            {
+                Procedimiento = Procedimiento.Where(r => r.Nombre_Servicio.Contains(servicio2));
+            }
+
+            var listaProcedimiento = Procedimiento.ToList();
+
+            using (var package = new ExcelPackage())
+            {
+                var worksheet = package.Workbook.Worksheets.Add("Informe de procedimientos");
+
+                worksheet.Cells["A1"].Value = "Nombre de servicio";
+                worksheet.Cells["B1"].Value = "Precio del servicio";
+                worksheet.Cells["C1"].Value = "Especialidad";
+
+                using (var range = worksheet.Cells["A1:C1"])
+                {
+                    range.Style.Font.Bold = true;
+                    range.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    range.Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#26a69a"));
+                    range.Style.Font.Color.SetColor(System.Drawing.Color.White);
+                    range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                }
+
+                int row = 2;
+                foreach (var ProcedimientoS in listaProcedimiento)
+                {
+                    worksheet.Cells[row, 1].Value = ProcedimientoS.Nombre_Servicio;
+                    worksheet.Cells[row, 2].Value = ProcedimientoS.Precio_Servicio;
+                    worksheet.Cells[row, 3].Value = ProcedimientoS.Especialidad;
+
+                    worksheet.Cells[row, 2].Style.Numberformat.Format = "\"₡\" #,##0.00"; 
+
+
+                    using (var range = worksheet.Cells[row, 1, row, 3])
+                    {
+                        range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                        range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                    }
+
+                    row++;
+                }
+
+                worksheet.Column(1).Width = 20;
+                worksheet.Column(2).Width = 25;
+                worksheet.Column(3).Width = 30;
+
+                string fileName = "Informe_Procedimientos";
+
+                if (!string.IsNullOrEmpty(Procedimientocostos))
+                {
+                    fileName += "_" + Procedimientocostos.Replace(" ", "_");
+                }
+
+                if (!string.IsNullOrEmpty(servicio2))
+                {
+                    fileName += "_" + servicio2.Replace(" ", "_");
+                }
+
+                fileName += ".xlsx";
+
+                var stream = new MemoryStream(package.GetAsByteArray());
+
+                return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+            }
+        }
+
+        //Historia de usuario 05
+        [HttpGet]
+        public ActionResult Personalizacion(string nombreUser)
+        {
+            var user = _context.Users.AsQueryable();
+            if (!string.IsNullOrEmpty(nombreUser))
+            {
+                user = user.Where(r => r.Nombre.Contains(nombreUser));
+            }
+
+            ViewBag.NombreUser = nombreUser;
+            return View(user.ToList());
+        }
+
+        public ActionResult ExportarExcelPersonalizacion(string nombreUser)
         {
             // Establecer el contexto de la licencia de EPPlus
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
-            var recetas = _context.Receta.AsQueryable();
+            var user = _context.Users.AsQueryable();
 
-            if (!string.IsNullOrEmpty(nombreReceta))
+            if (!string.IsNullOrEmpty(nombreUser))
             {
-                recetas = recetas.Where(r => r.Nombre_Receta.Contains(nombreReceta));
+                user = user.Where(r => r.Nombre.Contains(nombreUser));
             }
 
-            var listaRecetas = recetas.ToList();
+            var listauser = user.ToList();
 
             using (var package = new ExcelPackage())
             {
                 var worksheet = package.Workbook.Worksheets.Add("Informe de recetas");
 
-                // Encabezados de tabla
-                worksheet.Cells["A1"].Value = "Fecha de creación";
-                worksheet.Cells["B1"].Value = "Nombre de la receta";
-                worksheet.Cells["C1"].Value = "Observaciones de pacientes";
-                worksheet.Cells["D1"].Value = "Duración del tratamiento";
-                worksheet.Cells["E1"].Value = "Cantidad requerida";
-                worksheet.Cells["F1"].Value = "Motivo de la solicitud";
+                worksheet.Cells["A1"].Value = "Nombre";
+                worksheet.Cells["B1"].Value = "Apellido";
+                worksheet.Cells["C1"].Value = "Edad del paciente";
+                worksheet.Cells["D1"].Value = "Direccion";
+                worksheet.Cells["E1"].Value = "Cedula";
+                worksheet.Cells["F1"].Value = "Email";
+                worksheet.Cells["G1"].Value = "Número de teléfono";
+                worksheet.Cells["H1"].Value = "Género";
 
-                // Estilo de encabezado
-                using (var range = worksheet.Cells["A1:F1"])
+                using (var range = worksheet.Cells["A1:H1"])
                 {
                     range.Style.Font.Bold = true;
                     range.Style.Fill.PatternType = ExcelFillStyle.Solid;
@@ -300,16 +419,18 @@ namespace ProyectoClinica.Controllers
 
                 // Agregar datos
                 int row = 2;
-                foreach (var receta in listaRecetas)
+                foreach (var users in listauser)
                 {
-                    worksheet.Cells[row, 1].Value = receta.Fecha_Creacion.ToString("dd/MM/yy");
-                    worksheet.Cells[row, 2].Value = receta.Nombre_Receta;
-                    worksheet.Cells[row, 3].Value = receta.Observaciones_Pacientes;
-                    worksheet.Cells[row, 4].Value = receta.Duracion_Tratamiento;
-                    worksheet.Cells[row, 5].Value = receta.Cantidad_Requerida;
-                    worksheet.Cells[row, 6].Value = receta.Motivo_Solicitud;
+                    worksheet.Cells[row, 1].Value = users.Nombre;
+                    worksheet.Cells[row, 2].Value = users.Apellido;
+                    worksheet.Cells[row, 3].Value = users.Edad_Paciente;
+                    worksheet.Cells[row, 4].Value = users.Direccion;
+                    worksheet.Cells[row, 5].Value = users.Cedula;
+                    worksheet.Cells[row, 6].Value = users.Email; 
+                    worksheet.Cells[row, 7].Value = users.PhoneNumber;
+                    worksheet.Cells[row, 8].Value = users.Genero_Paciente;
 
-                    using (var range = worksheet.Cells[row, 1, row, 6])
+                    using (var range = worksheet.Cells[row, 1, row, 8])
                     {
                         range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                         range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
@@ -318,20 +439,22 @@ namespace ProyectoClinica.Controllers
                     row++;
                 }
 
-                // Configuración de ancho de columnas
-                worksheet.Column(1).Width = 20; // Fecha de creación
-                worksheet.Column(2).Width = 25; // Nombre de la receta
-                worksheet.Column(3).Width = 30; // Observaciones
-                worksheet.Column(4).Width = 25; // Duración del tratamiento
-                worksheet.Column(5).Width = 20; // Cantidad requerida
-                worksheet.Column(6).Width = 25; // Motivo de la solicitud
+                worksheet.Column(1).Width = 20; 
+                worksheet.Column(2).Width = 25;
+                worksheet.Column(3).Width = 30; 
+                worksheet.Column(4).Width = 25; 
+                worksheet.Column(5).Width = 20; 
+                worksheet.Column(6).Width = 25;
+                worksheet.Column(7).Width = 25;
+                worksheet.Column(8).Width = 25;
+
 
                 var stream = new MemoryStream(package.GetAsByteArray());
-                string fileName = "Informe_Recetas";
+                string fileName = "Informe_Usuario";
 
-                if (!string.IsNullOrEmpty(nombreReceta))
+                if (!string.IsNullOrEmpty(nombreUser))
                 {
-                    fileName += "_" + nombreReceta.Replace(" ", "_");
+                    fileName += "_" + nombreUser.Replace(" ", "_");
                 }
 
                 fileName += ".xlsx";
@@ -340,7 +463,9 @@ namespace ProyectoClinica.Controllers
             }
         }
 
-        //Historia de usuario 04
+
+
+
     }
 }
    
