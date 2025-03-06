@@ -9,6 +9,8 @@ using OfficeOpenXml;
 using System.IO;
 using OfficeOpenXml.Style;
 using System.Drawing;
+using Microsoft.AspNet.Identity;
+using System.Net.Mail;
 
 namespace ProyectoClinica.Controllers
 {
@@ -252,6 +254,250 @@ namespace ProyectoClinica.Controllers
         //Historia de usuario 03 
 
         //Historia de usuario 04
+        [HttpGet]
+        public ActionResult CostosTratamiento(string Procedimientocostos, string servicio2)
+        {
+            var costos = _context.Servicio.AsQueryable();
+
+            // Comprobar si ambos filtros están presentes y hacer la comparación de ambos
+            if (!string.IsNullOrEmpty(Procedimientocostos) && !string.IsNullOrEmpty(servicio2))
+            {
+                // Filtra los servicios que contengan al menos uno de los dos
+                costos = costos.Where(r => r.Nombre_Servicio.Contains(Procedimientocostos)
+                                         || r.Nombre_Servicio.Contains(servicio2));
+            }
+            // Si solo hay un filtro
+            else if (!string.IsNullOrEmpty(Procedimientocostos))
+            {
+                costos = costos.Where(r => r.Nombre_Servicio.Contains(Procedimientocostos));
+            }
+            else if (!string.IsNullOrEmpty(servicio2))
+            {
+                costos = costos.Where(r => r.Nombre_Servicio.Contains(servicio2));
+            }
+
+            // Asignar los valores de los filtros al ViewBag para mantener la selección después del postback
+            ViewBag.ProcedimientoCostos = Procedimientocostos;
+            ViewBag.Servicio2 = servicio2;
+
+            return View(costos.ToList());
+        }
+
+        public ActionResult ExportarExcelCostosTratamiento(string Procedimientocostos, string servicio2)
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+            var Procedimiento = _context.Servicio.AsQueryable();
+
+            if (!string.IsNullOrEmpty(Procedimientocostos) && !string.IsNullOrEmpty(servicio2))
+            {
+                Procedimiento = Procedimiento.Where(r => r.Nombre_Servicio.Contains(Procedimientocostos)
+                                                       || r.Nombre_Servicio.Contains(servicio2));
+            }
+
+            else if (!string.IsNullOrEmpty(Procedimientocostos))
+            {
+                Procedimiento = Procedimiento.Where(r => r.Nombre_Servicio.Contains(Procedimientocostos));
+            }
+            else if (!string.IsNullOrEmpty(servicio2))
+            {
+                Procedimiento = Procedimiento.Where(r => r.Nombre_Servicio.Contains(servicio2));
+            }
+
+            var listaProcedimiento = Procedimiento.ToList();
+
+            using (var package = new ExcelPackage())
+            {
+                var worksheet = package.Workbook.Worksheets.Add("Informe de procedimientos");
+
+                worksheet.Cells["A1"].Value = "Nombre de servicio";
+                worksheet.Cells["B1"].Value = "Precio del servicio";
+                worksheet.Cells["C1"].Value = "Especialidad";
+
+                using (var range = worksheet.Cells["A1:C1"])
+                {
+                    range.Style.Font.Bold = true;
+                    range.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    range.Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#26a69a"));
+                    range.Style.Font.Color.SetColor(System.Drawing.Color.White);
+                    range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                }
+
+                int row = 2;
+                foreach (var ProcedimientoS in listaProcedimiento)
+                {
+                    worksheet.Cells[row, 1].Value = ProcedimientoS.Nombre_Servicio;
+                    worksheet.Cells[row, 2].Value = ProcedimientoS.Precio_Servicio;
+                    worksheet.Cells[row, 3].Value = ProcedimientoS.Especialidad;
+
+                    worksheet.Cells[row, 2].Style.Numberformat.Format = "\"₡\" #,##0.00"; 
+
+
+                    using (var range = worksheet.Cells[row, 1, row, 3])
+                    {
+                        range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                        range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                    }
+
+                    row++;
+                }
+
+                worksheet.Column(1).Width = 20;
+                worksheet.Column(2).Width = 25;
+                worksheet.Column(3).Width = 30;
+
+                string fileName = "Informe_Procedimientos";
+
+                if (!string.IsNullOrEmpty(Procedimientocostos))
+                {
+                    fileName += "_" + Procedimientocostos.Replace(" ", "_");
+                }
+
+                if (!string.IsNullOrEmpty(servicio2))
+                {
+                    fileName += "_" + servicio2.Replace(" ", "_");
+                }
+
+                fileName += ".xlsx";
+
+                var stream = new MemoryStream(package.GetAsByteArray());
+
+                return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+            }
+        }
+
+        //Historia de usuario 05
+        [HttpGet]
+        public ActionResult Personalizacion(string nombreUser)
+        {
+            var user = _context.Users.AsQueryable();
+            if (!string.IsNullOrEmpty(nombreUser))
+            {
+                user = user.Where(r => r.Nombre.Contains(nombreUser));
+            }
+
+            ViewBag.NombreUser = nombreUser;
+            return View(user.ToList());
+        }
+
+        public ActionResult ExportarExcelPersonalizacion(string nombreUser)
+        {
+            // Establecer el contexto de la licencia de EPPlus
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+            var user = _context.Users.AsQueryable();
+
+            if (!string.IsNullOrEmpty(nombreUser))
+            {
+                user = user.Where(r => r.Nombre.Contains(nombreUser));
+            }
+
+            var listauser = user.ToList();
+
+            using (var package = new ExcelPackage())
+            {
+                var worksheet = package.Workbook.Worksheets.Add("Informe de recetas");
+
+                worksheet.Cells["A1"].Value = "Nombre";
+                worksheet.Cells["B1"].Value = "Apellido";
+                worksheet.Cells["C1"].Value = "Edad del paciente";
+                worksheet.Cells["D1"].Value = "Direccion";
+                worksheet.Cells["E1"].Value = "Cedula";
+                worksheet.Cells["F1"].Value = "Email";
+                worksheet.Cells["G1"].Value = "Número de teléfono";
+                worksheet.Cells["H1"].Value = "Género";
+
+                using (var range = worksheet.Cells["A1:H1"])
+                {
+                    range.Style.Font.Bold = true;
+                    range.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    range.Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#26a69a"));
+                    range.Style.Font.Color.SetColor(System.Drawing.Color.White);
+                    range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                }
+
+                // Agregar datos
+                int row = 2;
+                foreach (var users in listauser)
+                {
+                    worksheet.Cells[row, 1].Value = users.Nombre;
+                    worksheet.Cells[row, 2].Value = users.Apellido;
+                    worksheet.Cells[row, 3].Value = users.Edad_Paciente;
+                    worksheet.Cells[row, 4].Value = users.Direccion;
+                    worksheet.Cells[row, 5].Value = users.Cedula;
+                    worksheet.Cells[row, 6].Value = users.Email; 
+                    worksheet.Cells[row, 7].Value = users.PhoneNumber;
+                    worksheet.Cells[row, 8].Value = users.Genero_Paciente;
+
+                    using (var range = worksheet.Cells[row, 1, row, 8])
+                    {
+                        range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                        range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                    }
+
+                    row++;
+                }
+
+                worksheet.Column(1).Width = 20; 
+                worksheet.Column(2).Width = 25;
+                worksheet.Column(3).Width = 30; 
+                worksheet.Column(4).Width = 25; 
+                worksheet.Column(5).Width = 20; 
+                worksheet.Column(6).Width = 25;
+                worksheet.Column(7).Width = 25;
+                worksheet.Column(8).Width = 25;
+
+
+                var stream = new MemoryStream(package.GetAsByteArray());
+                string fileName = "Informe_Usuario";
+
+                if (!string.IsNullOrEmpty(nombreUser))
+                {
+                    fileName += "_" + nombreUser.Replace(" ", "_");
+                }
+
+                fileName += ".xlsx";
+
+                return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+            }
+        }
+
+        public ActionResult GuardarPlantillaInforme()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult GuardarPlantillaInforme(string nombrePlantilla, string camposSeleccionados)
+        {
+            if (!string.IsNullOrEmpty(nombrePlantilla) && !string.IsNullOrEmpty(camposSeleccionados))
+            {
+                var plantilla = new PlantillaInforme
+                {
+                    NombrePlantilla = nombrePlantilla,
+                    CamposSeleccionados = camposSeleccionados,
+                    FechaCreacion = DateTime.Now
+                };
+
+                _context.PlantillaInforme.Add(plantilla);
+                _context.SaveChanges();
+
+                return RedirectToAction("ListarPlantillasInformes");
+            }
+
+            return View("Error");
+        }
+
+        public ActionResult ListarPlantillasInformes()
+        {
+            var plantillas = _context.PlantillaInforme.ToList();
+            return View(plantillas);
+        }
+
+        //Historia de usuario 06
+        //Historia de usuario 07
     }
 }
    

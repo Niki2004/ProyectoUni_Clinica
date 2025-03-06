@@ -70,11 +70,10 @@ namespace ProyectoClinica.Models
         public DbSet<Departamentos> Departamentos { get; set; }
         public DbSet<Inventario_Detalle_Conta> Inventario_Detalle_Conta { get; set; }
         public DbSet<Nota_Medico> Nota_Medico { get; set; }
-
         public DbSet<PDF> PDF { get; set; }
-       
-        
-        
+        public DbSet<PlantillaInforme> PlantillaInforme { get; set; }
+        public DbSet<ProgramacionInforme> ProgramacionInforme { get; set; }
+
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -127,7 +126,8 @@ namespace ProyectoClinica.Models
             modelBuilder.Entity<Inventario_Detalle_Conta>().ToTable("Inventario_Detalle_Conta");
             modelBuilder.Entity<Nota_Medico>().ToTable("Nota_Medico");
             modelBuilder.Entity<PDF>().ToTable("PDF");
-
+            modelBuilder.Entity<PlantillaInforme>().ToTable("PlantillaInforme");
+            modelBuilder.Entity<ProgramacionInforme>().ToTable("ProgramacionInforme");
 
 
             // Configuración de relaciones para evitar ciclos de cascada
