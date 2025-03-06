@@ -33,7 +33,7 @@ namespace ProyectoClinica.Models
         public ICollection<Medico> Medico { get; set; } = new List<Medico>();
         public ICollection<Rol_Permiso> Rol_Permiso { get; set; } = new List<Rol_Permiso>();
         public ICollection<Copago> Copago { get; set; } = new List<Copago>();
-        
+        public ICollection<ProgramacionInforme> ProgramacionInforme { get; set; } = new List<ProgramacionInforme>();
         public ICollection<Reporte> Reporte { get; set; } = new List<Reporte>();
 
 

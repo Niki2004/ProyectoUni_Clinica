@@ -10,6 +10,7 @@ using System.IO;
 using OfficeOpenXml.Style;
 using System.Drawing;
 using Microsoft.AspNet.Identity;
+using System.Net.Mail;
 
 namespace ProyectoClinica.Controllers
 {
@@ -463,9 +464,40 @@ namespace ProyectoClinica.Controllers
             }
         }
 
+        public ActionResult GuardarPlantillaInforme()
+        {
+            return View();
+        }
 
+        [HttpPost]
+        public ActionResult GuardarPlantillaInforme(string nombrePlantilla, string camposSeleccionados)
+        {
+            if (!string.IsNullOrEmpty(nombrePlantilla) && !string.IsNullOrEmpty(camposSeleccionados))
+            {
+                var plantilla = new PlantillaInforme
+                {
+                    NombrePlantilla = nombrePlantilla,
+                    CamposSeleccionados = camposSeleccionados,
+                    FechaCreacion = DateTime.Now
+                };
 
+                _context.PlantillaInforme.Add(plantilla);
+                _context.SaveChanges();
 
+                return RedirectToAction("ListarPlantillasInformes");
+            }
+
+            return View("Error");
+        }
+
+        public ActionResult ListarPlantillasInformes()
+        {
+            var plantillas = _context.PlantillaInforme.ToList();
+            return View(plantillas);
+        }
+
+        //Historia de usuario 06
+        //Historia de usuario 07
     }
 }
    

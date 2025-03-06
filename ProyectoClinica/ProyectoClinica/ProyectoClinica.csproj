@@ -299,6 +299,10 @@
     <Compile Include="Migrations\202503061856576_NumeroRegistro.designer.cs">
       <DependentUpon>202503061856576_NumeroRegistro.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202503062207123_plantillas.cs" />
+    <Compile Include="Migrations\202503062207123_plantillas.designer.cs">
+      <DependentUpon>202503062207123_plantillas.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Administrativa.cs" />
@@ -344,7 +348,9 @@
     <Compile Include="Models\PagosXNomina.cs" />
     <Compile Include="Models\Pagos_Diarios.cs" />
     <Compile Include="Models\PDF.cs" />
+    <Compile Include="Models\PlantillaInforme.cs" />
     <Compile Include="Models\Productos_Conta.cs" />
+    <Compile Include="Models\ProgramacionInforme.cs" />
     <Compile Include="Models\Receta.cs" />
     <Compile Include="Models\RecetaViewModel.cs" />
     <Compile Include="Models\Reporte.cs" />
@@ -597,6 +603,8 @@
     <Content Include="Views\Reporte\ResultadoTratamiento.cshtml" />
     <Content Include="Views\Reporte\CostosTratamiento.cshtml" />
     <Content Include="Views\Reporte\Personalizacion.cshtml" />
+    <Content Include="Views\Reporte\GuardarPlantillaInforme.cshtml" />
+    <Content Include="Views\Reporte\ListarPlantillasInformes.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -642,6 +650,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202503061856576_NumeroRegistro.resx">
       <DependentUpon>202503061856576_NumeroRegistro.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202503062207123_plantillas.resx">
+      <DependentUpon>202503062207123_plantillas.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

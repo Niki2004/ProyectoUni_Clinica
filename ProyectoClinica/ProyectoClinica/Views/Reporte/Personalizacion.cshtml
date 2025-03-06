@@ -19,6 +19,26 @@
         transition: background 0.3s ease, transform 0.2s ease;
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     }
+
+    /* Asegurarse de que la tabla no se desborde y se adapte */
+    .table-responsive {
+        overflow-x: auto;  /* Permite scroll horizontal solo si es necesario */
+        -webkit-overflow-scrolling: touch;
+        margin-top: 20px;
+    }
+
+    table {
+        width: 100%; 
+        table-layout: fixed;  
+    }
+
+    th, td {
+        padding: 10px;
+        text-align: left;
+        word-wrap: break-word; 
+        max-width: 200px; 
+    }
+    }
 </style>
 
 <div style="text-align: center; margin-bottom: 20px;">
@@ -103,7 +123,6 @@
                                 <td>@usuario.Email</td>
                                 <td>@usuario.PhoneNumber</td>
                                 <td>@usuario.Genero_Paciente</td>
-
                             </tr>
                         }
                     }
@@ -121,11 +140,21 @@
             </table>
         </div>
     </div>
+
+    <br>
+
+    <div style="text-align: center; margin-bottom: 20px;">
+        <a href="@Url.Action("ListarPlantillasInformes", "Reporte")" class="custom-btn">
+            <i class="fas fa-list"></i> Listar Plantillas
+        </a>
+    </div>
+
 </div>
 
 @section Scripts {
     <script>
         $(document).ready(function () {
+            
         });
     </script>
 }
