@@ -72,8 +72,12 @@ namespace ProyectoClinica.Models
         public DbSet<Nota_Medico> Nota_Medico { get; set; }
         public DbSet<PDF> PDF { get; set; }
         public DbSet<PlantillaInforme> PlantillaInforme { get; set; }
-        public DbSet<ProgramacionInforme> ProgramacionInforme { get; set; }
-
+        public DbSet<Comentario> Comentario { get; set; }
+        public DbSet<Estado_Comentario> Estado_Comentario { get; set; }
+        public DbSet<Destacado_Comentario> Destacado_Comentario { get; set; }
+        public DbSet<Sensible_Comentario> Sensible_Comentario { get; set; }
+        public DbSet<AudioriadeRegistros> AudioriadeRegistros { get; set; }
+        public DbSet<AsignacionRolesTemporales> AsignacionRolesTemporales { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -127,8 +131,12 @@ namespace ProyectoClinica.Models
             modelBuilder.Entity<Nota_Medico>().ToTable("Nota_Medico");
             modelBuilder.Entity<PDF>().ToTable("PDF");
             modelBuilder.Entity<PlantillaInforme>().ToTable("PlantillaInforme");
-            modelBuilder.Entity<ProgramacionInforme>().ToTable("ProgramacionInforme");
-
+            modelBuilder.Entity<Comentario>().ToTable("Comentario");
+            modelBuilder.Entity<Estado_Comentario>().ToTable("Estado_Comentario");
+            modelBuilder.Entity<Destacado_Comentario>().ToTable("Destacado_Comentario");
+            modelBuilder.Entity<Sensible_Comentario>().ToTable("Sensible_Comentario");
+            modelBuilder.Entity<AudioriadeRegistros>().ToTable("AudioriadeRegistros");
+            modelBuilder.Entity<AsignacionRolesTemporales>().ToTable("AsignacionRolesTemporales");
 
             // Configuración de relaciones para evitar ciclos de cascada
             // Relación entre Reporte y Cita
