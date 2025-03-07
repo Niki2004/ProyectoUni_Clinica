@@ -59,6 +59,12 @@ namespace ProyectoClinica.Models
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
     }
+    public enum Genero
+    {
+        Hombre,
+        Mujer,
+        Otro
+    }
 
     public class RegisterViewModel
     {
@@ -91,8 +97,15 @@ namespace ProyectoClinica.Models
         public int Edad_Paciente { get; set; }
 
         [Required]
+        [Display(Name = "Género")]
+        public Genero Genero_Paciente { get; set; }
+
+        [Required]
         [Display(Name = "Dirección")]
         public string Direccion { get; set; }
+
+        [Display(Name = "Teléfono")]
+        public string PhoneNumber { get; set; }
 
         [Required]
         [Display(Name = "Cédula")]

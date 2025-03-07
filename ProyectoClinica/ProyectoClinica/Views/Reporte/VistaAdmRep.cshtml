@@ -229,6 +229,21 @@
         .button-container::-webkit-scrollbar-thumb:hover {
             background: var(--hover-turquoise);
         }
+
+    .custom-btn {
+        background-color: #0b7b82 !important;
+        color: white !important;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 16px;
+        text-decoration: none;
+        transition: background 0.3s ease, transform 0.2s ease;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
 </style>
 </head>
 <body>
@@ -260,13 +275,13 @@
                             <i class="fas fa-calculator"></i> Contabilidad
                         </a>
                     </div><br />
-                    
-                              <div class="nav flex-column">
-                                  <a href="@Url.Action("VistaAdmRep", "Reporte")" class="nav-link">
-                                      <i class="fas fa-chart-line"></i> Reportes
-                                  </a>
-                              </div><br />
-              
+
+                    <div class="nav flex-column">
+                        <a class="nav-link">
+                            <i class="fas fa-chart-line"></i> Reportes
+                        </a>
+                    </div><br />
+
                     <hr />
 
                     <center><div class="nav-header">Administración</div></center>
@@ -283,7 +298,7 @@
                             <a class="nav-link">
                                 <i class="fas fa-folder-open"></i> Expedientes
                             </a><br />
-                            <a class="nav-link">
+                           <a href="@Url.Action("VistaCAdmin", "Cita")" class="nav-link">
                                 <i class="fas fa-calendar-check"></i> Citas
                             </a>
                     </div>
@@ -296,7 +311,7 @@
                     <a href="@Url.Action("VistaAdmin", "Empleados")" style="text-decoration: none; color: #000000; font-size: 18px; display: flex; align-items: center;">
                         <i class="fas fa-home" style="margin-right: 5px;"></i>
                     </a>
-                    <h4 style="margin-left: 10px; font-weight: bold; color: #333;">Citas</h4>
+                    <h4 style="margin-left: 10px; font-weight: bold; color: #333;">Reportes</h4>
                 </div>
 
                 <div style="text-align: left; margin-bottom: 5px;">
@@ -316,22 +331,49 @@
                 <div class="container">
                     <div class="row mb-4 text-center row-cols-4 g-3">
                         <div class="col">
-                            @Html.ActionLink("Gestón de horarios", "GHorarios", "Cita", null, new { @class = "btn btn-primary btn-sm w-100" })
+                            @Html.ActionLink("Asistencia a consultas", "AsistenciaConsulta", "Reporte", null, new { @class = "btn btn-primary btn-sm w-100" })
                         </div>
                         <div class="col">
-                            @Html.ActionLink("Programación de citas", "PCitas", "Cita", null, new { @class = "btn btn-info btn-sm w-100" })
+                            @Html.ActionLink("Resultados de tratamiento", "ResultadoTratamiento", "Reporte", null, new { @class = "btn btn-info btn-sm w-100" })
                         </div>
                         <div class="col">
-                            @Html.ActionLink("Historial de citas", "HCita", "Cita", null, new { @class = "btn btn-primary btn-sm w-100" })
+                            @Html.ActionLink("Áreas de mejora", "", "Reporte", null, new { @class = "btn btn-primary btn-sm w-100" })
                         </div>
                     </div>
 
                     <div class="row mb-4 text-center row-cols-4 g-3">
                         <div class="col">
-                            @Html.ActionLink("Sección de comentarios", "SComentarios", "Empleados", null, new { @class = "btn btn-info btn-sm w-100" })
+                            @Html.ActionLink("Personalización de informe", "Personalizacion", "Reporte", null, new { @class = "btn btn-info btn-sm w-100" })
                         </div>
                         <div class="col">
-                            @Html.ActionLink("Cancelación de citas", "CCita", "Cita", null, new { @class = "btn btn-primary btn-sm w-100" })
+                            @Html.ActionLink("Tratamiento y procedimiento", "CostosTratamiento", "Reporte", null, new { @class = "btn btn-primary btn-sm w-100" })
+                        </div>
+                        <div class="col">
+                            @Html.ActionLink("Datos del paciente", "", "Reporte", null, new { @class = "btn btn-info btn-sm w-100" })
+                        </div>
+                    </div>
+
+                    <div class="row mb-4 text-center row-cols-4 g-3">
+                        <div class="col">
+                            @Html.ActionLink("Costos de procedimiento", "", "Reporte", null, new { @class = "btn btn-primary btn-sm w-100" })
+                        </div>
+                        <div class="col">
+                            @Html.ActionLink("Objetivos de salud", "", "Reporte", null, new { @class = "btn btn-info btn-sm w-100" })
+                        </div>
+                        <div class="col">
+                            @Html.ActionLink("Reporte financiero", "", "Reporte", null, new { @class = "btn btn-primary btn-sm w-100" })
+                        </div>
+                    </div>
+
+                    <div class="row mb-4 text-center row-cols-4 g-3">
+                        <div class="col">
+                            @Html.ActionLink("Accseso al sistema", "", "Reporte", null, new { @class = "btn btn-info btn-sm w-100" })
+                        </div>
+                        <div class="col">
+                            @Html.ActionLink("Citas programadas", "", "Reporte", null, new { @class = "btn btn-primary btn-sm w-100" })
+                        </div>
+                        <div class="col">
+                            @Html.ActionLink("Reporte de empleados", "", "Reporte", null, new { @class = "btn btn-info btn-sm w-100" })
                         </div>
                     </div>
 
@@ -342,7 +384,7 @@
             </div>
 
 
-        <script src="~/lib/jquery/dist/jquery.min.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="~/lib/jquery/dist/jquery.min.js"></script>
+            <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>

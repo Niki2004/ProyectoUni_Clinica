@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class PDF : DbMigration
+    public partial class nuevaConfi : DbMigration
     {
         public override void Up()
         {
@@ -33,14 +33,15 @@
                         Nombre = c.String(),
                         Apellido = c.String(),
                         Edad_Paciente = c.Int(nullable: false),
+                        Genero_Paciente = c.String(),
                         Direccion = c.String(),
                         Cedula = c.String(),
                         Imagen = c.String(),
+                        PhoneNumber = c.String(),
                         Email = c.String(maxLength: 256),
                         EmailConfirmed = c.Boolean(nullable: false),
                         PasswordHash = c.String(),
                         SecurityStamp = c.String(),
-                        PhoneNumber = c.String(),
                         PhoneNumberConfirmed = c.Boolean(nullable: false),
                         TwoFactorEnabled = c.Boolean(nullable: false),
                         LockoutEndDateUtc = c.DateTime(),
@@ -50,6 +51,20 @@
                     })
                 .PrimaryKey(t => t.Id)
                 .Index(t => t.UserName, unique: true, name: "UserNameIndex");
+            
+            CreateTable(
+                "dbo.AsignacionRolesTemporales",
+                c => new
+                    {
+                        Id_AsignacionRoles = c.Int(nullable: false, identity: true),
+                        Id = c.String(nullable: false, maxLength: 128),
+                        Fecha_Inicio = c.DateTime(nullable: false),
+                        Fecha_Fin = c.DateTime(nullable: false),
+                        Estado = c.String(maxLength: 50),
+                    })
+                .PrimaryKey(t => t.Id_AsignacionRoles)
+                .ForeignKey("dbo.AspNetUsers", t => t.Id, cascadeDelete: true)
+                .Index(t => t.Id);
             
             CreateTable(
                 "dbo.AspNetUserClaims",
@@ -451,6 +466,17 @@
                 .PrimaryKey(t => t.Id_Asiento);
             
             CreateTable(
+                "dbo.AudioriadeRegistros",
+                c => new
+                    {
+                        Id_Auditoría = c.Int(nullable: false, identity: true),
+                        Id_Cita = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id_Auditoría)
+                .ForeignKey("dbo.Cita", t => t.Id_Cita, cascadeDelete: true)
+                .Index(t => t.Id_Cita);
+            
+            CreateTable(
                 "dbo.Auditoria_Alerta",
                 c => new
                     {
@@ -569,6 +595,56 @@
                 .PrimaryKey(t => t.Id_Caja_Chica)
                 .ForeignKey("dbo.Contabilidad", t => t.Id_Contabilidad, cascadeDelete: true)
                 .Index(t => t.Id_Contabilidad);
+            
+            CreateTable(
+                "dbo.Comentario",
+                c => new
+                    {
+                        Id_Comentario = c.Int(nullable: false, identity: true),
+                        Id_Atencion_Cliente = c.Int(nullable: false),
+                        Id_Estado_Comentario = c.Int(nullable: false),
+                        Id_Destacado_Comentario = c.Int(nullable: false),
+                        Id_Sensible_Comentario = c.Int(nullable: false),
+                        Comentario_Texto = c.String(nullable: false, maxLength: 255),
+                        Calificacion = c.Int(nullable: false),
+                        Fecha = c.DateTime(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id_Comentario)
+                .ForeignKey("dbo.Atencion_Cliente", t => t.Id_Atencion_Cliente, cascadeDelete: true)
+                .ForeignKey("dbo.Destacado_Comentario", t => t.Id_Destacado_Comentario, cascadeDelete: true)
+                .ForeignKey("dbo.Estado_Comentario", t => t.Id_Estado_Comentario, cascadeDelete: true)
+                .ForeignKey("dbo.Sensible_Comentario", t => t.Id_Sensible_Comentario, cascadeDelete: true)
+                .Index(t => t.Id_Atencion_Cliente)
+                .Index(t => t.Id_Estado_Comentario)
+                .Index(t => t.Id_Destacado_Comentario)
+                .Index(t => t.Id_Sensible_Comentario);
+            
+            CreateTable(
+                "dbo.Destacado_Comentario",
+                c => new
+                    {
+                        Id_Destacado_Comentario = c.Int(nullable: false, identity: true),
+                        Destacado = c.String(maxLength: 50),
+                    })
+                .PrimaryKey(t => t.Id_Destacado_Comentario);
+            
+            CreateTable(
+                "dbo.Estado_Comentario",
+                c => new
+                    {
+                        Id_Estado_Comentario = c.Int(nullable: false, identity: true),
+                        Estado = c.String(maxLength: 50),
+                    })
+                .PrimaryKey(t => t.Id_Estado_Comentario);
+            
+            CreateTable(
+                "dbo.Sensible_Comentario",
+                c => new
+                    {
+                        Id_Sensible_Comentario = c.Int(nullable: false, identity: true),
+                        Sensible = c.String(maxLength: 50),
+                    })
+                .PrimaryKey(t => t.Id_Sensible_Comentario);
             
             CreateTable(
                 "dbo.Conciliaciones_Bancarias",
@@ -870,6 +946,17 @@
                 .PrimaryKey(t => t.Id);
             
             CreateTable(
+                "dbo.PlantillaInforme",
+                c => new
+                    {
+                        Id_PlantillaInforme = c.Int(nullable: false, identity: true),
+                        NombrePlantilla = c.String(),
+                        CamposSeleccionados = c.String(),
+                        FechaCreacion = c.DateTime(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id_PlantillaInforme);
+            
+            CreateTable(
                 "dbo.Respaldo",
                 c => new
                     {
@@ -942,6 +1029,10 @@
             DropForeignKey("dbo.Conciliaciones_Bancarias", "Id_Tipo_Registro", "dbo.Tipo_Registro");
             DropForeignKey("dbo.Conciliaciones_Bancarias", "Id_Diario", "dbo.Diarios_Contables");
             DropForeignKey("dbo.Conciliaciones_Bancarias", "Id_Banco", "dbo.Bancos");
+            DropForeignKey("dbo.Comentario", "Id_Sensible_Comentario", "dbo.Sensible_Comentario");
+            DropForeignKey("dbo.Comentario", "Id_Estado_Comentario", "dbo.Estado_Comentario");
+            DropForeignKey("dbo.Comentario", "Id_Destacado_Comentario", "dbo.Destacado_Comentario");
+            DropForeignKey("dbo.Comentario", "Id_Atencion_Cliente", "dbo.Atencion_Cliente");
             DropForeignKey("dbo.Caja_Chica", "Id_Contabilidad", "dbo.Contabilidad");
             DropForeignKey("dbo.Busquedas_exportaciones", "Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.Bancos", "Id_Diario", "dbo.Diarios_Contables");
@@ -949,6 +1040,7 @@
             DropForeignKey("dbo.Inventario", "Id_Estado", "dbo.Estado");
             DropForeignKey("dbo.Avisos", "Id_Articulo", "dbo.Inventario");
             DropForeignKey("dbo.Auditoria_Alerta", "Id", "dbo.AspNetUsers");
+            DropForeignKey("dbo.AudioriadeRegistros", "Id_Cita", "dbo.Cita");
             DropForeignKey("dbo.Administrativa", "Id_Estado", "dbo.Estado");
             DropForeignKey("dbo.Administrativa", "Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
@@ -981,6 +1073,7 @@
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.Copago", "Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.AsignacionRolesTemporales", "Id", "dbo.AspNetUsers");
             DropIndex("dbo.Servicios_Brindados", new[] { "Id_Servicio" });
             DropIndex("dbo.Servicios_Brindados", new[] { "Id_Factura" });
             DropIndex("dbo.Respaldo", new[] { "Id" });
@@ -1007,6 +1100,10 @@
             DropIndex("dbo.Conciliaciones_Bancarias", new[] { "Id_Tipo_Registro" });
             DropIndex("dbo.Conciliaciones_Bancarias", new[] { "Id_Diario" });
             DropIndex("dbo.Conciliaciones_Bancarias", new[] { "Id_Banco" });
+            DropIndex("dbo.Comentario", new[] { "Id_Sensible_Comentario" });
+            DropIndex("dbo.Comentario", new[] { "Id_Destacado_Comentario" });
+            DropIndex("dbo.Comentario", new[] { "Id_Estado_Comentario" });
+            DropIndex("dbo.Comentario", new[] { "Id_Atencion_Cliente" });
             DropIndex("dbo.Caja_Chica", new[] { "Id_Contabilidad" });
             DropIndex("dbo.Busquedas_exportaciones", new[] { "Id" });
             DropIndex("dbo.Diarios_Contables", new[] { "Id_Tipo_Registro" });
@@ -1014,6 +1111,7 @@
             DropIndex("dbo.Inventario", new[] { "Id_Estado" });
             DropIndex("dbo.Avisos", new[] { "Id_Articulo" });
             DropIndex("dbo.Auditoria_Alerta", new[] { "Id" });
+            DropIndex("dbo.AudioriadeRegistros", new[] { "Id_Cita" });
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.Rol_Permiso", new[] { "Id" });
@@ -1048,12 +1146,14 @@
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.Copago", new[] { "Id" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
+            DropIndex("dbo.AsignacionRolesTemporales", new[] { "Id" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
             DropIndex("dbo.Administrativa", new[] { "Id" });
             DropIndex("dbo.Administrativa", new[] { "Id_Estado" });
             DropTable("dbo.Servicios_Brindados");
             DropTable("dbo.Servicio");
             DropTable("dbo.Respaldo");
+            DropTable("dbo.PlantillaInforme");
             DropTable("dbo.PDF");
             DropTable("dbo.PagosXNomina");
             DropTable("dbo.Pagos_Diarios");
@@ -1073,6 +1173,10 @@
             DropTable("dbo.Estado_Asistencia");
             DropTable("dbo.Departamentos");
             DropTable("dbo.Conciliaciones_Bancarias");
+            DropTable("dbo.Sensible_Comentario");
+            DropTable("dbo.Estado_Comentario");
+            DropTable("dbo.Destacado_Comentario");
+            DropTable("dbo.Comentario");
             DropTable("dbo.Caja_Chica");
             DropTable("dbo.Busquedas_exportaciones");
             DropTable("dbo.Diarios_Contables");
@@ -1080,6 +1184,7 @@
             DropTable("dbo.Inventario");
             DropTable("dbo.Avisos");
             DropTable("dbo.Auditoria_Alerta");
+            DropTable("dbo.AudioriadeRegistros");
             DropTable("dbo.Asientos_Contables");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.Rol_Permiso");
@@ -1104,6 +1209,7 @@
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.Copago");
             DropTable("dbo.AspNetUserClaims");
+            DropTable("dbo.AsignacionRolesTemporales");
             DropTable("dbo.AspNetUsers");
             DropTable("dbo.Administrativa");
         }

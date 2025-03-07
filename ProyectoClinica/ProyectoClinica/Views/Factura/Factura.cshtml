@@ -54,7 +54,7 @@
                         {
                             <tr>
                                 <td>@servicio.Nombre_Servicio</td>
-                                <td class="text-end">$@servicio.Precio_Servicio.ToString("N2")</td>
+                                <td class="text-end">₡@servicio.Precio_Servicio.ToString("N2")</td>
                             </tr>
                         }
                     }
@@ -66,17 +66,17 @@
                     }
                     <tr>
                         <td>Descuento</td>
-                        <td class="text-end text-danger">$@Model.Descuento.ToString("N2")</td>
+                        <td class="text-end text-danger">₡@Model.Descuento.ToString("N2")</td>
                     </tr>
                     <tr>
                         <td>Impuesto</td>
-                        <td class="text-end">$@Model.Impuesto.ToString("N2")</td>
+                        <td class="text-end">₡@Model.Impuesto.ToString("N2")</td>
                     </tr>
                 </tbody>
                 <tfoot>
                     <tr>
                         <th>Total Pagado:</th>
-                        <th class="text-end text-primary">$@Model.TotalPagado.ToString("N2")</th>
+                        <th class="text-end text-primary">₡@Model.TotalPagado.ToString("N2")</th>
                     </tr>
                 </tfoot>
             </table>

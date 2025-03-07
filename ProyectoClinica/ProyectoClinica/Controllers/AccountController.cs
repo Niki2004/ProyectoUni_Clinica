@@ -148,8 +148,8 @@ namespace ProyectoClinica.Controllers
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Nombre = model.Nombre, 
-                    Apellido = model.Apellido, Edad_Paciente = model.Edad_Paciente, 
-                    Direccion = model.Direccion, Cedula = model.Cedula, Imagen = model.Imagen};
+                    Apellido = model.Apellido, Edad_Paciente = model.Edad_Paciente, Genero_Paciente = model.Genero_Paciente.ToString(),
+                    Direccion = model.Direccion, Cedula = model.Cedula, Imagen = model.Imagen, PhoneNumber = model.PhoneNumber};
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
