@@ -287,21 +287,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202502182045118_PDF.cs" />
-    <Compile Include="Migrations\202502182045118_PDF.Designer.cs">
-      <DependentUpon>202502182045118_PDF.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202503061847295_GeneroRegistro.cs" />
-    <Compile Include="Migrations\202503061847295_GeneroRegistro.designer.cs">
-      <DependentUpon>202503061847295_GeneroRegistro.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202503061856576_NumeroRegistro.cs" />
-    <Compile Include="Migrations\202503061856576_NumeroRegistro.designer.cs">
-      <DependentUpon>202503061856576_NumeroRegistro.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202503062207123_plantillas.cs" />
-    <Compile Include="Migrations\202503062207123_plantillas.designer.cs">
-      <DependentUpon>202503062207123_plantillas.cs</DependentUpon>
+    <Compile Include="Migrations\202503072020215_nuevaConfi.cs" />
+    <Compile Include="Migrations\202503072020215_nuevaConfi.designer.cs">
+      <DependentUpon>202503072020215_nuevaConfi.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -310,15 +298,20 @@
     <Compile Include="Models\ApplicationRol.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\Asientos_Contables.cs" />
+    <Compile Include="Models\AsignacionRolesTemporales.cs" />
     <Compile Include="Models\Atencion_Cliente.cs" />
+    <Compile Include="Models\AudioriadeRegistros.cs" />
     <Compile Include="Models\Auditoria_Alerta.cs" />
     <Compile Include="Models\Avisos.cs" />
     <Compile Include="Models\Bancos.cs" />
     <Compile Include="Models\Busquedas_exportaciones.cs" />
     <Compile Include="Models\Caja_Chica.cs" />
     <Compile Include="Models\Cita.cs" />
+    <Compile Include="Models\Comentario.cs" />
     <Compile Include="Models\Departamentos.cs" />
+    <Compile Include="Models\Destacado_Comentario.cs" />
     <Compile Include="Models\Documento.cs" />
+    <Compile Include="Models\Estado_Comentario.cs" />
     <Compile Include="Models\Evaluacion.cs" />
     <Compile Include="Models\Facturacion_Productos_Conta.cs" />
     <Compile Include="Models\Inventario_Detalle_Conta.cs" />
@@ -350,7 +343,6 @@
     <Compile Include="Models\PDF.cs" />
     <Compile Include="Models\PlantillaInforme.cs" />
     <Compile Include="Models\Productos_Conta.cs" />
-    <Compile Include="Models\ProgramacionInforme.cs" />
     <Compile Include="Models\Receta.cs" />
     <Compile Include="Models\RecetaViewModel.cs" />
     <Compile Include="Models\Reporte.cs" />
@@ -358,6 +350,7 @@
     <Compile Include="Models\RolAsignacion.cs" />
     <Compile Include="Models\RolInitialize.cs" />
     <Compile Include="Models\Rol_Permiso.cs" />
+    <Compile Include="Models\Sensible_Comentario.cs" />
     <Compile Include="Models\Servicio.cs" />
     <Compile Include="Models\Servicios_Brindados.cs" />
     <Compile Include="Models\Solicitud_Receta.cs" />
@@ -642,17 +635,8 @@
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.3.11.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202502182045118_PDF.resx">
-      <DependentUpon>202502182045118_PDF.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202503061847295_GeneroRegistro.resx">
-      <DependentUpon>202503061847295_GeneroRegistro.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202503061856576_NumeroRegistro.resx">
-      <DependentUpon>202503061856576_NumeroRegistro.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202503062207123_plantillas.resx">
-      <DependentUpon>202503062207123_plantillas.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202503072020215_nuevaConfi.resx">
+      <DependentUpon>202503072020215_nuevaConfi.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
