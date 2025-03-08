@@ -299,6 +299,7 @@
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\Asientos_Contables.cs" />
     <Compile Include="Models\AsignacionRolesTemporales.cs" />
+    <Compile Include="Models\AspNetUsers.cs" />
     <Compile Include="Models\Atencion_Cliente.cs" />
     <Compile Include="Models\AudioriadeRegistros.cs" />
     <Compile Include="Models\Auditoria_Alerta.cs" />
@@ -353,6 +354,7 @@
     <Compile Include="Models\Sensible_Comentario.cs" />
     <Compile Include="Models\Servicio.cs" />
     <Compile Include="Models\Servicios_Brindados.cs" />
+    <Compile Include="Models\ShowNewPasswordViewModel.cs" />
     <Compile Include="Models\Solicitud_Receta.cs" />
     <Compile Include="Models\Tipo_Registro.cs" />
     <Compile Include="Models\Tipo_Transaccion.cs" />
@@ -433,7 +435,6 @@
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
-    <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
@@ -598,6 +599,7 @@
     <Content Include="Views\Reporte\Personalizacion.cshtml" />
     <Content Include="Views\Reporte\GuardarPlantillaInforme.cshtml" />
     <Content Include="Views\Reporte\ListarPlantillasInformes.cshtml" />
+    <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>
