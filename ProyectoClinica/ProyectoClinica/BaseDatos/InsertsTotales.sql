@@ -1,5 +1,24 @@
 Use CentroIntegralSD; 
 
+--Insert de Estado_Comentario
+INSERT INTO [CentroIntegralSD].[dbo].[Sensible_Comentario] ([Sensible])
+VALUES
+    ('Sensible'),
+    ('No sensible');
+
+--Insert de Estado_Comentario
+  INSERT INTO [CentroIntegralSD].[dbo].[Destacado_Comentario] ([Destacado])
+VALUES
+    ('Destacado'),
+    ('No destacado');
+
+--Insert de Estado_Comentario
+INSERT INTO [CentroIntegralSD].[dbo].[Estado_Comentario] ([Estado])
+VALUES
+    ('Pendiente'),
+    ('Aprobado'),
+    ('Rechazado');
+
 --Insert de Estado
 INSERT INTO [CentroIntegralSD].[dbo].[Estado] ([Descripcion]) VALUES ('Activo');
 INSERT INTO [CentroIntegralSD].[dbo].[Estado] ([Descripcion]) VALUES ('Inactivo');
