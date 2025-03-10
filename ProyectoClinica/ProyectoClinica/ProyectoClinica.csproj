@@ -287,9 +287,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202503072020215_nuevaConfi.cs" />
-    <Compile Include="Migrations\202503072020215_nuevaConfi.designer.cs">
-      <DependentUpon>202503072020215_nuevaConfi.cs</DependentUpon>
+    <Compile Include="Migrations\202503100036109_CambiosAdministrativos.cs" />
+    <Compile Include="Migrations\202503100036109_CambiosAdministrativos.Designer.cs">
+      <DependentUpon>202503100036109_CambiosAdministrativos.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -301,7 +301,6 @@
     <Compile Include="Models\AsignacionRolesTemporales.cs" />
     <Compile Include="Models\AspNetUsers.cs" />
     <Compile Include="Models\Atencion_Cliente.cs" />
-    <Compile Include="Models\AudioriadeRegistros.cs" />
     <Compile Include="Models\Auditoria_Alerta.cs" />
     <Compile Include="Models\Avisos.cs" />
     <Compile Include="Models\Bancos.cs" />
@@ -600,6 +599,7 @@
     <Content Include="Views\Reporte\GuardarPlantillaInforme.cshtml" />
     <Content Include="Views\Reporte\ListarPlantillasInformes.cshtml" />
     <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
+    <Content Include="Views\Administrativos\VistaAuditoría.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -637,8 +637,8 @@
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.3.11.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202503072020215_nuevaConfi.resx">
-      <DependentUpon>202503072020215_nuevaConfi.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202503100036109_CambiosAdministrativos.resx">
+      <DependentUpon>202503100036109_CambiosAdministrativos.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

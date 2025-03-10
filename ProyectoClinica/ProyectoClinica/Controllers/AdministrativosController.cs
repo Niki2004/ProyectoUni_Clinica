@@ -167,6 +167,13 @@ namespace ProyectoClinica.Controllers
             return View(rolAsignacion);
         }
 
+
+        public ActionResult VistaAuditoría()
+        {
+            var RolAsignacion = _context.Cita.ToList();
+            return View(RolAsignacion);
+        }
+
     }
 }
 
