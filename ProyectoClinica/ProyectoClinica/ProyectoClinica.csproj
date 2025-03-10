@@ -602,8 +602,11 @@
     <Content Include="Views\Administrativos\VistaAuditoría.cshtml" />
     <Content Include="Views\Cita\AtencionCliente.cshtml" />
     <Content Include="Views\Cita\CrearAtencionCliente.cshtml" />
-    <Content Include="Views\Cita\SComentarios.cshtml" />
     <Content Include="Views\Administrativos\Buscar.cshtml" />
+    <Content Include="Views\Cita\SAdComentarios.cshtml" />
+    <Content Include="Views\Cita\SComentarios.cshtml" />
+    <Content Include="Views\Reporte\AreaMejora.cshtml" />
+    <Content Include="Views\Reporte\DatosPaciente.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>

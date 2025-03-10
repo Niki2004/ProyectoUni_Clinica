@@ -252,6 +252,167 @@ namespace ProyectoClinica.Controllers
         }
 
         //Historia de usuario 03 
+        public ActionResult AreaMejora(string comentarioNegativo, string comentarioSensible, string comentarioDestacado, string estadoComentario)
+        {
+            var costos = _context.Comentario.AsQueryable();
+
+            // Filtro para comentarioNegativo
+            if (!string.IsNullOrEmpty(comentarioNegativo))
+            {
+                if (comentarioNegativo == "1")
+                {
+                    costos = costos.Where(r => r.Id_Atencion_Cliente == 1);
+                }
+                else if (comentarioNegativo == "0")
+                {
+                    // Intenta filtrar todos los que NO son 1
+                    costos = costos.Where(r => r.Id_Atencion_Cliente != 1);
+                }
+            }
+
+            // Filtro para comentarioSensible
+            if (!string.IsNullOrEmpty(comentarioSensible))
+            {
+                if (comentarioSensible == "1")
+                {
+                    costos = costos.Where(r => r.Id_Sensible_Comentario == 1);
+                }
+                else if (comentarioSensible == "0")
+                {
+                    // Intenta filtrar todos los que NO son 1
+                    costos = costos.Where(r => r.Id_Sensible_Comentario != 1);
+                }
+            }
+
+            // Filtro para comentarioDestacado
+            if (!string.IsNullOrEmpty(comentarioDestacado))
+            {
+                if (comentarioDestacado == "1")
+                {
+                    costos = costos.Where(r => r.Id_Destacado_Comentario == 1);
+                }
+                else if (comentarioDestacado == "0")
+                {
+                    // Intenta filtrar todos los que NO son 1
+                    costos = costos.Where(r => r.Id_Destacado_Comentario != 1);
+                }
+            }
+
+            // Filtro para estadoComentario
+            if (!string.IsNullOrEmpty(estadoComentario))
+            {
+                costos = costos.Where(r => r.Estado_Comentario.Estado == estadoComentario);
+            }
+
+            // Asignamos los valores a ViewBag para mantener el estado de los filtros
+            ViewBag.Negativo = comentarioNegativo;
+            ViewBag.Sensible = comentarioSensible;
+            ViewBag.Destacado = comentarioDestacado;
+            ViewBag.Estado = estadoComentario;
+
+            // Retornamos la vista con los resultados filtrados
+            return View(costos.ToList());
+        }
+        
+        public ActionResult ExportarExcelAreaMejora(string areaMejora, bool? esNegativo, bool? esSensible, bool? esDestacado, int? estadoComentario)
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+            var comentarios = _context.Comentario.AsQueryable();
+
+            if (!string.IsNullOrEmpty(areaMejora))
+            {
+                comentarios = comentarios.Where(r => r.Atencion_Cliente.Comentarios_Paciente.Contains(areaMejora)
+                                                   || r.Sensible_Comentario.Sensible.Contains(areaMejora));
+            }
+
+            if (esNegativo.HasValue && esNegativo.Value)
+            {
+                comentarios = comentarios.Where(r => r.Calificacion <= 4);
+            }
+
+            if (esSensible.HasValue && esSensible.Value)
+            {
+                comentarios = comentarios.Where(r => r.Id_Sensible_Comentario == 1);
+            }
+
+            if (esDestacado.HasValue && esDestacado.Value)
+            {
+                comentarios = comentarios.Where(r => r.Id_Destacado_Comentario == 1);
+            }
+
+            if (estadoComentario.HasValue)
+            {
+                comentarios = comentarios.Where(r => r.Id_Estado_Comentario == estadoComentario);
+            }
+
+            var listaComentarios = comentarios.ToList();
+
+            using (var package = new ExcelPackage())
+            {
+                var worksheet = package.Workbook.Worksheets.Add("Informe de Comentarios");
+
+                worksheet.Cells["A1"].Value = "Estado Sensible";
+                worksheet.Cells["B1"].Value = "Comentario";
+                worksheet.Cells["C1"].Value = "Calificación";
+                worksheet.Cells["D1"].Value = "Fecha";
+                worksheet.Cells["E1"].Value = "Estado";
+                worksheet.Cells["F1"].Value = "Estado Destacado";
+                worksheet.Cells["G1"].Value = "Comentario del cliente";
+
+                using (var range = worksheet.Cells["A1:G1"])
+                {
+                    range.Style.Font.Bold = true;
+                    range.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    range.Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#26a69a"));
+                    range.Style.Font.Color.SetColor(System.Drawing.Color.White);
+                    range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                }
+
+                int row = 2;
+                foreach (var comentario in listaComentarios)
+                {
+                    worksheet.Cells[row, 1].Value = comentario.Sensible_Comentario.Sensible;
+                    worksheet.Cells[row, 2].Value = comentario.Comentario_Texto;
+                    worksheet.Cells[row, 3].Value = comentario.Calificacion;
+                    worksheet.Cells[row, 4].Value = comentario.Fecha.ToString("yyyy-MM-dd");
+                    worksheet.Cells[row, 5].Value = comentario.Estado_Comentario.Estado;
+                    worksheet.Cells[row, 6].Value = comentario.Destacado_Comentario.Destacado;
+                    worksheet.Cells[row, 7].Value = comentario.Atencion_Cliente.Comentarios_Paciente;
+
+
+                    using (var range = worksheet.Cells[row, 1, row, 7])
+                    {
+                        range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                        range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                    }
+
+                    row++;
+                }
+
+                worksheet.Column(1).Width = 15;
+                worksheet.Column(2).Width = 80;
+                worksheet.Column(3).Width = 15;
+                worksheet.Column(4).Width = 20;
+                worksheet.Column(5).Width = 25;
+                worksheet.Column(6).Width = 25;
+                worksheet.Column(7).Width = 80;
+
+                string fileName = "Informe_Comentarios";
+
+                if (!string.IsNullOrEmpty(areaMejora))
+                {
+                    fileName += "_" + areaMejora.Replace(" ", "_");
+                }
+
+                fileName += ".xlsx";
+
+                var stream = new MemoryStream(package.GetAsByteArray());
+
+                return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+            }
+        }
 
         //Historia de usuario 04
         [HttpGet]
@@ -497,7 +658,131 @@ namespace ProyectoClinica.Controllers
         }
 
         //Historia de usuario 06
-        //Historia de usuario 07
+        public ActionResult DatosPaciente(string direccion, string genero, int? edad)
+        {
+            var pacientes = _context.Users.AsQueryable();
+
+            if (!string.IsNullOrEmpty(direccion))
+            {
+                pacientes = pacientes.Where(r => r.Direccion.Contains(direccion));
+            }
+
+            if (!string.IsNullOrEmpty(genero))
+            {
+                pacientes = pacientes.Where(r => r.Genero_Paciente.ToString() == genero);
+            }
+
+            if (edad.HasValue)
+            {
+                pacientes = pacientes.Where(r => r.Edad_Paciente == edad);
+            }
+
+            ViewBag.Direccion = direccion;
+            ViewBag.Genero = genero;
+            ViewBag.Edad = edad;
+
+            return View(pacientes.ToList());
+        }
+
+        public ActionResult ExportarExcelDatosPaciente(string direccion, string genero, int? edad)
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+            var pacientes = _context.Users.AsQueryable();
+
+            // Filtro para Direccion
+            if (!string.IsNullOrEmpty(direccion))
+            {
+                pacientes = pacientes.Where(r => r.Direccion.Contains(direccion));
+            }
+
+            // Filtro para Genero
+            if (!string.IsNullOrEmpty(genero))
+            {
+                pacientes = pacientes.Where(r => r.Genero_Paciente.ToString() == genero);
+            }
+
+            // Filtro para Edad
+            if (edad.HasValue)
+            {
+                pacientes = pacientes.Where(r => r.Edad_Paciente == edad);
+            }
+
+            var listaPacientes = pacientes.ToList();
+
+            using (var package = new ExcelPackage())
+            {
+                var worksheet = package.Workbook.Worksheets.Add("Informe de Pacientes");
+
+                worksheet.Cells["A1"].Value = "Dirección";
+                worksheet.Cells["B1"].Value = "Género";
+                worksheet.Cells["C1"].Value = "Edad";
+                worksheet.Cells["D1"].Value = "Nombre ";
+                worksheet.Cells["E1"].Value = "Apellido";
+                worksheet.Cells["F1"].Value = "Correo Electónico";
+
+                using (var range = worksheet.Cells["A1:F1"])
+                {
+                    range.Style.Font.Bold = true;
+                    range.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    range.Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#26a69a"));
+                    range.Style.Font.Color.SetColor(System.Drawing.Color.White);
+                    range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                }
+
+                int row = 2;
+                foreach (var paciente in listaPacientes)
+                {
+                    worksheet.Cells[row, 1].Value = paciente.Direccion;
+                    worksheet.Cells[row, 2].Value = paciente.Genero_Paciente;
+                    worksheet.Cells[row, 3].Value = paciente.Edad_Paciente;
+                    worksheet.Cells[row, 4].Value = paciente.Nombre;
+                    worksheet.Cells[row, 5].Value = paciente.Apellido;
+                    worksheet.Cells[row, 6].Value = paciente.Email;
+
+                    using (var range = worksheet.Cells[row, 1, row, 6])
+                    {
+                        range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                        range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                    }
+
+                    row++;
+                }
+
+                worksheet.Column(1).Width = 50;
+                worksheet.Column(2).Width = 15;
+                worksheet.Column(3).Width = 10;
+                worksheet.Column(4).Width = 30;
+                worksheet.Column(5).Width = 20;
+                worksheet.Column(6).Width = 50;
+
+                string fileName = "Informe_Pacientes";
+
+                if (!string.IsNullOrEmpty(direccion))
+                {
+                    fileName += "_" + direccion.Replace(" ", "_");
+                }
+
+                if (!string.IsNullOrEmpty(genero))
+                {
+                    fileName += "_" + genero;
+                }
+
+                if (edad.HasValue)
+                {
+                    fileName += "_Edad_" + edad.Value;
+                }
+
+                fileName += ".xlsx";
+
+                var stream = new MemoryStream(package.GetAsByteArray());
+
+                return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+            }
+        }
+
+       
     }
 }
    

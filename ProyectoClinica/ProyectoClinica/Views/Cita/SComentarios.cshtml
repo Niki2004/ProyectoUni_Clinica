@@ -1,366 +1,318 @@
-﻿@model IEnumerable<ProyectoClinica.Models.Comentario>
+﻿@model ProyectoClinica.Models.Comentario
 @{
-    ViewBag.Title = "Administrativo";
+    ViewBag.Title = "Nuevo Comentario";
 }
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de comentarios</title>
-    <style>
-        :root {
-            --primary: #0b7b82;
-            --primary-light: #3bb4bc;
-            --dark: #14181b;
-            --primary-transparent: #4d0b7b82;
-            --gray: #57636c;
-            --teal-transparent: #4d39d2c0;
-            --red: #d2393c;
-            --red-transparent: #4dd2393c;
-            --white: #ffffff;
-            --teal: #39d2c0;
-            --light-blue: #59e5ff;
-        }
+<style>
+    .comentario-form-container {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px;
+        color: #333;
+    }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f5f7f8;
-            color: var(--dark);
-            margin: 0;
-            padding: 0;
-        }
+    .form-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+        border-bottom: 3px solid #0b7b82;
+        padding-bottom: 15px;
+    }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+    .form-header h2 {
+        color: #0b7b82;
+        font-size: 28px;
+        margin: 0;
+    }
 
-        .header {
-            background-color: var(--primary);
-            color: var(--white);
-            padding: 20px 0;
-            border-radius: 8px 8px 0 0;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
+    .btn-back {
+        display: inline-flex;
+        align-items: center;
+        color: #0b7b82;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.2s;
+    }
 
-            .header h1 {
-                margin: 0;
-                padding: 0 20px;
-                font-size: 28px;
-                font-weight: 600;
-            }
+    .btn-back:hover {
+        color: #3bb4bc;
+    }
 
-        .new-comment-btn {
-            background-color: #0b7b82;
-            color: #ffffff;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 50px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 500;
-            display: inline-flex;
-            align-items: center;
-            margin: 0 20px 20px;
-            text-decoration: none;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        }
+    .btn-back i {
+        margin-right: 8px;
+    }
 
-            .new-comment-btn:hover {
-                background-color: #3bb4bc;
-                transform: translateY(-2px);
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            }
+    .form-card {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        padding: 30px;
+        margin-bottom: 30px;
+    }
 
-            .new-comment-btn i {
-                margin-right: 8px;
-            }
+    .form-section {
+        margin-bottom: 30px;
+        padding-bottom: 25px;
+        border-bottom: 1px solid #eee;
+    }
 
-        .comments-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 20px;
-            padding: 0 20px;
-        }
+    .form-section:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
 
-        .comment-card {
-            background-color: var(--white);
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-        }
+    .form-section h3 {
+        color: #0b7b82;
+        font-size: 20px;
+        margin: 0 0 20px 0;
+        font-weight: 600;
+    }
 
-            .comment-card:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-            }
+    .form-group {
+        margin-bottom: 20px;
+    }
 
-        .comment-header {
-            padding: 15px;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: var(--primary-light);
-            color: var(--white);
-        }
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #444;
+    }
 
-        .service-type {
-            font-weight: 600;
-            font-size: 18px;
-        }
+    .form-control {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 15px;
+        transition: all 0.3s;
+    }
 
-        .comment-date {
-            font-size: 14px;
-            opacity: 0.8;
-        }
+    .form-control:focus {
+        border-color: #3bb4bc;
+        box-shadow: 0 0 0 3px rgba(59, 180, 188, 0.2);
+        outline: none;
+    }
 
-        .comment-body {
-            padding: 20px;
-        }
+    textarea.form-control {
+        resize: vertical;
+        min-height: 100px;
+    }
 
-        .comment-text {
-            margin-bottom: 15px;
-            line-height: 1.6;
-        }
+    .form-row {
+        display: flex;
+        gap: 20px;
+    }
 
-        .comment-meta {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 20px;
-            font-size: 14px;
-        }
+    .form-group.half {
+        flex: 1;
+    }
 
-        .meta-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 8px;
-        }
+    .star-rating-container {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+    }
 
-        .meta-label {
-            font-weight: 600;
-            color: var(--gray);
-            margin-right: 8px;
-        }
+    .stars {
+        display: flex;
+        flex-direction: row-reverse;
+        gap: 5px;
+    }
 
-        .priority-badge {
-            display: inline-block;
-            padding: 3px 10px;
-            border-radius: 50px;
-            font-size: 12px;
-            font-weight: 500;
-        }
+    .stars input[type="radio"] {
+        display: none;
+    }
 
-        .priority-alta {
-            background-color: #d2393c;
-            color: #ffffff;
-        }
+    .stars label {
+        cursor: pointer;
+        font-size: 30px;
+        transition: all 0.2s;
+        color: #e0e0e0;
+    }
 
-        .priority-media {
-            background-color: #f5e176;
-            color: #ffffff;
-        }
+    .stars label:hover,
+    .stars label:hover ~ label,
+    .stars input[type="radio"]:checked ~ label {
+        color: #ffc107;
+    }
 
-        .priority-baja {
-            background-color: #8adb95;
-            color: #ffffff;
-        }
+    .rating-value {
+        margin-left: 15px;
+        font-weight: bold;
+        font-size: 18px;
+        color: #666;
+    }
 
-        .comment-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            padding: 10px 20px;
-            background-color: #f9f9f9;
-        }
+    .text-danger {
+        color: #dc3545;
+        font-size: 13px;
+        margin-top: 5px;
+        display: block;
+    }
 
-        .action-link {
-            color: var(--primary);
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            transition: color 0.2s ease;
-        }
+    .validation-summary {
+        background-color: #f8d7da;
+        border-left: 4px solid #dc3545;
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 4px;
+    }
 
-            .action-link:hover {
-                color: var(--light-blue);
-            }
+    .form-actions {
+        display: flex;
+        gap: 15px;
+        margin-top: 30px;
+    }
 
-        .filter-section {
-            margin-bottom: 20px;
-            padding: 15px 20px;
-            background-color: var(--white);
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
+    .btn-submit {
+        background-color: #0b7b82;
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 16px;
+        cursor: pointer;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+    }
 
-        .filter-title {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 10px;
-            color: var(--primary);
-        }
+    .btn-submit:hover {
+        background-color: #3bb4bc;
+        box-shadow: 0 5px 12px rgba(59, 180, 188, 0.3);
+    }
 
-        .filter-options {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
+    .btn-submit i {
+        margin-right: 8px;
+    }
 
-        .filter-btn {
-            border: 1px solid var(--primary-light);
-            background-color: transparent;
-            color: var(--primary);
-            padding: 6px 12px;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
+    .btn-cancel {
+        background-color: #f0f0f0;
+        color: #666;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 16px;
+        cursor: pointer;
+        text-decoration: none;
+        transition: all 0.3s;
+        text-align: center;
+    }
 
-            .filter-btn:hover, .filter-btn.active {
-                background-color: var(--primary);
-                color: var(--white);
-            }
+    .btn-cancel:hover {
+        background-color: #e0e0e0;
+    }
+</style>
 
-        .pagination {
-            display: flex;
-            justify-content: center;
-            margin-top: 30px;
-            gap: 5px;
-        }
 
-        .page-link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: var(--white);
-            color: var(--primary);
-            text-decoration: none;
-            transition: all 0.2s ease;
-            font-weight: 500;
-        }
+<div class="comentario-form-container">
+    <div class="form-header">
+        <h2>Nuevo Comentario</h2>
+ </div>
 
-            .page-link:hover, .page-link.active {
-                background-color: var(--primary);
-                color: var(--white);
-            }
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
 
-        .empty-state {
-            text-align: center;
-            padding: 50px 20px;
-            color: var(--gray);
-        }
+        <div class="form-card">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger validation-summary" })
 
-            .empty-state img {
-                max-width: 200px;
-                margin-bottom: 20px;
-            }
+            <div class="form-section">
+                <h3>Información del Comentario</h3>
 
-        .comment-meta {
-            grid-template-columns: 1fr;
-        }
-
-        .custom-btn {
-            background-color: #0b7b82 !important;
-            color: white !important;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 16px;
-            text-decoration: none;
-            transition: background 0.3s ease, transform 0.2s ease;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-        }
-    </style>
-
-    <div style="text-align: center; margin-bottom: 20px;">
-        <a href="@Url.Action("VistaCita", "Cita")" class="custom-btn">
-            <i class="fas fa-home"></i> Inicio
-        </a>
-    </div>
-</head>
-<body>
-
-    <div class="container">
-        <div class="header">
-            <center><h1>Atención al cliente</h1></center>
-        </div>
-
-        <center><div class="filter-title">A continuación se mostrará los comentarios de los clientes</div></center>
-
-        <br />
-
-        <div class="comments-container">
-            @if (Model.Any())
-            {
-                foreach (var item in Model)
-                {
-                    <div class="comment-card">
-                        <div class="comment-header">
-                            <div class="service-type">@item.Atencion_Cliente.Tipo_Servicio</div>
-                            <div class="comment-date">@item.Atencion_Cliente.Fechas_Comentario.ToString("dd/MM/yyyy")</div>
-                        </div>
-                        <div class="comment-body">
-                            <div class="comment-text">@item.Atencion_Cliente.Comentarios_Paciente</div>
-                            <div class="comment-meta">
-                                <div class="meta-item">
-                                    <span class="meta-label">Salud:</span>
-                                    <span>@item.Atencion_Cliente.Salud_Evaluada</span>
-                                </div>
-                                <div class="meta-item">
-                                    <span class="meta-label">Problema:</span>
-                                    <span>@item.Atencion_Cliente.Clasificacion_Problema</span>
-                                </div>
-                                <div class="meta-item">
-                                    <span class="meta-label">Prioridad:</span>
-                                    @{
-                                        string priorityClass = "";
-                                        switch (item.Atencion_Cliente.Prioridad_Mejora?.ToLower())
-                                        {
-                                            case "alta":
-                                                priorityClass = "priority-alta";
-                                                break;
-                                            case "media":
-                                                priorityClass = "priority-media";
-                                                break;
-                                            default:
-                                                priorityClass = "priority-baja";
-                                                break;
-                                        }
-                                    }
-                                    <span class="priority-badge @priorityClass">@item.Atencion_Cliente.Prioridad_Mejora</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="comment-actions">
-                         @* Aqui van los btn *@
-                        </div>
-                    </div>
-                }
-            }
-            else
-            {
-                <div class="empty-state">
-                    <img src="https://via.placeholder.com/150" alt="No hay comentarios">
-                    <p>No se encontraron comentarios.</p>
+                <div class="form-group">
+                    <label>Comentario del Paciente</label>
+                    @Html.DropDownList("Id_Atencion_Cliente", ViewBag.Id_Atencion_Cliente as SelectList, "Seleccione un comentario", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Id_Atencion_Cliente, "", new { @class = "text-danger" })
                 </div>
-            }
-        </div>
-    </div>
 
-</body>
-</html>
+                <div class="form-group">
+                    <label>Texto del Comentario</label>
+                    @Html.TextAreaFor(model => model.Comentario_Texto, new { @class = "form-control", rows = 4, placeholder = "Escriba el comentario aquí..." })
+                    @Html.ValidationMessageFor(model => model.Comentario_Texto, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    <label>Fecha</label>
+                    <input type="date" name="Fecha" class="form-control"
+                           value="@(Model != null && Model.Fecha != null ? Model.Fecha.ToString("yyyy-MM-dd") : DateTime.Now.ToString("yyyy-MM-dd"))" />
+                    @Html.ValidationMessageFor(model => model.Fecha, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Calificación</h3>
+
+                <div class="star-rating-container">
+                    <div class="stars">
+                        @for (int i = 5; i >= 1; i--)
+                        {
+                            <input type="radio" id="star@(i)" name="Calificacion" value="@i" @(Model != null && Model.Calificacion == i ? "checked" : "") />
+                            <label for="star@(i)" title="@i estrellas"><i class="fas fa-star"></i></label>
+                        }
+                    </div>
+                    <span class="rating-value">0</span>
+                    @Html.ValidationMessageFor(model => model.Calificacion, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Estado y Categorización</h3>
+
+                <div class="form-row">
+                    <div class="form-group half">
+                        <label>Estado del Comentario</label>
+                        @Html.DropDownList("Id_Estado_Comentario", ViewBag.Id_Estado_Comentario as SelectList, "Seleccione un estado", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Id_Estado_Comentario, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group half">
+                        <label>¿Comentario Destacado?</label>
+                        @Html.DropDownList("Id_Destacado_Comentario", ViewBag.Id_Destacado_Comentario as SelectList, "Seleccione una opción", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Id_Destacado_Comentario, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>¿Comentario Sensible?</label>
+                    @Html.DropDownList("Id_Sensible_Comentario", ViewBag.Id_Sensible_Comentario as SelectList, "Seleccione una opción", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Id_Sensible_Comentario, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-submit">
+                    <i class="fas fa-save"></i> Guardar Comentario
+                </button>
+                <a href="@Url.Action("SAdComentarios")" class="btn-cancel">Cancelar</a>
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Sistema de calificación por estrellas
+        const stars = document.querySelectorAll('.stars input[type="radio"]');
+        const ratingValue = document.querySelector('.rating-value');
+
+        // Verificar si hay una calificación inicial
+        const checkedStar = document.querySelector('.stars input[type="radio"]:checked');
+        if (checkedStar) {
+            ratingValue.textContent = checkedStar.value;
+        }
+
+        // Manejar eventos de click en estrellas
+        stars.forEach(star => {
+            star.addEventListener('change', function () {
+                ratingValue.textContent = this.value;
+            });
+        });
+    });
+</script>

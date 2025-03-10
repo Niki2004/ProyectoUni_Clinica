@@ -336,6 +336,7 @@ namespace ProyectoClinica.Controllers
         }
 
         //---------------------------------------------------- Medico ------------------------------------------------------------
+        
         [HttpGet]
         public ActionResult DOCHCita()
         {
