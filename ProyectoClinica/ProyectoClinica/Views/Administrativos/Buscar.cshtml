@@ -1,0 +1,152 @@
+﻿@model IEnumerable<ProyectoClinica.Models.ApplicationUser>
+
+@{
+    ViewBag.Title = "Buscar";
+}
+
+<div style="text-align: center; margin-bottom: 20px;">
+    <a href="@Url.Action("Administrativo", "Administrativos")" class="custom-btn">
+        <i class="fas fa-home"></i> Inicio
+    </a>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <!-- Main Content -->
+        <div class="button-container">
+            <div class="content-wrapper">
+                <h2 class="mb-4">Búsqueda de Usuarios</h2>
+
+                <form method="get" action="@Url.Action("Buscar")" class="search-form mb-4">
+                    <div class="row g-3">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label class="form-label">Nombre:</label>
+                                <input type="text" name="nombre" value="@Request.QueryString["nombre"]" class="form-control" placeholder="Ingrese el nombre" />
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label class="form-label">Cédula:</label>
+                                <input type="text" name="cedula" value="@Request.QueryString["cedula"]" class="form-control" placeholder="Ingrese la cédula" />
+                            </div>
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fas fa-search me-2"></i>Buscar
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Apellido</th>
+                                <th>Edad</th>
+                                <th>Género</th>
+                                <th>Dirección</th>
+                                <th>Cédula</th>
+                                <th>Número de teléfono</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var usuario in Model)
+                            {
+                                <tr>
+                                    <td>@usuario.Nombre</td>
+                                    <td>@usuario.Apellido</td>
+                                    <td>@usuario.Edad_Paciente</td>
+                                    <td>@usuario.Genero_Paciente</td>
+                                    <td>@usuario.Direccion</td>
+                                    <td>@usuario.Cedula</td>
+                                    <td>@usuario.PhoneNumber</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .search-form {
+        background-color: #f8f9fa;
+        padding: 25px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .form-label {
+        color: #0b7b82;
+        font-weight: 500;
+        margin-bottom: 8px;
+    }
+
+    .form-control {
+        border: 1px solid #ced4da;
+        padding: 0.75rem;
+        border-radius: 6px;
+        transition: border-color 0.2s ease-in-out;
+    }
+
+        .form-control:focus {
+            border-color: #008B8B;
+            box-shadow: 0 0 0 0.2rem rgba(0, 139, 139, 0.25);
+        }
+
+    .table thead th {
+        background-color: #008B8B;
+        color: white;
+        border: none;
+        padding: 12px;
+        font-weight: 500;
+    }
+
+    .table tbody tr:hover {
+        background-color: #3bb4bc20;
+        cursor: pointer;
+    }
+
+    .table td {
+        padding: 12px;
+        vertical-align: middle;
+        border-color: #e9ecef;
+    }
+
+    .btn-primary {
+        background-color: #008B8B;
+        border-color: #008B8B;
+        padding: 0.75rem 1.5rem;
+        font-weight: 500;
+    }
+
+        .btn-primary:hover {
+            background-color: #20B2AA;
+            border-color: #20B2AA;
+            transform: translateY(-1px);
+        }
+
+    .content-wrapper {
+        margin-top: 70px;
+        padding: 30px;
+    }
+
+    .custom-btn {
+        background-color: #0b7b82 !important;
+        color: white !important;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 16px;
+        text-decoration: none;
+        transition: background 0.3s ease, transform 0.2s ease;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+</style>
