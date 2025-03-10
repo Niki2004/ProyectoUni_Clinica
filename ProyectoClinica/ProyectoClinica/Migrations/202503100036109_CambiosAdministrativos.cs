@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class nuevaConfi : DbMigration
+    public partial class CambiosAdministrativos : DbMigration
     {
         public override void Up()
         {
@@ -464,17 +464,6 @@
                         Fecha_Modificacion = c.DateTime(nullable: false),
                     })
                 .PrimaryKey(t => t.Id_Asiento);
-            
-            CreateTable(
-                "dbo.AudioriadeRegistros",
-                c => new
-                    {
-                        Id_Auditoría = c.Int(nullable: false, identity: true),
-                        Id_Cita = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id_Auditoría)
-                .ForeignKey("dbo.Cita", t => t.Id_Cita, cascadeDelete: true)
-                .Index(t => t.Id_Cita);
             
             CreateTable(
                 "dbo.Auditoria_Alerta",
@@ -1040,7 +1029,6 @@
             DropForeignKey("dbo.Inventario", "Id_Estado", "dbo.Estado");
             DropForeignKey("dbo.Avisos", "Id_Articulo", "dbo.Inventario");
             DropForeignKey("dbo.Auditoria_Alerta", "Id", "dbo.AspNetUsers");
-            DropForeignKey("dbo.AudioriadeRegistros", "Id_Cita", "dbo.Cita");
             DropForeignKey("dbo.Administrativa", "Id_Estado", "dbo.Estado");
             DropForeignKey("dbo.Administrativa", "Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
@@ -1111,7 +1099,6 @@
             DropIndex("dbo.Inventario", new[] { "Id_Estado" });
             DropIndex("dbo.Avisos", new[] { "Id_Articulo" });
             DropIndex("dbo.Auditoria_Alerta", new[] { "Id" });
-            DropIndex("dbo.AudioriadeRegistros", new[] { "Id_Cita" });
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.Rol_Permiso", new[] { "Id" });
@@ -1184,7 +1171,6 @@
             DropTable("dbo.Inventario");
             DropTable("dbo.Avisos");
             DropTable("dbo.Auditoria_Alerta");
-            DropTable("dbo.AudioriadeRegistros");
             DropTable("dbo.Asientos_Contables");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.Rol_Permiso");
