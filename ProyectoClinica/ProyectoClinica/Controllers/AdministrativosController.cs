@@ -170,8 +170,26 @@ namespace ProyectoClinica.Controllers
 
         public ActionResult VistaAuditoría()
         {
-            var RolAsignacion = _context.Cita.ToList();
-            return View(RolAsignacion);
+            var auditoria = _context.Cita.ToList();
+            return View(auditoria);
+        }
+
+
+        public ActionResult Buscar(string nombre, string cedula)
+        {
+            var administrativo = _context.Users.AsQueryable();
+
+            if (!string.IsNullOrEmpty(nombre))
+            {
+                administrativo = administrativo.Where(e => e.Nombre.Contains(nombre));
+            }
+
+            if (!string.IsNullOrEmpty(cedula))
+            {
+                administrativo = administrativo.Where(e => e.Cedula.Contains(cedula));
+            }
+
+            return View(administrativo.ToList());
         }
 
     }
