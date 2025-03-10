@@ -64,13 +64,6 @@ namespace ProyectoClinica.Controllers
         {
             return View();
         }
-
-        //Sprint 3
-        public ActionResult AtencionCliente()
-        {
-            return View();
-        }
-
         
         //Me trae directamente la especialidad del doct
         [HttpGet]
@@ -407,6 +400,58 @@ namespace ProyectoClinica.Controllers
         }
 
         //---------------------------------------------------- Atención cliente ------------------------------------------------------
+        [HttpGet]
+        public ActionResult AtencionCliente()
+        {
+            var cita = BaseDatos.Atencion_Cliente.ToList();
+            return View(cita);
+        }
+
+        [HttpGet]
+        public ActionResult CrearAtencionCliente()
+        {
+            var crearAtencionCliente = new Atencion_Cliente();
+
+            return View(crearAtencionCliente);
+        }
+
+        [HttpPost]
+        public ActionResult CrearAtencionCliente(Atencion_Cliente atencionCliente)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    atencionCliente.Fechas_Comentario = DateTime.Now;
+                    BaseDatos.Atencion_Cliente.Add(atencionCliente);
+                    BaseDatos.SaveChanges();
+
+                    return RedirectToAction("AtencionCliente");
+                }
+
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "Error al crear el comentario: " + ex.Message);
+                }
+            }
+            return View(atencionCliente);
+        }
+
+        //---------------------------------------------------- Atención cliente AD------------------------------------------------------
+       //Debo crear una opcion paara poder marcar los comentarios como destacados o sensibles... llamando
+       //a la vista de moderar comentarios y despues mostrarlo 
+        
+        [HttpGet]
+        public ActionResult SComentarios()
+        {
+            var cita = BaseDatos.Comentario.ToList();
+            return View(cita);
+        }
+
+       
+
+
+
 
     }
 }

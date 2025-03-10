@@ -600,6 +600,9 @@
     <Content Include="Views\Reporte\ListarPlantillasInformes.cshtml" />
     <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
     <Content Include="Views\Administrativos\VistaAuditoría.cshtml" />
+    <Content Include="Views\Cita\AtencionCliente.cshtml" />
+    <Content Include="Views\Cita\CrearAtencionCliente.cshtml" />
+    <Content Include="Views\Cita\SComentarios.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>

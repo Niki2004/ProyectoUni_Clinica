@@ -1,0 +1,415 @@
+﻿@model ProyectoClinica.Models.Atencion_Cliente
+@{
+    ViewBag.Title = "Opinión";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Nueva Opinión - Clínica</title>
+    <style>
+        :root {
+            --primary: #0b7b82;
+            --primary-light: #3bb4bc;
+            --dark: #14181b;
+            --primary-transparent: #4d0b7b82;
+            --gray: #57636c;
+            --teal-transparent: #4d39d2c0;
+            --red: #d2393c;
+            --red-transparent: #4dd2393c;
+            --white: #ffffff;
+            --teal: #39d2c0;
+            --light-blue: #59e5ff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7f8;
+            color: var(--dark);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .form-card {
+            background-color: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .form-header {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 25px 30px;
+            position: relative;
+        }
+
+            .form-header h2 {
+                margin: 0;
+                font-size: 24px;
+                font-weight: 600;
+            }
+
+            .form-header p {
+                margin: 8px 0 0;
+                opacity: 0.8;
+                font-size: 15px;
+            }
+
+        .form-body {
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 15px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+            .form-control:focus {
+                border-color: var(--primary-light);
+                box-shadow: 0 0 0 3px var(--primary-transparent);
+                outline: none;
+            }
+
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .select-wrapper {
+            position: relative;
+        }
+
+            .select-wrapper:after {
+                content: "▼";
+                font-size: 14px;
+                color: var(--primary);
+                position: absolute;
+                right: 15px;
+                top: 14px;
+                pointer-events: none;
+            }
+
+        select.form-control {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            padding-right: 30px;
+            background-color: white;
+        }
+
+        .validation-message {
+            font-size: 13px;
+            color: var(--red);
+            margin-top: 5px;
+            display: block;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+
+            .btn-primary:hover {
+                background-color: var(--primary-light);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+            .btn-secondary:hover {
+                background-color: var(--primary-transparent);
+                transform: translateY(-2px);
+            }
+
+        .btn i {
+            margin-right: 8px;
+        }
+
+        .star-rating {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: flex-end;
+        }
+
+            .star-rating input {
+                display: none;
+            }
+
+            .star-rating label {
+                cursor: pointer;
+                width: 30px;
+                height: 30px;
+                margin-right: 5px;
+                position: relative;
+                background: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 24 24' fill='none' stroke='%23dddddd' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'%3e%3c/polygon%3e%3c/svg%3e") no-repeat center center;
+            }
+
+            .star-rating input:checked ~ label,
+            .star-rating input:hover ~ label {
+                background: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 24 24' fill='%233bb4bc' stroke='%233bb4bc' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'%3e%3c/polygon%3e%3c/svg%3e") no-repeat center center;
+            }
+
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .radio-option {
+            position: relative;
+            width: calc(33.33% - 10px);
+        }
+
+            .radio-option input {
+                display: none;
+            }
+
+            .radio-option label {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                padding: 15px 10px;
+                border: 2px solid #eee;
+                border-radius: 8px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                text-align: center;
+            }
+
+            .radio-option.alta input:checked + label {
+                background-color: #d2393c;
+            }
+
+            .radio-option.media input:checked + label {
+                background-color: #ffc107;
+            }
+
+            .radio-option.baja input:checked + label {
+                background-color: #5bb066;
+            }
+
+            .radio-option i {
+                font-size: 20px;
+                margin-bottom: 5px;
+                color: var(--gray);
+            }
+
+            .radio-option input:checked + label i {
+                color: var(--primary);
+            }
+
+            .radio-option.alta input:checked + label i {
+                color: var(--red);
+            }
+
+            .radio-option.media input:checked + label i {
+                color: #ffc107;
+            }
+
+            .radio-option.baja input:checked + label i {
+                color: var(--teal);
+            }
+
+        .btn-group {
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .btn {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .radio-option {
+            width: 100%;
+        }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-card">
+            <div class="form-header">
+                <h2>Comparte tu Experiencia</h2>
+                <p>Tus comentarios nos ayudan a mejorar nuestros servicios</p>
+            </div>
+
+            <div class="form-body">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    @Html.ValidationSummary(true, "", new { @class = "validation-message" })
+
+                    <div class="form-group">
+                        <label class="form-label">Tipo de Servicio</label>
+                        <div class="select-wrapper">
+                            @Html.DropDownListFor(model => model.Tipo_Servicio,
+                                new SelectList(new[]
+                                {
+                                    "Consulta General",
+                                    "Especialidad",
+                                    "Laboratorio",
+                                    "Emergencias",
+                                    "Farmacia",
+                                    "Atención al cliente",
+                                    "Otros"
+                                }),
+                                "-- Seleccione un servicio --",
+                                new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Tipo_Servicio, "", new { @class = "validation-message" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">¿Cómo calificarías tu salud tras la atención?</label>
+                        <div class="star-rating">
+                            <input type="radio" id="star5" name="Salud_Evaluada" value="5" />
+                            <label for="star5"></label>
+                            <input type="radio" id="star4" name="Salud_Evaluada" value="4" />
+                            <label for="star4"></label>
+                            <input type="radio" id="star3" name="Salud_Evaluada" value="3" />
+                            <label for="star3"></label>
+                            <input type="radio" id="star2" name="Salud_Evaluada" value="2" />
+                            <label for="star2"></label>
+                            <input type="radio" id="star1" name="Salud_Evaluada" value="1" />
+                            <label for="star1"></label>
+                        </div>
+                        @Html.ValidationMessageFor(model => model.Salud_Evaluada, "", new { @class = "validation-message" })
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Tu Comentario</label>
+                        @Html.TextAreaFor(model => model.Comentarios_Paciente, new { @class = "form-control", placeholder = "Comparte tu experiencia en detalle..." })
+                        @Html.ValidationMessageFor(model => model.Comentarios_Paciente, "", new { @class = "validation-message" })
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Clasificación del Problema</label>
+                        <div class="star-rating">
+                            <input type="radio" id="problema5" name="Clasificacion_Problema" value="5" />
+                            <label for="problema5"></label>
+                            <input type="radio" id="problema4" name="Clasificacion_Problema" value="4" />
+                            <label for="problema4"></label>
+                            <input type="radio" id="problema3" name="Clasificacion_Problema" value="3" />
+                            <label for="problema3"></label>
+                            <input type="radio" id="problema2" name="Clasificacion_Problema" value="2" />
+                            <label for="problema2"></label>
+                            <input type="radio" id="problema1" name="Clasificacion_Problema" value="1" />
+                            <label for="problema1"></label>
+                        </div>
+                        @Html.ValidationMessageFor(model => model.Clasificacion_Problema, "", new { @class = "validation-message" })
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Prioridad de Mejora</label>
+                        <div class="radio-group">
+                            <div class="radio-option alta">
+                                <input type="radio" id="prioridadAlta" name="Prioridad_Mejora" value="Alta" />
+                                <label for="prioridadAlta">
+                                    <i class="fas fa-exclamation-circle"></i>
+                                    Alta
+                                </label>
+                            </div>
+                            <div class="radio-option media">
+                                <input type="radio" id="prioridadMedia" name="Prioridad_Mejora" value="Media" />
+                                <label for="prioridadMedia">
+                                    <i class="fas fa-clipboard-list"></i>
+                                    Media
+                                </label>
+                            </div>
+                            <div class="radio-option baja">
+                                <input type="radio" id="prioridadBaja" name="Prioridad_Mejora" value="Baja" />
+                                <label for="prioridadBaja">
+                                    <i class="fas fa-check-circle"></i>
+                                    Baja
+                                </label>
+                            </div>
+                        </div>
+                        @Html.ValidationMessageFor(model => model.Prioridad_Mejora, "", new { @class = "validation-message" })
+                    </div>
+
+                    @Html.HiddenFor(model => model.Fechas_Comentario)
+
+                    <div class="btn-group">
+                        <a href="@Url.Action("AtencionCliente", "Cita")" class="btn btn-secondary" style="background-color: #0b7b82; color: white; border-color: #0b7b82;">
+                            <i class="fas fa-arrow-left"></i> Volver
+                        </a>
+
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i> Enviar Comentario
+                        </button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var today = new Date();
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0');
+            var yyyy = today.getFullYear();
+
+            today = yyyy + '-' + mm + '-' + dd;
+            document.querySelector('input[name="Fechas_Comentario"]').value = today;
+        });
+    </script>
+</body>
+</html>
