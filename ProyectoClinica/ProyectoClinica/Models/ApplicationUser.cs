@@ -18,21 +18,23 @@ namespace ProyectoClinica.Models
 
         public int Edad_Paciente { get; set; }
 
+        public string Genero_Paciente { get; set; }
+
         public string Direccion { get; set; }
 
         public string Cedula { get; set; }
 
         public string Imagen { get; set; }
 
+        public string PhoneNumber { get; set; }
+
         // Relación con tablas 
         public ICollection<Administrativa> Administrativa { get; set; } = new List<Administrativa>();
         public ICollection<Medico> Medico { get; set; } = new List<Medico>();
         public ICollection<Rol_Permiso> Rol_Permiso { get; set; } = new List<Rol_Permiso>();
         public ICollection<Copago> Copago { get; set; } = new List<Copago>();
-        
         public ICollection<Reporte> Reporte { get; set; } = new List<Reporte>();
-
-
+        public ICollection<AsignacionRolesTemporales> AsignacionRolesTemporales { get; set; } = new List<AsignacionRolesTemporales>();
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {

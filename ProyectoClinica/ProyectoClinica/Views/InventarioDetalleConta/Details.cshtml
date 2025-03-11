@@ -4,86 +4,157 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<style>
+    /* Estilos generales */
+    .container-form {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
 
-<div>
-    <h4>Inventario_Detalle_Conta</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <div class="form-group">
-            @Html.LabelFor(model => model.Id_Inventario_Encabezado, "Id del Inventario Encabezado", htmlAttributes: new { @class = "control-label col-md-2" })
+    .page-title {
+        color: #0b7b82;
+        text-align: center;
+        margin-bottom: 30px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #0b7b82;
+    }
 
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Id_Inventario_Encabezado, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Id_Inventario_Encabezado, "", new { @class = "text-danger" })
-            </div>
+    .form-section {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+        .form-section h4 {
+            color: #0b7b82;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+    .detail-group {
+        display: grid;
+        grid-template-columns: 1fr 3fr;
+        gap: 15px;
+        margin-bottom: 15px;
+        align-items: center;
+        padding: 10px 0;
+        border-bottom: 1px solid #eee;
+    }
+
+    .detail-label {
+        font-weight: 600;
+        color: #2c3e50;
+        text-align: right;
+    }
+
+    .detail-value {
+        color: #495057;
+        padding: 8px;
+    }
+
+    .btn-form {
+        background-color: #0b7b82;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 20px;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+
+        .btn-form:hover {
+            background-color: #096c72;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            color: white;
+            text-decoration: none;
+        }
+</style>
+
+<div class="container-form">
+    <h2 class="page-title">Detalles del Inventario Contabilidad</h2>
+
+    <div class="form-section">
+        <h4>Información del Inventario</h4>
+
+        <div class="detail-group">
+            <span class="detail-label">Encabezado</span>
+            <span class="detail-value">
+                @Html.DisplayFor(model => model.Id_Inventario_Encabezado)
+            </span>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Id_Departamento, "Id del Departamento", htmlAttributes: new { @class = "control-label col-md-2" })
-
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Id_Departamento, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Id_Departamento, "", new { @class = "text-danger" })
-            </div>
+        <div class="detail-group">
+            <span class="detail-label">Departamento</span>
+            <span class="detail-value">
+                @Html.DisplayFor(model => model.Id_Departamento)
+            </span>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Id_Producto, "Id del Producto", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="detail-group">
+            <span class="detail-label">Producto</span>
+            <span class="detail-value">
+                @Html.DisplayFor(model => model.Id_Producto)
+            </span>
+        </div>
+    </div>
 
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Id_Producto, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Id_Producto, "", new { @class = "text-danger" })
-            </div>
+    <div class="form-section">
+        <h4>Fechas del Inventario</h4>
+
+        <div class="detail-group">
+            <span class="detail-label">Fecha de Entrada</span>
+            <span class="detail-value">
+                @Html.DisplayFor(model => model.Fecha_Entrada)
+            </span>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Fecha_Entrada, "Fecha de Entrada", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="detail-group">
+            <span class="detail-label">Fecha de Salida</span>
+            <span class="detail-value">
+                @Html.DisplayFor(model => model.Fecha_Salida)
+            </span>
+        </div>
+    </div>
 
-            <div class="col-md-10">
-                @Html.TextBoxFor(model => model.Fecha_Entrada, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
-                @Html.ValidationMessageFor(model => model.Fecha_Entrada, "", new { @class = "text-danger" })
-            </div>
+    <div class="form-section">
+        <h4>Detalles Adicionales</h4>
+
+        <div class="detail-group">
+            <span class="detail-label">Cantidad del Stock</span>
+            <span class="detail-value">
+                @Html.DisplayFor(model => model.Cantidad_Stock)
+            </span>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Cantidad_Stock, "Cantidad de Stock", htmlAttributes: new { @class = "control-label col-md-2" })
-
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Cantidad_Stock, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Cantidad_Stock, "", new { @class = "text-danger" })
-            </div>
+        <div class="detail-group">
+            <span class="detail-label">Cantidad del Salida</span>
+            <span class="detail-value">
+                @Html.DisplayFor(model => model.Cantidad_Salida)
+            </span>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Fecha_Salida, "Fecha de Salida", htmlAttributes: new { @class = "control-label col-md-2" })
-
-            <div class="col-md-10">
-                @Html.TextBoxFor(model => model.Fecha_Salida, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
-                @Html.ValidationMessageFor(model => model.Fecha_Salida, "", new { @class = "text-danger" })
-            </div>
+        <div class="detail-group">
+            <span class="detail-label">Precio</span>
+            <span class="detail-value">
+                @Html.DisplayFor(model => model.Precio)
+            </span>
         </div>
+    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Cantidad_Salida, "Cantidad de Salida", htmlAttributes: new { @class = "control-label col-md-2" })
-
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Cantidad_Salida, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Cantidad_Salida, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Precio, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Precio, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Precio, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-    </dl>
+    <div class="text-center" style="margin-top: 20px;">
+        @Html.ActionLink("Editar", "Edit", new { id = Model.Id_Inventario_Encabezado }, new { @class = "btn-form", style = "margin-right: 10px;" })
+        @Html.ActionLink("Regresar a la Lista", "Index", null, new { @class = "btn-form" })
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id_Inventario_Detalle }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+

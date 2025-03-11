@@ -4,77 +4,137 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<style>
+    .container-form {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
 
-<div>
-    <h4>Departamentos</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <div class="form-group">
-            @Html.LabelFor(model => model.Nombre_Departamento, "Nombre del Departamento", htmlAttributes: new { @class = "control-label col-md-2" })
+    .page-title {
+        color: #0b7b82;
+        text-align: center;
+        margin-bottom: 30px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #0b7b82;
+    }
 
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Nombre_Departamento, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Nombre_Departamento, "", new { @class = "text-danger" })
+    .form-section {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .control-label {
+        font-weight: 600;
+        color: #2c3e50;
+    }
+
+    .form-control-box {
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 10px;
+        background-color: #fff;
+        min-height: 38px;
+        display: flex;
+        align-items: center;
+    }
+
+    .btn-pago {
+        background-color: #0b7b82;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 5px;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+
+        .btn-pago:hover {
+            background-color: #096c72;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+</style>
+
+<div class="container-form">
+    <h2 class="page-title">Detalles del Departamento</h2>
+
+    <div class="form-section">
+        <h4>Información del Departamento</h4>
+        <div class="form-grid">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Nombre_Departamento, "Nombre del Departamento", new { @class = "control-label" })
+                <div class="form-control-box">@Html.DisplayFor(model => model.Nombre_Departamento)</div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Descripcion, "Descripción", new { @class = "control-label" })
+                <div class="form-control-box">@Html.DisplayFor(model => model.Descripcion)</div>
             </div>
         </div>
+    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Descripcion, "Descripción", htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="form-section">
+        <h4>Fechas</h4>
+        <div class="form-grid">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Fecha_Creacion, "Fecha de Creación", new { @class = "control-label" })
+                <div class="form-control-box">@Html.DisplayFor(model => model.Fecha_Creacion)</div>
+            </div>
 
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Fecha_Actualizacion, "Fecha de Actualización", new { @class = "control-label" })
+                <div class="form-control-box">@Html.DisplayFor(model => model.Fecha_Actualizacion)</div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Fecha_Eliminacion, "Fecha de Eliminación", new { @class = "control-label" })
+                <div class="form-control-box">@Html.DisplayFor(model => model.Fecha_Eliminacion)</div>
             </div>
         </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Fecha_Creacion, "Fecha Creación", htmlAttributes: new { @class = "control-label col-md-2" })
+    </div>
 
-            <div class="col-md-10">
-                @Html.TextBoxFor(model => model.Fecha_Creacion, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
-                @Html.ValidationMessageFor(model => model.Fecha_Creacion, "", new { @class = "text-danger" })
+    <div class="form-section">
+        <h4>Información de Registro</h4>
+        <div class="form-grid">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Id_Usuario_Creador, "Usuario Registro", new { @class = "control-label" })
+                <div class="form-control-box">@Html.DisplayFor(model => model.Id_Usuario_Creador)</div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Estatus, "Estado", new { @class = "control-label" })
+                <div class="form-control-box">@Html.DisplayFor(model => model.Estatus)</div>
             </div>
         </div>
+    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Fecha_Actualizacion, "Fecha Actualización", htmlAttributes: new { @class = "control-label col-md-2" })
-
-            <div class="col-md-10">
-                @Html.TextBoxFor(model => model.Fecha_Actualizacion, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
-                @Html.ValidationMessageFor(model => model.Fecha_Actualizacion, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Fecha_Eliminacion, "Fecha Eliminación", htmlAttributes: new { @class = "control-label col-md-2" })
-
-            <div class="col-md-10">
-                @Html.TextBoxFor(model => model.Fecha_Eliminacion, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
-                @Html.ValidationMessageFor(model => model.Fecha_Eliminacion, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Estatus, "Estatus", new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.Estatus)
-                    @Html.ValidationMessageFor(model => model.Estatus, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Id_Usuario_Creador, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Id_Usuario_Creador, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Id_Usuario_Creador, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-    </dl>
+    <div class="form-group text-center">
+        @Html.ActionLink("Editar", "Edit", new { id = Model.Id_Departamento }, new { @class = "btn-pago" })
+        @Html.ActionLink("Regresar a la Lista", "Index", null, new { @class = "btn-pago", style = "margin-left: 10px;" })
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id_Departamento }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

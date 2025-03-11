@@ -8,10 +8,10 @@
         <h5><strong>No. Recibo:</strong> @Model.Id_Factura</h5>
         <h6><strong>Fecha:</strong> @Model.FechaHora.ToString("dd/MM/yyyy HH:mm")</h6>
 
-        <h5 class="text-primary"><strong>Subtotal:</strong> $@Model.Subtotal.ToString("N2")</h5>
-        <h5 class="text-primary"><strong>Descuento:</strong> $@Model.Descuento.ToString("N2")</h5>
-        <h5 class="text-primary"><strong>Impuesto:</strong> $@Model.Impuesto.ToString("N2")</h5>
-        <h5 class="text-primary"><strong>Total Pagado:</strong> $@Model.TotalPagado.ToString("N2")</h5>
+        <h5 class="text-primary"><strong>Subtotal:</strong> ₡@Model.Subtotal.ToString("N2")</h5>
+        <h5 class="text-primary"><strong>Descuento:</strong> ₡@Model.Descuento.ToString("N2")</h5>
+        <h5 class="text-primary"><strong>Impuesto:</strong> ₡@Model.Impuesto.ToString("N2")</h5>
+        <h5 class="text-primary"><strong>Total Pagado:</strong> ₡@Model.TotalPagado.ToString("N2")</h5>
     </div>
 
     <!-- Métodos de Pago Utilizados -->
@@ -52,10 +52,9 @@
 
     <!-- Botones de Acción -->
     <div class="d-flex justify-content-center gap-3 mt-4">
-        <button class="btn btn-primary" onclick="imprimirFactura()">Imprimir Factura</button>
-        <input type="text" id="correoCliente" class="form-control w-50" placeholder="Correos separados por comas">
+        <button class="btn btn-primary" onclick="imprimirFactura()">🖨️ Imprimir Factura</button>
+        <input type="text" id="correoCliente" class="form-control w-50" placeholder="📧 Correo del cliente"/>
         <button class="btn btn-success" onclick="enviarCorreo()">Enviar por Correo</button>
-        <button class="btn btn-info">Ambas</button>
     </div>
 </div>
 
@@ -63,16 +62,14 @@
     function enviarCorreo() {
         let emailInput = document.getElementById("correoCliente").value.trim();
         if (!emailInput) {
-            alert("⚠️ Por favor ingrese al menos un correo electrónico.");
+            alert("⚠️ Por favor ingrese un correo electrónico.");
             return;
         }
-
-        let emails = emailInput.split(',').map(e => e.trim());
 
         fetch('/Factura/EnviarFacturaCorreo', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ idFactura: @Model.Id_Factura, correos: emails })
+            body: JSON.stringify({ idFactura: @Model.Id_Factura, correo: emailInput })
         })
         .then(response => response.json())
         .then(data => {
@@ -86,6 +83,10 @@
             console.error("Error al enviar correo:", error);
             alert("❌ Hubo un problema al enviar el correo.");
         });
+    }
+
+    function imprimirFactura() {
+        window.print();
     }
 </script>
 

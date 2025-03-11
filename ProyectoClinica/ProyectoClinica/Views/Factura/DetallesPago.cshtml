@@ -61,7 +61,7 @@
             <ul>
                 @foreach (var servicio in ViewBag.ServiciosSeleccionados)
                 {
-                    <li><strong>@servicio.Nombre_Servicio</strong> - $@servicio.Precio_Servicio.ToString("N2")</li>
+                    <li><strong>@servicio.Nombre_Servicio</strong> - ₡@servicio.Precio_Servicio.ToString("N2")</li>
                 }
             </ul>
         </div>
@@ -95,9 +95,9 @@
         <!-- Resumen -->
         <div class="card shadow-sm p-4 mb-3">
             <h4>Resumen</h4>
-            <p>Subtotal: <strong>$@ViewBag.Subtotal.ToString("N2")</strong></p>
-            <p>Impuesto (13%): <strong>$@ViewBag.Impuesto.ToString("N2")</strong></p>
-            <h5>Total a Pagar: <strong>$@ViewBag.Total.ToString("N2")</strong></h5>
+            <p>Subtotal: <strong>₡@ViewBag.Subtotal.ToString("N2")</strong></p>
+            <p>Impuesto (13%): <strong>₡@ViewBag.Impuesto.ToString("N2")</strong></p>
+            <h5>Total a Pagar: <strong>₡@ViewBag.Total.ToString("N2")</strong></h5>
         </div>
 
         <!-- Botón de envío -->

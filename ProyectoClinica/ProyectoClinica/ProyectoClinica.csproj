@@ -46,6 +46,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EPPlus, Version=7.6.1.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.7.6.1\lib\net462\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus.Interfaces, Version=7.6.1.0, Culture=neutral, PublicKeyToken=a694d7f3b0907a61, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.Interfaces.7.6.1\lib\net462\EPPlus.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus.System.Drawing, Version=7.6.1.0, Culture=neutral, PublicKeyToken=2308d35469c9bac0, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.System.Drawing.7.6.1\lib\net462\EPPlus.System.Drawing.dll</HintPath>
+    </Reference>
     <Reference Include="Humanizer, Version=2.14.0.0, Culture=neutral, PublicKeyToken=979442b78dfc278e, processorArchitecture=MSIL">
       <HintPath>..\packages\Humanizer.Core.2.14.1\lib\netstandard2.0\Humanizer.dll</HintPath>
     </Reference>
@@ -71,12 +80,19 @@
       <HintPath>..\packages\Microsoft.CodeAnalysis.Workspaces.Common.4.12.0\lib\netstandard2.0\Microsoft.CodeAnalysis.Workspaces.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.IO.RecyclableMemoryStream, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IO.RecyclableMemoryStream.3.0.1\lib\netstandard2.0\Microsoft.IO.RecyclableMemoryStream.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
     </Reference>
     <Reference Include="System.Collections.Immutable, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Collections.Immutable.8.0.0\lib\net462\System.Collections.Immutable.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Annotations.5.0.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Composition.AttributedModel, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -96,6 +112,9 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Common, Version=9.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Drawing.Common.9.0.1\lib\net462\System.Drawing.Common.dll</HintPath>
+    </Reference>
     <Reference Include="System.IO.Pipelines, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.IO.Pipelines.8.0.0\lib\net462\System.IO.Pipelines.dll</HintPath>
     </Reference>
@@ -112,6 +131,7 @@
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
+    <Reference Include="System.Security" />
     <Reference Include="System.Text.Encoding.CodePages, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Text.Encoding.CodePages.7.0.0\lib\net462\System.Text.Encoding.CodePages.dll</HintPath>
     </Reference>
@@ -240,6 +260,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdministrativosController.cs" />
     <Compile Include="Controllers\CajaChicaController.cs" />
     <Compile Include="Controllers\CitaController.cs" />
     <Compile Include="Controllers\ConciliacionesBancariasController.cs" />
@@ -260,14 +281,15 @@
     <Compile Include="Controllers\PerfilController.cs" />
     <Compile Include="Controllers\ProductosContaController.cs" />
     <Compile Include="Controllers\RedirectController.cs" />
+    <Compile Include="Controllers\ReporteController.cs" />
     <Compile Include="Controllers\ServiciosBrindadosController.cs" />
     <Compile Include="Controllers\ServiciosController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202502182045118_PDF.cs" />
-    <Compile Include="Migrations\202502182045118_PDF.Designer.cs">
-      <DependentUpon>202502182045118_PDF.cs</DependentUpon>
+    <Compile Include="Migrations\202503100036109_CambiosAdministrativos.cs" />
+    <Compile Include="Migrations\202503100036109_CambiosAdministrativos.Designer.cs">
+      <DependentUpon>202503100036109_CambiosAdministrativos.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -276,6 +298,8 @@
     <Compile Include="Models\ApplicationRol.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\Asientos_Contables.cs" />
+    <Compile Include="Models\AsignacionRolesTemporales.cs" />
+    <Compile Include="Models\AspNetUsers.cs" />
     <Compile Include="Models\Atencion_Cliente.cs" />
     <Compile Include="Models\Auditoria_Alerta.cs" />
     <Compile Include="Models\Avisos.cs" />
@@ -283,8 +307,11 @@
     <Compile Include="Models\Busquedas_exportaciones.cs" />
     <Compile Include="Models\Caja_Chica.cs" />
     <Compile Include="Models\Cita.cs" />
+    <Compile Include="Models\Comentario.cs" />
     <Compile Include="Models\Departamentos.cs" />
+    <Compile Include="Models\Destacado_Comentario.cs" />
     <Compile Include="Models\Documento.cs" />
+    <Compile Include="Models\Estado_Comentario.cs" />
     <Compile Include="Models\Evaluacion.cs" />
     <Compile Include="Models\Facturacion_Productos_Conta.cs" />
     <Compile Include="Models\Inventario_Detalle_Conta.cs" />
@@ -314,6 +341,7 @@
     <Compile Include="Models\PagosXNomina.cs" />
     <Compile Include="Models\Pagos_Diarios.cs" />
     <Compile Include="Models\PDF.cs" />
+    <Compile Include="Models\PlantillaInforme.cs" />
     <Compile Include="Models\Productos_Conta.cs" />
     <Compile Include="Models\Receta.cs" />
     <Compile Include="Models\RecetaViewModel.cs" />
@@ -322,8 +350,10 @@
     <Compile Include="Models\RolAsignacion.cs" />
     <Compile Include="Models\RolInitialize.cs" />
     <Compile Include="Models\Rol_Permiso.cs" />
+    <Compile Include="Models\Sensible_Comentario.cs" />
     <Compile Include="Models\Servicio.cs" />
     <Compile Include="Models\Servicios_Brindados.cs" />
+    <Compile Include="Models\ShowNewPasswordViewModel.cs" />
     <Compile Include="Models\Solicitud_Receta.cs" />
     <Compile Include="Models\Tipo_Registro.cs" />
     <Compile Include="Models\Tipo_Transaccion.cs" />
@@ -404,7 +434,6 @@
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
-    <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
@@ -532,7 +561,6 @@
     <Content Include="Views\InventarioEncabezadoConta\Create.cshtml" />
     <Content Include="Views\InventarioEncabezadoConta\Details.cshtml" />
     <Content Include="Views\InventarioEncabezadoConta\Edit.cshtml" />
-    <Content Include="Views\InventarioDetalleConta\Index.cshtml" />
     <Content Include="Views\InventarioDetalleConta\Create.cshtml" />
     <Content Include="Views\InventarioDetalleConta\Details.cshtml" />
     <Content Include="Views\InventarioDetalleConta\Edit.cshtml" />
@@ -551,6 +579,35 @@
     <Content Include="Views\PagosXNomina\Details.cshtml" />
     <Content Include="Views\Empleados\vistaHistorial.cshtml" />
     <Content Include="Views\Empleados\detallesHistorial.cshtml" />
+    <Content Include="Views\InventarioDetalleConta\Index.cshtml" />
+    <Content Include="Views\Perfil\VistaCitaFutura.cshtml" />
+    <Content Include="Views\Administrativos\Administrativo.cshtml" />
+    <Content Include="Views\Administrativos\Create.cshtml" />
+    <Content Include="Views\Administrativos\Rol.cshtml" />
+    <Content Include="Views\Administrativos\Edit.cshtml" />
+    <Content Include="Views\Administrativos\VistaADM.cshtml" />
+    <Content Include="Views\Administrativos\VistaEliminar.cshtml" />
+    <Content Include="Views\Administrativos\Delete.cshtml" />
+    <Content Include="Views\Administrativos\VistaListar.cshtml" />
+    <Content Include="Views\Administrativos\DetallesHistorial.cshtml" />
+    <Content Include="Views\Reporte\VistaAdmRep.cshtml" />
+    <Content Include="Views\Reporte\VistaReporteConta.cshtml" />
+    <Content Include="Views\Reporte\AsistenciaConsulta.cshtml" />
+    <Content Include="Views\Reporte\ResultadoTratamiento.cshtml" />
+    <Content Include="Views\Reporte\CostosTratamiento.cshtml" />
+    <Content Include="Views\Reporte\Personalizacion.cshtml" />
+    <Content Include="Views\Reporte\GuardarPlantillaInforme.cshtml" />
+    <Content Include="Views\Reporte\ListarPlantillasInformes.cshtml" />
+    <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
+    <Content Include="Views\Administrativos\VistaAuditoría.cshtml" />
+    <Content Include="Views\Cita\AtencionCliente.cshtml" />
+    <Content Include="Views\Cita\CrearAtencionCliente.cshtml" />
+    <Content Include="Views\Administrativos\Buscar.cshtml" />
+    <Content Include="Views\Cita\SAdComentarios.cshtml" />
+    <Content Include="Views\Cita\SComentarios.cshtml" />
+    <Content Include="Views\Reporte\AreaMejora.cshtml" />
+    <Content Include="Views\Reporte\DatosPaciente.cshtml" />
+    <Content Include="Views\Reporte\Rempleados.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -588,8 +645,8 @@
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.3.11.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202502182045118_PDF.resx">
-      <DependentUpon>202502182045118_PDF.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202503100036109_CambiosAdministrativos.resx">
+      <DependentUpon>202503100036109_CambiosAdministrativos.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
