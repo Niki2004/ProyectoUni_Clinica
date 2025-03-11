@@ -607,6 +607,7 @@
     <Content Include="Views\Cita\SComentarios.cshtml" />
     <Content Include="Views\Reporte\AreaMejora.cshtml" />
     <Content Include="Views\Reporte\DatosPaciente.cshtml" />
+    <Content Include="Views\Reporte\Rempleados.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>

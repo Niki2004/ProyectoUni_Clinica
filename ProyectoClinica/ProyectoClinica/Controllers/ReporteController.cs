@@ -782,7 +782,110 @@ namespace ProyectoClinica.Controllers
             }
         }
 
-       
+        //Historia de usuario 12
+        public ActionResult Rempleados(string nombreEmpleado)
+        {
+            var empleado = _context.Empleado.AsQueryable();
+            if (!string.IsNullOrEmpty(nombreEmpleado))
+            {
+                empleado = empleado.Where(r => r.Nombre.Contains(nombreEmpleado));
+            }
+            ViewBag.NombreEmpleado = nombreEmpleado;
+            return View(empleado.ToList());
+        }
+
+        public ActionResult ExportarExcelRempleados(string nombreEmpleado)
+        {
+            // Establecer el contexto de la licencia de EPPlus
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+            var empleado = _context.Empleado.AsQueryable();
+
+            if (!string.IsNullOrEmpty(nombreEmpleado))
+            {
+                empleado = empleado.Where(r => r.Nombre.Contains(nombreEmpleado));
+            }
+
+            var listaempleado = empleado.ToList();
+
+            using (var package = new ExcelPackage())
+            {
+                var worksheet = package.Workbook.Worksheets.Add("Informe de empleados");
+
+                // Encabezados de tabla
+                worksheet.Cells["A1"].Value = "Fecha de creación";
+                worksheet.Cells["B1"].Value = "Estado";
+                worksheet.Cells["C1"].Value = "Comentarios del administrador";
+                worksheet.Cells["D1"].Value = "Nombre";
+                worksheet.Cells["E1"].Value = "Apellidos";
+                worksheet.Cells["F1"].Value = "Cédula";
+                worksheet.Cells["G1"].Value = "Correo";
+                worksheet.Cells["H1"].Value = "Jornada";
+                worksheet.Cells["I1"].Value = "Departamento";
+
+
+                // Estilo de encabezado
+                using (var range = worksheet.Cells["A1:I1"])
+                {
+                    range.Style.Font.Bold = true;
+                    range.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    range.Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#26a69a"));
+                    range.Style.Font.Color.SetColor(System.Drawing.Color.White);
+                    range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                }
+
+                // Agregar datos
+                int row = 2;
+                foreach (var empleadox in listaempleado)
+                {
+                    worksheet.Cells[row, 1].Value = empleadox.Fecha_registro.ToString("dd/MM/yy");
+                    worksheet.Cells[row, 2].Value = empleadox.Estado.Descripcion;
+                    worksheet.Cells[row, 3].Value = empleadox.Comentarios;
+                    worksheet.Cells[row, 4].Value = empleadox.Nombre;
+                    worksheet.Cells[row, 5].Value = empleadox.Apellido;
+                    worksheet.Cells[row, 6].Value = empleadox.Cedula;
+                    worksheet.Cells[row, 7].Value = empleadox.Correo;
+                    worksheet.Cells[row, 8].Value = empleadox.Jornada;
+                    worksheet.Cells[row, 9].Value = empleadox.Departamento;
+
+
+                    using (var range = worksheet.Cells[row, 1, row, 9])
+                    {
+                        range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                        range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                    }
+
+                    row++;
+                }
+
+                // Configuración de ancho de columnas
+                worksheet.Column(1).Width = 20;
+                worksheet.Column(2).Width = 25; 
+                worksheet.Column(3).Width = 50; 
+                worksheet.Column(4).Width = 25;
+                worksheet.Column(5).Width = 20; 
+                worksheet.Column(6).Width = 25;
+                worksheet.Column(7).Width = 50;
+                worksheet.Column(8).Width = 25;
+                worksheet.Column(9).Width = 25;
+
+
+                var stream = new MemoryStream(package.GetAsByteArray());
+                string fileName = "Informe_Empleado";
+
+                if (!string.IsNullOrEmpty(nombreEmpleado))
+                {
+                    fileName += "_" + nombreEmpleado.Replace(" ", "_");
+                }
+
+                fileName += ".xlsx";
+
+                return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+            }
+        }
+
+
     }
 }
    
