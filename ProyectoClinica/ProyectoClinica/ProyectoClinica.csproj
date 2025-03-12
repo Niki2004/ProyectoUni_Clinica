@@ -611,6 +611,10 @@
     <Content Include="Views\Reporte\Rempleados.cshtml" />
     <Content Include="Views\Expedientes\Expedientes.cshtml" />
     <Content Include="Views\Expedientes\VistaHistorial.cshtml" />
+    <Content Include="Views\Expedientes\Nota.cshtml" />
+    <Content Include="Views\Expedientes\MdExpedientes.cshtml" />
+    <Content Include="Views\Expedientes\VistaHistorialMd.cshtml" />
+    <Content Include="Views\Expedientes\RolExpe.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>
