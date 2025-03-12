@@ -1,4 +1,6 @@
-﻿@model IEnumerable<ProyectoClinica.Models.Empleado>
+﻿
+
+@model IEnumerable<ProyectoClinica.Models.Empleado>
 
 @{
     ViewBag.Title = "Administrador";
@@ -315,19 +317,28 @@
                     <div class="row mb-4 text-center row-cols-4 g-3">
 
                         <div class="col">
-                            @Html.ActionLink("Historial del paciente ", "VistaHistorial", "Expedientes", null, new { @class = "btn btn-primary btn-sm w-100" })
+                            @Html.ActionLink("Historial del paciente ", "VistaHistorialMd", "Expedientes", null, new { @class = "btn btn-primary btn-sm w-100" })
                         </div>
+                       
+
                         <div class="col">
-                            @Html.ActionLink("Asignación de Roles", "RolExpe", "Expedientes", null, new { @class = "btn btn-info btn-sm w-100" })
-                        </div>
-                        <div class="col">
-                            @Html.ActionLink("Respaldo", "", "", null, new { @class = "btn btn-info btn-sm w-100" })
+                            @Html.ActionLink("Agregar Notas", "", "", null, new { @class = "btn btn-primary btn-sm w-100" })
                         </div>
 
                     </div>
 
-               
-                   
+                    <div class="row mb-4 text-center row-cols-4 g-3">
+                        <div class="col">
+                            @Html.ActionLink("Buscar Expediente", "", "", null, new { @class = "btn btn-primary btn-sm w-100" })
+                        </div>
+
+                        
+                        <div class="col">
+                            @Html.ActionLink("Agregar imagenes", "", "", null, new { @class = "btn btn-primary btn-sm w-100" })
+                        </div>
+                    </div>
+
+
                 </div>
 
             </div>

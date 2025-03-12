@@ -1,0 +1,132 @@
+﻿
+
+
+@model IEnumerable<ProyectoClinica.Models.Cita>
+
+@{
+    ViewBag.Title = "Historial de Expedientes";
+}
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f5f5f5;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #fff;
+        margin-top: 20px;
+    }
+
+    thead {
+        background-color: #3bb4bc;
+        color: #fff;
+    }
+
+    th, td {
+        padding: 10px;
+        text-align: left;
+        border: 1px solid #ddd;
+    }
+
+    tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    .custom-btn {
+        background-color: #0b7b82 !important;
+        color: white !important;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 5px;
+        font-size: 14px;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        cursor: pointer;
+    }
+
+        .custom-btn:hover {
+            background-color: #09686e !important;
+            text-decoration: none;
+        }
+</style>
+
+<center>
+    <a href="@Url.Action("MdExpedientes", "Expedientes")" class="btn custom-btn">
+        <i class="fas fa-home"></i> Inicio
+    </a>
+</center>
+
+<br />
+<center><h2>Expedientes</h2></center>
+<br />
+
+<table id="expedientesTable" class="table">
+    <thead>
+        <tr>
+            <th>Médico</th>
+            <th>Paciente</th>
+            <th>Estado</th>
+            <th>Hora</th>
+            <th>Complicaciones</th>
+            <th>Síntomas</th>
+            <th>Fecha</th>
+            <th>Modalidad</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Medico.Nombre</td>
+                <td>@item.Nombre_Paciente</td>
+                <td>@item.Estado_Asistencia</td>
+                <td>@item.Hora_cita</td>
+                <td>@item.Descripcion_Complicaciones</td>
+                <td>@item.Sintomas</td>
+                <td>@item.Fecha_Cita.ToString("dd/MM/yyyy")</td>
+                <td>@item.Modalidad</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<br />
+<center>
+    <button class="btn custom-btn" onclick="descargarPDF()">
+        <i class="fas fa-file-pdf"></i> Descargar PDF
+    </button>
+</center>
+
+<!-- Cargar jsPDF y autoTable -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+
+<script>
+    function descargarPDF() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(16);
+        doc.text("Historial de Expedientes", 70, 15);
+
+        doc.autoTable({
+            startY: 25,
+            html: '#expedientesTable',
+            theme: 'grid',
+            styles: { fontSize: 10, cellPadding: 3 },
+            headStyles: { fillColor: [59, 180, 188] },
+            alternateRowStyles: { fillColor: [240, 240, 240] },
+            margin: { top: 20 }
+        });
+
+        doc.save("Historial_Expedientes.pdf");
+    }
+</script>
