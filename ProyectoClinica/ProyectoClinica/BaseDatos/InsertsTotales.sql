@@ -52,6 +52,9 @@ INSERT INTO [dbo].[Metodo_Pago] (Nombre)  VALUES  ('Transferencia');
 
 INSERT INTO [dbo].[Metodo_Pago] (Nombre)  VALUES  ('Crédito');
 
+INSERT INTO [dbo].[Metodo_Pago] (Nombre)  VALUES  ('Copago');
+
+
 --Insert de Receta
 INSERT INTO [CentroIntegralSD].[dbo].[Receta] 
     ([Fecha_Creacion], [Nombre_Receta], [Observaciones_Pacientes], [Duracion_Tratamiento], 
@@ -406,3 +409,8 @@ VALUES
     (4, 'COMP-004', '2024-02-26 16:00:00', 'Ingreso', 'Reembolso de caja chica', 
     500.00, 649.50, 1149.50, 'Tesorería Interna', 'Reintegro', 'FAC-20240289', 'Confirmado', 
     'Reembolso autorizado', 'usuario2', '2024-02-26 16:00:00', 'usuario2', '2024-02-26 16:00:00');
+
+
+--Copago
+INSERT INTO [dbo].[Copago] ([Porcentaje],[Tipo],[cedula])
+VALUES (50, 'Empresa Miguel','2091');

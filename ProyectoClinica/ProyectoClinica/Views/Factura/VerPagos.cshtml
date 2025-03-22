@@ -1,0 +1,228 @@
+﻿@{
+    ViewBag.Title = "Facturas";
+    var facturas = ViewBag.Facturas as List<ProyectoClinica.Models.Factura>;
+    var metodosPago = ViewBag.MetodosPagoUitlizados as List<ProyectoClinica.Models.Metodo_Pago_Utilizado>;
+    var serviciosBrindados = ViewBag.ServiciosBrindados as List<ProyectoClinica.Models.Servicios_Brindados>;
+    var metodos = ViewBag.Metodos as List<ProyectoClinica.Models.Metodo_Pago>;
+    var servicios = ViewBag.Servicios as List<ProyectoClinica.Models.Servicio>;
+    var cedulaCliente = ViewBag.CedulaCliente as string;
+}
+
+<style>
+    :root {
+        --primary-turquoise: #008B8B;
+        --background-light: #F5F5F5;
+    }
+
+    .table-container {
+        width: 100%;
+        overflow-x: auto;
+        margin-bottom: 20px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .table {
+        width: 100%;
+        table-layout: fixed;
+        word-wrap: break-word;
+        white-space: normal;
+    }
+
+        .table th, .table td {
+            text-align: center;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            overflow-wrap: break-word;
+        }
+
+        .table th {
+            background-color: var(--primary-turquoise);
+            color: white;
+            font-weight: bold;
+        }
+
+        .table tbody tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .table tbody tr:hover {
+            background-color: #e9ecef;
+        }
+
+
+        .table th:nth-child(1), .table td:nth-child(1) {
+            width: 15%;
+        }
+
+        .table th:nth-child(2), .table td:nth-child(2) {
+            width: 15%;
+        }
+
+        .table th:nth-child(3), .table td:nth-child(3) {
+            width: 10%;
+        }
+
+        .table th:nth-child(4), .table td:nth-child(4) {
+            width: 10%;
+        }
+
+        .table th:nth-child(5), .table td:nth-child(5) {
+            width: 10%;
+        }
+
+        .table th:nth-child(6), .table td:nth-child(6) {
+            width: 10%;
+        }
+
+        .table th:nth-child(7), .table td:nth-child(7) {
+            width: 15%;
+        }
+
+        .table th:nth-child(8), .table td:nth-child(8) {
+            width: 15%;
+        }
+
+
+
+    .multi-line {
+        white-space: pre-line;
+        text-align: left;
+    }
+
+    .search-container {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .search-input {
+        width: 300px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+
+    .search-button, .clear-button {
+        padding: 10px 15px;
+        color: white !important;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        text-decoration: none !important;
+        display: inline-block;
+    }
+
+    .search-button {
+        background-color: var(--primary-turquoise);
+    }
+
+        .search-button:hover {
+            background-color: #006B6B;
+        }
+
+    .clear-button {
+        background-color: #DC3545;
+        margin-left: 10px;
+    }
+
+        .clear-button:hover {
+            background-color: #C82333;
+        }
+
+
+        .clear-button,
+        .clear-button:link,
+        .clear-button:visited,
+        .clear-button:hover,
+        .clear-button:active {
+            color: white !important;
+            text-decoration: none !important;
+        }
+</style>
+
+
+@if (User.IsInRole("Secretaria"))
+{
+    <a href="@Url.Action("Index", "Factura")" class="btn btn-danger">Regresar</a>
+}
+else if (User.IsInRole("Administrador"))
+{
+    <a href="@Url.Action("Administrativo", "Administrativos")" class="btn btn-danger">Regresar</a>
+}
+
+<h2 class="text-center">Facturas</h2>
+
+<!-- 🔍 Barra de búsqueda -->
+<div class="search-container">
+    <form method="get" action="@Url.Action("VerPagos", "Factura")">
+        <input type="text" name="cedulaCliente" class="search-input" placeholder="Buscar por Cédula" value="@cedulaCliente">
+        <button type="submit" class="search-button">Buscar</button>
+        @if (!string.IsNullOrEmpty(cedulaCliente))
+        {
+            <a href="@Url.Action("VerPagos", "Factura")" class="clear-button">Quitar Filtro</a>
+        }
+    </form>
+</div>
+
+<div class="table-container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Cédula Cliente</th>
+                <th>Nombre Cliente</th>
+                <th>Subtotal</th>
+                <th>Descuento</th>
+                <th>Impuesto</th>
+                <th>Total Pagado</th>
+                <th>Métodos de Pago</th>
+                <th>Servicios Brindados</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var factura in facturas)
+            {
+                <tr>
+                    <td>@factura.CedulaCliente</td>
+                    <td>@factura.NombreCliente</td>
+                    <td>₡@factura.Subtotal.ToString("N2")</td>
+                    <td style="color:red;">-₡@factura.Descuento.ToString("N2")</td>
+                    <td>₡@factura.Impuesto.ToString("N2")</td>
+                    <td style="font-weight:bold; color:blue;">₡@factura.TotalPagado.ToString("N2")</td>
+                    <td>
+                        @foreach (var metodo in metodosPago)
+                        {
+                            if (metodo.Id_Factura == factura.Id_Factura)
+                            {
+                                foreach (var meto in metodos)
+                                {
+                                    if (meto.Id_MetodoPago == metodo.Id_MetodoPago)
+                                    {
+                                        <a>@meto.Nombre</a><br>
+                                    }
+                                }
+                            }
+                        }
+                    </td>
+                    <td>
+                        @foreach (var servicio in serviciosBrindados)
+                        {
+                            if (servicio.Id_Factura == factura.Id_Factura)
+                            {
+                                foreach (var servi in servicios)
+                                {
+                                    if (servi.Id_Servicio == servicio.Id_Servicio)
+                                    {
+                                        <a>@servi.Nombre_Servicio</a><br>
+                                    }
+                                }
+                            }
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

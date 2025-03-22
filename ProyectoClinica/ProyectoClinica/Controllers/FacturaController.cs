@@ -40,7 +40,20 @@ namespace ProyectoClinica.Controllers
             return View();
         }
 
-       
+        public JsonResult ValidarDescuento(string codigo)
+        {
+            var descuento = _context.Descuento
+                .FirstOrDefault(d => d.Codigo_Descuento == codigo && d.Activo && d.Limite_Usos > 0);
+
+            if (descuento == null)
+            {
+                return Json(new { success = false, message = "Código de descuento inválido o no disponible." }, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(new { success = true, descuento = descuento.Porcentaje_Descuento }, JsonRequestBehavior.AllowGet);
+        }
+
+
 
         // GET: Cargar servicios y métodos de pago
         [HttpGet]
@@ -85,7 +98,8 @@ namespace ProyectoClinica.Controllers
         }
 
         [HttpPost]
-        public ActionResult GenerarFactura(int[] serviciosSeleccionados, int[] metodosPagoSeleccionados, string cedulaCliente, string nombreCliente)
+     
+        public ActionResult GenerarFactura(int[] serviciosSeleccionados, int[] metodosPagoSeleccionados, string cedulaCliente, string nombreCliente, string codigoDescuento, decimal descuentoAplicado)
         {
             if (serviciosSeleccionados == null || !serviciosSeleccionados.Any())
             {
@@ -106,9 +120,38 @@ namespace ProyectoClinica.Controllers
                 .Where(s => metodosPagoSeleccionados.Contains(s.Id_MetodoPago))
                 .ToList();
 
-            var subtotal = servicios.Sum(s => s.Precio_Servicio);
-            var impuesto = subtotal * 0.13m;
-            var total = subtotal + impuesto;
+            decimal subtotal = servicios.Sum(s => s.Precio_Servicio);
+            decimal impuesto = 0;
+            decimal total = 0;
+
+
+            int? idDescuentoAplicado = null;
+            decimal montoDescuento = 0;
+
+        
+            if (!string.IsNullOrEmpty(codigoDescuento))
+            {
+                var descuento = _context.Descuento.FirstOrDefault(d => d.Codigo_Descuento == codigoDescuento);
+                if (descuento != null && descuento.Activo && descuento.Limite_Usos > 0)
+                {
+                    
+                    montoDescuento = subtotal * (descuento.Porcentaje_Descuento / 100);
+                    impuesto = (subtotal - montoDescuento) * 0.13m;
+                    total = (subtotal - montoDescuento) + impuesto;
+                    idDescuentoAplicado = descuento.Id_Descuento;
+
+                  
+                    descuento.Limite_Usos--;
+                    _context.SaveChanges();
+                }
+            }
+            else
+            {
+                impuesto = subtotal * 0.13m;
+                total = subtotal + impuesto;
+                montoDescuento = 0;
+                idDescuentoAplicado = 1;
+            }
 
             var factura = new Factura
             {
@@ -117,16 +160,16 @@ namespace ProyectoClinica.Controllers
                 FechaHora = DateTime.Now,
                 Subtotal = subtotal,
                 Impuesto = impuesto,
-                TotalPagado = total
+                TotalPagado = total,
+                Descuento = montoDescuento,  
+                Id_Descuento = (int)idDescuentoAplicado 
             };
 
             ViewBag.ServiciosSeleccionados = servicios;
             ViewBag.MetodosPagoSeleccionados = metodos;
-           
 
             return View("Factura", factura);
         }
-
 
 
 
@@ -146,10 +189,6 @@ namespace ProyectoClinica.Controllers
             {
                 ModelState.AddModelError("", "Alguno de los items es nulo");
                 return RedirectToAction("RealizarPago");
-            }
-
-            if (factura.Id_Descuento == 0) {
-                factura.Id_Descuento = 1;
             }
 
 
@@ -248,7 +287,10 @@ namespace ProyectoClinica.Controllers
 
                 // Construir el contenido del correo con todos los detalles de la factura
                 var body = new StringBuilder();
+
                 body.Append("<html><body style='font-family: Arial, sans-serif;'>");
+                body.Append("<img src='https://i.imgur.com/QZbCmhl.png'>");
+                body.Append("<h2>CentroIntegralSD</h2>");
                 body.Append("<h2 style='color:#4CAF50;'>Factura de Pago</h2>");
                 body.Append($"<p><strong>Factura No:</strong> {factura.Id_Factura}</p>");
                 body.Append($"<p><strong>Fecha:</strong> {factura.FechaHora:dd/MM/yyyy HH:mm}</p>");
@@ -321,6 +363,185 @@ namespace ProyectoClinica.Controllers
                 return Json(new { success = false, message = $"❌ Error al enviar el correo: {ex.Message}" });
             }
         }
+
+
+
+        public ActionResult ImprimirFactura(int idFactura)
+        {
+            var factura = _context.Factura.Find(idFactura);
+            if (factura == null)
+            {
+                return HttpNotFound();
+            }
+
+        
+            var metodosPago = _context.Metodo_Pago_Utilizado
+                .Where(mp => mp.Id_Factura == idFactura)
+                .Select(mp => mp.MetodoPago.Nombre)
+                .ToList();
+
+          
+            var servicios = _context.Servicios_Brindados
+                .Where(sb => sb.Id_Factura == idFactura)
+                .Select(sb => sb.Servicio)
+                .ToList();
+
+       
+            ViewBag.ServiciosSeleccionados = servicios;
+            ViewBag.MetodosPago = metodosPago;
+
+            return View("FacturaNormal", factura);
+        }
+
+
+
+        public ActionResult FacturaAseguradora(string cedulaCliente, string nombreCliente, int[] serviciosSeleccionados)
+        {
+            if (serviciosSeleccionados == null || !serviciosSeleccionados.Any())
+            {
+                ModelState.AddModelError("", "No se seleccionaron servicios.");
+                return RedirectToAction("RealizarPago");
+            }
+
+  
+            var servicios = _context.Servicio
+                .Where(s => serviciosSeleccionados.Contains(s.Id_Servicio))
+                .ToList();
+
+            if (servicios == null || servicios.Count == 0)
+            {
+                ModelState.AddModelError("", "Los servicios seleccionados no fueron encontrados.");
+                return RedirectToAction("RealizarPago");
+            }
+
+            var subtotal = servicios.Sum(s => s.Precio_Servicio);
+            var impuesto = subtotal * 0.13m;
+            var total = subtotal + impuesto;
+
+
+            var factura = new Factura
+            {
+                CedulaCliente = cedulaCliente,
+                NombreCliente = nombreCliente,
+                FechaHora = DateTime.Now,
+                Subtotal = subtotal,
+                Impuesto = impuesto,
+                TotalPagado = total
+            };
+
+      
+            ViewBag.ServiciosSeleccionados = servicios;
+
+            return View("FacturaAseguradora", factura);
+        }
+
+        [HttpGet]
+        public ActionResult VerPagos(string cedulaCliente = "")
+        {
+           
+            var facturas = _context.Factura.ToList();
+
+          
+            if (!string.IsNullOrEmpty(cedulaCliente))
+            {
+                facturas = facturas.Where(f => f.CedulaCliente.Contains(cedulaCliente)).ToList();
+            }
+
+            var metodosPago = _context.Metodo_Pago_Utilizado.ToList();
+            var serviciosBrindados = _context.Servicios_Brindados.ToList();
+            var metodos = _context.Metodo_Pago.ToList();
+            var servicios = _context.Servicio.ToList();
+
+         
+            ViewBag.Facturas = facturas;
+            ViewBag.MetodosPagoUitlizados = metodosPago;
+            ViewBag.ServiciosBrindados = serviciosBrindados;
+            ViewBag.Metodos = metodos;
+            ViewBag.Servicios = servicios;
+            ViewBag.CedulaCliente = cedulaCliente; 
+
+            return View();
+        }
+
+        [HttpGet]
+        public JsonResult ValidarCopago(string cedula, string nombre, int[] serviciosSeleccionados)
+        {
+            if (string.IsNullOrEmpty(cedula))
+            {
+                return Json(new { success = false, message = "❌ Debe ingresar una cédula para aplicar el copago." }, JsonRequestBehavior.AllowGet);
+            }
+
+            var copago = _context.Copago.FirstOrDefault(c => c.cedula == cedula);
+            if (copago == null)
+            {
+                return Json(new { success = false, message = "❌ No se encontró copago registrado para esta cédula." }, JsonRequestBehavior.AllowGet);
+            }
+
+            if (serviciosSeleccionados == null || serviciosSeleccionados.Length == 0)
+            {
+                return Json(new { success = false, message = "❌ No se han seleccionado servicios." }, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(new
+            {
+                success = true,
+                message = "✅ Copago válido, redirigiendo...",
+                redirectUrl = Url.Action("VistaPreviaCopago", "Factura", new
+                {
+                    cedula,
+                    nombre,
+                    serviciosSeleccionados = string.Join(",", serviciosSeleccionados)
+                })
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+
+        [HttpGet]
+        public ActionResult VistaPreviaCopago(string cedula, string nombre, string serviciosSeleccionados)
+        {
+            if (string.IsNullOrEmpty(serviciosSeleccionados))
+            {
+                TempData["Error"] = "❌ No se han seleccionado servicios.";
+                return RedirectToAction("VerPagos");
+            }
+
+            // 🔹 Convertir string "1,2,3" a List<int>
+            var serviciosArray = serviciosSeleccionados.Split(',').Select(int.Parse).ToList();
+
+            var copago = _context.Copago.FirstOrDefault(c => c.cedula == cedula);
+            if (copago == null)
+            {
+                TempData["Error"] = "❌ No se encontró copago registrado para esta cédula.";
+                return RedirectToAction("VerPagos");
+            }
+
+            var servicios = _context.Servicio
+                .Where(s => serviciosArray.Contains(s.Id_Servicio))
+                .ToList();
+
+            var subtotal = servicios.Sum(s => s.Precio_Servicio);
+            var descuentoCopago = subtotal * (copago.Porcentaje / 100);
+            var impuesto = (subtotal - descuentoCopago) * 0.13m;
+            var totalConCopago = (subtotal - descuentoCopago) + impuesto;
+
+            ViewBag.CedulaCliente = cedula;
+            ViewBag.NombreCliente = nombre;
+            ViewBag.ServiciosSeleccionados = servicios;
+            ViewBag.Subtotal = subtotal;
+            ViewBag.DescuentoCopago = descuentoCopago;
+            ViewBag.Impuesto = impuesto;
+            ViewBag.TotalConCopago = totalConCopago;
+
+            return View();
+        }
+
+
+
+
+
+
+
+
 
 
 

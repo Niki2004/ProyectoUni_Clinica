@@ -438,17 +438,91 @@ namespace ProyectoClinica.Controllers
         }
 
         //---------------------------------------------------- Atención cliente AD------------------------------------------------------
-       //Debo crear una opcion paara poder marcar los comentarios como destacados o sensibles... llamando
-       //a la vista de moderar comentarios y despues mostrarlo 
-        
+        [HttpGet]
+        public ActionResult SAdComentarios()
+        {
+            var comentario = BaseDatos.Comentario.ToList();
+            return View(comentario);
+        }
+
         [HttpGet]
         public ActionResult SComentarios()
         {
-            var cita = BaseDatos.Comentario.ToList();
-            return View(cita);
+            ViewBag.Id_Atencion_Cliente = new SelectList(BaseDatos.Atencion_Cliente, "Id_Atencion_Cliente", "Comentarios_Paciente");
+            ViewBag.Id_Estado_Comentario = new SelectList(BaseDatos.Estado_Comentario, "Id_Estado_Comentario", "Estado");
+            ViewBag.Id_Destacado_Comentario = new SelectList(BaseDatos.Destacado_Comentario, "Id_Destacado_Comentario", "Destacado");
+            ViewBag.Id_Sensible_Comentario = new SelectList(BaseDatos.Sensible_Comentario, "Id_Sensible_Comentario", "Sensible");
+            return View();
         }
 
-       
+        public ActionResult SComentarios(Comentario comentario)
+        {
+            if (ModelState.IsValid)
+            {
+                var comentarioExistente = BaseDatos.Comentario.FirstOrDefault(r =>
+                     r.Id_Atencion_Cliente == comentario.Id_Atencion_Cliente &&
+                     r.Id_Estado_Comentario == comentario.Id_Estado_Comentario &&
+                     r.Id_Destacado_Comentario == comentario.Id_Destacado_Comentario &&
+                     r.Id_Sensible_Comentario == comentario.Id_Sensible_Comentario);
+
+                string mensajeNotificacion = "";
+
+                if (comentarioExistente != null)
+                {
+                    var estadoComentario = BaseDatos.Estado_Comentario.FirstOrDefault(e => e.Id_Estado_Comentario == comentario.Id_Estado_Comentario);
+                    var destacadoComentario = BaseDatos.Destacado_Comentario.FirstOrDefault(d => d.Id_Destacado_Comentario == comentario.Id_Destacado_Comentario);
+                    var sensibleComentario = BaseDatos.Sensible_Comentario.FirstOrDefault(s => s.Id_Sensible_Comentario == comentario.Id_Sensible_Comentario);
+
+                    if (estadoComentario != null)
+                    {
+                        mensajeNotificacion += ObtenerMensajePorEstado(estadoComentario.Estado);
+                    }
+
+                    if (destacadoComentario != null)
+                    {
+                        mensajeNotificacion += ObtenerMensajePorEstado(destacadoComentario.Destacado);
+                    }
+
+                    if (sensibleComentario != null)
+                    {
+                        mensajeNotificacion += ObtenerMensajePorEstado(sensibleComentario.Sensible);
+                    }
+
+                    if (string.IsNullOrEmpty(mensajeNotificacion))
+                    {
+                        mensajeNotificacion = "El estado del comentario no se encontró";
+                    }
+                }
+                else
+                {
+                    BaseDatos.Comentario.Add(comentario);
+                    BaseDatos.SaveChanges();
+                    mensajeNotificacion = "Tu comentario ha sido creado exitosamente";
+                }
+
+                TempData["Mensaje"] = mensajeNotificacion;
+                return RedirectToAction("SAdComentarios");
+            }
+
+            return View(comentario);
+        }
+
+        private string ObtenerMensajePorEstado(string estado)
+        {
+            switch (estado)
+            {
+                case "Rechazado":
+                    return "El comentario ha sido rechazado. ";
+                case "Pendiente":
+                    return "El comentario está pendiente de revisión. ";
+                case "Destacado":
+                    return "El comentario ha sido marcado como destacado. ";
+                default:
+                    return "El comentario contiene información sensible. ";
+            }
+        }
+
+
 
 
 

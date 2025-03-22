@@ -2,6 +2,30 @@
     ViewBag.Title = "Subir PDF";
 }
 
+
+<style>
+    .custom-btn {
+        background-color: #0b7b82 !important;
+        color: white !important;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 16px;
+        text-decoration: none;
+        transition: background 0.3s ease, transform 0.2s ease;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<div style="text-align: center; margin-bottom: 20px;">
+    <a href="@Url.Action("Empleados", "Empleados")" class="custom-btn">
+        <i class="fas fa-home"></i> Inicio
+    </a>
+</div>
+
 <div class="container mt-5">
     <h2> Subir PDF</h2>
 

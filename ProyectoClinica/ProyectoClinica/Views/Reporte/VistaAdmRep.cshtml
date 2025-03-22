@@ -305,7 +305,7 @@
 
                 </div>
             </div>
-            <!-- Main Content -->
+
             <div class="button-container">
                 <div style="display: flex; align-items: center; margin-bottom: 10px;">
                     <a href="@Url.Action("VistaAdmin", "Empleados")" style="text-decoration: none; color: #000000; font-size: 18px; display: flex; align-items: center;">
@@ -337,7 +337,7 @@
                             @Html.ActionLink("Resultados de tratamiento", "ResultadoTratamiento", "Reporte", null, new { @class = "btn btn-info btn-sm w-100" })
                         </div>
                         <div class="col">
-                            @Html.ActionLink("Áreas de mejora", "", "Reporte", null, new { @class = "btn btn-primary btn-sm w-100" })
+                            @Html.ActionLink("Áreas de mejora", "AreaMejora", "Reporte", null, new { @class = "btn btn-primary btn-sm w-100" })
                         </div>
                     </div>
 
@@ -349,31 +349,25 @@
                             @Html.ActionLink("Tratamiento y procedimiento", "CostosTratamiento", "Reporte", null, new { @class = "btn btn-primary btn-sm w-100" })
                         </div>
                         <div class="col">
-                            @Html.ActionLink("Datos del paciente", "", "Reporte", null, new { @class = "btn btn-info btn-sm w-100" })
+                            @Html.ActionLink("Datos del paciente", "DatosPaciente", "Reporte", null, new { @class = "btn btn-info btn-sm w-100" })
                         </div>
                     </div>
 
                     <div class="row mb-4 text-center row-cols-4 g-3">
                         <div class="col">
-                            @Html.ActionLink("Costos de procedimiento", "", "Reporte", null, new { @class = "btn btn-primary btn-sm w-100" })
+                            @Html.ActionLink("Objetivos de salud", "", "Reporte", null, new { @class = "btn btn-primary btn-sm w-100" })
                         </div>
                         <div class="col">
-                            @Html.ActionLink("Objetivos de salud", "", "Reporte", null, new { @class = "btn btn-info btn-sm w-100" })
+                            @Html.ActionLink("Reporte financiero", "", "Reporte", null, new { @class = "btn btn-info btn-sm w-100" })
                         </div>
                         <div class="col">
-                            @Html.ActionLink("Reporte financiero", "", "Reporte", null, new { @class = "btn btn-primary btn-sm w-100" })
+                            @Html.ActionLink("Accseso al sistema", "", "Reporte", null, new { @class = "btn btn-primary btn-sm w-100" })
                         </div>
                     </div>
 
                     <div class="row mb-4 text-center row-cols-4 g-3">
                         <div class="col">
-                            @Html.ActionLink("Accseso al sistema", "", "Reporte", null, new { @class = "btn btn-info btn-sm w-100" })
-                        </div>
-                        <div class="col">
-                            @Html.ActionLink("Citas programadas", "", "Reporte", null, new { @class = "btn btn-primary btn-sm w-100" })
-                        </div>
-                        <div class="col">
-                            @Html.ActionLink("Reporte de empleados", "", "Reporte", null, new { @class = "btn btn-info btn-sm w-100" })
+                            @Html.ActionLink("Reporte de empleados", "Rempleados", "Reporte", null, new { @class = "btn btn-info btn-sm w-100" })
                         </div>
                     </div>
 

@@ -1,0 +1,148 @@
+﻿@model ProyectoClinica.Models.Factura
+
+@{
+    Layout = null;
+    var serviciosSeleccionados = ViewBag.ServiciosSeleccionados as List<ProyectoClinica.Models.Servicio>;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Factura Aseguradora - CentroIntegralSD</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .factura-container {
+            border: 1px solid #ddd;
+            padding: 20px;
+            width: 80%;
+            margin: auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            max-width: 150px;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .factura-detalle {
+            margin-top: 20px;
+        }
+
+            .factura-detalle table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+
+            .factura-detalle th, .factura-detalle td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: left;
+            }
+
+            .factura-detalle th {
+                background-color: #f2f2f2;
+            }
+
+        .total {
+            text-align: right;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+
+        .firma {
+            margin-top: 50px;
+            text-align: center;
+        }
+
+            .firma .linea {
+                margin-top: 40px;
+                width: 50%;
+                border-top: 1px solid black;
+                margin-left: auto;
+                margin-right: auto;
+            }
+    </style>
+</head>
+<body onload="window.print();">
+
+    <div class="factura-container">
+
+        <!-- ENCABEZADO -->
+        <div class="header">
+
+            <img src="~/Imagenes/Logo.png" alt="Logo CentroIntegralSD" class="logo">
+            <h2>CentroIntegralSD</h2>
+            <p><strong>Factura Aseguradora</strong></p>
+        </div>
+
+        <!-- INFORMACIÓN DEL CLIENTE -->
+        <div>
+            <p><strong>Cédula del Cliente:</strong> @Model.CedulaCliente</p>
+            <p><strong>Nombre del Cliente:</strong> @Model.NombreCliente</p>
+        </div>
+
+        <!-- DETALLES DE SERVICIOS -->
+        <div class="factura-detalle">
+            <h3>Servicios</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Servicio</th>
+                        <th>Precio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (serviciosSeleccionados != null && serviciosSeleccionados.Count > 0)
+                    {
+                        foreach (var servicio in serviciosSeleccionados)
+                        {
+                            <tr>
+                                <td>@servicio.Nombre_Servicio</td>
+                                <td>₡@servicio.Precio_Servicio.ToString("N2")</td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="2">No se encontraron servicios.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- RESUMEN -->
+        <div class="total">
+            <p><strong>Subtotal:</strong> ₡@Model.Subtotal.ToString("N2")</p>
+            <p><strong>Impuesto (13%):</strong> ₡@Model.Impuesto.ToString("N2")</p>
+            <h3><strong>Total a Pagar:</strong> ₡@Model.TotalPagado.ToString("N2")</h3>
+        </div>
+
+        <!-- FIRMA -->
+        <div class="firma">
+            <p><strong>Firma del Cliente:</strong></p>
+            <div class="linea"></div>
+        </div>
+        <div class="firma">
+            <p><strong>Firma del Centro:</strong></p>
+            <div class="linea"></div>
+        </div>
+
+    </div>
+
+</body>
+</html>

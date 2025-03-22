@@ -1,0 +1,66 @@
+﻿@{
+    ViewBag.Title = "Vista Previa de Copago";
+    var servicios = ViewBag.ServiciosSeleccionados as List<ProyectoClinica.Models.Servicio>;
+}
+
+<div class="container mt-5">
+    <h2 class="text-center">Vista Previa del Pago con Copago</h2>
+    <form action="@Url.Action("ConfirmarPago", "Factura")" method="post">
+        @Html.AntiForgeryToken()
+
+        <input type="hidden" name="TotalPagado" value="@ViewBag.TotalConCopago" />
+        <input type="hidden" name="CedulaCliente" value="@ViewBag.CedulaCliente" />
+        <input type="hidden" name="NombreCliente" value="@ViewBag.NombreCliente" />
+        <input type="hidden" name="Subtotal" value="@ViewBag.Subtotal" />
+        <input type="hidden" name="Descuento" value="@ViewBag.DescuentoCopago" />
+        <input type="hidden" name="Impuesto" value="@ViewBag.Impuesto" />
+        <input type="hidden" name="TotalPagado" value="@ViewBag.TotalConCopago" />
+        <input type="hidden" name="metodosPagoSeleccionados" value=5 />
+        <input type="hidden" name="Id_Descuento" value=1 />
+
+
+
+
+        <div class="card shadow-sm p-4 mb-3">
+            <h4>Información del Cliente</h4>
+            <p><strong>Cédula:</strong> @ViewBag.CedulaCliente</p>
+            <p><strong>Nombre:</strong> @ViewBag.NombreCliente</p>
+        </div>
+
+        <div class="card shadow-sm p-4 mb-3">
+            <h4>Servicios Seleccionados</h4>
+            <ul>
+                @foreach (var servicio in servicios)
+                {
+                    <li><strong>@servicio.Nombre_Servicio</strong> - ₡@servicio.Precio_Servicio.ToString("N2")</li>
+                }
+            </ul>
+        </div>
+        @foreach (var servicio in servicios)
+        {
+            <input type="hidden" name="serviciosSeleccionados" value="@servicio.Id_Servicio" />
+        }
+
+        <div class="card shadow-sm p-4 mb-3">
+            <h4>Resumen del Copago</h4>
+            <p>Subtotal: <strong>₡@ViewBag.Subtotal.ToString("N2")</strong></p>
+            <p>Descuento Copago: <strong style="color:red;">-₡@ViewBag.DescuentoCopago.ToString("N2")</strong></p>
+            <p>Impuesto: <strong style="color:red;">-₡@ViewBag.Impuesto.ToString("N2")</strong></p>
+            <h5>Total a Pagar: <strong style="color:blue;">₡@ViewBag.TotalConCopago.ToString("N2")</strong></h5>
+        </div>
+
+        <button type="submit" class="btn btn-success w-100 mt-4">Confirmar Pago</button>
+    </form>
+
+        
+        <form action="/Factura/RealizarPago" method="post">
+
+            @foreach (var servicio in servicios)
+            {
+                <input type="hidden" name="serviciosSeleccionados" value="@servicio.Id_Servicio" />
+            }
+            <button type="submit" class="btn btn-danger w-100 mt-3">Cancelar</button>
+        </form>
+
+
+</div>

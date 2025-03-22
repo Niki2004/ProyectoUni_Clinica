@@ -1,0 +1,178 @@
+﻿@model IEnumerable<ProyectoClinica.Models.Comentario>
+@{
+    ViewBag.Title = "Reporte de Comentarios";
+    var estados = Model.Select(c => c.Estado_Comentario.Estado).Distinct().OrderBy(e => e).ToList();
+    var sensible = Model.Select(c => c.Sensible_Comentario.Sensible).Distinct().OrderBy(e => e).ToList();
+    var destacado = Model.Select(c => c.Destacado_Comentario.Destacado).Distinct().OrderBy(e => e).ToList();
+    var comentarios = Model.Select(c => c.Atencion_Cliente.Comentarios_Paciente).Distinct().OrderBy(e => e).ToList();
+}
+
+<style>
+    .custom-btn {
+        background-color: #0b7b82 !important;
+        color: white !important;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 16px;
+        text-decoration: none;
+        transition: background 0.3s ease, transform 0.2s ease;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<div style="text-align: center; margin-bottom: 20px;">
+    <a href="@Url.Action("VistaAdmRep", "Reporte")" class="custom-btn">
+        <i class="fas fa-home"></i> Inicio
+    </a>
+</div>
+
+<center><h2 class="mb-4">Reporte de Comentarios</h2></center>
+
+<div class="card mb-4 shadow-sm">
+    <div class="card-header" style="background-color: #0b7b82; color: white;">
+        <h5 class="mb-0"><i class="fas fa-filter"></i> Filtros de búsqueda</h5>
+    </div>
+
+    <div class="card-body">
+        @using (Html.BeginForm("AreaMejora", "Reporte", FormMethod.Get, new { @class = "form-inline" }))
+        {
+            <div class="row">
+                <div class="col-md-3 mb-3">
+                    <label for="comentarioNegativo" class="form-label">Comentario Negativo:</label>
+                    <select name="comentarioNegativo" id="comentarioNegativo" class="form-control w-100">
+                        <option value="">-- Todos --</option>
+                        <option value="1" @(ViewBag.Negativo == "1" ? "selected" : "")>Sí</option>
+                        <option value="0" @(ViewBag.Negativo == "0" ? "selected" : "")>No</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3 mb-3">
+                    <label for="comentarioSensible" class="form-label">Comentario Sensible:</label>
+                    <select name="comentarioSensible" id="comentarioSensible" class="form-control w-100">
+                        <option value="">-- Todos --</option>
+                        <option value="1" @(ViewBag.Sensible == "1" ? "selected" : "")>Sí</option>
+                        <option value="0" @(ViewBag.Sensible == "0" ? "selected" : "")>No</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3 mb-3">
+                    <label for="comentarioDestacado" class="form-label">Comentario Destacado:</label>
+                    <select name="comentarioDestacado" id="comentarioDestacado" class="form-control w-100">
+                        <option value="">-- Todos --</option>
+                        <option value="1" @(ViewBag.Destacado == "1" ? "selected" : "")>Sí</option>
+                        <option value="0" @(ViewBag.Destacado == "0" ? "selected" : "")>No</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3 mb-3">
+                    <label for="estadoComentario" class="form-label">Estado del Comentario:</label>
+                    <select name="estadoComentario" id="estadoComentario" class="form-control w-100">
+                        <option value="">-- Todos --</option>
+                        @foreach (var estado in estados)
+                        {
+                            <option value="@estado" @(ViewBag.Estado == estado ? "selected" : "")>@estado</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search"></i> Buscar
+                    </button>
+                    <a href="@Url.Action("AreaMejora", "Reporte")" class="btn btn-secondary">
+                        <i class="fas fa-broom"></i> Limpiar
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-light">
+        <div class="d-flex justify-content-between align-items-center">
+            <h5 class="mb-0"><i class="fas fa-comments"></i> Listado de Comentarios</h5>
+            <a href="@Url.Action("ExportarExcelAreaMejora", "Reporte", new { negativo = ViewBag.Negativo, sensible = ViewBag.Sensible, destacado = ViewBag.Destacado, estado = ViewBag.Estado })"
+               class="btn btn-success btn-sm">
+                <i class="fas fa-file-excel"></i> Exportar a Excel
+            </a>
+        </div>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover table-striped mb-0">
+                <thead class="table-primary">
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Comentario</th>
+                        <th>Calificación</th>
+                        <th>Estado</th>
+                        <th>Negativo</th>
+                        <th>Sensible</th>
+                        <th>Destacado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Any())
+                    {
+                        foreach (var comentario in Model)
+                        {
+                            <tr>
+                                <td>@comentario.Fecha.ToString("dd/MM/yyyy")</td>
+                                <td>@comentario.Comentario_Texto</td>
+                                <td>@comentario.Calificacion</td>
+                                <td>@comentario.Estado_Comentario.Estado</td>
+                                <td>
+                                    @if (comentario.Id_Atencion_Cliente == 1)
+                                    {
+                                        <span class="badge bg-danger">Sí</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">No</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (comentario.Id_Sensible_Comentario == 1)
+                                    {
+                                        <span class="badge bg-warning text-dark">Sí</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">No</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (comentario.Id_Destacado_Comentario == 1)
+                                    {
+                                        <span class="badge bg-success">Sí</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">No</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="7" class="text-center py-4">
+                                <div class="alert alert-info mb-0">
+                                    <i class="fas fa-info-circle me-2"></i> No se encontraron comentarios con los filtros seleccionados
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
