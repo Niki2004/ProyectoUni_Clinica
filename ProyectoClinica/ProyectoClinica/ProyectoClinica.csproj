@@ -421,13 +421,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202503100036109_CambiosAdministrativos.cs" />
-    <Compile Include="Migrations\202503100036109_CambiosAdministrativos.Designer.cs">
-      <DependentUpon>202503100036109_CambiosAdministrativos.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202503190041288_CopagoUpdate.cs" />
-    <Compile Include="Migrations\202503190041288_CopagoUpdate.Designer.cs">
-      <DependentUpon>202503190041288_CopagoUpdate.cs</DependentUpon>
+    <Compile Include="Migrations\202503222330354_AdministracionUsuarios.cs" />
+    <Compile Include="Migrations\202503222330354_AdministracionUsuarios.Designer.cs">
+      <DependentUpon>202503222330354_AdministracionUsuarios.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -495,6 +491,7 @@
     <Compile Include="Models\Solicitud_Receta.cs" />
     <Compile Include="Models\Tipo_Registro.cs" />
     <Compile Include="Models\Tipo_Transaccion.cs" />
+    <Compile Include="Models\UsuariosAdmin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -793,11 +790,8 @@
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.3.11.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202503100036109_CambiosAdministrativos.resx">
-      <DependentUpon>202503100036109_CambiosAdministrativos.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202503190041288_CopagoUpdate.resx">
-      <DependentUpon>202503190041288_CopagoUpdate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202503222330354_AdministracionUsuarios.resx">
+      <DependentUpon>202503222330354_AdministracionUsuarios.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
