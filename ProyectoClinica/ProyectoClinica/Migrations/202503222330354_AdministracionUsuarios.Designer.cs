@@ -7,13 +7,13 @@ namespace ProyectoClinica.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class CambiosAdministrativos : IMigrationMetadata
+    public sealed partial class AdministracionUsuarios : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(CambiosAdministrativos));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AdministracionUsuarios));
         
         string IMigrationMetadata.Id
         {
-            get { return "202503100036109_CambiosAdministrativos"; }
+            get { return "202503222330354_AdministracionUsuarios"; }
         }
         
         string IMigrationMetadata.Source
