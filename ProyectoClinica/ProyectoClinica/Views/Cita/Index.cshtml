@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-
     <style>
         :root {
             --primary-turquoise: #008B8B;
@@ -39,11 +38,12 @@
             z-index: 1001;
         }
 
+        /*Panel del menu*/
         .sidebar {
             position: fixed;
             top: 0;
             left: 0;
-            width: 199px;
+            width: 239px;
             height: 100vh;
             background-color: white;
             padding-top: 65px;
@@ -51,41 +51,50 @@
             padding-right: 15px;
             overflow-y: auto;
             z-index: 1000;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
 
             .sidebar a {
                 display: block;
                 color: #000000;
-                padding: 5px 10px;
+                padding: 8px 10px;
                 text-decoration: none;
-                font-size: 18px;
-                margin-bottom: 2px;
+                font-size: 16px;
+                margin-bottom: 5px;
+                border-radius: 5px;
             }
 
                 .sidebar a:hover {
                     background-color: #3bb4bc80;
-                    border-radius: 5px;
+                    color: #0b7b82;
                 }
 
+        .main-container {
+            padding-left: 220px;
+            padding-top: 20px;
+            width: 100%;
+        }
 
         .content {
-            padding: 20px;
-            max-width: 700px;
-            margin: 0 auto;
+            max-width: 847px;
+            margin: 0 0 40px auto;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 40px;
         }
 
             .content h2 {
                 color: #0b7b82;
-                text-align: left;
-                margin-bottom: 20px;
-                padding-left: 20px;
+                text-align: center;
+                margin-bottom: 25px;
+                font-weight: bold;
             }
 
             .content p {
-                text-align: left;
-                padding-left: 20px;
-                margin-bottom: 10px;
+                text-align: justify;
+                margin-bottom: 15px;
                 line-height: 1.6;
+                padding: 0 10px;
             }
 
         .nav-link {
@@ -101,22 +110,10 @@
         .nav-header {
             padding: 10px 15px;
             color: #0b7b82;
-            font-size: 0.8em;
+            font-size: 0.9em;
             text-transform: uppercase;
             font-weight: bold;
-        }
-
-        /* Main Content Styles */
-        .main-content {
-            padding: 20px;
-        }
-
-        .content-wrapper {
-            background-color: white;
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            margin-top: 20px;
+            margin: 10px 0 5px 0;
         }
 
         .btn {
@@ -153,27 +150,27 @@
             }
 
         .gallery-container {
-            padding: 20px;
-            max-width: 1200px;
+            max-width: 100%;
             margin: 0 auto;
         }
 
         .image-gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 20px;
-            padding: 20px;
+            margin: 25px 0;
         }
 
         .gallery-item {
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            background-color: white;
         }
 
         .gallery-image {
             width: 100%;
-            height: 250px;
+            height: 220px;
             object-fit: cover;
             display: block;
             transition: transform 0.3s ease;
@@ -189,27 +186,91 @@
             background-color: #f8f9fa;
             color: #333;
         }
-¿    </style>
+
+        media (max-width: 992px) {
+            .sidebar
+
+        {
+            width: 180px;
+        }
+
+        .main-container {
+            padding-left: 200px;
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        }
+
+        media (max-width: 768px) {
+            .sidebar
+
+        {
+            width: 160px;
+        }
+
+        .main-container {
+            padding-left: 180px;
+        }
+
+        .image-gallery {
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        }
+
+        }
+
+        media (max-width: 576px) {
+            .sidebar
+
+        {
+            width: 100%;
+            height: auto;
+            position: relative;
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+
+        .main-container {
+            padding-left: 0;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+        }
+
+        .navbar-brand {
+            font-size: 1.2rem;
+        }
+
+        .image-gallery {
+            grid-template-columns: 1fr;
+        }
+
+        .gallery-image {
+            height: 200px;
+        }
+        }
+    </style>
+
 </head>
 <body>
     <div class="container-fluid">
 
         <div class="row">
-            <!-- Sidebar -->
             <div class="col-md-3 col-lg-2 sidebar">
                 <div class="sidebar">
-                    <div class="text-center p-3">
-                        <img src="~/Imagenes/Logo.png" alt="Centro Integral Santo Domingo Logo" class="img-fluid" style="max-width: 150px; height: auto;" />
-                    </div>
 
-                    <br />
-                    <center><div class="nav-header">Acciones</div></center>
-                    <div class="nav flex-column">
-                        <a href="@Url.Action("VistaCita", "Cita")" class="nav-link">
-                            <i class="fas fa-arrow-left"></i>  Inicio
+                    <div class="p-3 d-flex justify-content-center">
+                        <a href="@Url.Action("VistaCita", "Cita")" style="text-decoration: none; display: block;">
+                            <img src="~/Imagenes/Logo.png" alt="Centro Integral Santo Domingo Logo" class="img-fluid" style="max-width: 195px; height: auto;" />
                         </a>
                     </div>
-                    <hr />
 
                     <center><div class="nav-header">Plataforma</div></center>
                     <div class="nav flex-column">
@@ -237,12 +298,9 @@
 
                 </div>
             </div>
-            <!-- Main Content -->
             <div class="content">
 
-
-
-                <h2 class="text-center">Calendario de Citas</h2>
+                <h2 class="text-center">Calendario</h2>
 
                 @if (TempData["SuccessMessage"] != null)
                 {
@@ -253,11 +311,9 @@
 
                 <br />
 
-                <!-- Formato Calendario -->
                 <div id="calendar"></div>
                 <br />
 
-                <!-- Detalles de la Cita Seleccionada -->
                 <div id="cita-detalle" class="card" style="display:none; margin-top: 20px; padding: 15px; border: 1px solid #ccc; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
                     <center><h4 class="card-title" style="color: #333; border-bottom: 1px solid #eee; padding-bottom: 10px;">Detalles de la Cita</h4></center>
                     <div class="card-body">
@@ -285,26 +341,29 @@
 
                 @section Scripts {
                     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
+                    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/locales/es.js"></script>
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css" />
-
                     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var calendarEl = document.getElementById('calendar');
-            var selectedEvent = null; // Variable para almacenar el evento seleccionado
-
+            var selectedEvent = null; 
             var calendar = new FullCalendar.Calendar(calendarEl, {
+                locale: 'es', 
                 initialView: 'dayGridMonth',
-                events: '/Cita/GetEvents', // Obtiene las citas desde el controlador
+                events: '/Cita/GetEvents', 
                 headerToolbar: {
                     left: 'prev,next today agendarButton',
                     center: 'title',
-                    right: 'dayGridMonth' // Solo muestra la vista mensual
+                    right: 'dayGridMonth' 
+                },
+                buttonText: {
+                    today: 'Hoy'
                 },
                 customButtons: {
                     agendarButton: {
                         text: 'Agendar Cita',
                         click: function () {
-                            window.location.href = '@Url.Action("Crear", "Cita")'; // Redirige al formulario de creación
+                            window.location.href = '@Url.Action("Crear", "Cita")'; 
                         }
                     }
                 },
@@ -321,11 +380,7 @@
                 },
                 eventClick: function (info) {
                     selectedEvent = info.event;
-
-                    // Mostrar el panel de detalles
                     document.getElementById('cita-detalle').style.display = 'block';
-
-                    // Obtener y formatear la fecha y hora
                     const fecha = info.event.start;
                     const fechaFormateada = fecha.toLocaleDateString('es-ES', {
                         year: 'numeric',
@@ -336,18 +391,16 @@
                         hour: '2-digit',
                         minute: '2-digit'
                     });
-
-                    // Actualizar los campos con la información
                     document.getElementById('doctor-cita').textContent = info.event.title;
                     document.getElementById('fecha-cita').textContent = fechaFormateada;
                     document.getElementById('hora-cita').textContent = horaFormateada;
                 }
             });
-
             calendar.render();
         });
                     </script>
                 }
+
 
             </div>
 

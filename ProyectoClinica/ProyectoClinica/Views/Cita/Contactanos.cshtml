@@ -38,11 +38,12 @@
             z-index: 1001;
         }
 
+        /*Panel del menu*/
         .sidebar {
             position: fixed;
             top: 0;
             left: 0;
-            width: 199px;
+            width: 239px;
             height: 100vh;
             background-color: white;
             padding-top: 65px;
@@ -50,6 +51,7 @@
             padding-right: 15px;
             overflow-y: auto;
             z-index: 1000;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
 
             .sidebar a {
@@ -68,9 +70,11 @@
 
 
         .content {
-            padding: 20px;
-            max-width: 700px;
-            margin: 0 auto;
+            max-width: 847px;
+            margin: 0 0 40px auto;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 40px;
         }
 
             .content h2 {
@@ -198,19 +202,11 @@
             <!-- Sidebar -->
             <div class="col-md-3 col-lg-2 sidebar">
                 <div class="sidebar">
-                    <div class="text-center p-3">
-                        <img src="~/Imagenes/Logo.png" alt="Centro Integral Santo Domingo Logo" class="img-fluid" style="max-width: 150px; height: auto;" />
-                    </div>
-
-                    <br />
-
-                    <center><div class="nav-header">Acciones</div></center>
-                    <div class="nav flex-column">
-                        <a href="@Url.Action("VistaCita", "Cita")" class="nav-link">
-                            <i class="fas fa-arrow-left"></i>  Inicio
+                    <div class="p-3 d-flex justify-content-center">
+                        <a href="@Url.Action("VistaCita", "Cita")" style="text-decoration: none; display: block;">
+                            <img src="~/Imagenes/Logo.png" alt="Centro Integral Santo Domingo Logo" class="img-fluid" style="max-width: 195px; height: auto;" />
                         </a>
                     </div>
-                    <hr />
 
                     <center><div class="nav-header">Plataforma</div></center>
                     <div class="nav flex-column">
