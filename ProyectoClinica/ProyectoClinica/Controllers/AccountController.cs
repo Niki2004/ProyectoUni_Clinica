@@ -91,7 +91,7 @@ namespace ProyectoClinica.Controllers
                 switch (result)
                 {
                     case SignInStatus.Success:
-                        return RedirectToAction("Administrativo", "Administrativos");
+                        return RedirectToAction("VistaCita", "Cita");
                     //// Verificamos el rol del usuario
                     //var roles = await UserManager.GetRolesAsync(user.Id);
                     //if (roles.Contains("Administrador"))
