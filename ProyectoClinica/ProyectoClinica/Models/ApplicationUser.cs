@@ -36,6 +36,8 @@ namespace ProyectoClinica.Models
         public ICollection<Reporte> Reporte { get; set; } = new List<Reporte>();
         public ICollection<AsignacionRolesTemporales> AsignacionRolesTemporales { get; set; } = new List<AsignacionRolesTemporales>();
 
+        public ICollection<UsuariosAdmin> UsuariosAdmin { get; set; } = new List<UsuariosAdmin>();
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             

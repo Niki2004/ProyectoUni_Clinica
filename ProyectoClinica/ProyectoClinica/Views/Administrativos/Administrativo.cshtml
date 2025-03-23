@@ -339,16 +339,28 @@
                             </div>
                             <div class="col">
                                 @Html.ActionLink("Auditoría Administrativa", "VistaAuditoría", "Administrativos", null, new { @class = "btn btn-info btn-sm w-100" })
-                            </div>
+                            </div>                
+                            
                         </div>
-
 
                         <div class="container">
                             <div class="row mb-4 text-center row-cols-4 g-3">
                                 <div class="col">
                                     @Html.ActionLink("Buscar Usuarios", "Buscar", "Administrativos", null, new { @class = "btn btn-primary btn-sm w-100" })
                                 </div>
+                                <div class="col">
+                                    @Html.ActionLink("Ver Pagos", "VerPagos", "Factura", null, new { @class = "btn btn-info btn-sm w-100" })
+                                </div>
+                                <div class="col">
+                                    @Html.ActionLink("Asignación de Roles", "Rol", "Administrativos", null, new { @class = "btn btn-primary btn-sm w-100" })
+                                </div>
                             </div>
+
+
+
+
+
+
 
                             <script src="~/lib/jquery/dist/jquery.min.js"></script>
                             <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

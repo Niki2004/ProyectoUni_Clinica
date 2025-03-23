@@ -91,19 +91,180 @@
             }
         </div>
 
-
-        <!-- Resumen -->
         <div class="card shadow-sm p-4 mb-3">
-            <h4>Resumen</h4>
-            <p>Subtotal: <strong>₡@ViewBag.Subtotal.ToString("N2")</strong></p>
-            <p>Impuesto (13%): <strong>₡@ViewBag.Impuesto.ToString("N2")</strong></p>
-            <h5>Total a Pagar: <strong>₡@ViewBag.Total.ToString("N2")</strong></h5>
+            <h4>Aplicar Descuento</h4>
+            <div class="input-group">
+                <input type="text" class="form-control" id="codigoDescuento" placeholder="Ingrese código de descuento">
+                <button type="button" class="btn btn-primary" onclick="aplicarDescuento()">Aplicar</button>
+            </div>
+            <p id="mensajeDescuento" class="text-danger mt-2"></p>
+            <button type="button" class="btn btn-danger mt-2" id="btnQuitarDescuento" onclick="quitarDescuento()" style="display: none;">Quitar Descuento</button>
         </div>
 
+        <!-- Resumen con descuento aplicado -->
+        <div class="card shadow-sm p-4 mb-3">
+            <h4>Resumen</h4>
+            <p>Subtotal: <strong>₡<span id="subtotal">@ViewBag.Subtotal.ToString("N2")</span></strong></p>
+            <p>Impuesto (13%): <strong>₡<span id="impuesto">@ViewBag.Impuesto.ToString("N2")</span></strong></p>
+            <p>Descuento: <strong>₡<span id="descuento">0.00</span></strong></p>
+            <h5>Total a Pagar: <strong>₡<span id="total">@ViewBag.Total.ToString("N2")</span></strong></h5>
+        </div>
+
+        <!-- Campo oculto para enviar descuento -->
+        <input type="hidden" name="codigoDescuento" id="codigoDescuentoHidden" value="">
+        <input type="hidden" name="descuentoAplicado" id="descuentoAplicadoHidden" value="0">
+
         <!-- Botón de envío -->
-        <button type="submit" class="btn btn-success w-100 mt-4">Procesar Pago</button>
+        <div class="d-flex justify-content-center gap-3 mt-4">
+            <button type="button" class="btn btn-primary btn-lg" onclick="imprimirFactura()">
+                <i class="fas fa-file-invoice"></i> Factura Aseguradora
+            </button>
+            <button type="submit" class="btn btn-success btn-lg">
+                <i class="fas fa-check-circle"></i> Procesar Pago
+            </button>
+            <p id="mensajeCopago" class="text-center mt-3"></p>
+            <button type="button" class="btn btn-info btn-lg" onclick="aplicarCopago()">
+                <i class="fas fa-credit-card"></i> Pagar con Copago
+            </button>
+        </div>
     </form>
 </div>
+
+<script>
+    function aplicarDescuento() {
+        var codigo = document.getElementById("codigoDescuento").value.trim();
+        if (!codigo) {
+            document.getElementById("mensajeDescuento").innerText = "Ingrese un código de descuento.";
+            return;
+        }
+
+        fetch(`/Factura/ValidarDescuento?codigo=${codigo}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    var descuento = parseFloat(data.descuento);
+                    var subtotal = parseFloat("@ViewBag.Subtotal");
+                    var impuesto = (subtotal - descuento) * 0.13;
+                    var totalDescuento = subtotal * (descuento / 100);
+                    var nuevoTotal = subtotal - totalDescuento + impuesto;
+
+                    
+                    document.getElementById("descuento").innerText = totalDescuento.toFixed(2);
+                    document.getElementById("total").innerText = nuevoTotal.toFixed(2);
+                    document.getElementById("codigoDescuentoHidden").value = codigo;
+                    document.getElementById("descuentoAplicadoHidden").value = totalDescuento.toFixed(2);
+
+                    document.getElementById("mensajeDescuento").innerText = "Descuento aplicado correctamente.";
+                    document.getElementById("mensajeDescuento").classList.remove("text-danger");
+                    document.getElementById("mensajeDescuento").classList.add("text-success");
+
+                    
+                    document.getElementById("btnQuitarDescuento").style.display = "inline-block";
+                } else {
+                    document.getElementById("mensajeDescuento").innerText = data.message;
+                    document.getElementById("mensajeDescuento").classList.add("text-danger");
+                }
+            })
+            .catch(error => {
+                document.getElementById("mensajeDescuento").innerText = "Error al aplicar el descuento.";
+            });
+    }
+
+    function quitarDescuento() {
+        var subtotal = parseFloat("@ViewBag.Subtotal");
+        var impuesto = subtotal * 0.13;
+        var nuevoTotal = subtotal + impuesto;
+
+        document.getElementById("descuento").innerText = "0.00";
+        document.getElementById("total").innerText = nuevoTotal.toFixed(2);
+        document.getElementById("codigoDescuentoHidden").value = "";
+        document.getElementById("descuentoAplicadoHidden").value = "0";
+
+        document.getElementById("mensajeDescuento").innerText = "Descuento eliminado.";
+        document.getElementById("mensajeDescuento").classList.add("text-danger");
+
+
+        document.getElementById("btnQuitarDescuento").style.display = "none";
+    }
+
+    function imprimirFactura() {
+        var cedula = document.getElementById("cedulaCliente").value;
+        var nombre = document.getElementById("nombreCliente").value;
+
+        var serviciosSeleccionados = [];
+        document.querySelectorAll("input[name='serviciosSeleccionados']").forEach(function (input) {
+            serviciosSeleccionados.push(input.value);
+        });
+
+        if (serviciosSeleccionados.length === 0) {
+            alert("Debe seleccionar al menos un servicio.");
+            return;
+        }
+
+        var url = `/Factura/FacturaAseguradora?cedulaCliente=${encodeURIComponent(cedula)}&nombreCliente=${encodeURIComponent(nombre)}`;
+
+        serviciosSeleccionados.forEach(function (id) {
+            url += `&serviciosSeleccionados=${id}`;
+        });
+
+        var nuevaVentana = window.open(url, '_blank');
+        nuevaVentana.focus();
+    }
+
+    function aplicarCopago() {
+        var cedula = document.getElementById("cedulaCliente").value.trim();
+        var nombre = document.getElementById("nombreCliente").value.trim();
+        var mensajeAlerta = document.getElementById("mensajeCopago");
+
+        if (!cedula) {
+            mensajeAlerta.innerHTML = "❌ Debe ingresar una cédula para aplicar el copago.";
+            mensajeAlerta.classList.add("text-danger");
+            return;
+        }
+
+        // ✅ Capturar servicios seleccionados correctamente desde inputs hidden
+        var serviciosSeleccionados = [];
+        document.querySelectorAll("input[name='serviciosSeleccionados']").forEach(function (input) {
+            serviciosSeleccionados.push(input.value);
+        });
+
+        if (serviciosSeleccionados.length === 0) {
+            mensajeAlerta.innerHTML = "❌ No se han seleccionado servicios.";
+            mensajeAlerta.classList.add("text-danger");
+            return;
+        }
+
+        // ✅ Enviar solicitud con GET y convertir array a QueryString
+        var url = `/Factura/ValidarCopago?cedula=${encodeURIComponent(cedula)}&nombre=${encodeURIComponent(nombre)}`;
+
+        serviciosSeleccionados.forEach(function (id) {
+            url += `&serviciosSeleccionados=${id}`;
+        });
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                if (!data.success) {
+                    mensajeAlerta.innerHTML = data.message;
+                    mensajeAlerta.classList.add("text-danger");
+                } else {
+                    mensajeAlerta.innerHTML = data.message;
+                    mensajeAlerta.classList.remove("text-danger");
+                    mensajeAlerta.classList.add("text-success");
+
+                    // Redirigir después de un segundo
+                    setTimeout(() => {
+                        window.location.href = data.redirectUrl;
+                    }, 1000);
+                }
+            })
+            .catch(error => {
+                mensajeAlerta.innerHTML = "❌ Error en la validación.";
+                mensajeAlerta.classList.add("text-danger");
+            });
+    }
+
+</script>
 
 
 <style>
@@ -115,7 +276,19 @@
 
     .btn {
         border-radius: 8px;
-        padding: 12px;
+        padding: 12px 20px;
+        font-size: 16px;
+        font-weight: bold;
+        transition: 0.3s ease;
+    }
+
+    .btn-success:hover, .btn-primary:hover, .btn-info:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-lg {
+        width: 45%;
     }
 
     .form-control {

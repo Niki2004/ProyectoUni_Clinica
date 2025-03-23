@@ -53,9 +53,12 @@
     <!-- Botones de Acción -->
     <div class="d-flex justify-content-center gap-3 mt-4">
         <button class="btn btn-primary" onclick="imprimirFactura()">🖨️ Imprimir Factura</button>
-        <input type="text" id="correoCliente" class="form-control w-50" placeholder="📧 Correo del cliente"/>
+        <input type="text" id="correoCliente" class="form-control w-50" placeholder="📧 Correo del cliente" />
         <button class="btn btn-success" onclick="enviarCorreo()">Enviar por Correo</button>
+        <a href="@Url.Action("Index", "Factura")" class="btn btn-danger">Finalizar</a>
     </div>
+   
+    
 </div>
 
 <script>
@@ -85,8 +88,10 @@
         });
     }
 
-    function imprimirFactura() {
-        window.print();
+    function imprimirFactura(idFactura) {
+        var url = `/Factura/ImprimirFactura?idFactura=@Model.Id_Factura`;
+        var nuevaVentana = window.open(url, '_blank');
+        nuevaVentana.focus();
     }
 </script>
 

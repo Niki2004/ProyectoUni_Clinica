@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class CambiosAdministrativos : DbMigration
+    public partial class AdministracionUsuarios : DbMigration
     {
         public override void Up()
         {
@@ -86,11 +86,12 @@
                         Id_Copago = c.Int(nullable: false, identity: true),
                         Porcentaje = c.Decimal(nullable: false, precision: 18, scale: 2),
                         Tipo = c.String(),
-                        Id = c.String(maxLength: 128),
+                        cedula = c.String(),
+                        ApplicationUser_Id = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id_Copago)
-                .ForeignKey("dbo.AspNetUsers", t => t.Id)
-                .Index(t => t.Id);
+                .ForeignKey("dbo.AspNetUsers", t => t.ApplicationUser_Id)
+                .Index(t => t.ApplicationUser_Id);
             
             CreateTable(
                 "dbo.AspNetUserLogins",
@@ -439,6 +440,20 @@
                 .ForeignKey("dbo.AspNetRoles", t => t.RoleId, cascadeDelete: true)
                 .Index(t => t.UserId)
                 .Index(t => t.RoleId);
+            
+            CreateTable(
+                "dbo.UsuariosAdmin",
+                c => new
+                    {
+                        Id_Usuario = c.Int(nullable: false, identity: true),
+                        Id = c.String(nullable: false, maxLength: 128),
+                        Departamento = c.String(maxLength: 100),
+                        FechaAlta = c.DateTime(nullable: false),
+                        NivelAcceso = c.Int(),
+                    })
+                .PrimaryKey(t => t.Id_Usuario)
+                .ForeignKey("dbo.AspNetUsers", t => t.Id, cascadeDelete: true)
+                .Index(t => t.Id);
             
             CreateTable(
                 "dbo.Asientos_Contables",
@@ -1031,6 +1046,7 @@
             DropForeignKey("dbo.Auditoria_Alerta", "Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.Administrativa", "Id_Estado", "dbo.Estado");
             DropForeignKey("dbo.Administrativa", "Id", "dbo.AspNetUsers");
+            DropForeignKey("dbo.UsuariosAdmin", "Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.Rol_Permiso", "Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.Reportes", "ApplicationUser_Id", "dbo.AspNetUsers");
@@ -1059,7 +1075,7 @@
             DropForeignKey("dbo.Cita", "Id_Medico", "dbo.Medico");
             DropForeignKey("dbo.Medico", "Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.Copago", "Id", "dbo.AspNetUsers");
+            DropForeignKey("dbo.Copago", "ApplicationUser_Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AsignacionRolesTemporales", "Id", "dbo.AspNetUsers");
             DropIndex("dbo.Servicios_Brindados", new[] { "Id_Servicio" });
@@ -1099,6 +1115,7 @@
             DropIndex("dbo.Inventario", new[] { "Id_Estado" });
             DropIndex("dbo.Avisos", new[] { "Id_Articulo" });
             DropIndex("dbo.Auditoria_Alerta", new[] { "Id" });
+            DropIndex("dbo.UsuariosAdmin", new[] { "Id" });
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.Rol_Permiso", new[] { "Id" });
@@ -1131,7 +1148,7 @@
             DropIndex("dbo.Medico", new[] { "Id" });
             DropIndex("dbo.Medico", new[] { "Id_receta" });
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
-            DropIndex("dbo.Copago", new[] { "Id" });
+            DropIndex("dbo.Copago", new[] { "ApplicationUser_Id" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AsignacionRolesTemporales", new[] { "Id" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
@@ -1172,6 +1189,7 @@
             DropTable("dbo.Avisos");
             DropTable("dbo.Auditoria_Alerta");
             DropTable("dbo.Asientos_Contables");
+            DropTable("dbo.UsuariosAdmin");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.Rol_Permiso");
             DropTable("dbo.Solicitud_Receta");
