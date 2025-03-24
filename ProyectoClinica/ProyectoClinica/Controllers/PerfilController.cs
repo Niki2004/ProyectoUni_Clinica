@@ -189,6 +189,10 @@ namespace ProyectoClinica.Controllers
             citaExistente.Fecha_Cita = cita.Fecha_Cita;
             citaExistente.Hora_cita = cita.Hora_cita;
             citaExistente.Modalidad = cita.Modalidad;
+            citaExistente.Sintomas = cita.Sintomas;
+            citaExistente.Descripcion_Complicaciones = cita.Descripcion_Complicaciones;
+            citaExistente.Estado_Asistencia = cita.Estado_Asistencia;
+            //El nombre no se modifica ya que es el nombre del paciente
 
             // Marcar la entidad como modificada
             BaseDatos.Entry(citaExistente).State = EntityState.Modified;
