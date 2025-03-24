@@ -17,6 +17,14 @@ namespace ProyectoClinica.Models
         [ForeignKey("ApplicationUser")]
         public string Id { get; set; }
 
+        [Required]
+        [ForeignKey("UsuarioAsignado")]
+        public string Id_Usuario { get; set; }
+
+        [Required]
+        [ForeignKey("Departamentos")]
+        public int Id_Departamento { get; set; }
+
         public DateTime Fecha_Inicio { get; set; }
 
         public DateTime Fecha_Fin { get; set; }
@@ -24,6 +32,12 @@ namespace ProyectoClinica.Models
         [StringLength(50)]
         public string Estado { get; set; }
 
+        public string Motivo { get; set; }
+
         public virtual ApplicationUser ApplicationUser { get; set; }
+
+        public virtual ApplicationUser UsuarioAsignado { get; set; }
+
+        public virtual Departamentos Departamentos { get; set; }
     }
 }

@@ -414,3 +414,16 @@ VALUES
 --Copago
 INSERT INTO [dbo].[Copago] ([Porcentaje],[Tipo],[cedula])
 VALUES (50, 'Empresa Miguel','2091');
+
+--Asiganción Roles Temporales ------
+
+INSERT INTO [dbo].[AsignacionRolesTemporales]
+([Id], [Fecha_Inicio], [Fecha_Fin], [Estado], [Id_Usuario], [Id_Departamento], [Motivo], [ApplicationUser_Id])
+VALUES
+('1', '2025-01-15 08:00:00', '2025-03-30 17:00:00', 'Activo', '1', 1, 'Cobertura por vacaciones', '1');
+
+INSERT INTO [dbo].[AsignacionRolesTemporales]
+([Id], [Fecha_Inicio], [Fecha_Fin], [Estado], [Id_Usuario], [Id_Departamento], [Motivo], [ApplicationUser_Id])
+VALUES
+('2', '2025-02-01 09:00:00', '2025-04-15 18:00:00', 'Activo', '2', 2, 'Proyecto especial', '2');
+

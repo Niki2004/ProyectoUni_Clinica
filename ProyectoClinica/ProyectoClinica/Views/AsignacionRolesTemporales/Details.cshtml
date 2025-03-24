@@ -1,0 +1,50 @@
+﻿@model ProyectoClinica.Models.AsignacionRolesTemporales
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>AsignacionRolesTemporales</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ApplicationUser.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ApplicationUser.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fecha_Inicio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fecha_Inicio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fecha_Fin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fecha_Fin)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Estado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Estado)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id_AsignacionRoles }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
