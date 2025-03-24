@@ -4,85 +4,154 @@
     ViewBag.Title = "Eliminar";
 }
 
-<center><h2>Eliminar Cita</h2></center>
+<div class="container-form">
+    <h2 class="page-title">Eliminar Cita</h2>
 
-<h4>¿Estás seguro que deseas eliminar la cita?</h4>
-<br />
-<div>
+    <h4 class="text-center">¿Estás seguro que deseas eliminar la cita?</h4>
+
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Medico.Nombre)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Medico.Nombre)
-        </dd>
+        <legend>Información del Médico</legend>
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Medico.Nombre)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Medico.Nombre)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Nombre_Paciente)
-        </dt>
+            <legend>Información del Paciente</legend>
+            <dt>
+                @Html.DisplayNameFor(model => model.Nombre_Paciente)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Nombre_Paciente)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Nombre_Paciente)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Descripcion_Complicaciones)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Descripcion_Complicaciones)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Estado_Asistencia)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Sintomas)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Sintomas)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Estado_Asistencia)
-        </dd>
+            <legend>Datos de la Cita</legend>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Hora_cita)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Estado_Asistencia)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Estado_Asistencia)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Hora_cita)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Hora_cita)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Hora_cita)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Descripcion_Complicaciones)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Fecha_Cita)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Fecha_Cita)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Descripcion_Complicaciones)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Modalidad)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Modalidad)
+            </dd>
+        </dl>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Sintomas)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Sintomas)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Fecha_Cita)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Fecha_Cita)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Modalidad)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Modalidad)
-        </dd>
-
-    </dl>
-
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm())
+    {
         @Html.AntiForgeryToken()
 
-        <div class="form-actions no-color">
-            <input type="submit" value="Eliminar" class="btn btn-default" /> |
-            @Html.ActionLink("Regresar", "EliminarCita")
+        <div class="form-actions text-center">
+            <input type="submit" value="Eliminar" class="btn btn-danger" />
+            <a href="@Url.Action("EliminarCita")" class="btn btn-secondary">Regresar</a>
         </div>
     }
 </div>
+
+<style>
+    .container-form {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .page-title {
+        color: #0b7b82;
+        text-align: center;
+        margin-bottom: 30px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #0b7b82;
+    }
+
+    fieldset {
+        border: 2px solid #0b7b82;
+        padding: 15px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        background: white;
+    }
+
+    legend {
+        font-size: 1.2em;
+        font-weight: bold;
+        color: #0b7b82;
+        padding: 0 10px;
+        width: auto;
+    }
+
+    .dl-horizontal dt {
+        font-weight: bold;
+    }
+
+    .btn-danger {
+        background-color: #e74c3c;
+        border-color: #e74c3c;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-weight: bold;
+        transition: all 0.3s ease;
+    }
+
+        .btn-danger:hover {
+            background-color: #c0392b;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            color: white;
+        }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+        display: inline-block;
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+    .form-actions {
+        margin-top: 20px;
+    }
+</style>
