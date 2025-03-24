@@ -761,6 +761,7 @@
     <Content Include="Views\AsignacionRolesTemporales\Index.cshtml" />
     <Content Include="Views\AsignacionRolesTemporales\Details.cshtml" />
     <Content Include="Views\AsignacionRolesTemporales\Create.cshtml" />
+    <Content Include="Views\AsignacionRolesTemporales\Edit.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>

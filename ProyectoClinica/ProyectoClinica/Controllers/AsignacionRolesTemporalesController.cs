@@ -118,26 +118,55 @@ namespace ProyectoClinica.Controllers
                 return HttpNotFound();
             }
             ViewBag.Id = new SelectList(_context.Users, "Id", "UserName", asignacionRolesTemporales.Id);
-            ViewBag.Id_Usuario = new SelectList(_context.Users, "Id", "UserName", asignacionRolesTemporales.Id);
+            ViewBag.Id_Usuario = new SelectList(_context.Users, "Id", "UserName", asignacionRolesTemporales.Id_Usuario);
             ViewBag.Id_Departamento = new SelectList(_context.Departamentos, "Id_Departamento", "Nombre_Departamento", asignacionRolesTemporales.Id_Departamento);
             return View(asignacionRolesTemporales);
         }
 
         // POST: AsignacionRolesTemporales/Edit/5
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
-        // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id_AsignacionRoles,Id,Fecha_Inicio,Fecha_Fin,Estado")] AsignacionRolesTemporales asignacionRolesTemporales)
+        public ActionResult Edit([Bind(Include = "Id_AsignacionRoles,Id,Id_Usuario,Id_Departamento,Fecha_Inicio,Fecha_Fin,Estado,Motivo")] AsignacionRolesTemporales asignacionRolesTemporales)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _context.Entry(asignacionRolesTemporales).State = EntityState.Modified;
-                _context.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    // Verificar que los campos requeridos no sean nulos
+                    if (asignacionRolesTemporales.Id == null || asignacionRolesTemporales.Id_Departamento == null)
+                    {
+                        ModelState.AddModelError("", "Debe seleccionar un usuario y un departamento");
+                        throw new Exception("Campos requeridos faltantes");
+                    }
+
+                    // Actualizamos el registro
+                    _context.Entry(asignacionRolesTemporales).State = EntityState.Modified;
+                    
+                    // Intentamos guardar los cambios
+                    _context.SaveChanges();
+                    
+                    TempData["SuccessMessage"] = "Registro actualizado exitosamente";
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    // Si hay errores de validación, los mostramos
+                    foreach (var modelError in ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        ModelState.AddModelError("", modelError.ErrorMessage);
+                    }
+                }
             }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", "Error al actualizar el registro: " + ex.Message);
+                // Log del error
+                System.Diagnostics.Debug.WriteLine("Error en Edit: " + ex.Message);
+            }
+
+            // Si hay error, recargamos las listas desplegables
             ViewBag.Id = new SelectList(_context.Users, "Id", "UserName", asignacionRolesTemporales.Id);
-            ViewBag.Id_Usuario = new SelectList(_context.Users, "Id", "UserName", asignacionRolesTemporales.Id);
+            ViewBag.Id_Usuario = new SelectList(_context.Users, "Id", "UserName", asignacionRolesTemporales.Id_Usuario);
             ViewBag.Id_Departamento = new SelectList(_context.Departamentos, "Id_Departamento", "Nombre_Departamento", asignacionRolesTemporales.Id_Departamento);
             return View(asignacionRolesTemporales);
         }
