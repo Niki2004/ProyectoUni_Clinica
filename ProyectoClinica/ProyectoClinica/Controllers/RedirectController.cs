@@ -35,7 +35,7 @@ namespace ProyectoClinica.Controllers
             else if (User.IsInRole("Medico"))
                 return RedirectToAction("IndDOC", "Cita");
 
-            else if (User.IsInRole("Auditor"))
+           else if (User.IsInRole("Auditor"))
                 return RedirectToAction("VistaAUD", "Contabilidad");
 
             else if (User.IsInRole("Contador"))
@@ -44,7 +44,7 @@ namespace ProyectoClinica.Controllers
             else if (User.IsInRole("Secretaria"))
                 return RedirectToAction("VistaSEC", "Factura");
 
-            else if (User.IsInRole("Usuario"))
+            else  if (User.IsInRole("Usuario"))
                 return RedirectToAction("VistaCita", "Cita");
 
           
