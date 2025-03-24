@@ -191,9 +191,20 @@ namespace ProyectoClinica.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            AsignacionRolesTemporales asignacionRolesTemporales = _context.AsignacionRolesTemporales.Find(id);
-            _context.AsignacionRolesTemporales.Remove(asignacionRolesTemporales);
-            _context.SaveChanges();
+            try
+            {
+                AsignacionRolesTemporales asignacionRolesTemporales = _context.AsignacionRolesTemporales.Find(id);
+                if (asignacionRolesTemporales != null)
+                {
+                    _context.AsignacionRolesTemporales.Remove(asignacionRolesTemporales);
+                    _context.SaveChanges();
+                    TempData["SuccessMessage"] = "Registro eliminado exitosamente";
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Error al eliminar el registro: " + ex.Message;
+            }
             return RedirectToAction("Index");
         }
 
