@@ -758,11 +758,9 @@
     <Content Include="Views\Factura\FacturaNormal.cshtml" />
     <Content Include="Views\Factura\VerPagos.cshtml" />
     <Content Include="Views\Factura\VistaPreviaCopago.cshtml" />
-    <Content Include="Views\AsignacionRolesTemporales\Create.cshtml" />
-    <Content Include="Views\AsignacionRolesTemporales\Delete.cshtml" />
-    <Content Include="Views\AsignacionRolesTemporales\Details.cshtml" />
-    <Content Include="Views\AsignacionRolesTemporales\Edit.cshtml" />
     <Content Include="Views\AsignacionRolesTemporales\Index.cshtml" />
+    <Content Include="Views\AsignacionRolesTemporales\Details.cshtml" />
+    <Content Include="Views\AsignacionRolesTemporales\Create.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>
