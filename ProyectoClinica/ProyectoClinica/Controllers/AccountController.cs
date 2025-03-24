@@ -92,6 +92,7 @@ namespace ProyectoClinica.Controllers
                 {
                     case SignInStatus.Success:
                         return RedirectToAction("VistaCita", "Cita");
+                    #region Codigo para sprint#4
                     //// Verificamos el rol del usuario
                     //var roles = await UserManager.GetRolesAsync(user.Id);
                     //if (roles.Contains("Administrador"))
@@ -106,6 +107,7 @@ namespace ProyectoClinica.Controllers
                     //{
                     //    return RedirectToAction("Index", "Home");
                     //}
+                    #endregion
                     case SignInStatus.LockedOut:
                         return View("Lockout");
                     case SignInStatus.RequiresVerification:
