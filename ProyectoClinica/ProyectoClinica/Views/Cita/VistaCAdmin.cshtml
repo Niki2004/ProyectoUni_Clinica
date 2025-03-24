@@ -182,10 +182,12 @@
         color: #333;
     }
 
+    /*IMPORTANTE */
     .button-container {
+        margin-left: 19px; /*Hace que lo del centro se mueva */
         position: fixed;
-        top: 50px; 
-        left: 220px; 
+        top: 90px; /*Agranda */
+        left: 220px;
         right: 0;
         bottom: 0;
         overflow-y: auto;
@@ -311,6 +313,7 @@
         font-size: 1.8rem;
     }
 </style>
+
 </head>
 <body>
     <div class="container-fluid">
@@ -368,7 +371,7 @@
                                 <i class="fas fa-users"></i> Empleados
                             </a>
                             <br />
-                            <a href="#" class="nav-link">
+                            <a href="@Url.Action("Expedientes", "Expedientes")" class="nav-link">
                                 <i class="fas fa-folder-open"></i> Expedientes
                             </a>
                             <br />
@@ -386,8 +389,8 @@
                 <div style="display: flex; align-items: center; margin-bottom: 10px;">
                     <a href="@Url.Action("VistaAdmin", "Empleados")" style="text-decoration: none; color: #000000; font-size: 18px; display: flex; align-items: center;">
                         <i class="fas fa-home" style="margin-right: 5px;"></i>
+                        <h4 style="margin: 0; font-weight: bold; color: #333;">Módulo de Citas</h4>
                     </a>
-                    <h4 style="margin-left: 10px; font-weight: bold; color: #333;">Citas</h4>
                 </div>
 
                 <div style="text-align: left; margin-bottom: 5px;">
