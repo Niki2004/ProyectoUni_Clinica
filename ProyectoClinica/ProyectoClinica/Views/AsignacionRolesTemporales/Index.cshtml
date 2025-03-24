@@ -4,48 +4,169 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<div style="text-align: center; margin-bottom: 20px;">
+    <a href="@Url.Action("Administrativo", "Administrativos")" class="custom-btn">
+        <i class="fas fa-home"></i> Inicio
+    </a>
+</div>
+
+</br>
+
+<h2 class="text-center">Roles Temporales</h2>
+
+</br>
+
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Crear Roles", "Create", null, new { @class = "btn-pago" })
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ApplicationUser.Nombre)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Fecha_Inicio)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Fecha_Fin)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Estado)
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ApplicationUser.Nombre)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Fecha_Inicio)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Fecha_Fin)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Estado)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id_AsignacionRoles }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id_AsignacionRoles }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id_AsignacionRoles })
-        </td>
-    </tr>
-}
+</br>
 
-</table>
+
+
+<style>
+    .container-form {
+        max-width: 1200px;
+        margin: 30px auto;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+
+    .btn-pago {
+        /* Los estilos existentes se mantienen */
+        background-color: #0b7b82;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 5px;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 5px;
+        text-align: center;
+    }
+
+        .btn-pago:hover {
+            background-color: #0056b3;
+        }
+
+    .page-title {
+        color: #0b7b82;
+        text-align: center;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #0b7b82;
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+        .table th,
+        .table td {
+            padding: 15px;
+            border: 1px solid #dee2e6;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .table th {
+            background-color: #0b7b82;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .table tr:nth-child(even) td {
+            background-color: #f2f2f2;
+        }
+
+    .action-link {
+        background-color: #0b7b82;
+        color: #fff;
+        padding: 8px 16px;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background 0.3s ease, transform 0.2s ease;
+        font-size: 14px;
+        display: inline-block;
+    }
+
+        .action-link:hover {
+            background-color: #096c72;
+            transform: translateY(-1px);
+        }
+
+        /* Evitar que el enlace cambie a azul en hover o focus */
+        .action-link,
+        .action-link:hover,
+        .action-link:focus {
+            color: #fff !important;
+            text-decoration: none;
+        }
+
+    .custom-btn {
+        background-color: #0b7b82 !important;
+        color: white !important;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 16px;
+        text-decoration: none;
+        transition: background 0.3s ease, transform 0.2s ease;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+        .custom-btn:hover {
+            background-color: #096c72 !important;
+            transform: translateY(-1px);
+        }
+
+        /* Evitar que el custom-btn cambie a azul en hover o focus */
+        .custom-btn,
+        .custom-btn:hover,
+        .custom-btn:focus {
+            color: white !important;
+            text-decoration: none;
+        }
+</style>
+
+<div class="container-form">
+    <h2 class="page-title">Lista de Roles</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Nombre del Departamento</th>
+                <th>Fecha de Inicio</th>
+                <th>Fecha Final</th>
+                <th>Estado</th>
+                <th>Motivo</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.ApplicationUser.Nombre)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Departamentos.Nombre_Departamento)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Fecha_Inicio)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Fecha_Fin)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Estado)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Motivo)</td>
+                    <td>
+                        @Html.ActionLink("Detalles", "Details", new { id = item.Id_AsignacionRoles }, new { @class = "action-link" })
+                        @Html.ActionLink("Eliminar", "Delete", new { id = item.Id_AsignacionRoles }, new { @class = "action-link", style = "background-color: #dc3545; margin-left: 5px;" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
