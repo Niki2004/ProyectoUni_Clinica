@@ -70,5 +70,14 @@ namespace ProyectoClinica.Controllers
 
 
 
+        public ActionResult drive()
+        {
+            return View();
+        }
+
+
+
+
+
     }
 }
