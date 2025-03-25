@@ -410,27 +410,49 @@
                 </div>
                 <br />
 
-                @if (TempData["SuccessMessage"] != null)
+                <!-- Información de Permisos -->
+                <div class="permission-info">
+                    @if (ViewBag.EsAdministrador)
+                    {
+                        <div class="alert alert-success">
+                            <p><strong>Rol:</strong> Administrador</p>
+                            <p><strong>Estado:</strong> @ViewBag.Estado</p>
+                            <p><strong>Departamento:</strong> @ViewBag.Departamento</p>
+                            <p>Tiene acceso completo a todos los módulos administrativos.</p>
+                        </div>
+                    }
+                    else if (ViewBag.TienePermisos)
+                    {
+                        <div class="alert alert-success">
+                            <p><strong>Estado:</strong> @ViewBag.Estado</p>
+                            <p><strong>Departamento Asignado:</strong> @ViewBag.Departamento</p>
+                            <p>Tiene acceso a los módulos administrativos según su asignación temporal.</p>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-warning">
+                            <p>No tiene permisos activos para acceder a los módulos administrativos.</p>
+                            <p>Por favor, contacte al administrador para obtener los permisos necesarios.</p>
+                        </div>
+                    }
+                </div>
+
+                @if (ViewBag.TienePermisos || ViewBag.EsAdministrador)
                 {
-                    <div class="alert alert-success" role="alert">
-                        @TempData["SuccessMessage"]
-                    </div>
-                }
+                    <div class="container">
+                        <div class="row mb-4 text-center row-cols-4 g-3">
+                            <div class="col">
+                                @Html.ActionLink("Lista de Usuarios", "VistaListar", "Administrativos", null, new { @class = "btn btn-primary btn-sm w-100" })
+                            </div>
+                            <div class="col">
+                                @Html.ActionLink("Registro de Usuarios", "Create", "Administrativos", null, new { @class = "btn btn-info btn-sm w-100" })
+                            </div>
+                            <div class="col">
+                                @Html.ActionLink("Asignación de Roles", "Index", "AsignacionRolesTemporales", null, new { @class = "btn btn-primary btn-sm w-100" })
+                            </div>
+                        </div>
 
-                <div class="container">
-                    <div class="row mb-4 text-center row-cols-4 g-3">
-                        <div class="col">
-                            @Html.ActionLink("Lista de Usuarios", "VistaListar", "Administrativos", null, new { @class = "btn btn-primary btn-sm w-100" })
-                        </div>
-                        <div class="col">
-                            @Html.ActionLink("Registro de Usuarios", "Create", "Administrativos", null, new { @class = "btn btn-info btn-sm w-100" })
-                        </div>
-                        <div class="col">
-                            @Html.ActionLink("Asignación de Roles", "Index", "AsignacionRolesTemporales", null, new { @class = "btn btn-primary btn-sm w-100" })
-                        </div>
-                    </div>
-
-                    
                         <div class="row mb-4 text-center row-cols-4 g-3">
                             <div class="col">
                                 @Html.ActionLink("Editar Usuarios", "VistaADM", "Administrativos", null, new { @class = "btn btn-info btn-sm w-100" })
@@ -441,43 +463,54 @@
                             <div class="col">
                                 @Html.ActionLink("Auditoría Administrativa", "VistaAuditoría", "Administrativos", null, new { @class = "btn btn-info btn-sm w-100" })
                             </div>
-
                         </div>
 
-                        
-                            <div class="row mb-4 text-center row-cols-4 g-3">
-                                <div class="col">
-                                    @Html.ActionLink("Buscar Usuarios", "Buscar", "Administrativos", null, new { @class = "btn btn-primary btn-sm w-100" })
-                                </div>
-                                <div class="col">
-                                    @Html.ActionLink("Ver Pagos", "VerPagos", "Factura", null, new { @class = "btn btn-info btn-sm w-100" })
-                                </div>
+                        <div class="row mb-4 text-center row-cols-4 g-3">
+                            <div class="col">
+                                @Html.ActionLink("Buscar Usuarios", "Buscar", "Administrativos", null, new { @class = "btn btn-primary btn-sm w-100" })
+                            </div>
+                            <div class="col">
+                                @Html.ActionLink("Ver Pagos", "VerPagos", "Factura", null, new { @class = "btn btn-info btn-sm w-100" })
                             </div>
                         </div>
                     </div>
-                </div>
+                }
+                else
+                {
+                    <div class="alert alert-danger">
+                        <p>No tiene acceso a los módulos administrativos.</p>
+                        <p>Para obtener acceso, necesita:</p>
+                        <ul>
+                            <li>Estar asignado a un departamento</li>
+                            <li>Tener un rol temporal activo</li>
+                            <li>Tener el estado "Activo" en su asignación</li>
+                        </ul>
+                    </div>
+                }
             </div>
+        </div>
+    </div>
 
-            <script src="~/lib/jquery/dist/jquery.min.js"></script>
-            <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-            <script>
-                // Toggle submenu functionality
-                document.querySelectorAll('.nav-link').forEach(link => {
-                    link.addEventListener('click', function () {
-                        // Close all other open submenus
-                        document.querySelectorAll('.submenu').forEach(submenu => {
-                            if (submenu !== this.nextElementSibling) {
-                                submenu.classList.remove('active');
-                                this.classList.remove('active');
-                            }
-                        });
-
-                        // Toggle the clicked submenu
-                        const submenu = this.nextElementSibling;
-                        submenu.classList.toggle('active');
-                        this.classList.toggle('active');
-                    });
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Toggle submenu functionality
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function () {
+                // Close all other open submenus
+                document.querySelectorAll('.submenu').forEach(submenu => {
+                    if (submenu !== this.nextElementSibling) {
+                        submenu.classList.remove('active');
+                        this.classList.remove('active');
+                    }
                 });
-            </script>
+
+                // Toggle the clicked submenu
+                const submenu = this.nextElementSibling;
+                submenu.classList.toggle('active');
+                this.classList.toggle('active');
+            });
+        });
+    </script>
 
 </body>
