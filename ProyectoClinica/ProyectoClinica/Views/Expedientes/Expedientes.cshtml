@@ -4,9 +4,6 @@
     ViewBag.Title = "Administrador";
 }
 
-
-
-
 <style>
     :root {
         --primary-turquoise: #008B8B;
@@ -36,14 +33,15 @@
         position: fixed;
         top: 0;
         left: 0;
-        width: 220px;
+        width: 239px;
         height: 100vh;
         background-color: white;
-        padding-top: 5px;
-        padding-left: 5px;
-        padding-right: 5px;
+        padding-top: 65px;
+        padding-left: 15px;
+        padding-right: 15px;
         overflow-y: auto;
         z-index: 1000;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
 
         .sidebar a {
@@ -62,9 +60,9 @@
 
 
     .content {
+        max-width: 847px;
+        margin: 0 0 40px auto;
         padding: 20px;
-        max-width: 700px;
-        margin: 0 auto;
     }
 
         .content h2 {
@@ -93,7 +91,7 @@
 
     .nav-header {
         padding: 10px 15px;
-        color: #0b7b82;
+        color: #17183B;
         font-size: 0.8em;
         text-transform: uppercase;
         font-weight: bold;
@@ -184,9 +182,11 @@
         color: #333;
     }
 
+    /*IMPORTANTE */
     .button-container {
+        margin-left: 19px; /*Hace que lo del centro se mueva */
         position: fixed;
-        top: 50px;
+        top: 90px; /*Agranda */
         left: 220px;
         right: 0;
         bottom: 0;
@@ -195,7 +195,6 @@
         background-color: var(--background-light);
     }
 
-
     .container {
         max-width: 100%;
         padding-right: 15px;
@@ -203,7 +202,6 @@
         margin-right: auto;
         margin-left: auto;
     }
-
 
     .row-cols-4 {
         margin-right: -15px;
@@ -214,7 +212,6 @@
         padding-right: 15px;
         padding-left: 15px;
     }
-
 
     .button-container::-webkit-scrollbar {
         width: 8px;
@@ -232,6 +229,92 @@
         .button-container::-webkit-scrollbar-thumb:hover {
             background: var(--hover-turquoise);
         }
+
+    .nav-item {
+        position: relative;
+    }
+
+    .nav-link {
+        display: flex;
+        align-items: center;
+        color: #000000;
+        padding: 10px 15px;
+        text-decoration: none;
+        cursor: pointer;
+        justify-content: space-between;
+    }
+
+        .nav-link:hover {
+            background-color: #3bb4bc80;
+            border-radius: 5px;
+        }
+
+    .submenu {
+        display: none;
+        background-color: transparent;
+        list-style: none;
+        padding-left: 15px;
+    }
+
+        .submenu.active {
+            display: block;
+        }
+
+        .submenu a {
+            display: block;
+            color: #000000;
+            padding: 5px 10px;
+            text-decoration: none;
+            font-size: 18px;
+            margin-bottom: 2px;
+        }
+
+            .submenu a:hover {
+                background-color: #3bb4bc80;
+                border-radius: 5px;
+            }
+
+    .dropdown-icon {
+        transition: transform 0.3s;
+    }
+
+    .nav-link.active .dropdown-icon {
+        transform: rotate(180deg);
+    }
+
+    media (max-width: 768px) {
+        .container.body-content
+
+    {
+        padding: 15px;
+    }
+
+    }
+
+    media (max-width: 576px) {
+        .container.body-content
+
+    {
+        padding: 10px;
+    }
+
+    }
+
+    media (min-width: 1400px) {
+        .container.body-content
+
+    {
+        max-width: 1320px;
+    }
+
+    }
+
+    media (max-width: 576px) {
+        h1
+
+    {
+        font-size: 1.8rem;
+    }
 </style>
 </head>
 <body>
@@ -241,60 +324,74 @@
             <!-- Sidebar -->
             <div class="col-md-3 col-lg-2 sidebar">
                 <div class="sidebar">
-                    <div class="text-center p-3">
-                        <img src="~/Imagenes/Logo.png" alt="Centro Integral Santo Domingo Logo" class="img-fluid" style="max-width: 150px; height: auto;" />
+                    <div class="p-3 d-flex justify-content-center">
+                        <img src="~/Imagenes/Logo.png" alt="Centro Integral Santo Domingo Logo" class="img-fluid" style="max-width: 195px; height: auto;" />
                     </div>
 
-                    <br />
-
-                    <center><div class="nav-header">Navegación</div></center>
-                    <div class="nav flex-column">
+                    <center><div class="nav-header">Plataforma</div></center>
+                    <div class="nav-item">
                         <a class="nav-link">
-                            <i class="fas fa-cash-register"></i> Punto de venta
+                            <div>
+                                Navegación
+                            </div>
+
                         </a>
-                    </div><br />
-                    <div class="nav flex-column">
-                        <a href="@Url.Action("Index", "Inventario")" class="nav-link">
-                            <i class="fas fa-boxes"></i> Inventario
-                        </a>
-                    </div><br />
-                    <div class="nav flex-column">
-                        <a href="@Url.Action("VistaCON", "Contabilidad")" class="nav-link">
-                            <i class="fas fa-calculator"></i> Contabilidad
-                        </a>
-                    </div><br />
-                    <div class="nav flex-column">
-                        <a href="@Url.Action("VistaAdmRep", "Reporte")" class="nav-link">
-                            <i class="fas fa-chart-line"></i> Reportes
-                        </a>
+                        <ul class="submenu">
+                            <a @*href="@Url.Action(" ", "Punto de Venta")"*@ class="nav-link">
+                                <i class="fas fa-cash-register"></i> Punto de Venta
+                            </a>
+                            <br />
+                            <a href="@Url.Action("Index", "Inventario")" class="nav-link">
+                                <i class="fas fa-boxes"></i> Inventario
+                            </a>
+                            <br />
+                            <a href="@Url.Action("VistaCON", "Contabilidad")" class="nav-link">
+                                <i class="fas fa-calculator"></i> Contabilidad
+                            </a>
+                            <br />
+                            <a href="@Url.Action("VistaAdmRep", "Reporte")" class="nav-link">
+                                <i class="fas fa-chart-line"></i> Reportes
+                            </a>
+                        </ul>
                     </div>
+
                     <hr />
 
-                    <center><div class="nav-header">Administración</div></center>
-                    <div class="nav flex-column">
-                        <a href="@Url.Action("Administrativo", "Administrativos")" class="nav-link">
-                            <i class="fas fa-user-tie"></i> Administrativo
-                        </a><br />
+                    <div class="nav-item">
                         <a class="nav-link">
-                            <i class="fas fa-users"></i> Empleados
-                        </a><br />
-                        <a class="nav-link">
-                            <i class="fas fa-folder-open"></i> Expedientes
-                        </a><br />
-                        <a href="@Url.Action("VistaCAdmin", "Cita")" class="nav-link">
-                            <i class="fas fa-calendar-check"></i> Citas
-                        </a>
-                    </div>
+                            <div>
+                                Administración
+                            </div>
 
+                        </a>
+                        <ul class="submenu">
+                            <a href="@Url.Action("Administrativo", "Administrativos")" class="nav-link">
+                                <i class="fas fa-user-tie"></i> Administrativo
+                            </a>
+                            <br />
+                            <a href="@Url.Action("Empleados", "Empleados")" class="nav-link">
+                                <i class="fas fa-users"></i> Empleados
+                            </a>
+                            <br />
+                            <a href="@Url.Action("Expedientes", "Expedientes")" class="nav-link">
+                                <i class="fas fa-folder-open"></i> Expedientes
+                            </a>
+                            <br />
+                            <a href="@Url.Action("VistaCAdmin", "Cita")" class="nav-link">
+                                <i class="fas fa-calendar-check"></i> Citas
+                            </a>
+                        </ul>
+                    </div>
                 </div>
             </div>
+
             <!-- Main Content -->
             <div class="button-container">
                 <div style="display: flex; align-items: center; margin-bottom: 10px;">
-                    <a href="@Url.Action("VistaAdmin", "Expedientes")" style="text-decoration: none; color: #000000; font-size: 18px; display: flex; align-items: center;">
+                    <a href="@Url.Action("VistaAdmin", "Empleados")" style="text-decoration: none; color: #000000; font-size: 18px; display: flex; align-items: center;">
                         <i class="fas fa-home" style="margin-right: 5px;"></i>
+                        <h4 style="margin: 0; font-weight: bold; color: #333;">Módulo de Expedientes</h4>
                     </a>
-                    <h4 style="margin-left: 10px; font-weight: bold; color: #333;">Expedientes</h4>
                 </div>
 
                 <div style="text-align: left; margin-bottom: 5px;">
@@ -326,13 +423,11 @@
 
                     </div>
 
-               
-                   
+
+
                 </div>
 
             </div>
-
-
 
         </div>
 
@@ -340,4 +435,23 @@
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
+        <script>
+            // Toggle submenu functionality
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function () {
+                    // Close all other open submenus
+                    document.querySelectorAll('.submenu').forEach(submenu => {
+                        if (submenu !== this.nextElementSibling) {
+                            submenu.classList.remove('active');
+                            this.classList.remove('active');
+                        }
+                    });
+
+                    // Toggle the clicked submenu
+                    const submenu = this.nextElementSibling;
+                    submenu.classList.toggle('active');
+                    this.classList.toggle('active');
+                });
+            });
+        </script>
 </body>
