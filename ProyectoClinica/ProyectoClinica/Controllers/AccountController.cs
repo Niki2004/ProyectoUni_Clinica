@@ -392,8 +392,51 @@ namespace ProyectoClinica.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            try
+            {
+                // Obtener el ID del usuario actual
+                string userId = User.Identity.GetUserId();
+
+                // Buscar asignaciones temporales activas del usuario
+                var asignacionesActivas = _context.AsignacionRolesTemporales
+                    .Where(a => a.Id == userId)
+                    .FirstOrDefault();
+
+
+                if (asignacionesActivas != null) 
+                {
+                    // Obtener solo la fecha (sin la hora) para comparar
+                    var fechaInicio = asignacionesActivas.Fecha_Inicio.Date;
+                    var fechaFin = asignacionesActivas.Fecha_Fin.Date;
+                    var fechaActual = DateTime.Now.Date;
+
+                    // Si la fecha actual está entre la fecha de inicio y fin
+                    if (fechaActual >= fechaInicio && fechaActual <= fechaFin)
+                    {
+                        asignacionesActivas.Estado = "Activo";
+                    }
+                    else
+                    {
+                        asignacionesActivas.Estado = "Inactivo";
+                    }
+
+                    // Guardar los cambios en la base de datos
+                    _context.SaveChanges();
+                }
+
+                // Cerrar sesión
+                AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception ex)
+            {
+                // Log del error
+                System.Diagnostics.Debug.WriteLine("Error en LogOff: " + ex.Message);
+                
+                // Cerrar sesión de todos modos
+                AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+                return RedirectToAction("Index", "Home");
+            }
         }
 
 

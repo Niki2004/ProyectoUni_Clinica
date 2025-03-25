@@ -6,6 +6,8 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace ProyectoClinica.Controllers
 {
@@ -21,8 +23,35 @@ namespace ProyectoClinica.Controllers
       
         public ActionResult Administrativo()
         {
-            return View();
+            // Obtener el ID del usuario actual
+            string userId = User.Identity.GetUserId();
 
+            // Verificar si el usuario es administrador
+            var userManager = new UserManager<ApplicationUser>(new Microsoft.AspNet.Identity.EntityFramework.UserStore<ApplicationUser>(_context));
+            bool esAdmin = userManager.IsInRole(userId, "Administrador");
+
+            if (esAdmin)
+            {
+                // Si es administrador, tiene acceso total
+                ViewBag.TienePermisos = true;
+                ViewBag.EsAdministrador = true;
+                ViewBag.Estado = "Activo";
+                ViewBag.Departamento = "Administración";
+                return View();
+            }
+
+            // Si no es administrador, verificar asignaciones temporales
+            var asignacionActiva = _context.AsignacionRolesTemporales
+                .Include(a => a.Departamentos)
+                .FirstOrDefault(a => a.Id == userId && a.Estado == "Activo");
+
+            // Pasar la información a la vista
+            ViewBag.TienePermisos = asignacionActiva != null;
+            ViewBag.EsAdministrador = false;
+            ViewBag.Departamento = asignacionActiva?.Departamentos?.Nombre_Departamento;
+            ViewBag.Estado = asignacionActiva?.Estado;
+
+            return View();
         }
         [HttpGet]
         public ActionResult VistaADM()
