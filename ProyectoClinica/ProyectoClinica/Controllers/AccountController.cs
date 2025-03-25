@@ -91,7 +91,7 @@ namespace ProyectoClinica.Controllers
                 switch (result)
                 {
                     case SignInStatus.Success:
-                        return RedirectToAction("VistaCita", "Cita");
+                        return RedirectToAction("Redirect", "Redirect");
                     #region Codigo para sprint#4
                     //// Verificamos el rol del usuario
                     //var roles = await UserManager.GetRolesAsync(user.Id);
