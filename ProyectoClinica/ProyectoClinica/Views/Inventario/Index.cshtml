@@ -11,6 +11,20 @@
         --hover-turquoise: #20B2AA;
         --background-light: #F5F5F5;
     }
+    /* Asegura que los botones de filtro estén siempre horizontales */
+    .filter-buttons {
+        display: flex;
+        flex-direction: row !important;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+
+        .filter-buttons .btn {
+            white-space: nowrap;
+            min-width: 100px;
+        }
 
     /* Contenedor de filtros */
     .filters-container {
@@ -214,7 +228,103 @@
             border-color: var(--hover-turquoise);
             transform: translateY(-2px);
         }
+    /* Aumenta el tamaño de los botones de acción en la tabla */
+    .action-buttons .btn,
+    .d-flex.gap-1 .btn {
+        padding: 8px 12px;
+        font-size: 14px;
+        white-space: nowrap;
+        min-width: 80px;
+        margin: 2px;
+    }
 
+    /* Asegura que los botones de detalle y ocultar tengan un tamaño consistente */
+    .btn-info, .btn-hide {
+        height: 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Aumenta el tamaño de los botones de filtro */
+    .filter-buttons .btn {
+        padding: 10px 15px;
+        font-size: 15px;
+        min-width: 120px;
+        height: 45px;
+    }
+
+    /* Incrementa el tamaño del botón Crear */
+    .btn.text-white[style*="background-color: #3bb4bc"] {
+        padding: 10px 20px;
+        font-size: 16px;
+        min-width: 100px;
+        height: 45px;
+    }
+
+    /* Asegura que el botón Mostrar Inactivos sea del mismo tamaño */
+    .btn-show-inactive {
+        padding: 10px 20px;
+        font-size: 16px;
+        min-width: 150px;
+        height: 45px;
+    }
+    /* Ajusta los botones de acción para evitar que se corten */
+    .action-buttons .btn,
+    .d-flex.gap-1 .btn {
+        padding: 8px 10px;
+        font-size: 14px;
+        white-space: nowrap;
+        min-width: 70px; /* Reducimos un poco el ancho mínimo */
+        margin: 2px;
+        overflow: visible; /* Asegura que el contenido no se corte */
+    }
+
+    /* Solución definitiva para los botones cortados */
+
+    /* 1. Aumenta significativamente el ancho de la columna de acciones */
+    .table th:nth-child(9),
+    .table td:nth-child(9) {
+        width: 25% !important; /* Aumentamos considerablemente el ancho de la columna */
+        min-width: 200px !important;
+    }
+
+    /* 2. Elimina cualquier restricción de tamaño para los botones */
+    .d-flex.gap-1 .btn {
+        padding: 8px;
+        font-size: 14px;
+        white-space: nowrap;
+        overflow: visible;
+        text-overflow: initial;
+        width: auto !important;
+        max-width: none !important;
+    }
+
+    /* 3. Asegura que el contenedor tenga suficiente espacio */
+    .d-flex.gap-1 {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        justify-content: space-around !important;
+        width: 100% !important;
+        min-width: 190px !important;
+    }
+
+    /* 4. Reducir el ancho de otras columnas para compensar */
+    .table th:not(:nth-child(9)),
+    .table td:not(:nth-child(9)) {
+        width: auto !important;
+    }
+
+    /* Ajusta el contenedor de los botones */
+    .d-flex.gap-1 {
+        display: flex;
+        flex-direction: row !important;
+        gap: 5px;
+        justify-content: center;
+        flex-wrap: nowrap;
+        width: 100%;
+    }
     .gallery-container {
         padding: 20px;
         max-width: 1200px;
@@ -299,10 +409,32 @@
         padding: 0 15px;
     }
 
+    /* Modifica estos estilos en tu archivo CSS */
+
+    /* Ajusta los botones de acción para que estén en línea horizontal */
     .action-buttons {
         display: flex;
-        flex-direction: column; /* Apila los botones verticalmente en pantallas pequeñas */
+        flex-direction: row !important; /* Fuerza la dirección horizontal */
+        justify-content: center;
         gap: 5px;
+        flex-wrap: nowrap;
+    }
+
+        /* Ajusta el tamaño de los botones para que quepan en una fila */
+        .action-buttons .btn,
+        .d-flex.gap-1 .btn {
+            padding: 5px 8px;
+            font-size: 12px;
+            white-space: nowrap;
+            width: auto;
+        }
+
+    /* Elimina la configuración de dirección de columna */
+    .d-flex.gap-1 {
+        display: flex;
+        flex-direction: row !important;
+        gap: 5px;
+        justify-content: center;
     }
 
     /* Ajusta los anchos de las columnas específicas */
@@ -365,6 +497,32 @@
         .table-container::-webkit-scrollbar-thumb:hover {
             background: var(--hover-turquoise);
         }
+
+    /* Estilos para elementos ocultos */
+    .hidden-row {
+        display: none;
+    }
+
+    /* Estilo para el botón Mostrar/Ocultar inactivos */
+    .btn-show-inactive {
+        background-color: #6c757d;
+        color: white;
+        margin-left: 10px;
+    }
+
+        .btn-show-inactive:hover {
+            background-color: #5a6268;
+        }
+
+    /* Estilo para el botón de ocultar */
+    .btn-hide {
+        background-color: #dc3545;
+        color: white;
+    }
+
+        .btn-hide:hover {
+            background-color: #c82333;
+        }
 </style>
 </head>
 <body>
@@ -396,11 +554,11 @@
                             <i class="fas fa-calculator"></i> Contabilidad
                         </a>
                     </div><br />
-                          <div class="nav flex-column">
-                              <a href="@Url.Action("VistaAdmRep", "Reporte")" class="nav-link">
-                                  <i class="fas fa-chart-line"></i> Reportes
-                              </a>
-                          </div>
+                    <div class="nav flex-column">
+                        <a href="@Url.Action("VistaAdmRep", "Reporte")" class="nav-link">
+                            <i class="fas fa-chart-line"></i> Reportes
+                        </a>
+                    </div>
                     <hr />
 
                     <center><div class="nav-header">Administración</div></center>
@@ -411,9 +569,9 @@
                         <a href="@Url.Action("Empleados", "Empleados")" class="nav-link">
                             <i class="fas fa-users"></i> Empleados
                         </a><br />
-                        <a class="nav-link">
-                            <i class="fas fa-folder-open"></i> Expedientes
-                        </a><br />
+                            <a href="@Url.Action("Expedientes", "Expedientes")" class="nav-link">
+                                <i class="fas fa-folder-open"></i> Expedientes
+                            </a><br />
                         <a href="@Url.Action("VistaCAdmin", "Cita")" class="nav-link">
                             <i class="fas fa-calendar-check"></i> Citas
                         </a>
@@ -425,7 +583,10 @@
             <div class="col-md-9 col-lg-10 ms-auto button-container">
                 <div class="inventory-header">
                     <h2 style="text-align: ri; margin-bottom: 20px;">Inventario</h2>
-                    @Html.ActionLink("Crear", "Crear", null, new { @class = "btn text-white", style = "background-color: #3bb4bc; border-radius: 5px;" })
+                    <div>
+                        @Html.ActionLink("Crear", "Crear", null, new { @class = "btn text-white", style = "background-color: #3bb4bc; border-radius: 5px;" })
+                        <a href="@Url.Action("Index")" id="btnMostrarInactivos" class="btn btn-show-inactive" style="display: none;">Mostrar Inactivos</a>
+                    </div>
                 </div>
 
                 @using (Html.BeginForm("Index", "Inventario", FormMethod.Get))
@@ -449,7 +610,7 @@
                 }
 
                 <div class="table-container">
-                    <table class="table">
+                    <table class="table" id="tablaProductos">
                         <thead style="background-color: #0b7b82; color: white;">
                             <tr>
                                 <th>@Html.DisplayNameFor(model => model.Estado.Descripcion)</th>
@@ -466,7 +627,7 @@
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                <tr>
+                                <tr data-id="@item.Id_Articulo">
                                     <td>@Html.DisplayFor(modelItem => item.Estado.Descripcion)</td>
                                     <td>@Html.DisplayFor(modelItem => item.NombreArticulo)</td>
                                     <td>@Html.DisplayFor(modelItem => item.Marca)</td>
@@ -475,28 +636,45 @@
                                     <td>@item.FechaCaducidad.ToString("dd/MM/yyyy")</td>
                                     <td>@Html.DisplayFor(modelItem => item.TipoArticulo)</td>
                                     <td>@item.FechaIngreso.ToString("dd/MM/yyyy")</td>
-                                    <td className="bg-teal-400 text-white w-20 py-1 rounded hover:bg-teal-500 ml-2">
-                                        @Html.ActionLink("Detalle", "Detalles", new { id = item.Id_Articulo }, new { @class = "btn btn-info text-white", title = "Ver Detalles" })
-                                        @*@Html.ActionLink("Editar", "Editar", new { id = item.Id_Articulo }, new { @class = "btn btn-warning text-white", title = "Editar" })*@
-                                        @*@Html.ActionLink("Eliminar", "Eliminar", new { id = item.Id_Articulo }, new { @class = "btn btn-danger text-white", title = "Eliminar" })*@
+                                    <td>
+                                        <div class="d-flex gap-1">
+                                            @Html.ActionLink("Detalle", "Detalles", new { id = item.Id_Articulo }, new { @class = "btn btn-info text-white", title = "Ver Detalles" })
+                                            <button class="btn btn-hide" onclick="ocultarItem(@item.Id_Articulo)" title="Ocultar Item">Ocultar</button>
+                                        </div>
                                     </td>
-
                                 </tr>
                             }
                         </tbody>
                     </table>
                 </div>
             </div>
-
-
         </div>
-
-
-
     </div>
-
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
+    <script>
+        // Variable para almacenar los elementos ocultos
+        var itemsOcultos = [];
+
+        // Función para ocultar un item
+        function ocultarItem(id) {
+            var row = $('tr[data-id="' + id + '"]');
+
+            // Guarda la información del item antes de ocultarlo
+            itemsOcultos.push({
+                id: id,
+                html: row[0].outerHTML
+            });
+
+            // Oculta la fila
+            row.addClass('hidden-row');
+
+            // Mostrar botón para mostrar inactivos si hay elementos ocultos
+            if (itemsOcultos.length > 0) {
+                $('#btnMostrarInactivos').show();
+            }
+        }
+    </script>
 </body>

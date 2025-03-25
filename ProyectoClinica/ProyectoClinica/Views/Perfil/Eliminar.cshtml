@@ -4,85 +4,165 @@
     ViewBag.Title = "Eliminar";
 }
 
-<center><h2>Eliminar Cita</h2></center>
+<div class="container-form">
+    <h2 class="page-title">Eliminación de la cita</h2>
 
-<h4>¿Estás seguro que deseas eliminar la cita?</h4>
-<br />
-<div>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Medico.Nombre)
-        </dt>
+    <style>
+        .container-form {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
 
-        <dd>
-            @Html.DisplayFor(model => model.Medico.Nombre)
-        </dd>
+        .page-title {
+            color: #0b7b82;
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #0b7b82;
+        }
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Nombre_Paciente)
-        </dt>
+        fieldset {
+            border: 2px solid #0b7b82;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            background: white;
+        }
 
-        <dd>
-            @Html.DisplayFor(model => model.Nombre_Paciente)
-        </dd>
+        legend {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #0b7b82;
+            padding: 0 10px;
+            width: auto;
+        }
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Estado_Asistencia)
-        </dt>
+        .form-group {
+            margin-bottom: 15px;
+        }
 
-        <dd>
-            @Html.DisplayFor(model => model.Estado_Asistencia)
-        </dd>
+        .btn-primary {
+            background-color: #0b7b82;
+            border-color: #0b7b82;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Hora_cita)
-        </dt>
+            .btn-primary:hover {
+                background-color: #096c72;
+                transform: translateY(-1px);
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+                color: white;
+            }
 
-        <dd>
-            @Html.DisplayFor(model => model.Hora_cita)
-        </dd>
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Descripcion_Complicaciones)
-        </dt>
+            .btn-secondary:hover {
+                background-color: #5a6268;
+            }
 
-        <dd>
-            @Html.DisplayFor(model => model.Descripcion_Complicaciones)
-        </dd>
+        .confirm-message {
+            color: #CC6B71;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Sintomas)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Sintomas)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Fecha_Cita)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Fecha_Cita)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Modalidad)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Modalidad)
-        </dd>
-
-    </dl>
-
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm())
+    {
         @Html.AntiForgeryToken()
 
-        <div class="form-actions no-color">
-            <input type="submit" value="Eliminar" class="btn btn-default" /> |
-            @Html.ActionLink("Regresar", "EliminarCita")
+        <div class="form-horizontal">
+            <p class="confirm-message">¿Estás seguro que deseas eliminar esta cita?</p>
+
+            @Html.HiddenFor(model => model.Id_Cita)
+
+            <!-- Información del médico -->
+            <legend>Información del Médico</legend>
+            <div class="form-group">
+                <label class="control-label col-md-4">Médico:</label>
+                <div class="col-md-8">
+                    @Html.DisplayFor(model => model.Medico.Nombre)
+                </div>
+            </div>
+
+            <!-- Información del paciente -->
+            <legend>Información del Paciente</legend>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">Paciente:</label>
+                        <div class="col-md-8">
+                            @Html.DisplayFor(model => model.Nombre_Paciente)
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Complicaciones:</label>
+                        @Html.DisplayFor(model => model.Descripcion_Complicaciones)
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Síntomas:</label>
+                        @Html.DisplayFor(model => model.Sintomas)
+                    </div>
+                </div>
+            </div>
+
+            <!-- Datos de la Cita -->
+            <legend>Datos de la Cita</legend>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Fecha de Cita:</label>
+                        @Html.DisplayFor(model => model.Fecha_Cita)
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Hora de Cita:</label>
+                        @Html.DisplayFor(model => model.Hora_cita)
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Modalidad:</label>
+                        @Html.DisplayFor(model => model.Modalidad)
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Estado de Asistencia:</label>
+                        @Html.DisplayFor(model => model.Estado_Asistencia)
+                    </div>
+                </div>
+            </div>
+
+            <br />
+
+            <!-- Botones -->
+            <div class="form-group text-center">
+                <input type="submit" value="Eliminar" class="btn btn-primary" />
+                <a href="@Url.Action("VistaCita")" class="btn btn-secondary">Regresar</a>
+            </div>
         </div>
     }
 </div>

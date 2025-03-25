@@ -81,21 +81,33 @@ namespace ProyectoClinica.Controllers
                 return View(model);
             }
 
-          
-            var resutlt= await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
-            
-            //comentado por Andres
-            //if(resutlt2 == SignInStatus.Failure)
-            //{
-            //    return View(model);
-            //}
-            //else
-            //{
-                switch (resutlt)
+            // Primero buscamos el usuario por email
+            var user = await UserManager.FindByEmailAsync(model.Email);
+            if (user != null)
+            {
+                // Intentamos iniciar sesión con el email como nombre de usuario
+                var result = await SignInManager.PasswordSignInAsync(user.UserName, model.Password, model.RememberMe, shouldLockout: false);
+                
+                switch (result)
                 {
-
                     case SignInStatus.Success:
                         return RedirectToAction("Redirect", "Redirect");
+                    #region Codigo para sprint#4
+                    //// Verificamos el rol del usuario
+                    //var roles = await UserManager.GetRolesAsync(user.Id);
+                    //if (roles.Contains("Administrador"))
+                    //{
+                    //    return RedirectToAction("Index", "Administrativos");
+                    //}
+                    //else if (roles.Contains("Usuario"))
+                    //{
+                    //    return RedirectToAction("VistaCita", "Cita");
+                    //}
+                    //else
+                    //{
+                    //    return RedirectToAction("Index", "Home");
+                    //}
+                    #endregion
                     case SignInStatus.LockedOut:
                         return View("Lockout");
                     case SignInStatus.RequiresVerification:
@@ -104,10 +116,13 @@ namespace ProyectoClinica.Controllers
                     default:
                         ModelState.AddModelError("", "Intento de inicio de sesión no válido");
                         return View(model);
-                    }
-
-            //}
-            //return View(model);
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("", "No se encontró un usuario con ese correo electrónico.");
+                return View(model);
+            }
         }
 
         //
@@ -167,7 +182,7 @@ namespace ProyectoClinica.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Nombre = model.Nombre, 
+                var user = new ApplicationUser {UserName = model.Nombre + " " + model.Apellido, Email = model.Email, Nombre = model.Nombre, 
                     Apellido = model.Apellido, Edad_Paciente = model.Edad_Paciente, Genero_Paciente = model.Genero_Paciente.ToString(),
                     Direccion = model.Direccion, Cedula = model.Cedula, Imagen = model.Imagen, PhoneNumber = model.PhoneNumber};
                 var result = await UserManager.CreateAsync(user, model.Password);
@@ -220,25 +235,46 @@ namespace ProyectoClinica.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await UserManager.FindByNameAsync(model.Email);
+                var user = await UserManager.FindByEmailAsync(model.Email);
 
-                // Generar una contraseña temporal
-                string tempPassword = GenerateTemporaryPassword(user.Nombre, user.Apellido, user.Cedula);
-                string temphaspassword = HashPassword(tempPassword);
-
-                user.PasswordHash = temphaspassword;
-
-                //_context.SaveChanges();
-
-                // Pasar la información a la vista
-                return View("ForgotPasswordConfirmation", new ShowNewPasswordViewModel
+                if (user != null)
                 {
-                    Email = user.Email,
-                    TemporaryPassword = tempPassword
-                });
+                    try
+                    {
+                        // Generar una contraseña temporal
+                        string tempPassword = GenerateTemporaryPassword(user.Nombre, user.Apellido, user.Cedula);
+                        
+                        // Usamos el método correcto de Identity para cambiar la contraseña
+                        var token = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                        var result = await UserManager.ResetPasswordAsync(user.Id, token, tempPassword);
 
+                        if (result.Succeeded)
+                        {
+                            // Guardamos los cambios en la base de datos
+                            await _context.SaveChangesAsync();
+
+                            // Pasar la información a la vista
+                            return View("ForgotPasswordConfirmation", new ShowNewPasswordViewModel
+                            {
+                                Email = user.Email,
+                                TemporaryPassword = tempPassword
+                            });
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("", "No se pudo actualizar la contraseña. Por favor, intente nuevamente.");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ModelState.AddModelError("", "Error al actualizar la contraseña: " + ex.Message);
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("", "No se encontró un usuario con ese correo electrónico.");
+                }
             }
-
            
             return View(model);
         }
@@ -356,8 +392,51 @@ namespace ProyectoClinica.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            try
+            {
+                // Obtener el ID del usuario actual
+                string userId = User.Identity.GetUserId();
+
+                // Buscar asignaciones temporales activas del usuario
+                var asignacionesActivas = _context.AsignacionRolesTemporales
+                    .Where(a => a.Id == userId)
+                    .FirstOrDefault();
+
+
+                if (asignacionesActivas != null) 
+                {
+                    // Obtener solo la fecha (sin la hora) para comparar
+                    var fechaInicio = asignacionesActivas.Fecha_Inicio.Date;
+                    var fechaFin = asignacionesActivas.Fecha_Fin.Date;
+                    var fechaActual = DateTime.Now.Date;
+
+                    // Si la fecha actual está entre la fecha de inicio y fin
+                    if (fechaActual >= fechaInicio && fechaActual <= fechaFin)
+                    {
+                        asignacionesActivas.Estado = "Activo";
+                    }
+                    else
+                    {
+                        asignacionesActivas.Estado = "Inactivo";
+                    }
+
+                    // Guardar los cambios en la base de datos
+                    _context.SaveChanges();
+                }
+
+                // Cerrar sesión
+                AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception ex)
+            {
+                // Log del error
+                System.Diagnostics.Debug.WriteLine("Error en LogOff: " + ex.Message);
+                
+                // Cerrar sesión de todos modos
+                AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+                return RedirectToAction("Index", "Home");
+            }
         }
 
 

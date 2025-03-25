@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Centro Integral Santo Domingo</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <style>
         :root {
             --primary-turquoise: #008B8B;
@@ -31,86 +32,85 @@
             right: 0;
             height: 50px;
             background-color: #008B8B;
-            z-index: 1001; 
+            z-index: 1001;
         }
 
+        /*Panel del menu*/
         .sidebar {
             position: fixed;
-            top: 0; 
+            top: 0;
             left: 0;
-            width: 189px;
+            width: 239px;
             height: 100vh;
             background-color: white;
-            padding-top: 65px; 
+            padding-top: 65px;
             padding-left: 15px;
             padding-right: 15px;
             overflow-y: auto;
             z-index: 1000;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
 
-            .sidebar a {
-                display: block;
-                color: #000000;
-                padding: 5px 10px; 
-                text-decoration: none;
-                font-size: 18px;
-                margin-bottom: 2px; 
-            }
+        .sidebar a {
+            display: block;
+            color: #000000;
+            padding: 8px 10px;
+            text-decoration: none;
+            font-size: 16px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+        }
 
-                .sidebar a:hover {
-                    background-color: #3bb4bc80;
-                    border-radius: 5px;
-                }
+        .sidebar a:hover {
+            background-color: #3bb4bc80;
+            color: #0b7b82;
+        }
 
+        .main-container {
+            padding-left: 220px; 
+            padding-top: 20px;
+            width: 100%;
+        }
 
         .content {
-            padding: 20px;
-            max-width: 700px; 
+            max-width: 900px;
             margin: 0 auto;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 40px;
         }
 
-            .content h2 {
-                color: #0b7b82;
-                text-align: left; 
-                margin-bottom: 20px;
-                padding-left: 20px; 
-            }
+        .content h2 {
+            color: #0b7b82;
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: bold;
+        }
 
-            .content p {
-                text-align: left;
-                padding-left: 20px; 
-                margin-bottom: 10px;
-                line-height: 1.6; 
-            }
+        .content p {
+            text-align: justify;
+            margin-bottom: 15px;
+            line-height: 1.6;
+            padding: 0 10px;
+        }
+
         .nav-link {
             color: #333;
             padding: 10px 15px;
         }
 
-            .nav-link:hover {
-                background-color: #3bb4bc;
-                color: white;
-            }
+        .nav-link:hover {
+            background-color: #3bb4bc;
+            color: white;
+        }
 
         .nav-header {
             padding: 10px 15px;
             color: #0b7b82;
-            font-size: 0.8em;
+            font-size: 0.9em;
             text-transform: uppercase;
             font-weight: bold;
-        }
-
-        /* Main Content Styles */
-        .main-content {
-            padding: 20px;
-        }
-
-        .content-wrapper {
-            background-color: white;
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            margin-top: 20px;
+            margin: 10px 0 5px 0;
         }
 
         .btn {
@@ -128,11 +128,11 @@
             color: white;
         }
 
-            .btn-primary:hover {
-                background-color: var(--hover-turquoise);
-                border-color: var(--hover-turquoise);
-                transform: translateY(-2px);
-            }
+        .btn-primary:hover {
+            background-color: var(--hover-turquoise);
+            border-color: var(--hover-turquoise);
+            transform: translateY(-2px);
+        }
 
         .btn-info {
             background-color: var(--secondary-turquoise);
@@ -140,41 +140,42 @@
             color: white;
         }
 
-            .btn-info:hover {
-                background-color: var(--hover-turquoise);
-                border-color: var(--hover-turquoise);
-                transform: translateY(-2px);
-            }
+        .btn-info:hover {
+            background-color: var(--hover-turquoise);
+            border-color: var(--hover-turquoise);
+            transform: translateY(-2px);
+        }
+
         .gallery-container {
-            padding: 20px;
-            max-width: 1200px;
+            max-width: 100%;
             margin: 0 auto;
         }
 
         .image-gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 20px;
-            padding: 20px;
+            margin: 25px 0;
         }
 
         .gallery-item {
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            background-color: white;
         }
 
         .gallery-image {
             width: 100%;
-            height: 250px;
+            height: 220px;
             object-fit: cover;
             display: block;
             transition: transform 0.3s ease;
         }
 
-            .gallery-image:hover {
-                transform: scale(1.05);
-            }
+        .gallery-image:hover {
+            transform: scale(1.05);
+        }
 
         .image-caption {
             padding: 10px;
@@ -183,59 +184,114 @@
             color: #333;
         }
 
-   
+        media (max-width: 992px) {
+            .sidebar {
+                width: 180px;
+            }
+
+            .main-container {
+                padding-left: 200px;
+            }
+
+            .content {
+                padding: 20px;
+            }
+        }
+
+        media (max-width: 768px) {
+            .sidebar {
+                width: 160px;
+            }
+
+            .main-container {
+                padding-left: 180px;
+            }
+
+            .image-gallery {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+
+        media (max-width: 576px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                padding-top: 20px;
+                padding-bottom: 20px;
+            }
+
+            .main-container {
+                padding-left: 0;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .navbar-brand {
+                font-size: 1.2rem;
+            }
+
+            .image-gallery {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-image {
+                height: 200px;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="container-fluid">
-
-        <div class="row">
-            <!-- Sidebar -->
-            <div class="col-md-3 col-lg-2 sidebar">
-                <div class="sidebar">
-                    <div class="text-center p-3">
-                        <img src="~/Imagenes/Logo.png" alt="Centro Integral Santo Domingo Logo" class="img-fluid" style="max-width: 150px; height: auto;" />
-                    </div>
-
-                    <center><div class="nav-header">Plataforma</div></center>
-                    <div class="nav flex-column">
-                        <a href="@Url.Action("Index", "Cita")" class="nav-link">
-                            <i class="fas fa-calendar-alt"></i> Cita
-                        </a>
-
-                        <a href="@Url.Action("AtencionCliente", "Cita")" class="nav-link">
-                            <i class="fas fa-comments"></i> Comentarios
-                        </a>
-                    </div>
-                    <hr />
-
-                    <center><div class="nav-header">Información</div></center>
-                    <div class="nav flex-column">
-                        <a href="@Url.Action("Especialidad", "Cita")" class="nav-link">
-                            <i class="fas fa-stethoscope"></i> Especialidad
-                        </a>
-
-                        <a href="@Url.Action("Contactanos", "Cita")" class="nav-link">
-                            <i class="fas fa-phone-alt"></i> Contáctanos
-                        </a>
-                        <a href="@Url.Action("Ubicacion", "Cita")" class="nav-link">
-                            <i class="fas fa-map-marker-alt"></i> Ubicación
-                        </a>
-                    </div>
-
-                </div>
+    <div class="container-fluid p-0">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="p-3 d-flex justify-content-center">
+                <img src="~/Imagenes/Logo.png" alt="Centro Integral Santo Domingo Logo" class="img-fluid" style="max-width: 195px; height: auto;" />
             </div>
 
-            <!-- Main Content -->
-            <div class="content">
+            <div class="nav-header text-center">Plataforma</div>
+            <div class="nav flex-column">
+                <a href="@Url.Action("Index", "Cita")" class="nav-link">
+                    <i class="fas fa-calendar-alt"></i> Cita
+                </a>
 
-                <h2 class="text-center" style="color: #0b7b82;">Sobre nosostros</h2>
-                <p style="text-align: justify;">
+                <a href="@Url.Action("AtencionCliente", "Cita")" class="nav-link">
+                    <i class="fas fa-comments"></i> Comentarios
+                </a>
+            </div>
+            <hr />
+
+            <div class="nav-header text-center">Información</div>
+            <div class="nav flex-column">
+                <a href="@Url.Action("Especialidad", "Cita")" class="nav-link">
+                    <i class="fas fa-stethoscope"></i> Especialidad
+                </a>
+
+                <a href="@Url.Action("Contactanos", "Cita")" class="nav-link">
+                    <i class="fas fa-phone-alt"></i> Contáctanos
+                </a>
+                <a href="@Url.Action("Ubicacion", "Cita")" class="nav-link">
+                    <i class="fas fa-map-marker-alt"></i> Ubicación
+                </a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-container">
+            <div class="content">
+                <h2 style="color: #0b7b82;">Sobre nosotros</h2>
+                <p>
                     Nace un 19 de enero del 2021, por ello su nombre debido a que ese dia se celebra el dia de Santo Domingo de Guzmán,
-                    dentro de sus frases esta : " Tened caridad, conservad la humildad y poseed la pobreza voluntaria".
+                    dentro de sus frases esta: "Tened caridad, conservad la humildad y poseed la pobreza voluntaria".
                 </p>
 
-                <p style="text-align: justify;">
+                <p>
                     Nuestra clínica tiene como objetivo poder brindar un servicio de óptima calidad, confiable y oportuno, que logren garantizar
                     una atención humana garantizada, a fin de poder satisfacer las necesidades y expectativas de nuestros pacientes, brindando un
                     ambiente agradable y con excelentes condiciones, al alcance de todos.
@@ -245,11 +301,8 @@
                     Contamos con una gran cantidad de Especialidades y los mejores profesionales.
                 </p>
 
-                <br />
-
-                <h2 class="text-center" style="color: #0b7b82;">Nuestras instalaciones</h2>
+                <h2 style="color: #0b7b82; margin-top: 40px;">Nuestras instalaciones</h2>
                 <div class="gallery-container">
-
                     <div class="image-gallery">
                         <div class="gallery-item">
                             <img src="~/Imagenes/Exterior.jpeg" alt="Exterior de la clínica" class="gallery-image">
@@ -261,18 +314,15 @@
                             <div class="image-caption">Sala de espera</div>
                         </div>
 
-
                         <div class="gallery-item">
                             <img src="~/Imagenes/Consultorio1.jpeg" alt="Consultorio" class="gallery-image">
                             <div class="image-caption">Consultorio</div>
                         </div>
 
-
                         <div class="gallery-item">
                             <img src="~/Imagenes/Consultorio2.jpeg" alt="Consultorio" class="gallery-image">
                             <div class="image-caption">Consultorio</div>
                         </div>
-
 
                         <div class="gallery-item">
                             <img src="~/Imagenes/Consultorio4.jpeg" alt="Consultorio" class="gallery-image">
@@ -281,61 +331,55 @@
                     </div>
                 </div>
 
-                <h2 class="text-center" style="color: #0b7b82;">Nuestros profecionales</h2>
-                <p style="text-align: justify;">
+                <h2 style="color: #0b7b82; margin-top: 40px;">Nuestros profesionales</h2>
+                <p>
                     Contamos con un cuerpo médico y profesional altamente capacitado, conformado con referentes de cada una de las especialidades
                     y con un excelente y especializado cuerpo de enfermería cuya dotación en internación mantiene una relación óptima para lograr una
                     atención personalizada y cuidada.
                 </p>
 
-
                 <div class="image-gallery">
                     <div class="gallery-item">
-                        <img src="~/Imagenes/Profecional01.PNG" alt="Profecional" class="gallery-image">
+                        <img src="~/Imagenes/Profecional01.PNG" alt="Profesional" class="gallery-image">
                     </div>
 
                     <div class="gallery-item">
-                        <img src="~/Imagenes/Profecional02.PNG" alt="Profecional" class="gallery-image">
-                    </div>
-
-
-                    <div class="gallery-item">
-                        <img src="~/Imagenes/Profecional03.PNG" alt="Profecional" class="gallery-image">
-                    </div>
-
-
-                    <div class="gallery-item">
-                        <img src="~/Imagenes/Profecional04.PNG" alt="Profecional" class="gallery-image">
-                    </div>
-
-
-                    <div class="gallery-item">
-                        <img src="~/Imagenes/Profecional05.PNG" alt="Profecional" class="gallery-image">
+                        <img src="~/Imagenes/Profecional02.PNG" alt="Profesional" class="gallery-image">
                     </div>
 
                     <div class="gallery-item">
-                        <img src="~/Imagenes/Profecional06.PNG" alt="Profecional" class="gallery-image">
+                        <img src="~/Imagenes/Profecional03.PNG" alt="Profesional" class="gallery-image">
                     </div>
 
                     <div class="gallery-item">
-                        <img src="~/Imagenes/Profecional07.PNG" alt="Profecional" class="gallery-image">
+                        <img src="~/Imagenes/Profecional04.PNG" alt="Profesional" class="gallery-image">
                     </div>
 
                     <div class="gallery-item">
-                        <img src="~/Imagenes/Profecional08.PNG" alt="Profecional" class="gallery-image">
+                        <img src="~/Imagenes/Profecional05.PNG" alt="Profesional" class="gallery-image">
                     </div>
 
                     <div class="gallery-item">
-                        <img src="~/Imagenes/Profecional09.PNG" alt="Profecional" class="gallery-image">
+                        <img src="~/Imagenes/Profecional06.PNG" alt="Profesional" class="gallery-image">
+                    </div>
+
+                    <div class="gallery-item">
+                        <img src="~/Imagenes/Profecional07.PNG" alt="Profesional" class="gallery-image">
+                    </div>
+
+                    <div class="gallery-item">
+                        <img src="~/Imagenes/Profecional08.PNG" alt="Profesional" class="gallery-image">
+                    </div>
+
+                    <div class="gallery-item">
+                        <img src="~/Imagenes/Profecional09.PNG" alt="Profesional" class="gallery-image">
                     </div>
                 </div>
             </div>
-            </div>
-
-            <br />
         </div>
+    </div>
 
-            <script src="~/lib/jquery/dist/jquery.min.js"></script>
-            <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -1,0 +1,195 @@
+﻿@model ProyectoClinica.Models.AsignacionRolesTemporales
+
+@{
+    ViewBag.Title = "Crear Asignación de Roles";
+}
+
+<style>
+    .container-form {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+
+    .page-title {
+        color: #0b7b82;
+        text-align: center;
+        margin-bottom: 30px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #0b7b82;
+    }
+
+    .form-section {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .form-section h4 {
+        color: #0b7b82;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    .form-group {
+        display: grid;
+        grid-template-columns: 1fr 3fr;
+        gap: 15px;
+        margin-bottom: 15px;
+        align-items: center;
+    }
+
+    .control-label {
+        font-weight: 600;
+        color: #2c3e50;
+        text-align: right;
+    }
+
+    .form-control {
+        color: #495057;
+        padding: 8px;
+        background-color: #fff;
+        border-radius: 4px;
+        border: 1px solid #dee2e6;
+        width: 100%;
+    }
+
+    .text-danger {
+        color: #dc3545;
+        display: block;
+        margin-top: 5px;
+    }
+
+    .btn-form {
+        background-color: #0b7b82;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 20px;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+
+    .btn-form:hover {
+        background-color: #096c72;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        color: white;
+        text-decoration: none;
+    }
+
+    .btn-submit {
+        background-color: #0b7b82;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-submit:hover {
+        background-color: #096c72;
+        transform: translateY(-1px);
+    }
+</style>
+
+<div class="container-form">
+    <h2 class="page-title">Crear Asignación de Roles Temporales</h2>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-section">
+            <h4>Información del Usuario</h4>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Id, "Usuario", htmlAttributes: new { @class = "control-label" })
+                <div>
+                    @Html.DropDownList("Id", null, "Seleccione un usuario", new { @class = "form-control", required = "required" })
+                    @Html.ValidationMessageFor(model => model.Id, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Id_Usuario, "Usuario Asignado", htmlAttributes: new { @class = "control-label" })
+                <div>
+                    @Html.DropDownList("Id_Usuario", null, "Seleccione un usuario", new { @class = "form-control", required = "required" })
+                    @Html.ValidationMessageFor(model => model.Id_Usuario, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Id_Departamento, "Departamento", htmlAttributes: new { @class = "control-label" })
+                <div>
+                    @Html.DropDownList("Id_Departamento", null, "Seleccione un departamento", new { @class = "form-control", required = "required" })
+                    @Html.ValidationMessageFor(model => model.Id_Departamento, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h4>Fechas de Asignación</h4>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Fecha_Inicio, "Fecha de Inicio", htmlAttributes: new { @class = "control-label" })
+                <div>
+                    @Html.TextBoxFor(model => model.Fecha_Inicio, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", required = "required" })
+                    @Html.ValidationMessageFor(model => model.Fecha_Inicio, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Fecha_Fin, "Fecha Final", htmlAttributes: new { @class = "control-label" })
+                <div>
+                    @Html.TextBoxFor(model => model.Fecha_Fin, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", required = "required" })
+                    @Html.ValidationMessageFor(model => model.Fecha_Fin, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h4>Detalles Adicionales</h4>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Estado, "Estado", htmlAttributes: new { @class = "control-label" })
+                <div>
+                    @Html.DropDownListFor(model => model.Estado, 
+                        new SelectList(new[] { "Activo", "Inactivo" }), 
+                        "Seleccione un estado", 
+                        new { @class = "form-control", required = "required" })
+                    @Html.ValidationMessageFor(model => model.Estado, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Motivo, "Motivo", htmlAttributes: new { @class = "control-label" })
+                <div>
+                    @Html.TextAreaFor(model => model.Motivo, new { @class = "form-control", rows = "3", required = "required" })
+                    @Html.ValidationMessageFor(model => model.Motivo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center" style="margin-top: 20px;">
+            <input type="submit" value="Crear Asignación" class="btn-submit" />
+            @Html.ActionLink("Regresar a la Lista", "Index", null, new { @class = "btn-form" })
+        </div>
+    }
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

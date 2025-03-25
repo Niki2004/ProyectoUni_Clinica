@@ -5,9 +5,18 @@
 }
 
 <div style="text-align: center; margin-bottom: 20px;">
-    <a href="@Url.Action("VistaCON", "Contabilidad")" class="custom-btn">
-        <i class="fas fa-home"></i> Inicio
-    </a>
+    @if (User.IsInRole("Secretaria"))
+    {
+        <a href="@Url.Action("Index", "Factura")" class="custom-btn">
+            <i class="fas fa-home"></i> Inicio
+        </a>
+    }
+    else if (User.IsInRole("Contador"))
+    {
+        <a href="@Url.Action("VistaCON", "Contabilidad")" class="custom-btn">
+            <i class="fas fa-home"></i> Inicio
+        </a>
+    }
 </div>
 
 

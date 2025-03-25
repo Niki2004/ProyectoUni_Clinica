@@ -16,11 +16,8 @@ namespace ProyectoClinica.Models
         public decimal Porcentaje { get; set; }
 
         public string Tipo { get; set; }
-
-        //Llaves foraneas 
-        [ForeignKey("ApplicationUser")]
-        public string Id { get; set; }
-        public ApplicationUser ApplicationUser { get; set; }
+       
+        public string cedula { get; set; }
 
 
     }

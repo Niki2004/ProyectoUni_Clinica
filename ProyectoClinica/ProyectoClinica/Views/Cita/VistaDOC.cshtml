@@ -43,12 +43,12 @@
             position: fixed;
             top: 0;
             left: 0;
-            width: 197px;
+            width: 220px; /*Ancho*/
             height: 100vh;
             background-color: white;
-            padding-top: 65px;
-            padding-left: 15px;
-            padding-right: 15px;
+            padding-top: 5px; /*Espacio*/
+            padding-left: 5px; /*Espacio*/
+            padding-right: 5px; /*Espacio*/
             overflow-y: auto;
             z-index: 1000;
         }
@@ -69,10 +69,13 @@
 
 
         .content {
-            padding: 20px;
-            max-width: 700px;
-            margin: 0 auto;
+            max-width: 840px;
+            margin: 0 0 40px auto;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 40px;
         }
+
 
             .content h2 {
                 color: #0b7b82;
@@ -190,6 +193,39 @@
             background-color: #f8f9fa;
             color: #333;
         }
+        media (max-width: 992px) {
+            .sidebar
+
+        {
+            width: 180px;
+        }
+
+        .main-container {
+            padding-left: 200px;
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        }
+
+        media (max-width: 768px) {
+            .sidebar
+
+        {
+            width: 160px;
+        }
+        media (max-width: 576px) {
+            .sidebar
+
+        {
+            width: 100%;
+            height: auto;
+            position: relative;
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
     </style>
 </head>
 <body>
@@ -199,39 +235,48 @@
             <!-- Sidebar -->
             <div class="col-md-3 col-lg-2 sidebar">
                 <div class="sidebar">
-                    <div class="text-center p-3">
-                        <img src="~/Imagenes/Logo.png" alt="Centro Integral Santo Domingo Logo" class="img-fluid" style="max-width: 150px; height: auto;" />
+                    <div class="p-3 d-flex justify-content-center">
+                        <img src="~/Imagenes/Logo.png" alt="Centro Integral Santo Domingo Logo" class="img-fluid" style="max-width: 195px; height: auto;" />
                     </div>
 
                     <br />
 
                     <center><div class="nav-header">Navegación</div></center>
-                   
+
                     <div class="nav flex-column">
                         <a class="nav-link">
                             <i class="fas fa-folder-open"></i> Expedientes
                         </a>
                     </div><br />
                     <div class="nav flex-column">
-                        <a  class="nav-link">
+                        <a class="nav-link">
                             <i class="fas fa-calendar-check"></i> Citas
                         </a>
                     </div><br />
-                   
 
-                    
-                    </div>
+
 
                 </div>
-            </div>
-            <!-- Main Content -->
+
+                </div>
+
+        </div>
+            
+          <!-- Main Content -->
         <div class="content">
             <div style="display: flex; align-items: center; margin-bottom: 10px;">
                 <a href="@Url.Action("IndDOC", "Cita")" style="text-decoration: none; color: #000000; font-size: 18px; display: flex; align-items: center;">
                     <i class="fas fa-home" style="margin-right: 5px;"></i>
+                    <h4 style="margin: 0; font-weight: bold; color: #333;">Módulo de Citas</h4>
                 </a>
-                <h4 style="margin-left: 10px; font-weight: bold; color: #333;">Citas</h4>
             </div>
+            <div style="text-align: left; margin-bottom: 5px;">
+                <span style="font-size: 14px; color: #555;">
+                    Obtén una visión completa de la información clínica, administrativa y financiera de tu clínica de salud
+                </span>
+            </div>
+            <br />
+
             <h2 class="text-center">Calendario</h2>
             <br />
             <!-- Formato Calendario -->
@@ -257,24 +302,30 @@
                 <script>
                     document.addEventListener('DOMContentLoaded', function () {
                         var calendarEl = document.getElementById('calendar');
-                        var selectedEvent = null; // Variable para almacenar el evento seleccionado
+                        var selectedEvent = null;
 
                         var calendar = new FullCalendar.Calendar(calendarEl, {
+                            locale: 'es', // Set the locale to Spanish
                             initialView: 'dayGridMonth',
-                            events: '/Cita/GetDOctCitas', // Obtiene las citas desde el controlador
+                            events: '/Cita/GetDOctCitas',
                             headerToolbar: {
                                 left: 'prev,next today',
                                 center: 'title',
-                                right: 'dayGridMonth' // Solo muestra la vista mensual
+                                right: 'dayGridMonth'
                             },
-
+                            buttonText: {
+                                today: 'Hoy',
+                                month: 'Mes',
+                                week: 'Semana',
+                                day: 'Día',
+                                list: 'Agenda'
+                            },
                             eventColor: 'blue',
                             eventTimeFormat: {
                                 hour: '2-digit',
                                 minute: '2-digit',
                                 meridiem: false
                             },
-
                             eventClick: function (info) {
                                 selectedEvent = info.event;
 
@@ -302,7 +353,6 @@
 
                         calendar.render();
                     });
-
                 </script>
 
             }

@@ -1,367 +1,481 @@
-﻿@model IEnumerable<ProyectoClinica.Models.Atencion_Cliente>
-@{
-    ViewBag.Title = "Opiniones de Pacientes";
-}
+﻿﻿@model IEnumerable<ProyectoClinica.Models.Atencion_Cliente>
 
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atención al Cliente - Clínica</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Recetas de la Felicidad - Comentarios</title>
+    <link rel="stylesheet" href="~/assets/css/lib/bootstrap.min.css">
+    <link rel="stylesheet" href="~/assets/css/lib/themify-icons.css">
+    <link rel="stylesheet" href="~/assets/css/lib/menubar/sidebar.css">
+    <link rel="stylesheet" href="~/assets/css/style.css">
     <style>
-        :root {
-            --primary: #0b7b82;
-            --primary-light: #3bb4bc;
-            --dark: #14181b;
-            --primary-transparent: #4d0b7b82;
-            --gray: #57636c;
-            --teal-transparent: #4d39d2c0;
-            --red: #d2393c;
-            --red-transparent: #4dd2393c;
-            --white: #ffffff;
-            --teal: #39d2c0;
-            --light-blue: #59e5ff;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f5f7f8;
-            color: var(--dark);
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .header {
-            background-color: var(--primary);
-            color: var(--white);
-            padding: 20px 0;
-            border-radius: 8px 8px 0 0;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-            .header h1 {
-                margin: 0;
-                padding: 0 20px;
-                font-size: 28px;
-                font-weight: 600;
-            }
-
-        .new-comment-btn {
-            background-color: #0b7b82;
-            color: #ffffff;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 50px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 500;
-            display: inline-flex;
-            align-items: center;
-            margin: 0 20px 20px;
-            text-decoration: none;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        }
-
-            .new-comment-btn:hover {
-                background-color: #3bb4bc;
-                transform: translateY(-2px);
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            }
-
-            .new-comment-btn i {
-                margin-right: 8px;
-            }
-
-        .comments-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 20px;
-            padding: 0 20px;
-        }
-
-        .comment-card {
-            background-color: var(--white);
+        .recipe-card {
             border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            margin-bottom: 25px;
+            background: #fff;
             overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+            .recipe-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            }
+
+        .recipe-image {
+            height: 200px;
+            overflow: hidden;
             position: relative;
         }
 
-            .comment-card:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            .recipe-image img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: transform 0.5s;
             }
 
-        .comment-header {
-            padding: 15px;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: var(--primary-light);
-            color: var(--white);
+        .recipe-card:hover .recipe-image img {
+            transform: scale(1.05);
+        }  
+
+        .recipe-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ff6b6b;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
         }
 
-        .service-type {
-            font-weight: 600;
-            font-size: 18px;
-        }
-
-        .comment-date {
-            font-size: 14px;
-            opacity: 0.8;
-        }
-
-        .comment-body {
+        .recipe-content {
             padding: 20px;
         }
 
-        .comment-text {
-            margin-bottom: 15px;
-            line-height: 1.6;
-        }
-
-        .comment-meta {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 20px;
-            font-size: 14px;
-        }
-
-        .meta-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-
-        .meta-label {
-            font-weight: 600;
-            color: var(--gray);
-            margin-right: 8px;
-        }
-
-        .priority-badge {
-            display: inline-block;
-            padding: 3px 10px;
-            border-radius: 50px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-
-        .priority-alta {
-            background-color: #d2393c;
-            color: #ffffff;
-        }
-
-        .priority-media {
-            background-color: #f5e176;
-            color: #ffffff;
-        }
-
-        .priority-baja {
-            background-color: #8adb95;
-            color: #ffffff;
-        }
-
-        .comment-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            padding: 10px 20px;
-            background-color: #f9f9f9;
-        }
-
-        .action-link {
-            color: var(--primary);
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            transition: color 0.2s ease;
-        }
-
-            .action-link:hover {
-                color: var(--light-blue);
-            }
-
-        .filter-section {
-            margin-bottom: 20px;
-            padding: 15px 20px;
-            background-color: var(--white);
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
-
-        .filter-title {
-            font-size: 16px;
-            font-weight: 600;
+        .recipe-title {
+            font-size: 18px;
+            font-weight: bold;
             margin-bottom: 10px;
-            color: var(--primary);
+            color: #333;
         }
 
-        .filter-options {
+        .recipe-description {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 15px;
+            height: 60px;
+            overflow: hidden;
+        }
+
+        .recipe-meta {
             display: flex;
-            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+            color: #888;
+            font-size: 13px;
+        }
+
+        .recipe-category {
+            background: #f8f9fa;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .recipe-buttons {
+            display: flex;
             gap: 10px;
+            margin-top: 10px;
         }
 
-        .filter-btn {
-            border: 1px solid var(--primary-light);
-            background-color: transparent;
-            color: var(--primary);
-            padding: 6px 12px;
-            border-radius: 50px;
+        .recipe-btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
             cursor: pointer;
-            transition: all 0.2s ease;
+            font-size: 13px;
+            transition: background 0.3s;
         }
 
-            .filter-btn:hover, .filter-btn.active {
-                background-color: var(--primary);
-                color: var(--white);
+        .recipe-btn-view {
+            background: #4e73df;
+            color: white;
+        }
+
+            .recipe-btn-view:hover {
+                background: #375ad3;
             }
 
-        .pagination {
-            display: flex;
-            justify-content: center;
-            margin-top: 30px;
-            gap: 5px;
+        .recipe-btn-save {
+            background: #f8f9fa;
+            color: #555;
         }
 
-        .page-link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            .recipe-btn-save:hover {
+                background: #e2e6ea;
+            }
+
+        .recipe-filter {
+            margin-bottom: 30px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .hero-section {
+            background-color: rgba(11, 123, 130, 0.5);
+            background-size: cover;
+            background-position: center;
+            padding: 80px 0;
+            color: white;
+            text-align: center;
+            margin-bottom: 40px;
+            border-radius: 8px;
+        }
+
+            .hero-section h1 {
+                font-size: 36px;
+                margin-bottom: 15px;
+            }
+
+            .hero-section p {
+                font-size: 18px;
+                max-width: 600px;
+                margin: 0 auto;
+            }
+
+        .page-title {
+            margin-bottom: 30px;
+        }
+
+        .featured-recipe {
+            margin-bottom: 40px;
+        }
+
+            .featured-recipe img {
+                border-radius: 8px;
+                width: 100%;
+                max-height: 400px;
+                object-fit: cover;
+            }
+
+        .form-section {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .form-title {
+            color: #333;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #555;
+        }
+
+        .form-control {
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            padding: 10px 15px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        textarea.form-control {
+            min-height: 150px;
+        }
+
+        .custom-checkbox .custom-control-label {
+            font-weight: normal;
+        }
+
+        .submit-btn {
+            background: #4e73df;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 12px 25px;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin-top: 15px;
+        }
+
+            .submit-btn:hover {
+                background: #375ad3;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            }
+
+            .submit-btn:active {
+                transform: translateY(0);
+            }
+
+        .cancel-btn {
+            background: #f8f9fa;
+            color: #555;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 12px 25px;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin-top: 15px;
+            margin-right: 10px;
+        }
+
+            .cancel-btn:hover {
+                background: #e2e6ea;
+            }
+
+        .section-icon {
+            background: #f1f5ff;
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background-color: var(--white);
-            color: var(--primary);
-            text-decoration: none;
-            transition: all 0.2s ease;
-            font-weight: 500;
-        }
-
-            .page-link:hover, .page-link.active {
-                background-color: var(--primary);
-                color: var(--white);
-            }
-
-        .empty-state {
-            text-align: center;
-            padding: 50px 20px;
-            color: var(--gray);
-        }
-
-            .empty-state img {
-                max-width: 200px;
-                margin-bottom: 20px;
-            }
-
-        .comment-meta {
-            grid-template-columns: 1fr;
-        }
-
-        .custom-btn {
-            background-color: #0b7b82 !important;
-            color: white !important;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            font-size: 16px;
-            text-decoration: none;
-            transition: background 0.3s ease, transform 0.2s ease;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            justify-content: center;
+            margin-right: 10px;
+            color: #4e73df;
+        }
+
+        .card-header-action {
+            float: right;
+        }
+
+        .help-tip {
+            color: #6c757d;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        .required-field::after {
+            content: "*";
+            color: #dc3545;
+            margin-left: 4px;
+        }
+
+        .comment-list {
+            margin-top: 20px;
+        }
+
+        .comment-item {
+            border-left: 3px solid #4e73df;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: #f8f9fa;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .comment-author {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .comment-date {
+            color: #888;
+            font-size: 12px;
+        }
+
+        .comment-body {
+            color: #555;
+        }
+
+        .recipe-select {
+            height: 46px;
+        }
+
+        .star-rating {
+            margin-top: 10px;
+        }
+
+        .rating-text {
+            margin-left: 10px;
+            font-weight: bold;
+        }
+
+        .comment-tabs {
+            margin-bottom: 20px;
+        }
+
+            .comment-tabs .nav-link {
+                border-radius: 8px;
+                color: #555;
+                padding: 10px 15px;
+            }
+
+                .comment-tabs .nav-link.active {
+                    background-color: #4e73df;
+                    color: white;
+                    border-color: #4e73df;
+                }
+
+        .recipe-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+            .recipe-item:hover {
+                background: #f1f5ff;
+            }
+
+            .recipe-item img {
+                width: 60px;
+                height: 60px;
+                object-fit: cover;
+                border-radius: 4px;
+                margin-right: 15px;
+            }
+
+        .recipe-item-name {
+            font-weight: 600;
+            color: #333;
+            margin: 0;
+        }
+
+        .recipe-item-category {
+            color: #888;
+            font-size: 12px;
+        }
+
+        .time-badge {
+            background: #ff6b6b;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+            margin-left: 5px;
         }
     </style>
-
-    <div style="text-align: center; margin-bottom: 20px;">
-        <a href="@Url.Action("VistaCita", "Cita")" class="custom-btn">
-            <i class="fas fa-home"></i> Inicio
-        </a>
-    </div>
 </head>
 <body>
 
-    <div class="container">
-        <div class="header">
-            <center><h1>Atención al cliente</h1></center>
-        </div>
+    <div class="content-wrap">
+        <div class="main">
+            <div class="container-fluid">
+                <!-- Hero Section -->
+                <div class="hero-section">
+                    <h1>Comparte tu opinión</h1>
+                    <p>Comenta y valora nuestras áreas de salud</p>
+                </div>
 
-        <a href="@Url.Action("CrearAtencionCliente", "Cita")" class="new-comment-btn">
-            <i class="fas fa-plus-circle"></i> Nuevo Comentario
-        </a>
+                <div class="row">
+                    <!-- Columna para los comentarios -->
+                    <div class="col-lg-8 col-md-12">
+                        <ul class="nav comment-tabs d-flex justify-content-between" id="commentTabs" role="tablist">
+                            <li class="nav-item">
+                                <a href="@Url.Action("VistaCita", "Cita")" class="btn" style="background-color: #C4D7F2; color: #000;">
+                                    <i class="fas fa-home"></i> Inicio
+                                </a>
+                            </li>
 
-        <center><div class="filter-title">Sé el primero en dejar tu opinión sobre nuestro servicio</div></center>
+                            <li class="nav-item">
+                                <a href="@Url.Action("CrearAtencionCliente", "Cita")" class="btn" style="background-color: #AFDEDC; color: #000;">
+                                    <i class="fas fa-plus-circle"></i> Nuevo Comentario
+                                </a>
+                            </li>
+                        </ul>
 
-        <br />
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="my-comments" role="tabpanel" aria-labelledby="my-comments-tab">
+                                <div class="form-section">
+                                    <h4 class="form-title">
+                                        <span class="section-icon"><i class="ti-comment"></i></span>
+                                        Comentarios Realizados
+                                    </h4>
 
-        <div class="comments-container">
-            @if (Model.Any())
-            {
-                foreach (var item in Model)
-                {
-                    <div class="comment-card">
-                        <div class="comment-header">
-                            <div class="service-type">@item.Tipo_Servicio</div>
-                            <div class="comment-date">@item.Fechas_Comentario.ToString("dd/MM/yyyy")</div>
-                        </div>
-                        <div class="comment-body">
-                            <div class="comment-text">@item.Comentarios_Paciente</div>
-                            <div class="comment-meta">
-                                <div class="meta-item">
-                                    <span class="meta-label">Salud:</span>
-                                    <span>@item.Salud_Evaluada</span>
-                                </div>
-                                <div class="meta-item">
-                                    <span class="meta-label">Problema:</span>
-                                    <span>@item.Clasificacion_Problema</span>
-                                </div>
-                                <div class="meta-item">
-                                    <span class="meta-label">Prioridad:</span>
-                                    @{
-                                        string priorityClass = "";
-                                        switch (item.Prioridad_Mejora?.ToLower())
+                                    <div class="comment-list">
+                                        @foreach (var item in Model)
                                         {
-                                            case "alta":
-                                                priorityClass = "priority-alta";
-                                                break;
-                                            case "media":
-                                                priorityClass = "priority-media";
-                                                break;
-                                            default:
-                                                priorityClass = "priority-baja";
-                                                break;
+                                            <!-- Comentario dinámico desde el modelo -->
+                                            <div class="comment-item">
+                                                <div class="comment-header">
+                                                    <div class="comment-author">@item.Tipo_Servicio</div>
+                                                    <div class="comment-date">@item.Fechas_Comentario.ToString("dd/MM/yyyy")</div>
+                                                </div>
+                                                <div class="comment-body">
+                                                    <p>@item.Comentarios_Paciente</p>
+                                                </div>
+                                                <div class="meta-item">
+                                                    <span class="meta-label">Salud:</span>
+                                                    <span>@item.Salud_Evaluada</span>
+                                                </div>
+                                                <div class="meta-item">
+                                                    <span class="meta-label">Problema:</span>
+                                                    <span>@item.Clasificacion_Problema</span>
+                                                </div>
+                                                <div class="meta-item">
+                                                    <span class="meta-label">Prioridad:</span>
+                                                    @{
+                                                        string priorityClass = "";
+                                                        switch (item.Prioridad_Mejora?.ToLower())
+                                                        {
+                                                            case "alta":
+                                                                priorityClass = "priority-alta";
+                                                                break;
+                                                            case "media":
+                                                                priorityClass = "priority-media";
+                                                                break;
+                                                            default:
+                                                                priorityClass = "priority-baja";
+                                                                break;
+                                                        }
+                                                    }
+                                                    <span class="priority-badge @priorityClass">@item.Prioridad_Mejora</span>
+                                                </div>
+                                            </div>
                                         }
-                                    }
-                                    <span class="priority-badge @priorityClass">@item.Prioridad_Mejora</span>
+
+                                        @if (!Model.Any())
+                                        {
+                                            <div class="alert alert-info">
+                                                No has realizado ningún comentario todavía. ¡Anímate a compartir tu opinión sobre las recetas!
+                                            </div>
+                                        }
+                                    </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
-                }
-            }
-            else
-            {
-                <div class="empty-state">
-                    <img src="/api/placeholder/200/150" alt="Sin comentarios" />
-                    <h3>No hay comentarios aún</h3>
-                    <p>Sé el primero en dejar tu opinión sobre nuestro servicio</p>
+
+                <br />
+
+                    <div class="col-lg-4 col-md-12">
+                        <div class="thank-you-box">
+                            <h4>¡Gracias por tus comentarios!</h4>
+                            <p class="centered-text">Valoramos mucho tu opinión, tu comentario ayuda a mejorar nuestros servicios y a brindar una mejor atención a todos nuestros pacientes.</p>
+                            <div class="thank-you-image">
+
+                                <img src="~/Imagenes/Logo.png" alt="Gracias" class="img-fluid">
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            }
+            </div>
         </div>
     </div>
 
@@ -376,5 +490,6 @@
             });
         });
     </script>
+
 </body>
 </html>
