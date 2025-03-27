@@ -782,6 +782,7 @@
     <Content Include="Views\ReporteContaduria\ReporteFinanciero.cshtml" />
     <Content Include="Views\Reporte\Monitoreo.cshtml" />
     <Content Include="Views\ReporteContaduria\Impuestos.cshtml" />
+    <Content Include="Views\Expedientes\Respaldo.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>
