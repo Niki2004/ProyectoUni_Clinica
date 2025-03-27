@@ -52,6 +52,37 @@
             background-color: #09686e !important;
             text-decoration: none;
         }
+
+    .upload-form {
+        margin-top: 20px;
+        padding: 20px;
+        background: #fff;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .file-input {
+        margin: 10px 0;
+    }
+
+    .alert {
+        padding: 15px;
+        margin-bottom: 20px;
+        border: 1px solid transparent;
+        border-radius: 4px;
+    }
+
+    .alert-success {
+        color: #155724;
+        background-color: #d4edda;
+        border-color: #c3e6cb;
+    }
+
+    .alert-danger {
+        color: #721c24;
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+    }
 </style>
 
 <center>
@@ -63,6 +94,20 @@
 <br />
 <center><h2>Expedientes</h2></center>
 <br />
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
 
 <table id="expedientesTable" class="table">
     <thead>
@@ -100,6 +145,20 @@
         <i class="fas fa-file-pdf"></i> Descargar PDF
     </button>
 </center>
+
+<div class="upload-form">
+    <h3>Guardar Documento</h3>
+    @using (Html.BeginForm("SubirADrive", "Expedientes", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="file-input">
+            <input type="file" name="archivo" class="form-control" accept=".pdf,.doc,.docx" required />
+        </div>
+        <button type="submit" class="btn custom-btn">
+            <i class="fas fa-save"></i> Guardar Documento
+        </button>
+    }
+</div>
 
 <!-- Cargar jsPDF y autoTable -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
