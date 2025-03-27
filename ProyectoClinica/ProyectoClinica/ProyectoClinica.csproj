@@ -429,6 +429,7 @@
     <Compile Include="Controllers\PerfilController.cs" />
     <Compile Include="Controllers\ProductosContaController.cs" />
     <Compile Include="Controllers\RedirectController.cs" />
+    <Compile Include="Controllers\ReporteContaduriaController.cs" />
     <Compile Include="Controllers\ReporteController.cs" />
     <Compile Include="Controllers\ServiciosBrindadosController.cs" />
     <Compile Include="Controllers\ServiciosController.cs" />
@@ -777,6 +778,10 @@
     <Content Include="Views\AsignacionRolesTemporales\Edit.cshtml" />
     <Content Include="Views\AsignacionRolesTemporales\Delete.cshtml" />
     <Content Include="Views\Expedientes\drive.cshtml" />
+    <Content Include="Views\Reporte\AtencionCliente.cshtml" />
+    <Content Include="Views\ReporteContaduria\ReporteFinanciero.cshtml" />
+    <Content Include="Views\Reporte\Monitoreo.cshtml" />
+    <Content Include="Views\ReporteContaduria\Impuestos.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>

@@ -23,17 +23,20 @@ namespace ProyectoClinica.Controllers
             _context = new ApplicationDbContext();
         }
 
+        [Authorize(Roles = "Administrador")]
         public ActionResult VistaAdmRep()
         {
             return View();
         }
-
+       
+        [Authorize(Roles = "Contador")]
         public ActionResult VistaReporteConta()
         {
             return View();
         }
 
         //Historia de usuario 01 
+        [Authorize(Roles = "Administrador")]
         public ActionResult AsistenciaConsulta(DateTime? fechaCita, string especialidad)
         {
             var citas = _context.Cita.Include("Medico").AsQueryable();
@@ -161,6 +164,7 @@ namespace ProyectoClinica.Controllers
         }
 
         //Historia de usuario 02 
+        [Authorize(Roles = "Administrador")]
         public ActionResult ResultadoTratamiento(string nombreReceta)
         {
             var recetas = _context.Receta.AsQueryable();
@@ -252,6 +256,7 @@ namespace ProyectoClinica.Controllers
         }
 
         //Historia de usuario 03 
+        [Authorize(Roles = "Administrador")]
         public ActionResult AreaMejora(string comentarioNegativo, string comentarioSensible, string comentarioDestacado, string estadoComentario)
         {
             var costos = _context.Comentario.AsQueryable();
@@ -415,6 +420,7 @@ namespace ProyectoClinica.Controllers
         }
 
         //Historia de usuario 04
+        [Authorize(Roles = "Administrador")]
         [HttpGet]
         public ActionResult CostosTratamiento(string Procedimientocostos, string servicio2)
         {
@@ -529,6 +535,7 @@ namespace ProyectoClinica.Controllers
         }
 
         //Historia de usuario 05
+        [Authorize(Roles = "Administrador")]
         [HttpGet]
         public ActionResult Personalizacion(string nombreUser)
         {
@@ -658,6 +665,7 @@ namespace ProyectoClinica.Controllers
         }
 
         //Historia de usuario 06
+        [Authorize(Roles = "Administrador")]
         public ActionResult DatosPaciente(string direccion, string genero, int? edad)
         {
             var pacientes = _context.Users.AsQueryable();
@@ -782,7 +790,196 @@ namespace ProyectoClinica.Controllers
             }
         }
 
+        //Historia de usuario 08 
+        [Authorize(Roles = "Administrador")]
+        public ActionResult AtencionCliente(string SaludEvaluada)
+        {
+            var saludevaluada = _context.Atencion_Cliente.AsQueryable();
+            if (!string.IsNullOrEmpty(SaludEvaluada))
+            {
+                saludevaluada = saludevaluada.Where(r => r.Tipo_Servicio.Contains(SaludEvaluada));
+            }
+
+            ViewBag.AreaSalud = SaludEvaluada;
+            return View(saludevaluada.ToList());
+        }
+
+        public ActionResult ExportarExcelAtencionCliente(string SaludEvaluada)
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+            var saludevaluada = _context.Atencion_Cliente.AsQueryable();
+
+            if (!string.IsNullOrEmpty(SaludEvaluada))
+            {
+                saludevaluada = saludevaluada.Where(r => r.Tipo_Servicio.Contains(SaludEvaluada));
+            }
+
+            var listaAreaS = saludevaluada.ToList();
+
+            using (var package = new ExcelPackage())
+            {
+                var worksheet = package.Workbook.Worksheets.Add("Informe de Areas de Salud Evaluadas");
+
+                // Encabezados de tabla
+                worksheet.Cells["A1"].Value = "Fecha de la evaluación";
+                worksheet.Cells["B1"].Value = "Área de salud";
+                worksheet.Cells["C1"].Value = "Comentario del paciente";
+                worksheet.Cells["D1"].Value = "Prioridad de mejora";
+                worksheet.Cells["E1"].Value = "Tipo de servicio";
+                worksheet.Cells["F1"].Value = "Clasificación del problema";
+
+
+
+                // Estilo de encabezado
+                using (var range = worksheet.Cells["A1:F1"])
+                {
+                    range.Style.Font.Bold = true;
+                    range.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    range.Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#26a69a"));
+                    range.Style.Font.Color.SetColor(System.Drawing.Color.White);
+                    range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                }
+
+                // Agregar datos
+                int row = 2;
+                foreach (var Area in listaAreaS)
+                {
+                    worksheet.Cells[row, 1].Value = Area.Fechas_Comentario.ToString("dd/MM/yy");
+                    worksheet.Cells[row, 2].Value = Area.Salud_Evaluada;
+                    worksheet.Cells[row, 3].Value = Area.Comentarios_Paciente;
+                    worksheet.Cells[row, 4].Value = Area.Prioridad_Mejora;
+                    worksheet.Cells[row, 5].Value = Area.Tipo_Servicio;
+                    worksheet.Cells[row, 6].Value = Area.Clasificacion_Problema;
+
+                    using (var range = worksheet.Cells[row, 1, row, 6])
+                    {
+                        range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                        range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                    }
+
+                    row++;
+                }
+
+                // Configuración de ancho de columnas
+                worksheet.Column(1).Width = 20; 
+                worksheet.Column(2).Width = 25; 
+                worksheet.Column(3).Width = 30; 
+                worksheet.Column(4).Width = 25; 
+                worksheet.Column(5).Width = 20;
+                worksheet.Column(6).Width = 25; 
+
+                var stream = new MemoryStream(package.GetAsByteArray());
+                string fileName = "Informe_Atencion_Cliente";
+
+                if (!string.IsNullOrEmpty(SaludEvaluada))
+                {
+                    fileName += "_" + SaludEvaluada.Replace(" ", "_");
+                }
+
+                fileName += ".xlsx";
+
+                return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+            }
+        }
+
+        //Historia de usuario 10 
+        [Authorize(Roles = "Administrador")]
+        public ActionResult Monitoreo(string usuarios)
+        {
+            var Usuarios = _context.Users.AsQueryable();
+            if (!string.IsNullOrEmpty(usuarios))
+            {
+                Usuarios = Usuarios.Where(r => r.Nombre.Contains(usuarios));
+            }
+
+            ViewBag.Nombre = usuarios;
+            return View(Usuarios.ToList());
+        }
+
+        public ActionResult ExportarExcelMonitoreo(string usuarios)
+        {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+            var Usuarios = _context.Users.AsQueryable();
+
+            if (!string.IsNullOrEmpty(usuarios))
+            {
+                Usuarios = Usuarios.Where(r => r.Nombre.Contains(usuarios));
+            }
+
+            var listaAreaS = Usuarios.ToList();
+
+            using (var package = new ExcelPackage())
+            {
+                var worksheet = package.Workbook.Worksheets.Add("Informe de Areas de Salud Evaluadas");
+
+                // Encabezados de tabla
+                worksheet.Cells["A1"].Value = "Nombre";
+                worksheet.Cells["B1"].Value = "Apellidos";
+                worksheet.Cells["C1"].Value = "Dirección";
+                worksheet.Cells["D1"].Value = "Genero";
+                worksheet.Cells["E1"].Value = "Edad";
+                worksheet.Cells["F1"].Value = "Correo";
+
+
+
+                // Estilo de encabezado
+                using (var range = worksheet.Cells["A1:F1"])
+                {
+                    range.Style.Font.Bold = true;
+                    range.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    range.Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#26a69a"));
+                    range.Style.Font.Color.SetColor(System.Drawing.Color.White);
+                    range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                }
+
+                // Agregar datos
+                int row = 2;
+                foreach (var Area in listaAreaS)
+                {
+                    worksheet.Cells[row, 1].Value = Area.Nombre;
+                    worksheet.Cells[row, 2].Value = Area.Apellido;
+                    worksheet.Cells[row, 3].Value = Area.Direccion;
+                    worksheet.Cells[row, 4].Value = Area.Genero_Paciente;
+                    worksheet.Cells[row, 5].Value = Area.Edad_Paciente;
+                    worksheet.Cells[row, 6].Value = Area.Email;
+
+                    using (var range = worksheet.Cells[row, 1, row, 6])
+                    {
+                        range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                        range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                    }
+
+                    row++;
+                }
+
+                // Configuración de ancho de columnas
+                worksheet.Column(1).Width = 20;
+                worksheet.Column(2).Width = 25;
+                worksheet.Column(3).Width = 30;
+                worksheet.Column(4).Width = 25;
+                worksheet.Column(5).Width = 20;
+                worksheet.Column(6).Width = 50;
+
+                var stream = new MemoryStream(package.GetAsByteArray());
+                string fileName = "Informe_Usuarios";
+
+                if (!string.IsNullOrEmpty(usuarios))
+                {
+                    fileName += "_" + usuarios.Replace(" ", "_");
+                }
+
+                fileName += ".xlsx";
+
+                return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+            }
+        }
+
         //Historia de usuario 12
+        [Authorize(Roles = "Administrador")]
         public ActionResult Rempleados(string nombreEmpleado)
         {
             var empleado = _context.Empleado.AsQueryable();
