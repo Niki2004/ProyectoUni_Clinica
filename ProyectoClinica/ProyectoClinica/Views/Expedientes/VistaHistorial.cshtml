@@ -146,20 +146,6 @@
     </button>
 </center>
 
-<div class="upload-form">
-    <h3>Guardar Documento</h3>
-    @using (Html.BeginForm("SubirADrive", "Expedientes", FormMethod.Post, new { enctype = "multipart/form-data" }))
-    {
-        @Html.AntiForgeryToken()
-        <div class="file-input">
-            <input type="file" name="archivo" class="form-control" accept=".pdf,.doc,.docx" required />
-        </div>
-        <button type="submit" class="btn custom-btn">
-            <i class="fas fa-save"></i> Guardar Documento
-        </button>
-    }
-</div>
-
 <!-- Cargar jsPDF y autoTable -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>

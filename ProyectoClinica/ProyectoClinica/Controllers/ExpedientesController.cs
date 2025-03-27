@@ -119,6 +119,11 @@ namespace ProyectoClinica.Controllers
             } 
         }
 
+        public ActionResult Respaldo()
+        {
+            return View();
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult SubirADrive(HttpPostedFileBase archivo)
@@ -127,19 +132,16 @@ namespace ProyectoClinica.Controllers
             {
                 if (archivo != null && archivo.ContentLength > 0)
                 {
-                   
                     string uploadPath = Server.MapPath("~/Uploads/");
                     if (!Directory.Exists(uploadPath))
                     {
                         Directory.CreateDirectory(uploadPath);
                     }
 
-                 
                     string fileName = Path.GetFileName(archivo.FileName);
                     string uniqueFileName = $"{DateTime.Now:yyyyMMddHHmmss}_{fileName}";
                     string filePath = Path.Combine(uploadPath, uniqueFileName);
 
-                   
                     archivo.SaveAs(filePath);
 
                     TempData["SuccessMessage"] = "Archivo guardado exitosamente.";
@@ -154,7 +156,7 @@ namespace ProyectoClinica.Controllers
                 TempData["ErrorMessage"] = "Error al guardar el archivo: " + ex.Message;
             }
 
-            return RedirectToAction("VistaHistorial");
+            return RedirectToAction("Respaldo");
         }
 
     }
