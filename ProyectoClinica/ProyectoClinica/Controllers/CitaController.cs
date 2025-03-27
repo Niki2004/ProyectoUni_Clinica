@@ -14,19 +14,22 @@ namespace ProyectoClinica.Controllers
     {
         //Conexión BD
         private ApplicationDbContext BaseDatos = new ApplicationDbContext();
-
+       
+        [Authorize(Roles = "Medico")]
         public ActionResult IndDOC()
         {
             return View();
 
         }
 
+        [Authorize(Roles = "Medico")]
         public ActionResult VistaDOC()
         {
             return View();
 
         }
 
+        [Authorize(Roles = "Administrador")]
         public ActionResult VistaCAdmin()
         {
             return View();
@@ -42,24 +45,28 @@ namespace ProyectoClinica.Controllers
         }
 
         //Información de la clinica
+        [Authorize(Roles = "Usuario")]
         public ActionResult VistaCita()
         {
             return View();
         }
 
         //Información de la clinica
+        [Authorize(Roles = "Usuario")]
         public ActionResult Especialidad()
         {
             return View();
         }
 
         //Información de la clinica
+        [Authorize(Roles = "Usuario")]
         public ActionResult Contactanos()
         {
             return View();
         }
 
         //Información de la clinica
+        [Authorize(Roles = "Usuario")]
         public ActionResult Ubicacion()
         {
             return View();
