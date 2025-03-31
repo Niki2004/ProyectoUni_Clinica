@@ -126,8 +126,8 @@ namespace ProyectoClinica.Controllers
 
                 // Configuración de ancho de columnas similar a la imagen
                 worksheet.Column(1).Width = 15; // Fecha
-                worksheet.Column(2).Width = 25; // Nombre del paciente
-                worksheet.Column(3).Width = 30; // Motivo
+                worksheet.Column(2).Width = 30; // Nombre del paciente
+                worksheet.Column(3).Width = 35; // Motivo
                 worksheet.Column(4).Width = 15; // Estado
                 worksheet.Column(5).Width = 15; // Especialidad
 
@@ -236,10 +236,10 @@ namespace ProyectoClinica.Controllers
                 // Configuración de ancho de columnas
                 worksheet.Column(1).Width = 20; // Fecha de creación
                 worksheet.Column(2).Width = 25; // Nombre de la receta
-                worksheet.Column(3).Width = 30; // Observaciones
+                worksheet.Column(3).Width = 50; // Observaciones
                 worksheet.Column(4).Width = 25; // Duración del tratamiento
                 worksheet.Column(5).Width = 20; // Cantidad requerida
-                worksheet.Column(6).Width = 25; // Motivo de la solicitud
+                worksheet.Column(6).Width = 50; // Motivo de la solicitud
 
                 var stream = new MemoryStream(package.GetAsByteArray());
                 string fileName = "Informe_Recetas";
@@ -510,7 +510,7 @@ namespace ProyectoClinica.Controllers
                     row++;
                 }
 
-                worksheet.Column(1).Width = 20;
+                worksheet.Column(1).Width = 30;
                 worksheet.Column(2).Width = 25;
                 worksheet.Column(3).Width = 30;
 
@@ -549,7 +549,6 @@ namespace ProyectoClinica.Controllers
             return View(user.ToList());
         }
 
-        [Authorize(Roles = "Administrador")]
         public ActionResult ExportarExcelPersonalizacion(string nombreUser)
         {
             // Establecer el contexto de la licencia de EPPlus
@@ -609,14 +608,14 @@ namespace ProyectoClinica.Controllers
                     row++;
                 }
 
-                worksheet.Column(1).Width = 20; 
+                worksheet.Column(1).Width = 25; 
                 worksheet.Column(2).Width = 25;
-                worksheet.Column(3).Width = 30; 
-                worksheet.Column(4).Width = 25; 
+                worksheet.Column(3).Width = 10; 
+                worksheet.Column(4).Width = 50; 
                 worksheet.Column(5).Width = 20; 
-                worksheet.Column(6).Width = 25;
-                worksheet.Column(7).Width = 25;
-                worksheet.Column(8).Width = 25;
+                worksheet.Column(6).Width = 50;
+                worksheet.Column(7).Width = 15;
+                worksheet.Column(8).Width = 15;
 
 
                 var stream = new MemoryStream(package.GetAsByteArray());
@@ -762,10 +761,10 @@ namespace ProyectoClinica.Controllers
                 }
 
                 worksheet.Column(1).Width = 50;
-                worksheet.Column(2).Width = 15;
+                worksheet.Column(2).Width = 10;
                 worksheet.Column(3).Width = 10;
                 worksheet.Column(4).Width = 30;
-                worksheet.Column(5).Width = 20;
+                worksheet.Column(5).Width = 30;
                 worksheet.Column(6).Width = 50;
 
                 string fileName = "Informe_Pacientes";
@@ -867,11 +866,11 @@ namespace ProyectoClinica.Controllers
 
                 // Configuración de ancho de columnas
                 worksheet.Column(1).Width = 20; 
-                worksheet.Column(2).Width = 25; 
-                worksheet.Column(3).Width = 30; 
-                worksheet.Column(4).Width = 25; 
+                worksheet.Column(2).Width = 20; 
+                worksheet.Column(3).Width = 50; 
+                worksheet.Column(4).Width = 20; 
                 worksheet.Column(5).Width = 20;
-                worksheet.Column(6).Width = 25; 
+                worksheet.Column(6).Width = 20; 
 
                 var stream = new MemoryStream(package.GetAsByteArray());
                 string fileName = "Informe_Atencion_Cliente";
@@ -960,11 +959,11 @@ namespace ProyectoClinica.Controllers
                 }
 
                 // Configuración de ancho de columnas
-                worksheet.Column(1).Width = 20;
+                worksheet.Column(1).Width = 25;
                 worksheet.Column(2).Width = 25;
-                worksheet.Column(3).Width = 30;
-                worksheet.Column(4).Width = 25;
-                worksheet.Column(5).Width = 20;
+                worksheet.Column(3).Width = 50;
+                worksheet.Column(4).Width = 10;
+                worksheet.Column(5).Width = 10;
                 worksheet.Column(6).Width = 50;
 
                 var stream = new MemoryStream(package.GetAsByteArray());

@@ -1,5 +1,5 @@
 ﻿.custom-btn {
-    background-color: #0b7b82 !important;
+    background-color: #D6A2AD !important;
     color: white !important;
     border: none;
     padding: 12px 24px;
@@ -14,17 +14,18 @@
 }
 
     .custom-btn:hover {
-        background-color: #096369 !important;
+        background-color: #d6909e !important;
         transform: translateY(-2px);
         box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.15);
     }
 
-/* Estilos modernos para la tabla */
 .modern-table {
     border-collapse: separate;
     border-spacing: 0;
     width: 100%;
     border-radius: 12px;
+    table-layout: fixed;
+    word-wrap: break-word;
     overflow: hidden;
     box-shadow: 0 5px 15px rgba(0,0,0,0.08);
 }
@@ -119,18 +120,18 @@
 }
 
 .btn-primary {
-    background-color: #0b7b82;
-    border-color: #0b7b82;
+    background-color: #4d39d2c0;
+    border-color: #4d39d2c0;
 }
 
     .btn-primary:hover {
-        background-color: #096369;
-        border-color: #096369;
+        background-color: #473b95;
+        border-color: #473b95;
     }
 
 .excel-btn {
     background-color: #1e7e34;
-    color: white;
+    color: white !important;
     border: none;
     padding: 8px 16px;
     border-radius: 8px;
@@ -138,9 +139,41 @@
     align-items: center;
     gap: 6px;
     transition: all 0.2s ease;
+    text-decoration: none !important;
 }
 
     .excel-btn:hover {
+        color: white !important;
         background-color: #186429;
         transform: translateY(-2px);
     }
+
+.report-header {
+    position: relative;
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+    .report-header h2 {
+        color: #392F5A;
+        font-weight: 650;
+        font-size: 45px;
+        margin: 0;
+    }
+
+.home-btn {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #fff;
+}
+.table-responsive {
+    overflow-x: auto;
+    max-width: 100%;
+    white-space: nowrap;
+}
+.container {
+    max-width: 100%;
+    overflow-x: hidden;
+}
