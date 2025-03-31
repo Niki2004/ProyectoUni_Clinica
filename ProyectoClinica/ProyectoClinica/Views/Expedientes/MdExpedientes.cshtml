@@ -240,8 +240,38 @@
     <div class="container-fluid">
 
         <div class="row">
+
             <!-- Sidebar -->
             <div class="col-md-3 col-lg-2 sidebar">
+                <div class="sidebar">
+                    <div class="p-3 d-flex justify-content-center">
+                        <img src="~/Imagenes/Logo.png" alt="Centro Integral Santo Domingo Logo" class="img-fluid" style="max-width: 195px; height: auto;" />
+                    </div>
+
+                    <br />
+
+                    <center><div class="nav-header">Navegación</div></center>
+
+                    <div class="nav flex-column">
+                        <a href="@Url.Action("MdExpedientes","Expedientes")" class="nav-link">
+                            <i class="fas fa-folder-open"></i> Expedientes
+                        </a>
+                    </div><br />
+                    <div class="nav flex-column">
+                        <a href="@Url.Action("VistaDoc", "Cita")"class="nav-link">
+                            <i class="fas fa-calendar-check"></i> Citas
+                        </a>
+                    </div><br />
+
+
+
+                </div>
+
+            </div>
+
+        </div>
+            <!-- Sidebar -->
+            <!--<div class="col-md-3 col-lg-2 sidebar">
                 <div class="sidebar">
                     <div class="text-center p-3">
                         <img src="~/Imagenes/Logo.png" alt="Centro Integral Santo Domingo Logo" class="img-fluid" style="max-width: 150px; height: auto;" />
@@ -289,11 +319,11 @@
                     </div>
 
                 </div>
-            </div>
+            </div>-->
             <!-- Main Content -->
             <div class="button-container">
                 <div style="display: flex; align-items: center; margin-bottom: 10px;">
-                    <a href="@Url.Action("VistaAdmin", "Expedientes")" style="text-decoration: none; color: #000000; font-size: 18px; display: flex; align-items: center;">
+                    <a href="@Url.Action("IndDOC", "Cita")" style="text-decoration: none; color: #000000; font-size: 18px; display: flex; align-items: center;">
                         <i class="fas fa-home" style="margin-right: 5px;"></i>
                     </a>
                     <h4 style="margin-left: 10px; font-weight: bold; color: #333;">Expedientes</h4>
@@ -328,10 +358,6 @@
                     </div>
 
                     <div class="row mb-4 text-center row-cols-4 g-3">
-                        <div class="col">
-                            @Html.ActionLink("Buscar Expediente", "", "", null, new { @class = "btn btn-primary btn-sm w-100" })
-                        </div>
-
                         
                         <div class="col">
                             @Html.ActionLink("Agregar imagenes", "", "", null, new { @class = "btn btn-primary btn-sm w-100" })
