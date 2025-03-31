@@ -4,137 +4,66 @@
     ViewBag.Title = "Details";
 }
 
-<style>
-    .container-form {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
-        background-color: #f8f9fa;
-        border-radius: 10px;
-        box-shadow: 0 0 15px rgba(0,0,0,0.1);
-    }
 
-    .page-title {
-        color: #0b7b82;
-        text-align: center;
-        margin-bottom: 30px;
-        padding-bottom: 10px;
-        border-bottom: 2px solid #0b7b82;
-    }
-
-    .form-section {
-        background-color: white;
-        padding: 20px;
-        border-radius: 8px;
-        margin-bottom: 20px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    }
-
-    .form-group {
-        margin-bottom: 20px;
-    }
-
-    .control-label {
-        font-weight: 600;
-        color: #2c3e50;
-    }
-
-    .form-control-box {
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        padding: 10px;
-        background-color: #fff;
-        min-height: 38px;
-        display: flex;
-        align-items: center;
-    }
-
-    .btn-pago {
-        background-color: #0b7b82;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 5px;
-        text-decoration: none;
-        display: inline-block;
-        margin-top: 5px;
-        text-align: center;
-        transition: all 0.3s ease;
-    }
-
-        .btn-pago:hover {
-            background-color: #096c72;
-            transform: translateY(-1px);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-
-    .form-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
-    }
-</style>
+<link href="~/CSS/Detalles.css" rel="stylesheet" />
 
 <div class="container-form">
     <h2 class="page-title">Detalles del Departamento</h2>
 
     <div class="form-section">
-        <h4>Información del Departamento</h4>
-        <div class="form-grid">
-            <div class="form-group">
-                @Html.LabelFor(model => model.Nombre_Departamento, "Nombre del Departamento", new { @class = "control-label" })
-                <div class="form-control-box">@Html.DisplayFor(model => model.Nombre_Departamento)</div>
+        <legend>Información del Departamento</legend>
+        <div class="detail-group">
+            <div class="detail-item">
+                <div class="detail-label">Nombre del Departamento</div>
+                <div class="detail-value">@Html.DisplayFor(model => model.Nombre_Departamento)</div>
             </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Descripcion, "Descripción", new { @class = "control-label" })
-                <div class="form-control-box">@Html.DisplayFor(model => model.Descripcion)</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="form-section">
-        <h4>Fechas</h4>
-        <div class="form-grid">
-            <div class="form-group">
-                @Html.LabelFor(model => model.Fecha_Creacion, "Fecha de Creación", new { @class = "control-label" })
-                <div class="form-control-box">@Html.DisplayFor(model => model.Fecha_Creacion)</div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Fecha_Actualizacion, "Fecha de Actualización", new { @class = "control-label" })
-                <div class="form-control-box">@Html.DisplayFor(model => model.Fecha_Actualizacion)</div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Fecha_Eliminacion, "Fecha de Eliminación", new { @class = "control-label" })
-                <div class="form-control-box">@Html.DisplayFor(model => model.Fecha_Eliminacion)</div>
+            <div class="detail-item">
+                <div class="detail-label">Descripción</div>
+                <div class="detail-value">@Html.DisplayFor(model => model.Descripcion)</div>
             </div>
         </div>
     </div>
 
     <div class="form-section">
-        <h4>Información de Registro</h4>
-        <div class="form-grid">
-            <div class="form-group">
-                @Html.LabelFor(model => model.Id_Usuario_Creador, "Usuario Registro", new { @class = "control-label" })
-                <div class="form-control-box">@Html.DisplayFor(model => model.Id_Usuario_Creador)</div>
+        <legend>Fechas</legend>
+        <div class="detail-group">
+            <div class="detail-item">
+                <div class="detail-label">Fecha de Creación</div>
+                <div class="detail-value">
+                    @Html.Raw(Model.Fecha_Creacion.ToString("dd-MM-yyyy"))
+                </div>
             </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Estatus, "Estado", new { @class = "control-label" })
-                <div class="form-control-box">@Html.DisplayFor(model => model.Estatus)</div>
+            <div class="detail-item">
+                <div class="detail-label">Fecha de Actualización</div>
+                <div class="detail-value">
+                    @(Model.Fecha_Actualizacion.HasValue ? Model.Fecha_Actualizacion.Value.ToString("dd-MM-yyyy") : "")
+                </div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">Fecha de Eliminación</div>
+                <div class="detail-value">
+                    @(Model.Fecha_Actualizacion.HasValue ? Model.Fecha_Actualizacion.Value.ToString("dd-MM-yyyy") : "")
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="form-group text-center">
-        @Html.ActionLink("Editar", "Edit", new { id = Model.Id_Departamento }, new { @class = "btn-pago" })
-        @Html.ActionLink("Regresar a la Lista", "Index", null, new { @class = "btn-pago", style = "margin-left: 10px;" })
+    <div class="form-section">
+        <legend>Información de Registro</legend>
+        <div class="detail-group">
+            <div class="detail-item">
+                <div class="detail-label">Usuario Registro</div>
+                <div class="detail-value">@Html.DisplayFor(model => model.Id_Usuario_Creador)</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">Estado</div>
+                <div class="detail-value">@Html.DisplayFor(model => model.Estatus)</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center" style="margin-top: 20px;">
+        @Html.ActionLink("Editar", "Edit", new { id = Model.Id_Departamento }, new { @class = "btn-primary" })
+        @Html.ActionLink("Regresar a la Lista", "Index", null, new { @class = "btn-secondary" })
     </div>
 </div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
-
