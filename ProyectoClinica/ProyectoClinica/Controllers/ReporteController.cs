@@ -549,6 +549,7 @@ namespace ProyectoClinica.Controllers
             return View(user.ToList());
         }
 
+        [Authorize(Roles = "Administrador")]
         public ActionResult ExportarExcelPersonalizacion(string nombreUser)
         {
             // Establecer el contexto de la licencia de EPPlus
@@ -632,6 +633,7 @@ namespace ProyectoClinica.Controllers
             }
         }
 
+        [Authorize(Roles = "Administrador")]
         public ActionResult GuardarPlantillaInforme()
         {
             return View();
@@ -658,6 +660,7 @@ namespace ProyectoClinica.Controllers
             return View("Error");
         }
 
+        [Authorize(Roles = "Administrador")]
         public ActionResult ListarPlantillasInformes()
         {
             var plantillas = _context.PlantillaInforme.ToList();

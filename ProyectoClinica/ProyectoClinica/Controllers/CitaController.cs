@@ -36,7 +36,6 @@ namespace ProyectoClinica.Controllers
 
         }
 
-        // GET: Cita
         [Authorize(Roles = "Usuario")]
         public ActionResult Index()
         {
@@ -44,21 +43,18 @@ namespace ProyectoClinica.Controllers
             return View(citas);
         }
 
-        //Información de la clinica
         [Authorize(Roles = "Usuario")]
         public ActionResult VistaCita()
         {
             return View();
         }
 
-        //Información de la clinica
         [Authorize(Roles = "Usuario")]
         public ActionResult Especialidad()
         {
             return View();
         }
 
-        //Información de la clinica
         [Authorize(Roles = "Usuario")]
         public ActionResult Contactanos()
         {
@@ -92,6 +88,7 @@ namespace ProyectoClinica.Controllers
         }
 
         //---------------------------------------------------- Obtener ------------------------------------------------------------
+        [Authorize(Roles = "Usuario")]
         [HttpGet]
         public ActionResult GetEvents()
         {
@@ -113,6 +110,7 @@ namespace ProyectoClinica.Controllers
         }
 
         //---------------------------------------------------- Crear ------------------------------------------------------------
+        [Authorize(Roles = "Usuario")]
         [HttpGet]
         public ActionResult Crear()
         {
@@ -173,8 +171,8 @@ namespace ProyectoClinica.Controllers
             return View(Cita);
         }
 
-
         //---------------------------------------------------- Crear nota ----------------------------------------------------------
+        [Authorize(Roles = "Usuario")]
         [HttpGet]
         public ActionResult CrearNota()
         {
@@ -207,6 +205,7 @@ namespace ProyectoClinica.Controllers
         }
 
         //---------------------------------------------------- Gestión horario ------------------------------------------------------
+        [Authorize(Roles = "Administrador")]
         [HttpGet]
         public ActionResult GHorarios()
         {
@@ -214,6 +213,7 @@ namespace ProyectoClinica.Controllers
             return View(Medico);
         }
 
+        [Authorize(Roles = "Administrador")]
         [HttpGet]
         public ActionResult HCita()
         {
@@ -221,8 +221,7 @@ namespace ProyectoClinica.Controllers
             return View(Cita);
         }
 
-
-        //Editar
+        [Authorize(Roles = "Administrador")]
         [HttpGet]
         public ActionResult EditarMedico(int id)
         {
@@ -278,6 +277,7 @@ namespace ProyectoClinica.Controllers
             return Json(citas, JsonRequestBehavior.AllowGet);
         }
 
+        [Authorize(Roles = "Administrador")]
         [HttpGet]
         public ActionResult PCitas()
         {
@@ -285,6 +285,7 @@ namespace ProyectoClinica.Controllers
             return View(Medico);
         }
 
+        [Authorize(Roles = "Administrador")]
         [HttpGet]
         public ActionResult CrearADM()
         {
@@ -345,7 +346,8 @@ namespace ProyectoClinica.Controllers
             // Si el modelo no es válido, regresar la vista con los errores
             return View(Cita);
         }
-
+        
+        [Authorize(Roles = "Administrador")]
         [HttpGet]
         public ActionResult CCita()
         {
@@ -353,6 +355,7 @@ namespace ProyectoClinica.Controllers
             return View(cita);
         }
 
+        [Authorize(Roles = "Administrador")]
         [HttpGet]
         public ActionResult Eliminar(int? id)
         {
@@ -386,6 +389,7 @@ namespace ProyectoClinica.Controllers
         }
 
         //---------------------------------------------------- Doctor ------------------------------------------------------
+        [Authorize(Roles = "Medico")]
         [HttpGet]
         public ActionResult GetDOctCitas()
         {
@@ -407,6 +411,7 @@ namespace ProyectoClinica.Controllers
         }
 
         //---------------------------------------------------- Atención cliente ------------------------------------------------------
+        [Authorize(Roles = "Usuario")]
         [HttpGet]
         public ActionResult AtencionCliente()
         {
@@ -414,6 +419,7 @@ namespace ProyectoClinica.Controllers
             return View(cita);
         }
 
+        [Authorize(Roles = "Usuario")]
         [HttpGet]
         public ActionResult CrearAtencionCliente()
         {
@@ -445,6 +451,7 @@ namespace ProyectoClinica.Controllers
         }
 
         //---------------------------------------------------- Atención cliente AD------------------------------------------------------
+        [Authorize(Roles = "Administrador")]
         [HttpGet]
         public ActionResult SAdComentarios()
         {
@@ -452,6 +459,7 @@ namespace ProyectoClinica.Controllers
             return View(comentario);
         }
 
+        [Authorize(Roles = "Administrador")]
         [HttpGet]
         public ActionResult SComentarios()
         {

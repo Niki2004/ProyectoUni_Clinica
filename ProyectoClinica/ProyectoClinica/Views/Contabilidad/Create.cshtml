@@ -3,103 +3,7 @@
 @{
     ViewBag.Title = "Contabilidad";
 }
-
-<style>
-    /* Estilos generales */
-    .container-form {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
-        background-color: #f8f9fa;
-        border-radius: 10px;
-        box-shadow: 0 0 15px rgba(0,0,0,0.1);
-    }
-
-    .page-title {
-        color: #0b7b82;
-        text-align: center;
-        margin-bottom: 30px;
-        padding-bottom: 10px;
-        border-bottom: 2px solid #0b7b82;
-    }
-
-    .form-section {
-        background-color: white;
-        padding: 20px;
-        border-radius: 8px;
-        margin-bottom: 20px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    }
-
-    .form-group {
-        margin-bottom: 20px;
-    }
-
-    .control-label {
-        font-weight: 600;
-        color: #2c3e50;
-    }
-
-    .form-control {
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        padding: 8px 12px;
-        transition: border-color 0.3s ease;
-    }
-
-    .form-control:focus {
-        border-color: #0b7b82;
-        box-shadow: 0 0 0 0.2rem rgba(11, 123, 130, 0.25);
-    }
-
-    .btn-pago {
-        background-color: #0b7b82;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 5px;
-        text-decoration: none;
-        display: inline-block;
-        margin-top: 5px;
-        text-align: center;
-        transition: all 0.3s ease;
-    }
-
-    .btn-pago:hover {
-        background-color: #096c72;
-        transform: translateY(-1px);
-        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    }
-
-    .btn-submit {
-        background-color: #28a745;
-        color: white;
-        border: none;
-        padding: 12px 24px;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 16px;
-        transition: all 0.3s ease;
-    }
-
-    .btn-submit:hover {
-        background-color: #218838;
-        transform: translateY(-1px);
-    }
-
-    .text-danger {
-        color: #dc3545;
-        font-size: 0.875rem;
-        margin-top: 4px;
-    }
-
-    /* Grid layout para campos */
-    .form-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
-    }
-</style>
+<link rel="stylesheet" href="~/CSS/Crear.css" /> @*Link de los estilos*@
 
 <div class="container-form">
     <h2 class="page-title">Crear Contabilidad</h2>
@@ -112,53 +16,53 @@
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
             <div class="form-section">
-                <h4>Información Básica</h4>
-                <div class="form-grid">
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Id_Tipo_Registro, "Tipo Registro", new { @class = "control-label" })
-                        @Html.DropDownList("Id_Tipo_Registro", ViewBag.TipoRegistro as SelectList, "Seleccione una opción", new { @class = "form-control" })
-                    </div>
+                <legend>Información Básica </legend>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Id_Tipo_Registro, "Tipo Registro", new { @class = "control-label" })
+                            @Html.DropDownList("Id_Tipo_Registro", ViewBag.TipoRegistro as SelectList, "Seleccione una opción", new { @class = "form-control" })
+                        </div>
 
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Id_Estado_Contabilidad, "Estado Contabilidad", new { @class = "control-label" })
-                        @Html.DropDownList("Id_Estado_Contabilidad", ViewBag.Estado_Contabilidad as SelectList, "Seleccione una opción", new { @class = "form-control" })
-                    </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Id_Estado_Contabilidad, "Estado Contabilidad", new { @class = "control-label" })
+                            @Html.DropDownList("Id_Estado_Contabilidad", ViewBag.Estado_Contabilidad as SelectList, "Seleccione una opción", new { @class = "form-control" })
+                        </div>
 
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Id_Tipo_Transaccion, "Tipo Transacción", new { @class = "control-label" })
-                        @Html.DropDownList("Id_Tipo_Transaccion", ViewBag.TipoTransaccion as SelectList, "Seleccione una opción", new { @class = "form-control" })
-                    </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Id_Tipo_Transaccion, "Tipo Transacción", new { @class = "control-label" })
+                            @Html.DropDownList("Id_Tipo_Transaccion", ViewBag.TipoTransaccion as SelectList, "Seleccione una opción", new { @class = "form-control" })
+                        </div>
 
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.ClienteProveedor, "Cliente/Proveedor", new { @class = "control-label" })
-                        @Html.EditorFor(model => model.ClienteProveedor, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.ClienteProveedor, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ClienteProveedor, "Cliente/Proveedor", new { @class = "control-label" })
+                            @Html.EditorFor(model => model.ClienteProveedor, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.ClienteProveedor, "", new { @class = "text-danger" })
+                        </div>
                     </div>
-                </div>
             </div>
 
             <div class="form-section">
-                <h4>Fechas</h4>
-                <div class="form-grid">
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Fecha_Registro, "Fecha Registro", new { @class = "control-label" })
-                        @Html.TextBoxFor(model => model.Fecha_Registro, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
-                    </div>
+                <legend> Fechas</legend>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Fecha_Registro, "Fecha Registro", new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.Fecha_Registro, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                        </div>
 
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Fecha_Vencimiento, "Fecha Vencimiento", new { @class = "control-label" })
-                        @Html.TextBoxFor(model => model.Fecha_Vencimiento, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
-                    </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Fecha_Vencimiento, "Fecha Vencimiento", new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.Fecha_Vencimiento, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                        </div>
 
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Fecha_Cierre, "Fecha Cierre", new { @class = "control-label" })
-                        @Html.TextBoxFor(model => model.Fecha_Cierre, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Fecha_Cierre, "Fecha Cierre", new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.Fecha_Cierre, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                        </div>
                     </div>
-                </div>
-            </div>
+</div>
 
             <div class="form-section">
-                <h4>Información Financiera</h4>
+                <legend>Información Financiera </legend>
                 <div class="form-grid">
                     <div class="form-group">
                         @Html.LabelFor(model => model.Monto, "Monto", new { @class = "control-label" })
@@ -183,7 +87,7 @@
             </div>
 
             <div class="form-section">
-                <h4>Totales y Estado</h4>
+                 <legend>Totales y Estado </legend>
                 <div class="form-grid">
                     <div class="form-group">
                         @Html.LabelFor(model => model.Ingresos_Totales, "Ingresos Totales", new { @class = "control-label" })
@@ -213,7 +117,7 @@
             </div>
 
             <div class="form-section">
-                <h4>Comentarios y Observaciones</h4>
+                <legend>Comentarios y Observaciones </legend>
                 <div class="form-group">
                     @Html.LabelFor(model => model.Comentarios, new { @class = "control-label" })
                     @Html.TextAreaFor(model => model.Comentarios, new { @class = "form-control", rows = "3" })
@@ -226,7 +130,7 @@
             </div>
 
             <div class="form-section">
-                <h4>Usuario</h4>
+                 <legend>Usuario </legend>
                 <div class="form-group">
                     <label for="Id_Usuario">Usuario Responsable</label>
                     @Html.DropDownListFor(model => model.Id, (SelectList)ViewBag.Usuarios, "Seleccionar Usuario", new { @class = "form-control" })
