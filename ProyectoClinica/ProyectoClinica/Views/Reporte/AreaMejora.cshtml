@@ -7,17 +7,18 @@
     var comentarios = Model.Select(c => c.Atencion_Cliente.Comentarios_Paciente).Distinct().OrderBy(e => e).ToList();
 }
 
-<link href="~/CSS/Index.css" rel="stylesheet" />
+<link href="~/CSS/Reportes.css" rel="stylesheet" />
 
-<div style="text-align: center; margin-bottom: 24px;">
-    <a href="@Url.Action("VistaAdmRep", "Reporte")" class="custom-btn">
-        <i class="fas fa-home"></i> Inicio
+<div class="report-header">
+    <h2>Reporte de Comentarios</h2>
+    <a href="@Url.Action("VistaAdmRep", "Reporte")" class="custom-btn home-btn">
+        <i class="fas fa-home"></i>
     </a>
 </div>
 
-<div class="container">
-    <center><h2 class="mb-4" style="color: #0b7b82; font-weight: 600;">Reporte de Comentarios</h2></center>
+<br />
 
+<div class="container">
     <div class="card mb-4 shadow-sm filter-card">
         <div class="card-header" style="background-color: #0b7b82; color: white;">
             <h5 class="mb-0"><i class="fas fa-filter"></i> Filtros de búsqueda</h5>
@@ -83,16 +84,17 @@
     <div class="card shadow-sm">
         <div class="card-header bg-white">
             <div class="d-flex justify-content-between align-items-center">
-                <h5 class="mb-0"><i class="fas fa-comments me-2"></i> Listado de Comentarios</h5>
+                <h5 class="mb-0"><i class="fas fa-comments"></i> Listado de Comentarios</h5>
                 <a href="@Url.Action("ExportarExcelAreaMejora", "Reporte", new { negativo = ViewBag.Negativo, sensible = ViewBag.Sensible, destacado = ViewBag.Destacado, estado = ViewBag.Estado })"
                    class="excel-btn">
                     <i class="fas fa-file-excel"></i> Exportar a Excel
                 </a>
             </div>
         </div>
+
         <div class="card-body p-0">
             <div class="table-responsive">
-                <table class="modern-table">
+                <table id="comentariosTable" class="modern-table">
                     <thead>
                         <tr>
                             <th>Fecha</th>
@@ -104,7 +106,7 @@
                             <th>Destacado</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="comentariosBody">
                         @if (Model.Any())
                         {
                             foreach (var comentario in Model)
@@ -164,7 +166,55 @@
                         }
                     </tbody>
                 </table>
+                <div id="paginationContainer" class="d-flex justify-content-center mt-3"></div>
             </div>
         </div>
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var rowsPerPage = 5; // Número de comentarios por página
+        var $rows = $("#comentariosBody tr");
+        var totalPages = Math.ceil($rows.length / rowsPerPage);
+        var currentPage = 1;
+
+        function showPage(page) {
+            var start = (page - 1) * rowsPerPage;
+            var end = start + rowsPerPage;
+
+            $rows.hide().slice(start, end).show();
+            $("#paginationContainer").html(createPagination(page, totalPages));
+        }
+
+        function createPagination(page, total) {
+            var pagination = `<nav><ul class="pagination">`;
+
+            if (page > 1) {
+                pagination += `<li class="page-item"><a href="#" class="page-link" data-page="${page - 1}">«</a></li>`;
+            }
+
+            for (var i = 1; i <= total; i++) {
+                pagination += `<li class="page-item ${i === page ? 'active' : ''}">
+                                <a href="#" class="page-link" data-page="${i}">${i}</a>
+                               </li>`;
+            }
+
+            if (page < total) {
+                pagination += `<li class="page-item"><a href="#" class="page-link" data-page="${page + 1}">»</a></li>`;
+            }
+
+            pagination += `</ul></nav>`;
+            return pagination;
+        }
+
+        $(document).on("click", ".page-link", function (e) {
+            e.preventDefault();
+            var page = $(this).data("page");
+            showPage(page);
+        });
+
+        showPage(currentPage);
+    });
+</script>
