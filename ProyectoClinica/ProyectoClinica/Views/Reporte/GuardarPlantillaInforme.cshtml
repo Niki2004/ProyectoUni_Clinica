@@ -4,11 +4,7 @@
     ViewBag.Title = "Guardar Plantilla de Informe";
 }
 
-<div style="text-align: center; margin-bottom: 20px;">
-    <a href="@Url.Action("ListarPlantillasInformes", "Reporte")" class="custom-btn">
-        <i class="fas fa-home"></i> Inicio
-    </a>
-</div>
+<link href="~/CSS/Plantilla.css" rel="stylesheet" />
 
 <div class="container-form">
     <h2 class="page-title">Guardar detalles de las Plantillas</h2>
@@ -30,101 +26,13 @@
         </div>
 
         <div class="form-section text-center">
-            <button type="submit" class="btn-submit">
-                <i class="fas fa-save"></i> Guardar Plantilla
+            <button type="submit" class="btn-form btn-submit">
+                <i class="fas fa-save"></i> 
             </button>
+
+            <a href="@Url.Action("ListarPlantillasInformes", "Reporte")" class="btn-form btn-home">
+                <i class="fas fa-home"></i> 
+            </a>
         </div>
     </form>
 </div>
-
-<style>
-    /* Estilos generales */
-    .container-form {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
-        background-color: #f8f9fa;
-        border-radius: 10px;
-        box-shadow: 0 0 15px rgba(0,0,0,0.1);
-    }
-
-    .page-title {
-        color: #0b7b82;
-        text-align: center;
-        margin-bottom: 30px;
-        padding-bottom: 10px;
-        border-bottom: 2px solid #0b7b82;
-    }
-
-    .form-section {
-        background-color: white;
-        padding: 20px;
-        border-radius: 8px;
-        margin-bottom: 20px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    }
-
-    .form-group {
-        margin-bottom: 20px;
-    }
-
-    .control-label {
-        font-weight: 600;
-        color: #2c3e50;
-    }
-
-    .form-control {
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        padding: 8px 12px;
-        transition: border-color 0.3s ease;
-    }
-
-        .form-control:focus {
-            border-color: #0b7b82;
-            box-shadow: 0 0 0 0.2rem rgba(11, 123, 130, 0.25);
-        }
-
-    .btn-submit {
-        background-color: #0b7b82;
-        color: white;
-        border: none;
-        padding: 12px 24px;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 16px;
-        transition: all 0.3s ease;
-    }
-
-        .btn-submit:hover {
-            background-color: #095f59;
-            transform: translateY(-1px);
-        }
-
-    .text-danger {
-        color: #dc3545;
-        font-size: 0.875rem;
-        margin-top: 4px;
-    }
-
-    .form-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
-    }
-
-    .custom-btn {
-        background-color: #0b7b82 !important;
-        color: white !important;
-        border: none;
-        padding: 12px 24px;
-        border-radius: 8px;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 16px;
-        text-decoration: none;
-        transition: background 0.3s ease, transform 0.2s ease;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    }
-</style>

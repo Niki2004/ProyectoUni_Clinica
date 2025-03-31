@@ -543,7 +543,8 @@
     <Content Include="CSS\AtencionCliente.css" />
     <Content Include="CSS\Crear.css" />
     <Content Include="CSS\Detalles.css" />
-    <Content Include="CSS\Index.css" />
+    <Content Include="CSS\Plantilla.css" />
+    <Content Include="CSS\Reportes.css" />
     <Content Include="CSS\Menu.css" />
     <Content Include="CSS\Content.css" />
     <Content Include="CSS\Tablas.css" />
