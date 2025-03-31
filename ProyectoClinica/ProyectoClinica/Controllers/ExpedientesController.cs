@@ -159,6 +159,52 @@ namespace ProyectoClinica.Controllers
             return RedirectToAction("Respaldo");
         }
 
+        public ActionResult SubirImagenes()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SubirImagenes(IEnumerable<HttpPostedFileBase> imagenes)
+        {
+            try
+            {
+                if (imagenes != null && imagenes.Any())
+                {
+                    string uploadPath = Server.MapPath("~/Imagenes/");
+                    if (!Directory.Exists(uploadPath))
+                    {
+                        Directory.CreateDirectory(uploadPath);
+                    }
+
+                    foreach (var imagen in imagenes)
+                    {
+                        if (imagen != null && imagen.ContentLength > 0)
+                        {
+                            string fileName = Path.GetFileName(imagen.FileName);
+                            string uniqueFileName = $"{DateTime.Now:yyyyMMddHHmmss}_{fileName}";
+                            string filePath = Path.Combine(uploadPath, uniqueFileName);
+
+                            imagen.SaveAs(filePath);
+                        }
+                    }
+
+                    TempData["SuccessMessage"] = "Imágenes guardadas exitosamente.";
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "Por favor seleccione al menos una imagen.";
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Error al guardar las imágenes: " + ex.Message;
+            }
+
+            return RedirectToAction("SubirImagenes");
+        }
+
     }
 
 

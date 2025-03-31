@@ -1,6 +1,4 @@
-﻿
-
-@model IEnumerable<ProyectoClinica.Models.Empleado>
+﻿@model IEnumerable<ProyectoClinica.Models.Empleado>
 
 @{
     ViewBag.Title = "Administrador";
@@ -360,7 +358,7 @@
                     <div class="row mb-4 text-center row-cols-4 g-3">
                         
                         <div class="col">
-                            @Html.ActionLink("Agregar imagenes", "", "", null, new { @class = "btn btn-primary btn-sm w-100" })
+                            @Html.ActionLink("Agregar imagenes", "SubirImagenes", "Expedientes", null, new { @class = "btn btn-primary btn-sm w-100" })
                         </div>
                     </div>
 
