@@ -33,18 +33,21 @@ body {
     justify-content: space-between;
     margin-bottom: 30px;
     flex-wrap: wrap;
+    width: 100%;
 }
 
 .page-title-container {
     margin: 10px 0;
     position: relative;
     display: inline-block;
+    flex-grow: 1;
+    text-align: center;
 }
 
 .page-title {
-    font-size: 32px;
+    font-size: 42px;
     font-weight: 600;
-    color: var(--primary);
+    color: #392F5A;
     margin: 0;
     position: relative;
     display: inline-block;
@@ -57,15 +60,15 @@ body {
         left: 0;
         width: 60%;
         height: 4px;
-        background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 100%);
+        background: linear-gradient(90deg, #3bb4bc 0%, #3bb4bc 100%);
         border-radius: 2px;
     }
 
 /* Botones */
 .btn-inicio {
-    background-color: white;
-    color: var(--primary);
-    border: 2px solid var(--primary);
+    background-color: #D6A2AD;
+    color: white;
+    border: 2px solid #D6A2AD;
     padding: 10px 18px;
     border-radius: var(--border-radius);
     text-decoration: none;
@@ -77,8 +80,9 @@ body {
 }
 
     .btn-inicio:hover {
-        background-color: var(--primary);
-        color: white;
+        background-color: white;
+        color: #D6A2AD;
+        border: 2px solid #D6A2AD;
         transform: translateY(-2px);
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
     }
@@ -88,7 +92,7 @@ body {
     }
 
 .btn-crear-pago {
-    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    background: linear-gradient(135deg, #9F9AA4 0%, #9F9AA4 100%);
     color: white;
     border: none;
     padding: 12px 24px;
@@ -104,6 +108,7 @@ body {
     .btn-crear-pago:hover {
         transform: translateY(-2px);
         box-shadow: 0 6px 16px rgba(67, 97, 238, 0.4);
+        color: white;
     }
 
     .btn-crear-pago i {
@@ -112,8 +117,8 @@ body {
     }
 
 .btn-action {
-    background-color: white;
-    color: var(--primary);
+    background-color: #998bf4;
+    color: white;
     border: 1px solid #e1e5eb;
     padding: 8px 16px;
     border-radius: var(--border-radius);
@@ -127,7 +132,7 @@ body {
 }
 
     .btn-action:hover {
-        background-color: var(--primary);
+        background-color: #7260EC;
         color: white;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
@@ -200,7 +205,7 @@ body {
 .card-id {
     font-size: 16px;
     font-weight: 600;
-    color: var(--primary);
+    color: #0e5c61;
 }
 
 .card-date {
@@ -249,7 +254,7 @@ body {
 
     .card-amount i {
         margin-right: 8px;
-        color: var(--primary);
+        color: #0e5c61;
     }
 
 .card-info {
