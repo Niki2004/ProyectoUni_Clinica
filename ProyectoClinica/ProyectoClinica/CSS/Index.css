@@ -1,0 +1,146 @@
+﻿.custom-btn {
+    background-color: #0b7b82 !important;
+    color: white !important;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    text-decoration: none;
+    transition: background 0.3s ease, transform 0.2s ease;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+    .custom-btn:hover {
+        background-color: #096369 !important;
+        transform: translateY(-2px);
+        box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.15);
+    }
+
+/* Estilos modernos para la tabla */
+.modern-table {
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+    .modern-table thead th {
+        background-color: #f8f9fa;
+        color: #495057;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        letter-spacing: 0.5px;
+        padding: 16px;
+        border: none;
+        border-bottom: 2px solid #e9ecef;
+    }
+
+    .modern-table tbody tr {
+        transition: all 0.2s ease;
+    }
+
+        .modern-table tbody tr:hover {
+            background-color: rgba(11, 123, 130, 0.05);
+        }
+
+    .modern-table td {
+        padding: 14px 16px;
+        vertical-align: middle;
+        border: none;
+        border-bottom: 1px solid #e9ecef;
+    }
+
+    .modern-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+.badge {
+    padding: 6px 10px;
+    font-weight: 500;
+    border-radius: 50px;
+}
+
+    .badge.bg-danger {
+        background-color: #ff6b6b !important;
+    }
+
+    .badge.bg-success {
+        background-color: #51cf66 !important;
+    }
+
+    .badge.bg-warning {
+        background-color: #ffd43b !important;
+    }
+
+    .badge.bg-secondary {
+        background-color: #dee2e6 !important;
+        color: #495057 !important;
+    }
+
+.card {
+    border-radius: 12px;
+    border: none;
+    overflow: hidden;
+}
+
+.card-header {
+    padding: 18px 24px;
+    background-color: white;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.filter-card .card-header {
+    background-color: #0b7b82;
+}
+
+.form-control {
+    border-radius: 8px;
+    padding: 10px 16px;
+    border: 1px solid #ced4da;
+    transition: all 0.2s ease;
+}
+
+    .form-control:focus {
+        border-color: #0b7b82;
+        box-shadow: 0 0 0 3px rgba(11, 123, 130, 0.2);
+    }
+
+.btn {
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn-primary {
+    background-color: #0b7b82;
+    border-color: #0b7b82;
+}
+
+    .btn-primary:hover {
+        background-color: #096369;
+        border-color: #096369;
+    }
+
+.excel-btn {
+    background-color: #1e7e34;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+}
+
+    .excel-btn:hover {
+        background-color: #186429;
+        transform: translateY(-2px);
+    }

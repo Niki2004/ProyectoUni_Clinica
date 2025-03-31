@@ -4,149 +4,60 @@
     ViewBag.Title = "Details";
 }
 
-<style>
-    /* Estilos generales */
-    .container-form {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
-        background-color: #f8f9fa;
-        border-radius: 10px;
-        box-shadow: 0 0 15px rgba(0,0,0,0.1);
-    }
 
-    .page-title {
-        color: #0b7b82;
-        text-align: center;
-        margin-bottom: 30px;
-        padding-bottom: 10px;
-        border-bottom: 2px solid #0b7b82;
-    }
-
-    .form-section {
-        background-color: white;
-        padding: 20px;
-        border-radius: 8px;
-        margin-bottom: 20px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    }
-
-        .form-section h4 {
-            color: #0b7b82;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #dee2e6;
-        }
-
-    .detail-group {
-        display: grid;
-        grid-template-columns: 1fr 3fr;
-        gap: 15px;
-        margin-bottom: 15px;
-        align-items: center;
-        padding: 10px 0;
-        border-bottom: 1px solid #eee;
-    }
-
-    .detail-label {
-        font-weight: 600;
-        color: #2c3e50;
-        text-align: right;
-    }
-
-    .detail-value {
-        color: #495057;
-        padding: 8px;
-    }
-
-    .btn-form {
-        background-color: #0b7b82;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 5px;
-        text-decoration: none;
-        display: inline-block;
-        margin-top: 20px;
-        text-align: center;
-        transition: all 0.3s ease;
-    }
-
-        .btn-form:hover {
-            background-color: #096c72;
-            transform: translateY(-1px);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            color: white;
-            text-decoration: none;
-        }
-</style>
+<link href="~/CSS/Detalles.css" rel="stylesheet" />
 
 <div class="container-form">
     <h2 class="page-title">Detalles de Productos</h2>
 
     <div class="form-section">
-        <h4>Información Producto</h4>
-
+        <legend>Información Producto</legend>
         <div class="detail-group">
-            <span class="detail-label">Nombre del Producto</span>
-            <span class="detail-value">
-                @Html.DisplayFor(model => model.Nombre_producto)
-            </span>
-        </div>
-
-        <div class="detail-group">
-            <span class="detail-label">Tipo del Producto</span>
-            <span class="detail-value">
-                @Html.DisplayFor(model => model.Tipo_producto)
-            </span>
+            <div class="detail-item">
+                <div class="detail-label">Nombre del Producto</div>
+                <div class="detail-value">@Html.DisplayFor(model => model.Nombre_producto)</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">Tipo del Producto</div>
+                <div class="detail-value">@Html.DisplayFor(model => model.Tipo_producto)</div>
+            </div>
         </div>
     </div>
 
     <div class="form-section">
-        <h4>Fechas del Producto</h4>
-
+        <legend>Fechas del Producto</legend>
         <div class="detail-group">
-            <span class="detail-label">Fecha de Creación</span>
-            <span class="detail-value">
-                @Html.DisplayFor(model => model.Creacion_producto)
-            </span>
-        </div>
-
-        <div class="detail-group">
-            <span class="detail-label">Fecha de Actualización</span>
-            <span class="detail-value">
-                @Html.DisplayFor(model => model.Actualizacion_producto)
-            </span>
-        </div>
-
-        <div class="detail-group">
-            <span class="detail-label">Fecha de Eliminación</span>
-            <span class="detail-value">
-                @Html.DisplayFor(model => model.Eliminacion_producto)
-            </span>
+            <div class="detail-item">
+                <div class="detail-label">Fecha de Creación</div>
+                <div class="detail-value"> @Html.Raw(Model.Creacion_producto.ToString("dd-MM-yyyy"))</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">Fecha de Actualización</div>
+                <div class="detail-value">  @(Model.Actualizacion_producto.HasValue ? Model.Actualizacion_producto.Value.ToString("dd-MM-yyyy") : "")</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">Fecha de Eliminación</div>
+                <div class="detail-value"> @(Model.Eliminacion_producto.HasValue ? Model.Eliminacion_producto.Value.ToString("dd-MM-yyyy") : "")</div>
+            </div>
         </div>
     </div>
 
     <div class="form-section">
-        <h4>Detalles Adicionales</h4>
-
+        <legend>Detalles Adicionales</legend>
         <div class="detail-group">
-            <span class="detail-label">Usuario</span>
-            <span class="detail-value">
-                @Html.DisplayFor(model => model.Id_Usuario)
-            </span>
-        </div>
-
-        <div class="detail-group">
-            <span class="detail-label">Estado</span>
-            <span class="detail-value">
-                @Html.DisplayFor(model => model.Estatus_producto)
-            </span>
+            <div class="detail-item">
+                <div class="detail-label">Usuario</div>
+                <div class="detail-value">@Html.DisplayFor(model => model.Id_Usuario)</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">Estado</div>
+                <div class="detail-value">@Html.DisplayFor(model => model.Estatus_producto)</div>
+            </div>
         </div>
     </div>
 
     <div class="text-center" style="margin-top: 20px;">
-        @Html.ActionLink("Editar", "Edit", new { id = Model.Id_Producto }, new { @class = "btn-form", style = "margin-right: 10px;" })
-        @Html.ActionLink("Regresar a la Lista", "Index", null, new { @class = "btn-form" })
+        @Html.ActionLink("Editar", "Edit", new { id = Model.Id_Producto }, new { @class = "btn-primary" })
+        @Html.ActionLink("Regresar a la Lista", "Index", null, new { @class = "btn-secondary" })
     </div>
 </div>

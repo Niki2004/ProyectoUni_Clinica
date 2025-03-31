@@ -59,6 +59,7 @@
 
     .btn-pago:hover {
         background-color: #096c72;
+        color: white;
         transform: translateY(-1px);
         box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     }
@@ -111,6 +112,7 @@ legend {
 
     .btn-primary:hover {
         background-color: #d18696;
+        color: white;
         transform: translateY(-1px);
         box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     }
@@ -129,6 +131,7 @@ legend {
 
     .btn-secondary:hover {
         background-color: #0f6369;
+        color: white;
         transform: translateY(-1px);
         box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     }
