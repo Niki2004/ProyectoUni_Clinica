@@ -1,8 +1,14 @@
-﻿using ProyectoClinica.Models;
+﻿using Google.Apis.Auth.OAuth2;
+using Google.Apis.Drive.v3;
+using Google.Apis.Services;
+using Google.Apis.Upload;
+using ProyectoClinica.Models;
 using System;
 using System.Collections.Generic;
 using System.EnterpriseServices;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -75,9 +81,91 @@ namespace ProyectoClinica.Controllers
             return View();
         }
 
+        static async Task Main(string[] args)
+        {
+            string credentialPath = @"C:\path\to\credentials.json"; 
+            string filePath = @"C:\path\to\file.pdf"; 
+            string folderId = "ID_DE_LA_CARPETA"; 
 
+            GoogleCredential credential = GoogleCredential.FromFile(credentialPath)
+                .CreateScoped(DriveService.ScopeConstants.DriveFile);
 
+            DriveService service = new DriveService(new BaseClientService.Initializer
+            {
+                HttpClientInitializer = credential,
+                ApplicationName = "MiAppDrive"
+            });
 
+            var fileMetadata = new Google.Apis.Drive.v3.Data.File
+            {
+                Name = Path.GetFileName(filePath),
+                Parents = folderId != null ? new[] { folderId } : null
+            };
+
+            using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read)) 
+            {
+                var request = service.Files.Create(fileMetadata, stream, "application/octet-stream");
+                request.Fields = "id";
+                var result = await request.UploadAsync();
+
+                if (result.Status == UploadStatus.Completed)
+                {
+                    Console.WriteLine("Archivo subido correctamente, ID: " + request.ResponseBody.Id);
+                }
+                else
+                {
+                    Console.WriteLine("Error al subir archivo: " + result.Exception.Message);
+                }
+            } 
+        }
+
+        public ActionResult Respaldo()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SubirADrive(HttpPostedFileBase archivo)
+        {
+            try
+            {
+                if (archivo != null && archivo.ContentLength > 0)
+                {
+                    string uploadPath = Server.MapPath("~/Uploads/");
+                    if (!Directory.Exists(uploadPath))
+                    {
+                        Directory.CreateDirectory(uploadPath);
+                    }
+
+                    string fileName = Path.GetFileName(archivo.FileName);
+                    string uniqueFileName = $"{DateTime.Now:yyyyMMddHHmmss}_{fileName}";
+                    string filePath = Path.Combine(uploadPath, uniqueFileName);
+
+                    archivo.SaveAs(filePath);
+
+                    TempData["SuccessMessage"] = "Archivo guardado exitosamente.";
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "Por favor seleccione un archivo válido.";
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Error al guardar el archivo: " + ex.Message;
+            }
+
+            return RedirectToAction("Respaldo");
+        }
 
     }
+
+
+
+
 }
+
+
+
+
