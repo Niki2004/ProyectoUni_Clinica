@@ -4,91 +4,7 @@
     ViewBag.Title = "Crear Pago de Nómina";
 }
 
-<style>
-    /* Estilos generales */
-    .container-form {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
-        background-color: #f8f9fa;
-        border-radius: 10px;
-        box-shadow: 0 0 15px rgba(0,0,0,0.1);
-    }
-
-    .page-title {
-        color: #0b7b82;
-        text-align: center;
-        margin-bottom: 30px;
-        padding-bottom: 10px;
-        border-bottom: 2px solid #0b7b82;
-    }
-
-    .form-section {
-        background-color: white;
-        padding: 20px;
-        border-radius: 8px;
-        margin-bottom: 20px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    }
-
-    .form-section h4 {
-        color: #0b7b82;
-        margin-bottom: 20px;
-        padding-bottom: 10px;
-        border-bottom: 1px solid #dee2e6;
-    }
-
-    .form-group {
-        display: grid;
-        grid-template-columns: 1fr 3fr;
-        gap: 15px;
-        margin-bottom: 15px;
-        align-items: center;
-    }
-
-    .control-label {
-        font-weight: 600;
-        color: #2c3e50;
-        text-align: right;
-    }
-
-    .form-control {
-        color: #495057;
-        padding: 8px;
-        background-color: #fff;
-        border-radius: 4px;
-        border: 1px solid #dee2e6;
-        width: 100%;
-    }
-
-    .text-danger {
-        color: #dc3545;
-        display: block;
-        margin-top: 5px;
-    }
-
-    .btn-form {
-        background-color: #0b7b82;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 5px;
-        text-decoration: none;
-        display: inline-block;
-        margin-top: 20px;
-        text-align: center;
-        transition: all 0.3s ease;
-    }
-
-    .btn-form:hover {
-        background-color: #096c72;
-        transform: translateY(-1px);
-        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        color: white;
-        text-decoration: none;
-    }
-
-</style>
+<link href="~/CSS/Crear.css" rel="stylesheet" />
 
 <div class="container-form">
     <h2 class="page-title">Crear Pago de Nómina</h2>
@@ -99,7 +15,7 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         <div class="form-section">
-            <h4>Información de Identificación</h4>
+            <legend>Información de Identificación</legend>
 
             <div class="form-group">
                 @Html.LabelFor(model => model.Id_Contabilidad, "Identificación de Contabilidad", htmlAttributes: new { @class = "control-label" })
@@ -124,7 +40,7 @@
         </div>
 
         <div class="form-section">
-            <h4>Detalles del Pago</h4>
+            <legend>Detalles del Pago</legend>
 
             <div class="form-group">
                 @Html.LabelFor(model => model.Fecha_Pago, "Fecha de Pago", htmlAttributes: new { @class = "control-label" })
@@ -160,7 +76,7 @@
         </div>
 
         <div class="form-section">
-            <h4>Información Adicional</h4>
+            <legend>Información Adicional</legend>
 
             <div class="form-group">
                 @Html.LabelFor(model => model.Observaciones, "Observaciones", htmlAttributes: new { @class = "control-label" })
@@ -180,8 +96,8 @@
         </div>
 
         <div class="text-center" style="margin-top: 20px;">
-            <input type="submit" value="Crear" class="btn-form" style="margin-right: 10px;" />
-            @Html.ActionLink("Regresar a la Lista", "Index", null, new { @class = "btn-form" })
+            <input type="submit" value="Crear" class="btn-primary" />
+            @Html.ActionLink("Regresar a la Lista", "Index", null, new { @class = "btn-secondary" })
         </div>
     }
 </div>

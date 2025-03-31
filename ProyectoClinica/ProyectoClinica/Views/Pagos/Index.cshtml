@@ -1,246 +1,104 @@
 ﻿@model IEnumerable<ProyectoClinica.Models.Pagos>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Pagos";
 }
 
-<div style="text-align: center; margin-bottom: 20px;">
-    <a href="@Url.Action("VistaCON", "Contabilidad")" class="custom-btn">
-        <i class="fas fa-home"></i> Inicio
-    </a>
-</div>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Pagos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="~/CSS/Tablas.css" rel="stylesheet" />
 
-</br>
+</head>
+<body>
+    <div class="container">
+        <div class="header-container">
+            <div>
+                <a href="@Url.Action("VistaCON", "Contabilidad")" class="btn-inicio">
+                    <i class="fas fa-home"></i> Inicio
+                </a>
+                <div class="page-title-container">
+                    <h1 class="page-title">Gestión de Pagos</h1>
+                </div>
+            </div>
+            <a href="@Url.Action("Create")" class="btn-crear-pago">
+                <i class="fas fa-plus-circle"></i> Crear Nuevo Pago
+            </a>
+        </div>
 
-<h2 class="text-center">Pagos</h2>
+       
+        <!-- Tarjetas de Pagos -->
+        <div class="cards-container">
+            @foreach (var item in Model)
+            {
+                <div class="payment-card">
+                    <div class="card-status-chip @(item.Estado_Pago == "Pagado" ? "status-pagado" :
+                                                item.Estado_Pago == "Pendiente" ? "status-pendiente" :
+                                                item.Estado_Pago == "Cancelado" ? "status-cancelado" : "")">
+                        @item.Estado_Pago
+                    </div>
+                    <div class="card-header">
+                        <div class="card-id">Ref: @item.Numero_Referencia</div>
+                        <div class="card-date">@item.Fecha_Pago.ToString("dd/MM/yyyy")</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-amount">
+                            <i class="fas">₡</i> @item.Monto
+                        </div>
+                        <div class="card-info">
+                            <div class="info-label">Tipo:</div>
+                            <div class="info-value">@item.Tipo_Pago</div>
+                        </div>
+                        <div class="card-info">
+                            <div class="info-label">Beneficiario:</div>
+                            <div class="info-value">@item.Beneficiario</div>
+                        </div>
+                        <div class="card-info">
+                            <div class="info-label">Descripción:</div>
+                            <div class="info-value">@item.Descripcion</div>
+                        </div>
+                        <div class="card-info">
+                            <div class="info-label">ID Banco:</div>
+                            <div class="info-value">@item.Id_Banco</div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-user">
+                            <i class="fas fa-user"></i> @item.Usuario_Registro
+                        </div>
+                        <a href="@Url.Action("Details", new { id = item.Id_Pago })" class="btn-action">
+                            <i class="fas fa-info-circle"></i> Detalle
+                        </a>
+                    </div>
+                </div>
+            }
+            @if (!Model.Any())
+            {
+                <div class="empty-state" style="grid-column: 1 / -1;">
+                    <i class="fas fa-file-invoice"></i>
+                    <p>No se encontraron pagos registrados</p>
+                    <a href="@Url.Action("Create")" class="btn-crear-pago">
+                        <i class="fas fa-plus-circle"></i> Crear Nuevo Pago
+                    </a>
+                </div>
+            }
+        </div>
 
-</br>
-
-
-<p>
-    @Html.ActionLink("Crear Pagos", "Create", null, new { @class = "btn-pago" })
-</p>
-
-</br>
-
-<style>
-    .btn-pago {
-        /* Los estilos existentes se mantienen */
-        background-color: #0b7b82;
-        color: white;
-        border: none;
-        padding: 8px 12px;
-        border-radius: 5px;
-        text-decoration: none;
-        display: inline-block;
-        margin-top: 5px;
-        text-align: center;
-    }
-
-        .btn-pago:hover {
-            background-color: #0056b3;
+        <!-- Paginación -->
+        @if (Model.Any())
+        {
+            <div class="pagination">
+                <a class="page-item"><i class="fas fa-chevron-left"></i></a>
+                <a class="page-item active">1</a>
+                <a class="page-item">2</a>
+                <a class="page-item">3</a>
+                <a class="page-item"><i class="fas fa-chevron-right"></i></a>
+            </div>
         }
-
-    .custom-btn {
-        /* Los estilos existentes se mantienen */
-        background-color: #0b7b82 !important;
-        color: white !important;
-        border: none;
-        padding: 12px 24px;
-        border-radius: 8px;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 16px;
-        text-decoration: none;
-        transition: background 0.3s ease, transform 0.2s ease;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    /* Nuevos estilos para la tabla */
-    .table {
-        width: 100%;
-        font-size: 1rem;
-        table-layout: fixed;
-    }
-
-        .table th,
-        .table td {
-            padding: 6px 8px;
-            word-wrap: break-word;
-            max-width: 150px;
-        }
-
-        .table th {
-            font-size: 1.1rem;
-            background-color: #0b7b82;
-            color: white;
-        }
-
-        .table td {
-            font-size: 1rem;
-        }
-
-            /* Ajustar el ancho de las columnas */
-            .table th:nth-child(1),
-            .table td:nth-child(1) {
-                width: 10%;
-            }
-            /* Registro */
-
-            .table th:nth-child(2),
-            .table td:nth-child(2) {
-                width: 9%;
-            }
-            /* Transacción */
-
-            .table th:nth-child(3),
-            .table td:nth-child(3) {
-                width: 6%;
-            }
-            /* Cliente */
-
-            .table th:nth-child(4),
-            .table td:nth-child(4) {
-                width: 8%;
-            }
-            /* Estatus */
-
-            .table th:nth-child(5),
-            .table td:nth-child(5) {
-                width: 6%;
-            }
-            /* Nómina */
-
-            .table th:nth-child(6),
-            .table td:nth-child(6) {
-                width: 9%;
-            }
-            /* Monto */
-
-            .table th:nth-child(7),
-            .table td:nth-child(7) {
-                width: 6%;
-            }
-            /* Anticipo */
-
-            .table th:nth-child(8),
-            .table td:nth-child(8) {
-                width: 9%;
-            }
-            /* Descuento */
-
-            .table th:nth-child(9),
-            .table td:nth-child(9) {
-                width: 11%;
-            }
-            /* Ingresos */
-
-            .table th:nth-child(10),
-            .table td:nth-child(10) {
-                width: 8%;
-            }
-            /* Pendientes */
-
-            .table th:nth-child(11),
-            .table td:nth-child(11) {
-                width: 8%;
-            }
-            /* Sueldos */
-
-            .table th:nth-child(12),
-            .table td:nth-child(12) {
-                    width: 11%;
-            }
-</style>
-
-<table class="table">
-    <tr>
-        <th style="padding: 15px;">
-            <label>Identificación</label>
-        </th>
-        <th style="padding: 15px;">
-            <label>Referencia </label>
-        </th>
-        <th style="padding: 15px;">
-            <label>Fecha de Pago </label>
-        </th>
-        <th style="padding: 15px;">
-            <label>Tipo de Pago </label>
-        </th>
-        <th style="padding: 15px;">
-            <label>Monto</label>
-        </th>
-        <th style="padding: 15px;">
-            <label>Beneficiario</label>
-        </th>
-        <th style="padding: 15px;">
-            <label>Estado</label>
-        </th>
-        <th style="padding: 15px;">
-            <label>Descripcion</label>
-        </th>
-        <th style="padding: 15px;">
-            <label>Observaciones</label>
-        </th>
-        <th style="padding: 15px;">
-            <label>Usuario</label>
-        </th>
-        <th style="padding: 15px;">
-            <label>Fecha de Registro</label>
-        </th>
-        <th style="padding: 15px;">
-            <label> Modificación</label>
-        </th>
-        <th style="padding: 15px; background-color: #0b7b82;"></th>
-        <th style="padding: 15px; background-color: #0b7b82;"></th>
-
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td style="padding: 15px;">
-                @Html.DisplayFor(modelItem => item.Id_Banco)
-            </td>
-            <td style="padding: 15px;">
-                @Html.DisplayFor(modelItem => item.Numero_Referencia)
-            </td>
-            <td style="padding: 15px;">
-                @Html.DisplayFor(modelItem => item.Fecha_Pago)
-            </td>
-            <td style="padding: 15px;">
-                @Html.DisplayFor(modelItem => item.Tipo_Pago)
-            </td>
-            <td style="padding: 15px;">
-                @Html.DisplayFor(modelItem => item.Monto)
-            </td>
-            <td style="padding: 15px;">
-                @Html.DisplayFor(modelItem => item.Beneficiario)
-            </td>
-            <td style="padding: 15px;">
-                @Html.DisplayFor(modelItem => item.Estado_Pago)
-            </td>
-            <td style="padding: 15px;">
-                @Html.DisplayFor(modelItem => item.Descripcion)
-            </td>
-            <td style="padding: 15px;">
-                @Html.DisplayFor(modelItem => item.Observaciones)
-            </td>
-            <td style="padding: 15px;">
-                @Html.DisplayFor(modelItem => item.Usuario_Registro)
-            </td>
-            <td style="padding: 15px;">
-                @Html.DisplayFor(modelItem => item.Fecha_Registro)
-            </td>
-            <td style="padding: 15px;">
-                @Html.DisplayFor(modelItem => item.Fecha_Modificacion)
-            </td>
-            <td style="padding: 12px;">
-                @Html.ActionLink("Detalle", "Details", new { id = item.Id_Pago }, new { @class = "btn-pago" })
-            </td>
-
-        </tr>
-    }
-
-</table>
+    </div>
+</body>
+</html>

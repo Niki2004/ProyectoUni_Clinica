@@ -4,117 +4,33 @@
     ViewBag.Title = "Details";
 }
 
-<style>
-    .container-form {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
-        background-color: #f8f9fa;
-        border-radius: 10px;
-        box-shadow: 0 0 15px rgba(0,0,0,0.1);
-    }
 
-    .page-title {
-        color: #0b7b82;
-        text-align: center;
-        margin-bottom: 30px;
-        padding-bottom: 10px;
-        border-bottom: 2px solid #0b7b82;
-    }
-
-    .form-section {
-        background-color: white;
-        padding: 20px;
-        border-radius: 8px;
-        margin-bottom: 20px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    }
-
-    .form-group {
-        margin-bottom: 20px;
-    }
-
-    .control-label {
-        font-weight: 600;
-        color: #2c3e50;
-    }
-
-    .form-control {
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        padding: 8px 12px;
-        transition: border-color 0.3s ease;
-        width: 100%;
-    }
-
-        .form-control:focus {
-            border-color: #0b7b82;
-            box-shadow: 0 0 0 0.2rem rgba(11, 123, 130, 0.25);
-        }
-
-    .btn-pago {
-        background-color: #0b7b82;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 5px;
-        text-decoration: none;
-        display: inline-block;
-        margin-top: 5px;
-        text-align: center;
-        transition: all 0.3s ease;
-    }
-
-        .btn-pago:hover {
-            background-color: #096c72;
-            transform: translateY(-1px);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-
-    .form-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
-    }
-
-    .text-danger {
-        color: #dc3545;
-        font-size: 0.875rem;
-        margin-top: 4px;
-    }
-</style>
+<link href="~/CSS/Detalles.css" rel="stylesheet" />
 
 <div class="container-form">
     <h2 class="page-title">Detalles del Servicio</h2>
 
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-        <div class="form-section">
-            <h4>Información del Servicio</h4>
-            <div class="form-grid">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Nombre_Servicio, "Nombre del Servicio", new { @class = "control-label" })
-                    @Html.EditorFor(model => model.Nombre_Servicio, new { htmlAttributes = new { @class = "form-control" } })
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Precio_Servicio, "Precio del Servicio", new { @class = "control-label" })
-                    @Html.EditorFor(model => model.Precio_Servicio, new { htmlAttributes = new { @class = "form-control" } })
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Especialidad, "Especialidad", new { @class = "control-label" })
-                    @Html.EditorFor(model => model.Especialidad, new { htmlAttributes = new { @class = "form-control" } })
-                </div>
-
+    <div class="form-section">
+        <legend>Información del Servicio</legend>
+        <div class="detail-group">
+            <div class="detail-item">
+                <div class="detail-label">Nombre del Servicio</div>
+                <div class="detail-value">@Html.DisplayFor(model => model.Nombre_Servicio)</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">Precio del Servicio</div>
+                <div class="detail-value">@Html.DisplayFor(model => model.Precio_Servicio)</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">Especialidad</div>
+                <div class="detail-value">@Html.DisplayFor(model => model.Especialidad)</div>
             </div>
         </div>
+    </div>
 
-        <div class="action-buttons">
-            @Html.ActionLink("Editar", "Edit", new { id = Model.Id_Servicio }, new { @class = "btn-pago" })
-            @Html.ActionLink("Volver a la Lista", "Index", null, new { @class = "btn-pago" })
-        </div>
-    }
+    <div class="text-center" style="margin-top: 20px;">
+        @Html.ActionLink("Editar", "Edit", new { id = Model.Id_Servicio }, new { @class = "btn-primary" })
+        @Html.ActionLink("Volver a la Lista", "Index", null, new { @class = "btn-secondary" })
+    </div>
+</div>
+
