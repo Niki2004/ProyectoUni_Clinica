@@ -52,11 +52,11 @@
         @foreach (var item in Model)
         {
             <div class="payment-card">
-                <div class="card-status-chip @(item.Estado_Pago == "Pagado" ? "status-pagado" :
-                                                item.Estado_Pago == "Pendiente" ? "status-pendiente" :
-                                                item.Estado_Pago == "Cancelado" ? "status-cancelado" : "")">
-                    @item.Estado_Pago
-                </div>
+               <div class="card-status-chip @(item.Estado_Pago == "Pagado" ? "status-pagado" :
+                             item.Estado_Pago == "Pendiente" ? "status-pendiente" :
+                             item.Estado_Pago == "Cancelado" ? "status-cancelado" : "status-otro")">
+                   @item.Estado_Pago
+               </div>
                 <div class="card-header">
                     <div class="card-id">Ref: @item.Numero_Referencia</div>
                     <div class="card-date">@item.Fecha_Pago.ToString("dd/MM/yyyy")</div>
