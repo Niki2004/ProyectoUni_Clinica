@@ -26,7 +26,7 @@ body {
     padding: 20px;
 }
 
-/* Header y título */
+
 .header-container {
     display: flex;
     align-items: center;
@@ -64,7 +64,7 @@ body {
         border-radius: 2px;
     }
 
-/* Botones */
+
 .btn-inicio {
     background-color: #D6A2AD;
     color: white;
@@ -92,23 +92,25 @@ body {
     }
 
 .btn-crear-pago {
-    background: linear-gradient(135deg, #9F9AA4 0%, #9F9AA4 100%);
+    background-color: #7A9CC6; 
     color: white;
-    border: none;
-    padding: 12px 24px;
+    border: 2px solid #7A9CC6; 
+    padding: 10px 18px; 
     border-radius: var(--border-radius);
     text-decoration: none;
     font-weight: 600;
     display: inline-flex;
     align-items: center;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
 }
 
-    .btn-crear-pago:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 16px rgba(67, 97, 238, 0.4);
-        color: white;
+    .btn-crear-pago:hover,
+    .btn-crear-pago:focus,
+    .btn-crear-pago:active {
+        background-color: white;
+        color: #7A9CC6;
+        border: 2px solid #7A9CC6;
     }
 
     .btn-crear-pago i {
@@ -117,9 +119,9 @@ body {
     }
 
 .btn-action {
-    background-color: #998bf4;
-    color: white;
-    border: 1px solid #e1e5eb;
+    background-color: #EAEAEA; 
+    color: #555; 
+    border: 1px solid #CCCCCC; 
     padding: 8px 16px;
     border-radius: var(--border-radius);
     text-decoration: none;
@@ -131,17 +133,22 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-    .btn-action:hover {
-        background-color: #7260EC;
-        color: white;
+    .btn-action:hover,
+    .btn-action:focus,
+    .btn-action:active {
+        background-color: white;
+        color: #777; 
+        border: 1px solid #B0B0B0; 
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
+
+    
 
     .btn-action i {
         margin-right: 6px;
     }
 
-/* Filtros */
+
 .filter-container {
     display: flex;
     gap: 15px;
@@ -173,7 +180,7 @@ body {
         color: var(--text-light);
     }
 
-/* Tarjetas de Pagos */
+
 .cards-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -229,18 +236,18 @@ body {
 }
 
 .status-pagado {
-    background-color: var(--success);
-    color: white;
+    background-color: #B7E4C7 !important; 
+    color: #2D6A4F !important; 
 }
 
 .status-pendiente {
-    background-color: var(--warning);
-    color: var(--text-dark);
+    background-color: #FAE1A3 !important;
+    color: #7A5C00 !important; 
 }
 
 .status-cancelado {
-    background-color: var(--danger);
-    color: white;
+    background-color: #F5C3C3 !important;
+    color: #9B2C2C !important; 
 }
 
 .card-amount {
@@ -295,7 +302,7 @@ body {
         margin-right: 5px;
     }
 
-/* Estado vacío */
+
 .empty-state {
     text-align: center;
     padding: 60px 20px;
@@ -317,7 +324,7 @@ body {
         margin-bottom: 20px;
     }
 
-/* Paginación */
+
 .pagination {
     display: flex;
     justify-content: center;
@@ -349,7 +356,7 @@ body {
         border-color: var(--primary);
     }
 
-/* Responsive */
+
 @media (max-width: 768px) {
     .header-container {
         flex-direction: column;
@@ -363,7 +370,7 @@ body {
     }
 }
 
-/* Animaciones */
+
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -405,7 +412,6 @@ body {
         animation-delay: 0.6s;
     }
 
-/* Estilos para la paginación */
 .pagination {
     display: flex;
     justify-content: center;
@@ -438,4 +444,340 @@ body {
 .pagination .disabled {
     color: #999;
     cursor: not-allowed;
+}
+
+
+.card-header {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas:
+        "id status status"
+        "id date date";
+    padding: 15px 20px 10px;
+    border-bottom: 1px solid #eaedf2;
+    position: relative;
+    align-items: center;
+    row-gap: 5px;
+}
+
+.card-id {
+    font-size: 16px;
+    font-weight: 600;
+    color: #0e5c61;
+    grid-area: id;
+}
+
+.card-date {
+    font-size: 14px;
+    color: var(--text-light);
+    grid-area: date;
+    text-align: right;
+}
+
+.card-status-chip {
+    position: relative;
+    top: auto;
+    right: auto;
+    grid-area: status;
+    text-align: right;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    display: inline-block;
+    margin-left: auto;
+    width: fit-content;
+}
+
+
+.status-activo {
+    background-color: #B7E4C7 !important;
+    color: #2D6A4F !important;
+    margin-left: 20px; 
+    margin-top: 20px; 
+}
+
+.status-inactivo {
+    background-color: #F5C3C3 !important;
+    color: #9B2C2C !important;
+    margin-left: 20px; 
+    margin-top: 20px; 
+}
+
+
+.alert.alert-info {
+    text-align: center;
+    padding: 15px;
+    background-color: #d1ecf1;
+    border: 1px solid #bee5eb;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.card-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.movimiento-pagado {
+    background-color: #B7E4C7 !important;
+    color: #2D6A4F !important;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+.movimiento-pendiente {
+    background-color: #FAE1A3 !important;
+    color: #7A5C00 !important;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+
+.indicador-estado-pago {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-align: center;
+    text-transform: uppercase;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px; 
+}
+
+
+.card-header {
+    margin-top: 25px; 
+   
+}
+
+
+.estado-pagado {
+    background-color: #B7E4C7 !important;
+    color: #2D6A4F !important;
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
+
+.estado-pendiente {
+    background-color: #FAE1A3 !important;
+    color: #7A5C00 !important;
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
+
+.estado-cancelado {
+    background-color: #F5C3C3 !important;
+    color: #9B2C2C !important;
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
+.separador-elementos {
+    height: 15px; 
+    width: 100%;
+    clear: both; 
+}
+
+
+
+.chip-nomina {
+    position: absolute;
+    top: -10px;
+    right: 15px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+
+.nomina-pagado {
+    background-color: #B7E4C7 !important;
+    color: #2D6A4F !important;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+
+.nomina-pendiente {
+    background-color: #FAE1A3 !important;
+    color: #7A5C00 !important;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+
+.nomina-cancelado {
+    background-color: #F5C3C3 !important;
+    color: #9B2C2C !important;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+
+.card-status-chip {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.estado-departamento-activo {
+    background-color: #B7E4C7 !important;
+    color: #2D6A4F !important;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+.estado-departamento-inactivo {
+    background-color: #F5C3C3 !important;
+    color: #9B2C2C !important;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+
+
+
+.accounting-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+}
+
+    .accounting-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+
+.status-enproceso {
+    background-color: #FFD700;
+    color: #333;
+}
+
+.status-completado {
+    background-color: #4CAF50;
+    color: white;
+}
+
+
+.card-type {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.card-transaction {
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+
+.card-client {
+    font-size: 14px;
+    color: #666;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+
+.btn-crear {
+    background-color: #0b7b82;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.3s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+    .btn-crear:hover {
+        background-color: #0056b3;
+    }
+
+
+.action-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.card-status-chip {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 16px;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.estado-contabilidad-pendiente, .status-pendiente {
+    background-color: #FAE1A3 !important;
+    color: #7A5C00 !important;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+.estado-contabilidad-pagado, .status-pagado {
+    background-color: #B7E4C7 !important;
+    color: #2D6A4F !important;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+.status-cancelado {
+    background-color: #f8d7da !important;
+    color: #721c24 !important;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+
+.status-otro {
+    background-color: #B8D8FF !important; 
+    color: #0056b3 !important;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+.estado-contabilidad-otro {
+    background-color: #B8D8FF !important;
+    color: #0056b3 !important;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+.estado-personalizado {
+    background-color: #b8e0ff; 
+    color: #0056b3;
+}
+
+.nomina-personalizado {
+    background-color: #b8e0ff;
+    color: #0056b3;
+    margin-left: 20px;
+    margin-top: 20px;
 }

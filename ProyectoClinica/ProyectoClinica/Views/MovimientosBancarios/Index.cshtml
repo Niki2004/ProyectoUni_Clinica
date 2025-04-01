@@ -1,258 +1,166 @@
 ﻿@model IEnumerable<ProyectoClinica.Models.Movimientos_Bancarios>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Movimientos Bancarios";
     var totalIngresos = Model.Sum(m => (int?)m.Ingresos) ?? 0;
     var totalEgresos = Model.Sum(m => (int?)m.Egresos) ?? 0;
 }
 
-<div style="text-align: center; margin-bottom: 20px;">
-    <a href="@Url.Action("VistaCON", "Contabilidad")" class="custom-btn">
-        <i class="fas fa-home"></i> Inicio
-    </a>
-</div>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Movimientos Bancarios</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="~/CSS/Tablas.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="header-container" style="display: flex; justify-content: center; align-items: center; width: 100%; margin: 0 auto; max-width: 1200px;">
+        <div class="header-container" style="display: flex; justify-content: center; align-items: center; width: 100%; margin: 0 auto; max-width: 1200px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                <a href="@Url.Action("VistaCON", "Contabilidad")" class="btn-inicio">
+                    <i class="fas fa-home"></i> Inicio
+                </a>
+                <div class="page-title-container" style="position: absolute; left: 50%; transform: translateX(-50%);">
+                    <h1 class="page-title">Gestión de Movimientos Bancarios</h1>
+                </div>
+                <div style="margin-right: 20px; display: flex; justify-content: flex-end; width: 200px;">
+                    <a href="@Url.Action("Create")" class="btn-crear-pago">
+                        <i class="fas fa-plus-circle"></i> Crear Movimiento
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <br>
+    <br>
 
-</br>
+    <!-- Información de totales -->
+    <div class="alert alert-info" style="text-align: center; padding: 15px; background-color: #d1ecf1; border: 1px solid #bee5eb; border-radius: 8px; margin-bottom: 20px;">
+        <strong>Total Ingresos:</strong> @totalIngresos.ToString("C") |
+        <strong>Total Egresos:</strong> @totalEgresos.ToString("C")
+    </div>
 
-<h2 class="text-center">Movimientos Bancarios</h2>
-
-</br>
-
-
-<p>
-    @Html.ActionLink("Crear Movimiento Bancario", "Create", null, new { @class = "btn-pago" })
-</p>
-
-</br>
-
-
-
-
-<style>
-    .btn-pago {
-        /* Los estilos existentes se mantienen */
-        background-color: #0b7b82;
-        color: white;
-        border: none;
-        padding: 8px 12px;
-        border-radius: 5px;
-        text-decoration: none;
-        display: inline-block;
-        margin-top: 5px;
-        text-align: center;
-    }
-
-        .btn-pago:hover {
-            background-color: #0056b3;
+    <!-- Tarjetas de Movimientos Bancarios -->
+    <div class="cards-container">
+        @foreach (var item in Model)
+        {
+            <div class="payment-card">
+                <div class="card-status-chip @(item.Saldo > 0 ? "movimiento-pagado" : "movimiento-pendiente")">
+                    @(item.Saldo > 0 ? "Con Saldo" : "Sin Saldo")
+                </div>
+                <div class="card-header">
+                    <div class="card-id">Banco: @item.Bancos.Nombre_Banco</div>
+                    <div class="card-date">@String.Format("{0:dd/MM/yyyy}", item.Fecha_Movimiento)</div>
+                </div>
+                <div class="card-body">
+                    <div class="card-info">
+                        <div class="info-label">Ingresos:</div>
+                        <div class="info-value"><i class="fas">₡</i> @item.Ingresos</div>
+                    </div>
+                    <div class="card-info">
+                        <div class="info-label">Egresos:</div>
+                        <div class="info-value"><i class="fas">₡</i> @item.Egresos</div>
+                    </div>
+                    <div class="card-info">
+                        <div class="info-label">Saldo:</div>
+                        <div class="info-value"><i class="fas">₡</i> @item.Saldo</div>
+                    </div>
+                    <div class="card-info">
+                        <div class="info-label">Diario:</div>
+                        <div class="info-value">@item.Diarios_Contables.Codigo_Diario</div>
+                    </div>
+                    <div class="card-info">
+                        <div class="info-label">Descripción:</div>
+                        <div class="info-value">@item.Descripcion</div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="card-user">
+                        <i class="fas fa-credit-card"></i> @item.Pagos.Beneficiario
+                    </div>
+                    <div class="card-actions">
+                        <a href="@Url.Action("Details", new { id = item.Id_Movimiento })" class="btn-action">
+                            <i class="fas fa-info-circle"></i> Detalle
+                        </a>
+                        @if (item.Saldo > 0)
+                        {
+                            <a href="@Url.Action("AjustesBancarios", "MovimientosBancarios", new { id = item.Id_Movimiento })" class="btn-action">
+                                <i class="fas fa-cog"></i> Ajustes
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
         }
-
-    .btn-ajustes {
-        background-color: #0b7b82 !important;
-        color: white !important;
-        border: none;
-        padding: 12px 24px;
-        border-radius: 8px;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 16px;
-        text-decoration: none;
-        transition: background 0.3s ease, transform 0.2s ease;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .custom-btn {
-        /* Los estilos existentes se mantienen */
-        background-color: #0b7b82 !important;
-        color: white !important;
-        border: none;
-        padding: 12px 24px;
-        border-radius: 8px;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 16px;
-        text-decoration: none;
-        transition: background 0.3s ease, transform 0.2s ease;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    /* Nuevos estilos para la tabla */
-    .table {
-        width: 100%;
-        font-size: 1rem;
-        table-layout: fixed;
-    }
-
-        .table th,
-        .table td {
-            padding: 6px 8px;
-            word-wrap: break-word;
-            max-width: 150px;
+        @if (!Model.Any())
+        {
+            <div class="empty-state" style="grid-column: 1 / -1;">
+                <i class="fas fa-university"></i>
+                <p>No se encontraron movimientos bancarios registrados</p>
+                <a href="@Url.Action("Create")" class="btn-crear-pago">
+                    <i class="fas fa-plus-circle"></i> Crear Nuevo Movimiento
+                </a>
+            </div>
         }
+    </div>
 
-        .table th {
-            font-size: 1.1rem;
-            background-color: #0b7b82;
-            color: white;
-        }
+    <div id="paginationCards" class="d-flex justify-content-center mt-3"></div>
 
-        .table td {
-            font-size: 1rem;
-        }
+    
+</body>
+</html>
 
-            /* Ajustar el ancho de las columnas */
-            .table th:nth-child(1),
-            .table td:nth-child(1) {
-                width: 6%;
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var rowsPerPage = 5;
+            var $cards = $(".payment-card");
+            var totalPagesCards = Math.ceil($cards.length / rowsPerPage);
+            var currentPageCards = 1;
+
+            function showPage(page, items, totalPages, container) {
+                var start = (page - 1) * rowsPerPage;
+                var end = start + rowsPerPage;
+
+                items.hide().slice(start, end).show();
+                $(container).html(createPagination(page, totalPages, container));
             }
-            /* Registro */
 
-            .table th:nth-child(2),
-            .table td:nth-child(2) {
-                width: 8%;
-            }
-            /* Transacción */
+            function createPagination(page, total, container) {
+                var pagination = `<nav><ul class="pagination">`;
 
-            .table th:nth-child(3),
-            .table td:nth-child(3) {
-                width: 6%;
-            }
-            /* Cliente */
-
-            .table th:nth-child(4),
-            .table td:nth-child(4) {
-                width: 6%;
-            }
-            /* Estatus */
-
-            .table th:nth-child(5),
-            .table td:nth-child(5) {
-                width: 6%;
-            }
-            /* Nómina */
-
-            .table th:nth-child(6),
-            .table td:nth-child(6) {
-                width: 6%;
-            }
-            /* Monto */
-
-            .table th:nth-child(7),
-            .table td:nth-child(7) {
-                width: 6%;
-            }
-            /* Anticipo */
-
-            .table th:nth-child(8),
-            .table td:nth-child(8) {
-                width: 6%;
-            }
-            /* Descuento */
-
-            .table th:nth-child(9),
-            .table td:nth-child(9) {
-                width: 6%;
-            }
-            /* Ingresos */
-
-            .table th:nth-child(10),
-            .table td:nth-child(10) {
-                width: 6%;
-            }
-            /* Pendientes */
-
-            .table th:nth-child(11),
-            .table td:nth-child(11) {
-                width: 6%;
-            }
-            /* Sueldos */
-
-            .table th:nth-child(12),
-            .table td:nth-child(12) {
-                    width:  6%;
-            }
-</style>
-
-<table class="table">
-    <tr>
-        <th style="padding: 15px;">
-            <label>Diario</label>
-        </th>
-        <th style="padding: 15px;">
-            <label>Conciliación</label>
-        </th>
-        <th style="padding: 15px;">
-            <label>Pago</label>
-        </th>
-        <th style="padding: 15px;">
-            <label>Banco</label>
-        </th>
-        <th style="padding: 15px;">
-            <label>Ingresos</label>
-        </th>
-        <th style="padding: 15px;">
-            <label>Egresos</label>
-        </th>
-        <th style="padding: 15px;">
-            <label>Saldo Cuenta</label>
-        </th>
-        <th style="padding: 15px;">
-            <label>Fecha Movimiento</label>
-        </th>
-        <th style="padding: 15px;">
-            <label>Descripción</label>
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td style="padding: 15px;">
-                @Html.DisplayFor(modelItem => item.Diarios_Contables.Codigo_Diario)
-            </td>
-            <td style="padding: 15px;">
-                @Html.DisplayFor(modelItem => item.Conciliaciones_Bancarias.Saldo_Banco)
-            </td>
-            <td style="padding: 15px;">
-                @Html.DisplayFor(modelItem => item.Pagos.Beneficiario)
-            </td>
-            <td style="padding: 15px;">
-                @Html.DisplayFor(modelItem => item.Bancos.Nombre_Banco)
-            </td>
-            <td style="padding: 15px;">
-                @Html.DisplayFor(modelItem => item.Ingresos)
-            </td>
-            <td style="padding: 15px;">
-                @Html.DisplayFor(modelItem => item.Egresos)
-            </td>
-            <td style="padding: 15px;">
-                @Html.DisplayFor(modelItem => item.Saldo)
-            </td>
-            <td style="padding: 15px;">
-                <label>@String.Format("{0:dd/MM/yyyy}", item.Fecha_Movimiento)</label>
-            </td>
-            <td style="padding: 15px;">
-                @Html.DisplayFor(modelItem => item.Descripcion)
-            </td>
-            <td style="padding: 12px;">
-                @Html.ActionLink("Detalle", "Details", new { id = item.Id_Movimiento }, new { @class = "btn-pago" })
-
-                @if (item.Saldo > 0)
-                {
-                    <br />
-                    <a href="@Url.Action("AjustesBancarios", "MovimientosBancarios", new { id = item.Id_Movimiento })" class="btn-pago" style="margin-top: 10px;">Ajustes</a>
+                if (page > 1) {
+                    pagination += `<li class="page-item"><a href="#" class="page-link" data-page="${page - 1}" data-container="${container}">«</a></li>`;
                 }
-            </td>
 
-        </tr>
-    }
+                for (var i = 1; i <= total; i++) {
+                    pagination += `<li class="page-item ${i === page ? 'active' : ''}">
+                                         <a href="#" class="page-link" data-page="${i}" data-container="${container}">${i}</a>
+                                       </li>`;
+                }
 
-</table>
+                if (page < total) {
+                    pagination += `<li class="page-item"><a href="#" class="page-link" data-page="${page + 1}" data-container="${container}">»</a></li>`;
+                }
 
-<div class="alert alert-info">
-    <strong>Total Ingresos:</strong> @totalIngresos.ToString("C") |
-    <strong>Total Egresos:</strong> @totalEgresos.ToString("C")
-</div>
+                pagination += `</ul></nav>`;
+                return pagination;
+            }
+
+            $(document).on("click", ".page-link", function (e) {
+                e.preventDefault();
+                var page = $(this).data("page");
+                var container = $(this).data("container");
+
+                if (container === "#paginationCards") {
+                    showPage(page, $cards, totalPagesCards, "#paginationCards");
+                }
+            });
+
+            showPage(currentPageCards, $cards, totalPagesCards, "#paginationCards");
+        });
+    </script>
+}
