@@ -68,5 +68,6 @@ namespace ProyectoClinica.Models
         //Relación de las tablas 
         public virtual ICollection<Reporte> Reportes { get; set; } = new List<Reporte>();
 
+
     }
 }
