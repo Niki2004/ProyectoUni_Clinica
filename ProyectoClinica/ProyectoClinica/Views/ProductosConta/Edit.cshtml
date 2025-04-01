@@ -4,90 +4,7 @@
     ViewBag.Title = "Edit";
 }
 
-<style>
-    /* Estilos generales */
-    .container-form {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
-        background-color: #f8f9fa;
-        border-radius: 10px;
-        box-shadow: 0 0 15px rgba(0,0,0,0.1);
-    }
-
-    .page-title {
-        color: #0b7b82;
-        text-align: center;
-        margin-bottom: 30px;
-        padding-bottom: 10px;
-        border-bottom: 2px solid #0b7b82;
-    }
-
-    .form-section {
-        background-color: white;
-        padding: 20px;
-        border-radius: 8px;
-        margin-bottom: 20px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    }
-
-        .form-section h4 {
-            color: #0b7b82;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #dee2e6;
-        }
-
-    .form-group {
-        display: grid;
-        grid-template-columns: 1fr 3fr;
-        gap: 15px;
-        margin-bottom: 15px;
-        align-items: center;
-    }
-
-    .control-label {
-        font-weight: 600;
-        color: #2c3e50;
-        text-align: right;
-    }
-
-    .form-control {
-        color: #495057;
-        padding: 8px;
-        background-color: #fff;
-        border-radius: 4px;
-        border: 1px solid #dee2e6;
-        width: 100%;
-    }
-
-    .text-danger {
-        color: #dc3545;
-        display: block;
-        margin-top: 5px;
-    }
-
-    .btn-form {
-        background-color: #0b7b82;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 5px;
-        text-decoration: none;
-        display: inline-block;
-        margin-top: 20px;
-        text-align: center;
-        transition: all 0.3s ease;
-    }
-
-        .btn-form:hover {
-            background-color: #096c72;
-            transform: translateY(-1px);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            color: white;
-            text-decoration: none;
-        }
-</style>
+<link href="~/CSS/Editar.css" rel="stylesheet" />
 
 <div class="container-form">
     <h2 class="page-title">Editar Productos</h2>
@@ -97,64 +14,82 @@
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id_Producto)
-        <div class="form-section">
-            <h4>Información Producto</h4>
-            <div class="form-grid">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Nombre_producto, "Nombre del Producto", new { @class = "control-label" })
-                    @Html.EditorFor(model => model.Nombre_producto, new { htmlAttributes = new { @class = "form-control" } })
-                </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Tipo_producto, "Tipo del Producto", new { @class = "control-label" })
-                    @Html.EditorFor(model => model.Tipo_producto, new { htmlAttributes = new { @class = "form-control" } })
+        <div class="form-section">
+            <legend>Información Producto</legend>
+            <div class="detail-group">
+                <div class="detail-item">
+                    <div class="detail-label">@Html.LabelFor(model => model.Nombre_producto, "Nombre del Producto")</div>
+                    <div class="detail-value">
+                        @Html.EditorFor(model => model.Nombre_producto, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Nombre_producto, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">@Html.LabelFor(model => model.Tipo_producto, "Tipo del Producto")</div>
+                    <div class="detail-value">
+                        @Html.EditorFor(model => model.Tipo_producto, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Tipo_producto, "", new { @class = "text-danger" })
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="form-section">
-            <h4>Fechas del Producto</h4>
-            <div class="form-grid">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Creacion_producto, "Fecha de Creación", new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.Creacion_producto, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+            <legend>Fechas del Producto</legend>
+            <div class="detail-group">
+                <div class="detail-item">
+                    <div class="detail-label">@Html.LabelFor(model => model.Creacion_producto, "Fecha de Creación")</div>
+                    <div class="detail-value">
+                        @Html.TextBoxFor(model => model.Creacion_producto, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                        @Html.ValidationMessageFor(model => model.Creacion_producto, "", new { @class = "text-danger" })
+                    </div>
                 </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Actualizacion_producto, "Fecha de Actualización", new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.Actualizacion_producto, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                <div class="detail-item">
+                    <div class="detail-label">@Html.LabelFor(model => model.Actualizacion_producto, "Fecha de Actualización")</div>
+                    <div class="detail-value">
+                        @Html.TextBoxFor(model => model.Actualizacion_producto, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                        @Html.ValidationMessageFor(model => model.Actualizacion_producto, "", new { @class = "text-danger" })
+                    </div>
                 </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Eliminacion_producto, "Fecha de Eliminación", new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.Eliminacion_producto, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                <div class="detail-item">
+                    <div class="detail-label">@Html.LabelFor(model => model.Eliminacion_producto, "Fecha de Eliminación")</div>
+                    <div class="detail-value">
+                        @Html.TextBoxFor(model => model.Eliminacion_producto, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                        @Html.ValidationMessageFor(model => model.Eliminacion_producto, "", new { @class = "text-danger" })
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="form-section">
-            <h4>Detalles Adicionales</h4>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Id_Usuario, "Usuario", new { @class = "control-label" })
-                @Html.EditorFor(model => model.Id_Usuario, new { htmlAttributes = new { @class = "form-control" } })
+            <legend>Detalles Adicionales</legend>
+            <div class="detail-group">
+                <div class="detail-item">
+                    <div class="detail-label">@Html.LabelFor(model => model.Id_Usuario, "Usuario")</div>
+                    <div class="detail-value">
+                        @Html.EditorFor(model => model.Id_Usuario, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Id_Usuario, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">@Html.LabelFor(model => model.Estatus_producto, "Estado")</div>
+                    <div class="detail-value">
+                        @Html.DropDownListFor(model => model.Estatus_producto,
+                            new List<SelectListItem> {
+                                new SelectListItem { Text = "Activo", Value = "true", Selected = (Model?.Estatus_producto == true) },
+                                new SelectListItem { Text = "Inactivo", Value = "false", Selected = (Model?.Estatus_producto == false) }
+                            },
+                            new { @class = "form-control estatus-dropdown" })
+                        @Html.ValidationMessageFor(model => model.Estatus_producto, "", new { @class = "text-danger" })
+                    </div>
+                </div>
             </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Estatus_producto, "Estado", new { @class = "control-label" })
-                @Html.DropDownListFor(model => model.Estatus_producto,
-                    new List<SelectListItem> {
-                        new SelectListItem { Text = "Activo", Value = "true", Selected = (Model?.Estatus_producto == true) },
-                        new SelectListItem { Text = "Inactivo", Value = "false", Selected = (Model?.Estatus_producto == false) }
-                    },
-                    new { @class = "form-control estatus-dropdown" })
-                @Html.ValidationMessageFor(model => model.Estatus_producto, "", new { @class = "text-danger" })
-            </div>
-
         </div>
 
         <div class="text-center" style="margin-top: 20px;">
-            <input type="submit" value="Guardar" class="btn-form" style="margin-right: 10px;" />
-            @Html.ActionLink("Regresar a la Lista", "Index", null, new { @class = "btn-form" })
+            <input type="submit" value="Guardar" class="btn-primary" style="margin-right: 10px;" />
+            @Html.ActionLink("Regresar a la Lista", "Index", null, new { @class = "btn-secondary" })
         </div>
     }
 </div>
