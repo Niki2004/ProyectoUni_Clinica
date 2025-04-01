@@ -4,90 +4,7 @@
     ViewBag.Title = "Editar Caja Chica";
 }
 
-<style>
-    /* Estilos generales */
-    .container-form {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
-        background-color: #f8f9fa;
-        border-radius: 10px;
-        box-shadow: 0 0 15px rgba(0,0,0,0.1);
-    }
-
-    .page-title {
-        color: #0b7b82;
-        text-align: center;
-        margin-bottom: 30px;
-        padding-bottom: 10px;
-        border-bottom: 2px solid #0b7b82;
-    }
-
-    .form-section {
-        background-color: white;
-        padding: 20px;
-        border-radius: 8px;
-        margin-bottom: 20px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    }
-
-        .form-section h4 {
-            color: #0b7b82;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #dee2e6;
-        }
-
-    .form-group {
-        display: grid;
-        grid-template-columns: 1fr 3fr;
-        gap: 15px;
-        margin-bottom: 15px;
-        align-items: center;
-    }
-
-    .control-label {
-        font-weight: 600;
-        color: #2c3e50;
-        text-align: right;
-    }
-
-    .form-control {
-        color: #495057;
-        padding: 8px;
-        background-color: #fff;
-        border-radius: 4px;
-        border: 1px solid #dee2e6;
-        width: 100%;
-    }
-
-    .text-danger {
-        color: #dc3545;
-        display: block;
-        margin-top: 5px;
-    }
-
-    .btn-form {
-        background-color: #0b7b82;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 5px;
-        text-decoration: none;
-        display: inline-block;
-        margin-top: 20px;
-        text-align: center;
-        transition: all 0.3s ease;
-    }
-
-        .btn-form:hover {
-            background-color: #096c72;
-            transform: translateY(-1px);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            color: white;
-            text-decoration: none;
-        }
-</style>
+<link href="~/CSS/Editar.css" rel="stylesheet" />
 
 <div class="container-form">
     <h2 class="page-title">Editar Caja Chica</h2>
@@ -99,117 +16,163 @@
         @Html.HiddenFor(model => model.Id_Caja_Chica)
 
         <div class="form-section">
-            <h4>Información Básica</h4>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Id_Contabilidad, "Contabilidad", new { @class = "control-label" })
-                @Html.DropDownList("Id_Contabilidad", ViewBag.Contabilidad as SelectList, "Seleccione una opción", new { @class = "form-control" })
-            </div>
-        </div>
-
-        <div class="form-section">
-            <h4>Fechas</h4>
-            <div class="form-grid">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Fecha_Registro, "Fecha Registro", new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.Fecha_Registro, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Fecha_Movimiento, "Fecha Movimiento", new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.Fecha_Movimiento, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Fecha_Modificacion, "Fecha Modificación", new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.Fecha_Modificacion, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+            <legend>Información Básica</legend>
+            <div class="detail-group">
+                <div class="detail-item">
+                    <div class="detail-label">@Html.LabelFor(model => model.Id_Contabilidad, "Contabilidad")</div>
+                    <div class="detail-value">
+                        @Html.DropDownList("Id_Contabilidad", ViewBag.Contabilidad as SelectList, "Seleccione una opción", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Id_Contabilidad, "", new { @class = "text-danger" })
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="form-section">
-            <h4>Información Financiera</h4>
-            <div class="form-grid">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Monto, "Monto", new { @class = "control-label" })
-                    @Html.EditorFor(model => model.Monto, new { htmlAttributes = new { @class = "form-control" } })
+            <legend>Fechas</legend>
+            <div class="detail-group">
+                <div class="detail-item">
+                    <div class="detail-label">@Html.LabelFor(model => model.Fecha_Registro, "Fecha Registro")</div>
+                    <div class="detail-value">
+                        @Html.TextBoxFor(model => model.Fecha_Registro, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                        @Html.ValidationMessageFor(model => model.Fecha_Registro, "", new { @class = "text-danger" })
+                    </div>
                 </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Saldo_Anterior, "Saldo Anterior", new { @class = "control-label" })
-                    @Html.EditorFor(model => model.Saldo_Anterior, new { htmlAttributes = new { @class = "form-control" } })
+                <div class="detail-item">
+                    <div class="detail-label">@Html.LabelFor(model => model.Fecha_Movimiento, "Fecha Movimiento")</div>
+                    <div class="detail-value">
+                        @Html.TextBoxFor(model => model.Fecha_Movimiento, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                        @Html.ValidationMessageFor(model => model.Fecha_Movimiento, "", new { @class = "text-danger" })
+                    </div>
                 </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Saldo_Actual, "Saldo Actual", new { @class = "control-label" })
-                    @Html.EditorFor(model => model.Saldo_Actual, new { htmlAttributes = new { @class = "form-control" } })
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Beneficiario, "Beneficiario", new { @class = "control-label" })
-                    @Html.EditorFor(model => model.Beneficiario, new { htmlAttributes = new { @class = "form-control" } })
-                </div>
-            </div>
-        </div>
-
-        <div class="form-section">
-            <h4>Totales y Estado</h4>
-            <div class="form-grid">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Numero_Comprobante, "Número de Comprobante", new { @class = "control-label" })
-                    @Html.EditorFor(model => model.Numero_Comprobante, new { htmlAttributes = new { @class = "form-control" } })
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Tipo_Movimiento, "Tipo de Movimiento", new { @class = "control-label" })
-                    @Html.EditorFor(model => model.Tipo_Movimiento, new { htmlAttributes = new { @class = "form-control" } })
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Categoria_Gasto, "Categoría Gasto", new { @class = "control-label" })
-                    @Html.EditorFor(model => model.Categoria_Gasto, new { htmlAttributes = new { @class = "form-control" } })
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Numero_Factura, "Número de Factura", new { @class = "control-label" })
-                    @Html.EditorFor(model => model.Numero_Factura, new { htmlAttributes = new { @class = "form-control" } })
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Estado, "Estado", new { @class = "control-label" })
-                    @Html.EditorFor(model => model.Estado, new { htmlAttributes = new { @class = "form-control" } })
+                <div class="detail-item">
+                    <div class="detail-label">@Html.LabelFor(model => model.Fecha_Modificacion, "Fecha Modificación")</div>
+                    <div class="detail-value">
+                        @Html.TextBoxFor(model => model.Fecha_Modificacion, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                        @Html.ValidationMessageFor(model => model.Fecha_Modificacion, "", new { @class = "text-danger" })
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="form-section">
-            <h4>Comentarios y Observaciones</h4>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Concepto, new { @class = "control-label" })
-                @Html.TextAreaFor(model => model.Concepto, new { @class = "form-control", rows = "3" })
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Observaciones, "Observaciones", new { @class = "control-label" })
-                @Html.TextAreaFor(model => model.Observaciones, new { @class = "form-control", rows = "3" })
+            <legend>Información Financiera</legend>
+            <div class="detail-group">
+                <div class="detail-item">
+                    <div class="detail-label">@Html.LabelFor(model => model.Monto, "Monto")</div>
+                    <div class="detail-value">
+                        @Html.EditorFor(model => model.Monto, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Monto, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">@Html.LabelFor(model => model.Saldo_Anterior, "Saldo Anterior")</div>
+                    <div class="detail-value">
+                        @Html.EditorFor(model => model.Saldo_Anterior, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Saldo_Anterior, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">@Html.LabelFor(model => model.Saldo_Actual, "Saldo Actual")</div>
+                    <div class="detail-value">
+                        @Html.EditorFor(model => model.Saldo_Actual, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Saldo_Actual, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">@Html.LabelFor(model => model.Beneficiario, "Beneficiario")</div>
+                    <div class="detail-value">
+                        @Html.EditorFor(model => model.Beneficiario, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Beneficiario, "", new { @class = "text-danger" })
+                    </div>
+                </div>
             </div>
         </div>
 
         <div class="form-section">
-            <h4>Usuarios Responsables</h4>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Usuario_Registro, "Registro de Usuario", new { @class = "control-label" })
-                @Html.TextAreaFor(model => model.Usuario_Registro, new { @class = "form-control", rows = "3" })
+            <legend>Totales y Estado</legend>
+            <div class="detail-group">
+                <div class="detail-item">
+                    <div class="detail-label">@Html.LabelFor(model => model.Numero_Comprobante, "Número de Comprobante")</div>
+                    <div class="detail-value">
+                        @Html.EditorFor(model => model.Numero_Comprobante, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Numero_Comprobante, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">@Html.LabelFor(model => model.Tipo_Movimiento, "Tipo de Movimiento")</div>
+                    <div class="detail-value">
+                        @Html.EditorFor(model => model.Tipo_Movimiento, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Tipo_Movimiento, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">@Html.LabelFor(model => model.Categoria_Gasto, "Categoría Gasto")</div>
+                    <div class="detail-value">
+                        @Html.EditorFor(model => model.Categoria_Gasto, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Categoria_Gasto, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">@Html.LabelFor(model => model.Numero_Factura, "Número de Factura")</div>
+                    <div class="detail-value">
+                        @Html.EditorFor(model => model.Numero_Factura, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Numero_Factura, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">@Html.LabelFor(model => model.Estado, "Estado")</div>
+                    <div class="detail-value">
+                        @Html.EditorFor(model => model.Estado, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Estado, "", new { @class = "text-danger" })
+                    </div>
+                </div>
             </div>
+        </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.Usuario_Modificacion, "Registro de Usuario Modificado", new { @class = "control-label" })
-                @Html.TextAreaFor(model => model.Usuario_Modificacion, new { @class = "form-control", rows = "3" })
+        <div class="form-section">
+            <legend>Comentarios y Observaciones</legend>
+            <div class="detail-group">
+                <div class="detail-item">
+                    <div class="detail-label">@Html.LabelFor(model => model.Concepto)</div>
+                    <div class="detail-value">
+                        @Html.TextAreaFor(model => model.Concepto, new { @class = "form-control", rows = "3" })
+                        @Html.ValidationMessageFor(model => model.Concepto, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">@Html.LabelFor(model => model.Observaciones, "Observaciones")</div>
+                    <div class="detail-value">
+                        @Html.TextAreaFor(model => model.Observaciones, new { @class = "form-control", rows = "3" })
+                        @Html.ValidationMessageFor(model => model.Observaciones, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <legend>Usuarios Responsables</legend>
+            <div class="detail-group">
+                <div class="detail-item">
+                    <div class="detail-label">@Html.LabelFor(model => model.Usuario_Registro, "Registro de Usuario")</div>
+                    <div class="detail-value">
+                        @Html.TextAreaFor(model => model.Usuario_Registro, new { @class = "form-control", rows = "3" })
+                        @Html.ValidationMessageFor(model => model.Usuario_Registro, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">@Html.LabelFor(model => model.Usuario_Modificacion, "Registro de Usuario Modificado")</div>
+                    <div class="detail-value">
+                        @Html.TextAreaFor(model => model.Usuario_Modificacion, new { @class = "form-control", rows = "3" })
+                        @Html.ValidationMessageFor(model => model.Usuario_Modificacion, "", new { @class = "text-danger" })
+                    </div>
+                </div>
             </div>
         </div>
 
         <div class="text-center" style="margin-top: 20px;">
-            <input type="submit" value="Guardar" class="btn-form" style="margin-right: 10px;" />
-            @Html.ActionLink("Regresar a la Lista", "Index", null, new { @class = "btn-form" })
+            <input type="submit" value="Guardar" class="btn-primary" style="margin-right: 10px;" />
+            @Html.ActionLink("Regresar a la Lista", "Index", null, new { @class = "btn-secondary" })
         </div>
     }
 </div>

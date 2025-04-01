@@ -4,114 +4,7 @@
     ViewBag.Title = "Editar Pagos Diarios";
 }
 
-<style>
-    .container-form {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
-        background-color: #f8f9fa;
-        border-radius: 10px;
-        box-shadow: 0 0 15px rgba(0,0,0,0.1);
-    }
-
-    .page-title {
-        color: #0b7b82;
-        text-align: center;
-        margin-bottom: 30px;
-        padding-bottom: 10px;
-        border-bottom: 2px solid #0b7b82;
-    }
-
-    .form-section {
-        background-color: white;
-        padding: 20px;
-        border-radius: 8px;
-        margin-bottom: 20px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    }
-
-    .section-title {
-        color: #0b7b82;
-        margin-bottom: 20px;
-        font-size: 1.2em;
-        border-bottom: 1px solid #eee;
-        padding-bottom: 10px;
-    }
-
-    .form-group {
-        margin-bottom: 15px;
-        display: grid;
-        grid-template-columns: 200px 1fr;
-        gap: 15px;
-        align-items: center;
-    }
-
-    .control-label {
-        font-weight: 600;
-        color: #2c3e50;
-    }
-
-    .form-control {
-        width: 100%;
-        padding: 8px 12px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        transition: border-color 0.3s ease;
-    }
-
-        .form-control:focus {
-            border-color: #0b7b82;
-            box-shadow: 0 0 0 0.2rem rgba(11, 123, 130, 0.25);
-            outline: none;
-        }
-
-    .text-danger {
-        color: #dc3545;
-        font-size: 0.875rem;
-        margin-top: 4px;
-        grid-column: 2;
-    }
-
-    .action-buttons {
-        text-align: center;
-        margin-top: 20px;
-        padding: 20px 0;
-    }
-
-    .btn-submit {
-        background-color: #0b7b82;
-        color: white;
-        border: none;
-        padding: 10px 30px;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 16px;
-        transition: all 0.3s ease;
-        margin-right: 10px;
-    }
-
-        .btn-submit:hover {
-            background-color: #096c72;
-            transform: translateY(-1px);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-
-    .btn-back {
-        background-color: #6c757d;
-        color: white;
-        text-decoration: none;
-        padding: 10px 20px;
-        border-radius: 5px;
-        display: inline-block;
-        transition: all 0.3s ease;
-    }
-
-        .btn-back:hover {
-            background-color: #5a6268;
-            color: white;
-            text-decoration: none;
-        }
-</style>
+<link href="~/CSS/Editar.css" rel="stylesheet" />
 
 <div class="container-form">
     <h2 class="page-title">Detalles de Pagos Diarios</h2>
@@ -123,66 +16,84 @@
         @Html.HiddenFor(model => model.Id_Pago_Diario)
 
         <div class="form-section">
-            <h4>Información Bancaria</h4>
-            <div class="form-grid">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Id_Contabilidad, "Contabilidad", new { @class = "control-label" })
-                    @Html.DropDownList("Id_Contabilidad", ViewBag.Contabilidad as SelectList, "Seleccione una opción", new { @class = "form-control" })
+            <legend>Información Bancaria</legend>
+            <div class="detail-group">
+                <div class="detail-item">
+                    <div class="detail-label">@Html.LabelFor(model => model.Id_Contabilidad, "Contabilidad", new { @class = "control-label" })</div>
+                    <div class="detail-value">
+                        @Html.DropDownList("Id_Contabilidad", ViewBag.Contabilidad as SelectList, "Seleccione una opción", new { @class = "form-control" })
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Id_Empleado, "Empleado", new { @class = "control-label" })
-                    @Html.DropDownList("Id_Empleado", ViewBag.Empleado as SelectList, "Seleccione una opción", new { @class = "form-control" })
-                </div>
-            </div>
-        </div>
-
-        <div class="form-section">
-            <h4>Detalles del Pago</h4>
-            <div class="form-grid">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Fecha_Pago, "Fecha de Pago", new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.Fecha_Pago, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Monto, "Monto", new { @class = "control-label" })
-                    @Html.EditorFor(model => model.Monto, new { htmlAttributes = new { @class = "form-control" } })
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Metodo_Pago, "Método de Pago", new { @class = "control-label" })
-                    @Html.EditorFor(model => model.Metodo_Pago, new { htmlAttributes = new { @class = "form-control" } })
+                <div class="detail-item">
+                    <div class="detail-label">@Html.LabelFor(model => model.Id_Empleado, "Empleado", new { @class = "control-label" })</div>
+                    <div class="detail-value">
+                        @Html.DropDownList("Id_Empleado", ViewBag.Empleado as SelectList, "Seleccione una opción", new { @class = "form-control" })
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="form-section">
-            <h4>Detalles Adicionales</h4>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Observaciones, "Observaciones", new { @class = "control-label" })
-                @Html.EditorFor(model => model.Observaciones, new { htmlAttributes = new { @class = "form-control" } })
-            </div>
+            <legend>Detalles del Pago</legend>
+            <div class="detail-group">
+                <div class="detail-item">
+                    <div class="detail-label">@Html.LabelFor(model => model.Fecha_Pago, "Fecha de Pago", new { @class = "control-label" })</div>
+                    <div class="detail-value">
+                        @Html.TextBoxFor(model => model.Fecha_Pago, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                    </div>
+                </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.Estado_Pago, "Estado del Pago", new { @class = "control-label" })
-                @Html.EditorFor(model => model.Estado_Pago, new { htmlAttributes = new { @class = "form-control" } })
-            </div>
+                <div class="detail-item">
+                    <div class="detail-label">@Html.LabelFor(model => model.Monto, "Monto", new { @class = "control-label" })</div>
+                    <div class="detail-value">
+                        @Html.EditorFor(model => model.Monto, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
 
-        </div>
-
-        <div class="form-section">
-            <h4>Información de Registro</h4>
-            <div class="form-grid">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Fecha_Registro, "Fecha de Registro", new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.Fecha_Registro, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                <div class="detail-item">
+                    <div class="detail-label">@Html.LabelFor(model => model.Metodo_Pago, "Método de Pago", new { @class = "control-label" })</div>
+                    <div class="detail-value">
+                        @Html.EditorFor(model => model.Metodo_Pago, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="action-buttons">
-            <input type="submit" value="Guardar Cambios" class="btn-submit" />
-            @Html.ActionLink("Volver a la Lista", "Index", null, new { @class = "btn-back" })
+        <div class="form-section">
+            <legend>Detalles Adicionales</legend>
+            <div class="detail-group">
+                <div class="detail-item">
+                    <div class="detail-label">@Html.LabelFor(model => model.Observaciones, "Observaciones", new { @class = "control-label" })</div>
+                    <div class="detail-value">
+                        @Html.EditorFor(model => model.Observaciones, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <div class="detail-label">@Html.LabelFor(model => model.Estado_Pago, "Estado del Pago", new { @class = "control-label" })</div>
+                    <div class="detail-value">
+                        @Html.EditorFor(model => model.Estado_Pago, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <legend>Información de Registro</legend>
+            <div class="detail-group">
+                <div class="detail-item">
+                    <div class="detail-label">@Html.LabelFor(model => model.Fecha_Registro, "Fecha de Registro", new { @class = "control-label" })</div>
+                    <div class="detail-value">
+                        @Html.TextBoxFor(model => model.Fecha_Registro, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center" style="margin-top: 20px;">
+            <input type="submit" value="Guardar Cambios" class="btn-primary" style="margin-right: 10px;" />
+            @Html.ActionLink("Volver a la Lista", "Index", null, new { @class = "btn-secondary" })
         </div>
     }
+</div>
