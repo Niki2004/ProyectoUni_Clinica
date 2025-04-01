@@ -763,7 +763,6 @@
     <Content Include="Views\Administrativos\VistaADM.cshtml" />
     <Content Include="Views\Administrativos\VistaEliminar.cshtml" />
     <Content Include="Views\Administrativos\Delete.cshtml" />
-    <Content Include="Views\Administrativos\VistaListar.cshtml" />
     <Content Include="Views\Administrativos\DetallesHistorial.cshtml" />
     <Content Include="Views\Reporte\VistaAdmRep.cshtml" />
     <Content Include="Views\Reporte\VistaReporteConta.cshtml" />
