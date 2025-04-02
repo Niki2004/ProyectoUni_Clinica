@@ -1,0 +1,322 @@
+﻿.comentarios-container {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    color: #333;
+}
+
+.header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    border-bottom: 3px solid #0b7b82;
+    padding-bottom: 15px;
+}
+
+    .header-section h2 {
+        color: #0b7b82;
+        font-size: 28px;
+        margin: 0;
+    }
+
+.btn-create {
+    background-color: #3bb4bc;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+}
+
+    .btn-create:hover {
+        background-color: #0b7b82;
+        box-shadow: 0 4px 8px rgba(11, 123, 130, 0.3);
+    }
+
+    .btn-create i {
+        margin-right: 8px;
+    }
+
+.alert-success {
+    background-color: #d4edda;
+    border-left: 5px solid #28a745;
+    color: #155724;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+    .alert-success i {
+        margin-right: 10px;
+        font-size: 18px;
+    }
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+.filtros-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.search-box {
+    flex-grow: 1;
+    margin-right: 15px;
+    position: relative;
+}
+
+    .search-box i {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #0b7b82;
+    }
+
+    .search-box input {
+        width: 100%;
+        padding: 10px 10px 10px 35px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+
+        .search-box input:focus {
+            border-color: #3bb4bc;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(59, 180, 188, 0.2);
+        }
+
+.dropdown-filter select {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: white;
+    font-size: 14px;
+    color: #333;
+    min-width: 180px;
+}
+
+    .dropdown-filter select:focus {
+        border-color: #3bb4bc;
+        outline: none;
+    }
+
+.comentarios-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.comentario-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-top: 4px solid #3bb4bc;
+    position: relative;
+}
+
+    .comentario-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .comentario-card.destacado {
+        border-top-color: #ffc107;
+    }
+
+    .comentario-card.sensible {
+        border-top-color: #dc3545;
+    }
+
+.comentario-header {
+    padding: 15px;
+    background-color: #f8f9fa;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+}
+
+.patient-info {
+    display: flex;
+    align-items: center;
+}
+
+    .patient-info i {
+        font-size: 18px;
+        color: #0b7b82;
+        margin-right: 8px;
+    }
+
+.rating {
+    display: flex;
+}
+
+    .rating .fa-star {
+        color: #e0e0e0;
+        margin-left: 2px;
+    }
+
+        .rating .fa-star.active {
+            color: #ffc107;
+        }
+
+.comentario-body {
+    padding: 20px 15px;
+    min-height: 80px;
+}
+
+    .comentario-body p {
+        margin: 0;
+        line-height: 1.5;
+    }
+
+.comentario-footer {
+    padding: 15px;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.date {
+    display: flex;
+    align-items: center;
+    color: #6c757d;
+    font-size: 13px;
+}
+
+    .date i {
+        margin-right: 5px;
+    }
+
+.badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.badge {
+    padding: 5px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.badge-aprobado {
+    background-color: #d1e7dd;
+    color: #0f5132;
+}
+
+.badge-pendiente {
+    background-color: #fff3cd;
+    color: #664d03;
+}
+
+.badge-rechazado {
+    background-color: #f8d7da;
+    color: #842029;
+}
+
+.badge-destacado {
+    background-color: #fff3cd;
+    color: #664d03;
+}
+
+.badge-sensible {
+    background-color: #f8d7da;
+    color: #842029;
+}
+
+.comentario-actions {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    display: flex;
+    gap: 8px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.comentario-card:hover .comentario-actions {
+    opacity: 1;
+}
+
+.btn-action {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+    .btn-action.edit {
+        background-color: #3bb4bc;
+        color: white;
+    }
+
+    .btn-action.details {
+        background-color: #0b7b82;
+        color: white;
+    }
+
+    .btn-action.delete {
+        background-color: #dc3545;
+        color: white;
+    }
+
+    .btn-action:hover {
+        transform: scale(1.1);
+    }
+
+/* Sin registros */
+.no-records {
+    text-align: center;
+    padding: 40px 0;
+    color: #6c757d;
+}
+
+    .no-records i {
+        font-size: 40px;
+        margin-bottom: 15px;
+        color: #0b7b82;
+    }
+
+.filtros-section {
+    flex-direction: column;
+}
+
+.search-box {
+    margin-right: 0;
+    margin-bottom: 10px;
+}
+
+.custom-btn {
+    background-color: #0b7b82 !important;
+    color: white !important;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    text-decoration: none;
+    transition: background 0.3s ease, transform 0.2s ease;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
