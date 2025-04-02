@@ -5,136 +5,114 @@
 }
 
 
-<style>
-    .container-form {
-        max-width: 1200px;
-        margin: 30px auto;
-        padding: 20px;
-        background-color: #f8f9fa;
-        border-radius: 10px;
-        box-shadow: 0 0 15px rgba(0,0,0,0.1);
-    }
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Auditoria</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="~/CSS/Administrativo.css" rel="stylesheet" />
 
-    .page-title {
-        color: #0b7b82;
-        text-align: center;
-        margin-bottom: 20px;
-        padding-bottom: 10px;
-        border-bottom: 2px solid #0b7b82;
-    }
+</head>
+<body>
+    <div class="page-container">
+        <div class="header-container">
+            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                <a href="@Url.Action("Administrativo", "Administrativos")" class="btn-inicio">
+                    <i class="fas fa-home"></i> Inicio
+                </a>
+                <div class="page-title-container">
+                    <h1 class="page-title">Lista de Auditoria</h1>
+                </div>
+            </div>
+        </div>
 
-    .table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-bottom: 20px;
-    }
+        <br>
+        <br>
 
-        .table th,
-        .table td {
-            padding: 15px;
-            border: 1px solid #dee2e6;
-            text-align: center;
-            font-size: 14px;
-        }
+        <div class="results-panel">
+            <h2 class="results-title" style="color: #392F5A;"><i class="fas fa-clipboard-list"></i> Resultados</h2>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nombre del Médico</th>
+                            <th>Nombre del Paciente</th>
+                            <th>Fecha de la Cita</th>
+                            <th>Hora de la cita</th>
+                            <th>Tipo de Modalidad</th>
+                            <th>Complicaciones del Paciente</th>
+                            <th>Sintomas del Paciente</th>
+                            <th>Estado de la Asistencia</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usuariosBody">
+                        @foreach (var auditoria in Model)
+                        {
+                            <tr>
+                                <td>@auditoria.Medico.Nombre</td>
+                                <td>@auditoria.Nombre_Paciente</td>
+                                <td>@auditoria.Fecha_Cita.ToShortDateString()</td>
+                                <td>@auditoria.Hora_cita</td>
+                                <td>@auditoria.Modalidad</td>
+                                <td>@auditoria.Descripcion_Complicaciones</td>
+                                <td>@auditoria.Sintomas</td>
+                                <td>@auditoria.Estado_Asistencia</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div id="paginationContainer" class="d-flex justify-content-center mt-3"></div>
+        </div>
+    </div>
+</body>
+</html>
 
-        .table th {
-            background-color: #0b7b82;
-            color: #fff;
-            font-weight: bold;
-        }
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var rowsPerPage = 5;
+            var $rows = $("#usuariosBody tr");
+            var totalPages = Math.ceil($rows.length / rowsPerPage);
+            var currentPage = 1;
 
-        .table tr:nth-child(even) td {
-            background-color: #f2f2f2;
-        }
+            function showPage(page) {
+                var start = (page - 1) * rowsPerPage;
+                var end = start + rowsPerPage;
 
-    .action-link {
-        background-color: #0b7b82;
-        color: #fff;
-        padding: 8px 16px;
-        border-radius: 5px;
-        text-decoration: none;
-        transition: background 0.3s ease, transform 0.2s ease;
-        font-size: 14px;
-        display: inline-block;
-    }
-
-        .action-link:hover {
-            background-color: #096c72;
-            transform: translateY(-1px);
-        }
-
-        /* Evitar que el enlace cambie a azul en hover o focus */
-        .action-link,
-        .action-link:hover,
-        .action-link:focus {
-            color: #fff !important;
-            text-decoration: none;
-        }
-
-    .custom-btn {
-        background-color: #0b7b82 !important;
-        color: white !important;
-        border: none;
-        padding: 12px 24px;
-        border-radius: 8px;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 16px;
-        text-decoration: none;
-        transition: background 0.3s ease, transform 0.2s ease;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-        .custom-btn:hover {
-            background-color: #096c72 !important;
-            transform: translateY(-1px);
-        }
-
-        /* Evitar que el custom-btn cambie a azul en hover o focus */
-        .custom-btn,
-        .custom-btn:hover,
-        .custom-btn:focus {
-            color: white !important;
-            text-decoration: none;
-        }
-</style>
-
-<div style="text-align: center; margin-bottom: 20px;">
-    <a href="@Url.Action("Administrativo", "Administrativos")" class="custom-btn">
-        <i class="fas fa-home"></i> Inicio
-    </a>
-</div>
-<div class="container-form">
-    <h2 class="page-title">Lista de Usuarios</h2>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>@Html.DisplayNameFor(model => model.First().Medico.Nombre)</th>
-                <th>@Html.DisplayNameFor(model => model.First().Nombre_Paciente)</th>
-                <th>@Html.DisplayNameFor(model => model.First().Fecha_Cita)</th>
-                <th>@Html.DisplayNameFor(model => model.First().Hora_cita)</th>
-                <th>@Html.DisplayNameFor(model => model.First().Modalidad)</th>
-                <th>@Html.DisplayNameFor(model => model.First().Descripcion_Complicaciones)</th>
-                <th>@Html.DisplayNameFor(model => model.First().Sintomas)</th>
-                <th>@Html.DisplayNameFor(model => model.First().Estado_Asistencia)</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>@Html.DisplayFor(modelItem => item.Medico.Nombre)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Nombre_Paciente)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Fecha_Cita)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Hora_cita)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Modalidad)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Descripcion_Complicaciones)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Sintomas)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Estado_Asistencia)</td>
-                </tr>
+                $rows.hide().slice(start, end).show();
+                $("#paginationContainer").html(createPagination(page, totalPages));
             }
-        </tbody>
-    </table>
-</div>
 
+            function createPagination(page, total) {
+                var pagination = `<nav><ul class="pagination">`;
+
+                if (page > 1) {
+                    pagination += `<li class="page-item"><a href="#" class="page-link" data-page="${page - 1}">«</a></li>`;
+                }
+
+                for (var i = 1; i <= total; i++) {
+                    pagination += `<li class="page-item ${i === page ? 'active' : ''}">
+                                             <a href="#" class="page-link" data-page="${i}">${i}</a>
+                                           </li>`;
+                }
+
+                if (page < total) {
+                    pagination += `<li class="page-item"><a href="#" class="page-link" data-page="${page + 1}">»</a></li>`;
+                }
+
+                pagination += `</ul></nav>`;
+                return pagination;
+            }
+
+            $(document).on("click", ".page-link", function (e) {
+                e.preventDefault();
+                var page = $(this).data("page");
+                showPage(page);
+            });
+
+            showPage(currentPage);
+        });
+    </script>
+}
