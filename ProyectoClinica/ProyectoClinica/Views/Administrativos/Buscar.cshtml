@@ -4,149 +4,141 @@
     ViewBag.Title = "Buscar";
 }
 
-<div style="text-align: center; margin-bottom: 20px;">
-    <a href="@Url.Action("Administrativo", "Administrativos")" class="custom-btn">
-        <i class="fas fa-home"></i> Inicio
-    </a>
-</div>
-<div class="container-fluid">
-    <div class="row">
-        <!-- Main Content -->
-        <div class="button-container">
-            <div class="content-wrapper">
-                <h2 class="mb-4">Búsqueda de Usuarios</h2>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Usuarios</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="~/CSS/Administrativo.css" rel="stylesheet" />
 
-                <form method="get" action="@Url.Action("Buscar")" class="search-form mb-4">
-                    <div class="row g-3">
-                        <div class="col-md-5">
-                            <div class="form-group">
-                                <label class="form-label">Nombre:</label>
-                                <input type="text" name="nombre" value="@Request.QueryString["nombre"]" class="form-control" placeholder="Ingrese el nombre" />
-                            </div>
-                        </div>
-                        <div class="col-md-5">
-                            <div class="form-group">
-                                <label class="form-label">Cédula:</label>
-                                <input type="text" name="cedula" value="@Request.QueryString["cedula"]" class="form-control" placeholder="Ingrese la cédula" />
-                            </div>
-                        </div>
-                        <div class="col-md-2 d-flex align-items-end">
-                            <button type="submit" class="btn btn-primary w-100">
-                                <i class="fas fa-search me-2"></i>Buscar
-                            </button>
-                        </div>
-                    </div>
-                </form>
-
-                <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead class="table-light">
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Apellido</th>
-                                <th>Edad</th>
-                                <th>Género</th>
-                                <th>Dirección</th>
-                                <th>Cédula</th>
-                                <th>Número de teléfono</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var usuario in Model)
-                            {
-                                <tr>
-                                    <td>@usuario.Nombre</td>
-                                    <td>@usuario.Apellido</td>
-                                    <td>@usuario.Edad_Paciente</td>
-                                    <td>@usuario.Genero_Paciente</td>
-                                    <td>@usuario.Direccion</td>
-                                    <td>@usuario.Cedula</td>
-                                    <td>@usuario.PhoneNumber</td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+</head>
+<body>
+    <div class="page-container">
+        <div class="header-container">
+            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                <a href="@Url.Action("Administrativo", "Administrativos")" class="btn-inicio">
+                    <i class="fas fa-home"></i> Inicio
+                </a>
+                <div class="page-title-container">
+                    <h1 class="page-title">Gestión de Usuarios</h1>
                 </div>
             </div>
         </div>
+
+        <br>
+        <br>
+
+        <div class="search-panel">
+            <h2 class="search-title" style="color: #392F5A;"><i class="fas fa-search"></i> Búsqueda de Usuarios</h2>
+            <form method="get" action="@Url.Action("Buscar")" class="mb-4">
+                <div class="row align-items-end g-3">
+                    <div class="col-md-4">
+                        <div class="form-group mb-0">
+                            <label class="form-label">Nombre:</label>
+                            <input type="text" name="nombre" value="@Request.QueryString["nombre"]" class="form-control"
+                                   placeholder="Ingrese el nombre"
+                                   style="border-color: #ced4da; box-shadow: none;" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group mb-0">
+                            <label class="form-label">Cédula:</label>
+                            <input type="text" name="cedula" value="@Request.QueryString["cedula"]" class="form-control"
+                                   placeholder="Ingrese la cédula"
+                                   style="border-color: #ced4da; box-shadow: none;" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="submit" class="btn-search w-100" style="background-color: #D6E5FF; color: #333; border: none;">
+                            <i class="fas fa-search me-2"></i>Buscar
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="results-panel">
+            <h2 class="results-title" style="color: #392F5A;"><i class="fas fa-users"></i> Resultados</h2>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Edad</th>
+                            <th>Género</th>
+                            <th>Dirección</th>
+                            <th>Cédula</th>
+                            <th>Teléfono</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usuariosBody">
+                        @foreach (var usuario in Model)
+                        {
+                            <tr>
+                                <td>@usuario.Nombre</td>
+                                <td>@usuario.Apellido</td>
+                                <td>@usuario.Edad_Paciente</td>
+                                <td>@usuario.Genero_Paciente</td>
+                                <td>@usuario.Direccion</td>
+                                <td>@usuario.Cedula</td>
+                                <td>@usuario.PhoneNumber</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div id="paginationContainer" class="d-flex justify-content-center mt-3"></div>
+        </div>
     </div>
-</div>
+</body>
+</html>
 
-<style>
-    .search-form {
-        background-color: #f8f9fa;
-        padding: 25px;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    }
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var rowsPerPage = 5;
+            var $rows = $("#usuariosBody tr");
+            var totalPages = Math.ceil($rows.length / rowsPerPage);
+            var currentPage = 1;
 
-    .form-label {
-        color: #0b7b82;
-        font-weight: 500;
-        margin-bottom: 8px;
-    }
+            function showPage(page) {
+                var start = (page - 1) * rowsPerPage;
+                var end = start + rowsPerPage;
 
-    .form-control {
-        border: 1px solid #ced4da;
-        padding: 0.75rem;
-        border-radius: 6px;
-        transition: border-color 0.2s ease-in-out;
-    }
+                $rows.hide().slice(start, end).show();
+                $("#paginationContainer").html(createPagination(page, totalPages));
+            }
 
-        .form-control:focus {
-            border-color: #008B8B;
-            box-shadow: 0 0 0 0.2rem rgba(0, 139, 139, 0.25);
-        }
+            function createPagination(page, total) {
+                var pagination = `<nav><ul class="pagination">`;
 
-    .table thead th {
-        background-color: #008B8B;
-        color: white;
-        border: none;
-        padding: 12px;
-        font-weight: 500;
-    }
+                if (page > 1) {
+                    pagination += `<li class="page-item"><a href="#" class="page-link" data-page="${page - 1}">«</a></li>`;
+                }
 
-    .table tbody tr:hover {
-        background-color: #3bb4bc20;
-        cursor: pointer;
-    }
+                for (var i = 1; i <= total; i++) {
+                    pagination += `<li class="page-item ${i === page ? 'active' : ''}">
+                                         <a href="#" class="page-link" data-page="${i}">${i}</a>
+                                       </li>`;
+                }
 
-    .table td {
-        padding: 12px;
-        vertical-align: middle;
-        border-color: #e9ecef;
-    }
+                if (page < total) {
+                    pagination += `<li class="page-item"><a href="#" class="page-link" data-page="${page + 1}">»</a></li>`;
+                }
 
-    .btn-primary {
-        background-color: #008B8B;
-        border-color: #008B8B;
-        padding: 0.75rem 1.5rem;
-        font-weight: 500;
-    }
+                pagination += `</ul></nav>`;
+                return pagination;
+            }
 
-        .btn-primary:hover {
-            background-color: #20B2AA;
-            border-color: #20B2AA;
-            transform: translateY(-1px);
-        }
+            $(document).on("click", ".page-link", function (e) {
+                e.preventDefault();
+                var page = $(this).data("page");
+                showPage(page);
+            });
 
-    .content-wrapper {
-        margin-top: 70px;
-        padding: 30px;
-    }
-
-    .custom-btn {
-        background-color: #0b7b82 !important;
-        color: white !important;
-        border: none;
-        padding: 12px 24px;
-        border-radius: 8px;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 16px;
-        text-decoration: none;
-        transition: background 0.3s ease, transform 0.2s ease;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    }
-</style>
+            showPage(currentPage);
+        });
+    </script>
+}
