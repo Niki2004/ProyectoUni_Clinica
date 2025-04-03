@@ -141,7 +141,8 @@ namespace ProyectoClinica.Controllers
             {
                 _context.Entry(administrativo).State = EntityState.Modified;
                 _context.SaveChanges();
-                return RedirectToAction("VistaEmpleados");
+                TempData["SuccessMessage"] = "El empleado se ha actualizado correctamente.";
+                return RedirectToAction("VistaADM");
             }
             ViewBag.Id_Estado = new SelectList(_context.Estado, "Id_Estado", "Descripcion", administrativo.Id_Estado);
             return View(administrativo);

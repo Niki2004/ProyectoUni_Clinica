@@ -4,169 +4,122 @@
     ViewBag.Title = "Index";
 }
 
-<div style="text-align: center; margin-bottom: 20px;">
-    <a href="@Url.Action("Administrativo", "Administrativos")" class="custom-btn">
-        <i class="fas fa-home"></i> Inicio
-    </a>
-</div>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roles Temporales</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="~/CSS/Administrativo.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="page-container">
+        <div class="header-container">
+            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; margin-bottom: 20px;">
+                <a href="@Url.Action("Administrativo", "Administrativos")" class="btn-inicio" style="flex: 0 0 auto;">
+                    <i class="fas fa-home"></i> Inicio
+                </a>
+                <div class="page-title-container" style="flex: 1 1 auto; text-align: center;">
+                    <h1 class="page-title" style="margin: 0;">Roles Temporales</h1>
+                </div>
+                <div style="flex: 0 0 auto;">
+                    @Html.ActionLink("Crear Roles", "Create", null, new { @class = "btn-crear-pago" })
+                </div>
+            </div>
+        </div>
 
-</br>
+        <br>
 
-<h2 class="text-center">Roles Temporales</h2>
+        <div class="results-panel">
+            <h2 class="results-title" style="color: #392F5A;"><i class="fas fa-user-tag"></i> Lista de Roles</h2>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Nombre del Departamento</th>
+                            <th>Fecha de Inicio</th>
+                            <th>Fecha Final</th>
+                            <th>Estado</th>
+                            <th>Motivo</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="rolesBody">
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.ApplicationUser.Nombre)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Departamentos.Nombre_Departamento)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Fecha_Inicio)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Fecha_Fin)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Estado)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Motivo)</td>
+                                <td>
+                                    <div style="display: flex; gap: 5px;">
+                                        <a href="@Url.Action("Details", "AsignacionRolesTemporales", new { id = item.Id_AsignacionRoles })" class="btn btn-sm" style="background-color: #D6E5FF; color: #333; display: inline-block; width: 90px; text-align: center; padding: 6px 0; border-radius: 4px; text-decoration: none;">
+                                            <i class="fas fa-info-circle"></i> Detalles
+                                        </a>
+                                        <a href="@Url.Action("Delete", "AsignacionRolesTemporales", new { id = item.Id_AsignacionRoles })" class="btn-inicio" style="display: inline-block; width: 90px; text-align: center; padding: 6px 0; border-radius: 4px; text-decoration: none;">
+                                            <i class="fas fa-trash-alt"></i> Eliminar
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div id="paginationContainer" class="d-flex justify-content-center mt-3"></div>
+        </div>
+    </div>
+</body>
+</html>
 
-</br>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var rowsPerPage = 5;
+            var $rows = $("#rolesBody tr");
+            var totalPages = Math.ceil($rows.length / rowsPerPage);
+            var currentPage = 1;
 
+            function showPage(page) {
+                var start = (page - 1) * rowsPerPage;
+                var end = start + rowsPerPage;
 
-<p>
-    @Html.ActionLink("Crear Roles", "Create", null, new { @class = "btn-pago" })
-</p>
-
-</br>
-
-
-
-<style>
-    .container-form {
-        max-width: 1200px;
-        margin: 30px auto;
-        padding: 20px;
-        background-color: #f8f9fa;
-        border-radius: 10px;
-        box-shadow: 0 0 15px rgba(0,0,0,0.1);
-    }
-
-    .btn-pago {
-        /* Los estilos existentes se mantienen */
-        background-color: #0b7b82;
-        color: white;
-        border: none;
-        padding: 8px 12px;
-        border-radius: 5px;
-        text-decoration: none;
-        display: inline-block;
-        margin-top: 5px;
-        text-align: center;
-    }
-
-        .btn-pago:hover {
-            background-color: #0056b3;
-        }
-
-    .page-title {
-        color: #0b7b82;
-        text-align: center;
-        margin-bottom: 20px;
-        padding-bottom: 10px;
-        border-bottom: 2px solid #0b7b82;
-    }
-
-    .table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-bottom: 20px;
-    }
-
-        .table th,
-        .table td {
-            padding: 15px;
-            border: 1px solid #dee2e6;
-            text-align: center;
-            font-size: 14px;
-        }
-
-        .table th {
-            background-color: #0b7b82;
-            color: #fff;
-            font-weight: bold;
-        }
-
-        .table tr:nth-child(even) td {
-            background-color: #f2f2f2;
-        }
-
-    .action-link {
-        background-color: #0b7b82;
-        color: #fff;
-        padding: 8px 16px;
-        border-radius: 5px;
-        text-decoration: none;
-        transition: background 0.3s ease, transform 0.2s ease;
-        font-size: 14px;
-        display: inline-block;
-    }
-
-        .action-link:hover {
-            background-color: #096c72;
-            transform: translateY(-1px);
-        }
-
-        /* Evitar que el enlace cambie a azul en hover o focus */
-        .action-link,
-        .action-link:hover,
-        .action-link:focus {
-            color: #fff !important;
-            text-decoration: none;
-        }
-
-    .custom-btn {
-        background-color: #0b7b82 !important;
-        color: white !important;
-        border: none;
-        padding: 12px 24px;
-        border-radius: 8px;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 16px;
-        text-decoration: none;
-        transition: background 0.3s ease, transform 0.2s ease;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-        .custom-btn:hover {
-            background-color: #096c72 !important;
-            transform: translateY(-1px);
-        }
-
-        /* Evitar que el custom-btn cambie a azul en hover o focus */
-        .custom-btn,
-        .custom-btn:hover,
-        .custom-btn:focus {
-            color: white !important;
-            text-decoration: none;
-        }
-</style>
-
-<div class="container-form">
-    <h2 class="page-title">Lista de Roles</h2>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Nombre del Departamento</th>
-                <th>Fecha de Inicio</th>
-                <th>Fecha Final</th>
-                <th>Estado</th>
-                <th>Motivo</th>
-                <th>Acción</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>@Html.DisplayFor(modelItem => item.ApplicationUser.Nombre)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Departamentos.Nombre_Departamento)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Fecha_Inicio)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Fecha_Fin)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Estado)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Motivo)</td>
-                    <td>
-                        @Html.ActionLink("Detalles", "Details", new { id = item.Id_AsignacionRoles }, new { @class = "action-link" })
-                        @Html.ActionLink("Eliminar", "Delete", new { id = item.Id_AsignacionRoles }, new { @class = "action-link", style = "background-color: #dc3545; margin-left: 5px;" })
-                    </td>
-                </tr>
+                $rows.hide().slice(start, end).show();
+                $("#paginationContainer").html(createPagination(page, totalPages));
             }
-        </tbody>
-    </table>
-</div>
+
+            function createPagination(page, total) {
+                var pagination = `<nav><ul class="pagination">`;
+
+                if (page > 1) {
+                    pagination += `<li class="page-item"><a href="#" class="page-link" data-page="${page - 1}">«</a></li>`;
+                }
+
+                for (var i = 1; i <= total; i++) {
+                    pagination += `<li class="page-item ${i === page ? 'active' : ''}">
+                                                     <a href="#" class="page-link" data-page="${i}">${i}</a>
+                                                   </li>`;
+                }
+
+                if (page < total) {
+                    pagination += `<li class="page-item"><a href="#" class="page-link" data-page="${page + 1}">»</a></li>`;
+                }
+
+                pagination += `</ul></nav>`;
+                return pagination;
+            }
+
+            $(document).on("click", ".page-link", function (e) {
+                e.preventDefault();
+                var page = $(this).data("page");
+                showPage(page);
+            });
+
+            showPage(currentPage);
+        });
+    </script>
+}
