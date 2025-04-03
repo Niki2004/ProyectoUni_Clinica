@@ -545,6 +545,7 @@
     <Content Include="CSS\EliminarAdmin.css" />
     <Content Include="CSS\Receta.css" />
     <Content Include="CSS\Notificaciones.css" />
+    <Content Include="CSS\VistaAsignacionRolesTemporales.css" />
     <Content Include="CSS\VistaGeneral.css" />
     <Content Include="CSS\VistaCIta.css" />
     <Content Include="CSS\Perfil.css" />
