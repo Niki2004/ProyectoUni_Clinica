@@ -1,0 +1,158 @@
+﻿@model IEnumerable<ProyectoClinica.Models.Historial_Aplicaciones>
+
+@{
+    ViewBag.Title = "ListarHistorial";
+}
+
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial de Aplicaciones</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="~/CSS/Administrativo.css" rel="stylesheet" />
+    <link href="~/CSS/VistaHistorialActividades.css" rel="stylesheet" />
+
+</head>
+<body>
+    <div class="header-container" style="display: flex; justify-content: center; align-items: center; width: 100%; margin: 0 auto; max-width: 1200px;">
+        <div class="header-container" style="display: flex; justify-content: center; align-items: center; width: 100%; margin: 0 auto; max-width: 1200px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                <a href="@Url.Action("Administrativo", "Administrativos")" class="btn-inicio">
+                    <i class="fas fa-home"></i> Inicio
+                </a>
+                <div class="page-title-container" style="position: absolute; left: 50%; transform: translateX(-50%);">
+                    <h1 class="page-title">Historial de Actividades</h1>
+                </div>
+                <a href="@Url.Action("CrearHistorial")" class="btn-crear-pago">
+                    <i class="fas fa-plus-circle"></i> Crear Actividad
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <br>
+    <br>
+
+    <div class="results-panel">
+        <div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="col-nombre">
+                            @Html.DisplayNameFor(model => model.ApplicationUser.Nombre)
+                        </th>
+                        <th class="col-evento">
+                            Tipo de Evento
+                        </th>
+                        <th class="col-descripcion">
+                            @Html.DisplayNameFor(model => model.Descripcion)
+                        </th>
+                        <th class="col-fecha">
+                            Fecha y Hora
+                        </th>
+                        <th class="col-rol-anterior">
+                            Rol Anterior
+                        </th>
+                        <th class="col-rol-nuevo">
+                            Rol Nuevo
+                        </th>
+                        <th class="col-area">
+                            Área Accedida
+                        </th>
+                        <th class="col-acciones">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="historialBody">
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ApplicationUser.Nombre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Tipo_Evento)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Descripcion)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Fecha_Hora)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Rol_Anterior)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Rol_Nuevo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Area_Accedida)
+                            </td>
+                            <td class="col-acciones">
+                                <div class="action-buttons">
+                                    <a href="@Url.Action("EditarHistorial", "Administrativos", new { id = item.Id_Historial })" class="btn btn-sm action-btn" style="background-color: #D6E5FF; color: #333;">
+                                        <i class="fas fa-edit action-icon"></i>Editar
+                                    </a>
+                                    <a href="@Url.Action("EliminarHistorial", "Administrativos", new { id = item.Id_Historial })" class="btn btn-sm action-btn" style="background-color: #FFCCCB; color: #333;">
+                                        <i class="fas fa-trash action-icon"></i>Eliminar
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div id="paginationContainer" class="d-flex justify-content-center mt-3"></div>
+    </div>
+    </div>
+</body>
+</html>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var rowsPerPage = 5;
+            var $rows = $("#historialBody tr");
+            var totalPages = Math.ceil($rows.length / rowsPerPage);
+            var currentPage = 1;
+
+            function showPage(page) {
+                var start = (page - 1) * rowsPerPage;
+                var end = start + rowsPerPage;
+
+                $rows.hide().slice(start, end).show();
+                $("#paginationContainer").html(createPagination(page, totalPages));
+            }
+
+            function createPagination(page, total) {
+                var pagination = `<nav><ul class="pagination">`;
+
+                if (page > 1) {
+                    pagination += `<li class="page-item"><a href="#" class="page-link" data-page="${page - 1}">«</a></li>`;
+                }
+
+                for (var i = 1; i <= total; i++) {
+                    pagination += `<li class="page-item ${i === page ? 'active' : ''}">
+                                       <a href="#" class="page-link" data-page="${i}">${i}</a>
+                                     </li>`;
+                }
+
+                if (page < total) {
+                    pagination += `<li class="page-item"><a href="#" class="page-link" data-page="${page + 1}">»</a></li>`;
+                }
+
+                pagination += `</ul></nav>`;
+                return pagination;
+            }
+
+            $(document).on("click", ".page-link", function (e) {
+                e.preventDefault();
+                var page = $(this).data("page");
+                showPage(page);
+            });
+
+            showPage(currentPage);
+        });
+    </script>
+}

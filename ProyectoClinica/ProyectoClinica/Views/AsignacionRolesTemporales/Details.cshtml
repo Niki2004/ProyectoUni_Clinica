@@ -4,150 +4,55 @@
     ViewBag.Title = "Details";
 }
 
-<style>
-    .container-form {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
-        background-color: #f8f9fa;
-        border-radius: 10px;
-        box-shadow: 0 0 15px rgba(0,0,0,0.1);
-    }
-
-    .page-title {
-        color: #0b7b82;
-        text-align: center;
-        margin-bottom: 30px;
-        padding-bottom: 10px;
-        border-bottom: 2px solid #0b7b82;
-    }
-
-    .form-section {
-        background-color: white;
-        padding: 20px;
-        border-radius: 8px;
-        margin-bottom: 20px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    }
-
-        .form-section h4 {
-            color: #0b7b82;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #dee2e6;
-        }
-
-    .form-group {
-        display: grid;
-        grid-template-columns: 1fr 3fr;
-        gap: 15px;
-        margin-bottom: 15px;
-        align-items: center;
-    }
-
-    .control-label {
-        font-weight: 600;
-        color: #2c3e50;
-        text-align: right;
-    }
-
-    .form-control {
-        color: #495057;
-        padding: 8px;
-        background-color: #fff;
-        border-radius: 4px;
-        border: 1px solid #dee2e6;
-        width: 100%;
-    }
-
-    .text-danger {
-        color: #dc3545;
-        display: block;
-        margin-top: 5px;
-    }
-
-    .btn-form {
-        background-color: #0b7b82;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 5px;
-        text-decoration: none;
-        display: inline-block;
-        margin-top: 20px;
-        text-align: center;
-        transition: all 0.3s ease;
-    }
-
-        .btn-form:hover {
-            background-color: #096c72;
-            transform: translateY(-1px);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            color: white;
-            text-decoration: none;
-        }
-</style>
+<link href="~/CSS/Detalles.css" rel="stylesheet" />
 
 <div class="container-form">
     <h2 class="page-title">Detalles de los Roles Temporales</h2>
 
     <div class="form-section">
-        <h4>Detalles Generales</h4>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ApplicationUser.Nombre, "Nombre", htmlAttributes: new { @class = "control-label" })
-            <div>
-                @Html.EditorFor(model => model.ApplicationUser.Nombre, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+        <legend>Detalles Generales</legend>
+        <div class="detail-group">
+            <div class="detail-item">
+                <div class="detail-label">Nombre</div>
+                <div class="detail-value">@Html.DisplayFor(model => model.ApplicationUser.Nombre)</div>
             </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Departamentos.Nombre_Departamento, "Nombre del Departamento", htmlAttributes: new { @class = "control-label" })
-            <div>
-                @Html.EditorFor(model => model.Departamentos.Nombre_Departamento, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+            <div class="detail-item">
+                <div class="detail-label">Nombre del Departamento</div>
+                <div class="detail-value">@Html.DisplayFor(model => model.Departamentos.Nombre_Departamento)</div>
             </div>
         </div>
     </div>
 
     <div class="form-section">
-        <h4>Fechas</h4>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Fecha_Inicio, "Fecha de Inicio", htmlAttributes: new { @class = "control-label" })
-            <div>
-                @Html.TextBoxFor(model => model.Fecha_Inicio, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", disabled = "disabled" })
+        <legend>Fechas</legend>
+        <div class="detail-group">
+            <div class="detail-item">
+                <div class="detail-label">Fecha de Inicio</div>
+                <div class="detail-value">@Html.Raw(Model.Fecha_Inicio.ToString("dd-MM-yyyy"))</div>
             </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Fecha_Fin, "Fecha Final", htmlAttributes: new { @class = "control-label" })
-            <div>
-                @Html.TextBoxFor(model => model.Fecha_Fin, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", disabled = "disabled" })
+            <div class="detail-item">
+                <div class="detail-label">Fecha Final</div>
+                <div class="detail-value">@Html.Raw(Model.Fecha_Fin.ToString("dd-MM-yyyy"))</div>
             </div>
         </div>
     </div>
 
     <div class="form-section">
-        <h4>Detalles Adicionales</h4>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Estado, "Estado", htmlAttributes: new { @class = "control-label" })
-            <div>
-                @Html.EditorFor(model => model.Estado, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+        <legend>Detalles Adicionales</legend>
+        <div class="detail-group">
+            <div class="detail-item">
+                <div class="detail-label">Estado</div>
+                <div class="detail-value">@Html.DisplayFor(model => model.Estado)</div>
             </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Motivo, "Motivo", htmlAttributes: new { @class = "control-label" })
-            <div>
-                @Html.EditorFor(model => model.Motivo, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+            <div class="detail-item">
+                <div class="detail-label">Motivo</div>
+                <div class="detail-value">@Html.DisplayFor(model => model.Motivo)</div>
             </div>
         </div>
     </div>
-
 
     <div class="text-center" style="margin-top: 20px;">
-        @Html.ActionLink("Editar", "Edit", new { id = Model.Id_AsignacionRoles }, new { @class = "btn-form" })
-        @Html.ActionLink("Regresar a la Lista", "Index", null, new { @class = "btn-form" })
+        @Html.ActionLink("Editar", "Edit", new { id = Model.Id_AsignacionRoles }, new { @class = "btn-primary" })
+        @Html.ActionLink("Regresar a la Lista", "Index", null, new { @class = "btn-secondary" })
     </div>
 </div>

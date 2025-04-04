@@ -4,7 +4,10 @@
     ViewBag.Title = "Administrador";
 }
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
 <link href="~/CSS/VistaGeneral.css" rel="stylesheet" />
+
 
 </head>
 <body>
@@ -27,7 +30,7 @@
 
                         </a>
                         <ul class="submenu">
-                            <a @*href="@Url.Action(" ", "Punto de Venta")"*@ class="nav-link">
+                            <a href="@Url.Action(" ", "Punto de Venta")" class="nav-link">
                                 <i class="fas fa-cash-register"></i> Punto de Venta
                             </a>
                             <br />
@@ -98,75 +101,185 @@
                     </div>
                 }
 
-                <div class="container">
-                    <div class="row mb-4 text-center row-cols-4 g-3">
-                        <div class="col">
-                            @Html.ActionLink("Asistencia a consultas", "AsistenciaConsulta", "Reporte", null, new { @class = "btn btn-primary btn-sm w-100" })
+                <div class="dashboard-cards">
+                    <!-- Tarjeta 1 -->
+                    <div class="simple-card">
+                        <div class="card-number">1</div>
+                        <div class="card-header">
+                            <h3 class="card-title">Asistencia a consultas</h3>
+                            <span class="card-subtitle"></span>
                         </div>
-                        <div class="col">
-                            @Html.ActionLink("Resultados de tratamiento", "ResultadoTratamiento", "Reporte", null, new { @class = "btn btn-info btn-sm w-100" })
+                        <div class="card-body">
+                            <p>Gestión y seguimiento de asistencias a consultas médicas</p>
                         </div>
-                        <div class="col">
-                            @Html.ActionLink("Áreas de mejora", "AreaMejora", "Reporte", null, new { @class = "btn btn-primary btn-sm w-100" })
-                        </div>
+                        <a href="@Url.Action("AsistenciaConsulta", "Reporte")" class="detail-btn">
+                            <i class="fas fa-arrow-right"></i> Ingresar
+                        </a>
                     </div>
 
-                    <div class="row mb-4 text-center row-cols-4 g-3">
-                        <div class="col">
-                            @Html.ActionLink("Personalización de informe", "Personalizacion", "Reporte", null, new { @class = "btn btn-info btn-sm w-100" })
+                    <!-- Tarjeta 2 -->
+                    <div class="simple-card">
+                        <div class="card-number">2</div>
+                        <div class="card-header">
+                            <h3 class="card-title">Resultados de tratamiento</h3>
+                            <span class="card-subtitle"></span>
                         </div>
-                        <div class="col">
-                            @Html.ActionLink("Tratamiento y procedimiento", "CostosTratamiento", "Reporte", null, new { @class = "btn btn-primary btn-sm w-100" })
+                        <div class="card-body">
+                            <p>Análisis de resultados y eficacia de tratamientos</p>
                         </div>
-                        <div class="col">
-                            @Html.ActionLink("Datos del paciente", "DatosPaciente", "Reporte", null, new { @class = "btn btn-info btn-sm w-100" })
-                        </div>
+                        <a href="@Url.Action("ResultadoTratamiento", "Reporte")" class="detail-btn">
+                            <i class="fas fa-arrow-right"></i> Ingresar
+                        </a>
                     </div>
 
-                    <div class="row mb-4 text-center row-cols-4 g-3">
-                        <div class="col">
-                            @Html.ActionLink("Objetivos de salud", "AtencionCliente", "Reporte", null, new { @class = "btn btn-primary btn-sm w-100" })
+                    <!-- Tarjeta 3 -->
+                    <div class="simple-card">
+                        <div class="card-number">3</div>
+                        <div class="card-header">
+                            <h3 class="card-title">Áreas de mejora</h3>
+                            <span class="card-subtitle"></span>
                         </div>
-                        <div class="col">
-                            @Html.ActionLink("Reporte financiero", "ReporteFinanciero", "ReporteContaduria", null, new { @class = "btn btn-info btn-sm w-100" })
+                        <div class="card-body">
+                            <p>Identificación de oportunidades para mejorar procesos</p>
                         </div>
-                        <div class="col">
-                            @Html.ActionLink("Accseso al sistema", "Monitoreo", "Reporte", null, new { @class = "btn btn-primary btn-sm w-100" })
-                        </div>
+                        <a href="@Url.Action("AreaMejora", "Reporte")" class="detail-btn">
+                            <i class="fas fa-arrow-right"></i> Ingresar
+                        </a>
                     </div>
 
-                    <div class="row mb-4 text-center row-cols-4 g-3">
-                        <div class="col">
-                            @Html.ActionLink("Reporte de empleados", "Rempleados", "Reporte", null, new { @class = "btn btn-info btn-sm w-100" })
+                    <!-- Tarjeta 4 -->
+                    <div class="simple-card">
+                        <div class="card-number">4</div>
+                        <div class="card-header">
+                            <h3 class="card-title">Personalización de informe</h3>
+                            <span class="card-subtitle"></span>
                         </div>
+                        <div class="card-body">
+                            <p>Opciones para personalizar reportes según necesidades</p>
+                        </div>
+                        <a href="@Url.Action("Personalizacion", "Reporte")" class="detail-btn">
+                            <i class="fas fa-arrow-right"></i> Ingresar
+                        </a>
                     </div>
 
+                    <!-- Tarjeta 5 -->
+                    <div class="simple-card">
+                        <div class="card-number">5</div>
+                        <div class="card-header">
+                            <h3 class="card-title">Tratamiento y procedimiento</h3>
+                            <span class="card-subtitle"></span>
+                        </div>
+                        <div class="card-body">
+                            <p>Información de tratamientos y procedimientos realizados</p>
+                        </div>
+                        <a href="@Url.Action("CostosTratamiento", "Reporte")" class="detail-btn">
+                            <i class="fas fa-arrow-right"></i> Ingresar
+                        </a>
+                    </div>
+
+                    <!-- Tarjeta 6 -->
+                    <div class="simple-card">
+                        <div class="card-number">6</div>
+                        <div class="card-header">
+                            <h3 class="card-title">Datos del paciente</h3>
+                            <span class="card-subtitle"></span>
+                        </div>
+                        <div class="card-body">
+                            <p>Acceso a información detallada de pacientes</p>
+                        </div>
+                        <a href="@Url.Action("DatosPaciente", "Reporte")" class="detail-btn">
+                            <i class="fas fa-arrow-right"></i> Ingresar
+                        </a>
+                    </div>
+
+                    <!-- Tarjeta 7 -->
+                    <div class="simple-card">
+                        <div class="card-number">7</div>
+                        <div class="card-header">
+                            <h3 class="card-title">Objetivos de salud</h3>
+                            <span class="card-subtitle"></span>
+                        </div>
+                        <div class="card-body">
+                            <p>Seguimiento de metas y objetivos de salud</p>
+                        </div>
+                        <a href="@Url.Action("AtencionCliente", "Reporte")" class="detail-btn">
+                            <i class="fas fa-arrow-right"></i> Ingresar
+                        </a>
+                    </div>
+
+                    <!-- Tarjeta 8 -->
+                    <div class="simple-card">
+                        <div class="card-number">8</div>
+                        <div class="card-header">
+                            <h3 class="card-title">Reporte financiero</h3>
+                            <span class="card-subtitle"></span>
+                        </div>
+                        <div class="card-body">
+                            <p>Resumen de información financiera y contable</p>
+                        </div>
+                        <a href="@Url.Action("ReporteFinanciero", "ReporteContaduria")" class="detail-btn">
+                            <i class="fas fa-arrow-right"></i> Ingresar
+                        </a>
+                    </div>
+
+                    <!-- Tarjeta 9 -->
+                    <div class="simple-card">
+                        <div class="card-number">9</div>
+                        <div class="card-header">
+                            <h3 class="card-title">Acceso al sistema</h3>
+                            <span class="card-subtitle"></span>
+                        </div>
+                        <div class="card-body">
+                            <p>Monitoreo de accesos y permisos del sistema</p>
+                        </div>
+                        <a href="@Url.Action("Monitoreo", "Reporte")" class="detail-btn">
+                            <i class="fas fa-arrow-right"></i> Ingresar
+                        </a>
+                    </div>
+
+                    <!-- Tarjeta 10 -->
+                    <div class="simple-card">
+                        <div class="card-number">10</div>
+                        <div class="card-header">
+                            <h3 class="card-title">Reporte de empleados</h3>
+                            <span class="card-subtitle"></span>
+                        </div>
+                        <div class="card-body">
+                            <p>Información y estadísticas del personal</p>
+                        </div>
+                        <a href="@Url.Action("Rempleados", "Reporte")" class="detail-btn">
+                            <i class="fas fa-arrow-right"></i> Ingresar
+                        </a>
+                    </div>
                 </div>
-
-
 
             </div>
 
 
-            <script src="~/lib/jquery/dist/jquery.min.js"></script>
-            <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-            <script>
-                // Toggle submenu functionality
-                document.querySelectorAll('.nav-link').forEach(link => {
-                    link.addEventListener('click', function () {
-                        // Close all other open submenus
-                        document.querySelectorAll('.submenu').forEach(submenu => {
-                            if (submenu !== this.nextElementSibling) {
-                                submenu.classList.remove('active');
-                                this.classList.remove('active');
-                            }
-                        });
+        </div>
 
-                        // Toggle the clicked submenu
-                        const submenu = this.nextElementSibling;
-                        submenu.classList.toggle('active');
-                        this.classList.toggle('active');
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            // Toggle submenu functionality
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function () {
+                    // Close all other open submenus
+                    document.querySelectorAll('.submenu').forEach(submenu => {
+                        if (submenu !== this.nextElementSibling) {
+                            submenu.classList.remove('active');
+                            this.classList.remove('active');
+                        }
                     });
+
+                    // Toggle the clicked submenu
+                    const submenu = this.nextElementSibling;
+                    submenu.classList.toggle('active');
+                    this.classList.toggle('active');
                 });
-            </script>
+            });
+        </script>
 </body>

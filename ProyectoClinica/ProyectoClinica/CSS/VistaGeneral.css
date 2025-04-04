@@ -3,6 +3,12 @@
     --secondary-turquoise: #48D1CC;
     --hover-turquoise: #20B2AA;
     --background-light: #F5F5F5;
+    --primary-color: #0b7b82;
+    --secondary-color: #3bb4bc;
+    --light-bg: #f5f7fa;
+    --border-radius: 15px;
+    --shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    --transition: all 0.3s ease;
 }
 
 body {
@@ -275,6 +281,104 @@ body {
     transform: rotate(180deg);
 }
 
+.dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 0.20fr);
+    gap: 20px; 
+}
+
+.simple-card {
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transition: var(--transition);
+    position: relative;
+    width: 100%;
+    margin: 0; /* Remove any default margins */
+    height: 250px;
+    font-size: 14px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 calc(33.333% - 10px);
+    max-width: 320px;
+}
+
+    .simple-card:hover {
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        transform: translateY(-5px);
+    }
+
+.card-number {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background-color: #e1f0ff;
+    color: #0b7b82;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.card-header {
+    padding: 10px 0 35px 0;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #eaedf3;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-title {
+    color: #0b7b82;
+    font-size: 18px;
+    font-weight: 500;
+    margin-left: 45px;
+}
+
+.card-subtitle {
+    color: #999;
+    font-size: 15px;
+    font-weight: 400;
+}
+
+.card-body {
+    flex-grow: 1;
+    padding: 10px 0;
+}
+
+.detail-btn {
+    display: inline-block;
+    background-color: #f1f3f5;
+    color: #5a5a5a;
+    padding: 8px 20px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: var(--transition);
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+    text-align: center;
+    align-self: flex-end;
+}
+
+    .detail-btn:hover {
+        background-color: #3bb4bc;
+        color: white;
+    }
+
+    .detail-btn i {
+        margin-right: 5px;
+    }
+
 @media (max-width: 768px) {
     .container.body-content {
         padding: 15px;
@@ -296,4 +400,19 @@ body {
 @media (max-width: 576px) {
     h1 {
         font-size: 1.8rem;
+    }
+
+    @media (max-width: 992px) {
+        .dashboard-cards {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .dashboard-cards {
+            grid-template-columns: repeat(1, 1fr);
+                    
+        }
+
+            
     }

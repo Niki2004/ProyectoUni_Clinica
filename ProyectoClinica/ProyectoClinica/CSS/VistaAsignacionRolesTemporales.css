@@ -1,0 +1,13 @@
+﻿body {
+    max-width: 100%;
+    overflow-x: hidden !important;
+}
+
+.button-container::-webkit-scrollbar {
+    display: none;
+}
+
+.button-container {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}

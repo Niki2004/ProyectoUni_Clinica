@@ -1,0 +1,106 @@
+﻿@model ProyectoClinica.Models.Historial_Aplicaciones
+
+@{
+    ViewBag.Title = "EditarHistorial";
+}
+
+<link href="~/CSS/Editar.css" rel="stylesheet" />
+
+<div class="container-form">
+    <h2 class="page-title">Editar Historial</h2>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id_Historial)
+
+        <div class="form-section">
+            <legend>Información del Evento</legend>
+            <div class="detail-group">
+                <div class="detail-item">
+                    <div class="detail-label"> @Html.LabelFor(model => model.Tipo_Evento, "Tipo de Evento", new { @class = "control-label" })</div>
+                    <div class="detail-value">
+                        @Html.DropDownListFor(model => model.Tipo_Evento, new SelectList(new[] { "Cambio de Rol", "Acceso Restringido", "Bloqueo de Cuenta" }), "Seleccione el tipo de evento", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Tipo_Evento, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">@Html.LabelFor(model => model.Fecha_Hora, "Fecha y Hora")</div>
+                    <div class="detail-value">
+                        @Html.TextBoxFor(model => model.Fecha_Hora, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                        @Html.ValidationMessageFor(model => model.Fecha_Hora, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label"> @Html.LabelFor(model => model.Id, "Usuario", new { @class = "control-label" })</div>
+                    <div class="detail-value">
+                        @Html.DropDownListFor(model => model.Id, (IEnumerable<SelectListItem>)ViewBag.Usuarios, "Seleccione un usuario", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Id, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <legend>Detalles de Roles</legend>
+            <div class="detail-group">
+                <div class="detail-item">
+                    <div class="detail-label"> @Html.LabelFor(model => model.Rol_Anterior, "Rol Anterior", new { @class = "control-label" })</div>
+                    <div class="detail-value">
+                        @Html.EditorFor(model => model.Rol_Anterior, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Rol_Anterior, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label"> @Html.LabelFor(model => model.Rol_Nuevo, "Rol Nuevo", new { @class = "control-label" })</div>
+                    <div class="detail-value">
+                        @Html.EditorFor(model => model.Rol_Nuevo, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Rol_Nuevo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">@Html.LabelFor(model => model.Area_Accedida, "Área Accedida", new { @class = "control-label" })</div>
+                    <div class="detail-value">
+                        @Html.EditorFor(model => model.Area_Accedida, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Area_Accedida, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <legend>Información Adicional</legend>
+            <div class="detail-group">
+                <div class="detail-item">
+                    <div class="detail-label">@Html.LabelFor(model => model.Descripcion)</div>
+                    <div class="detail-value">
+                        @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">@Html.LabelFor(model => model.Motivo_Bloqueo, "Motivo del Bloqueo", new { @class = "control-label" })</div>
+                    <div class="detail-value">
+                        @Html.EditorFor(model => model.Motivo_Bloqueo, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Motivo_Bloqueo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">@Html.LabelFor(model => model.Exitoso, "Estado", new { @class = "control-label" })</div>
+                    <div class="detail-value">
+                        <div class="checkbox">
+                            @Html.EditorFor(model => model.Exitoso)
+                            @Html.ValidationMessageFor(model => model.Exitoso, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center" style="margin-top: 20px;">
+            <input type="submit" value="Guardar" class="btn-primary" style="margin-right: 10px;" />
+            @Html.ActionLink("Regresar a la lista", "ListarHistorial", null, new { @class = "btn-secondary" })
+        </div>
+    }
+</div>

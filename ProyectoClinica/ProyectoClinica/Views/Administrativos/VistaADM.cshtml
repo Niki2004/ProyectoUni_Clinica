@@ -3,179 +3,117 @@
 @{
     ViewBag.Title = "VistaADM";
 }
-<style>
-    :root {
-        --primary-turquoise: #008B8B;
-        --secondary-turquoise: #48D1CC;
-        --hover-turquoise: #20B2AA;
-        --background-light: #F5F5F5;
-    }
 
-    body {
-        background-color: var(--background-light);
-        font-family: Arial, sans-serif;
-        margin: 0;
-        min-height: 100vh;
-    }
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administración de Usuarios</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="~/CSS/Administrativo.css" rel="stylesheet" />
 
-    /* Sidebar Styles */
-    .sidebar {
-        background-color: white;
-        min-height: 100vh;
-        padding-top: 20px;
-        box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-    }
+</head>
+<body>
+    <div class="page-container">
+        <div class="header-container">
+            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                <a href="@Url.Action("Administrativo", "Administrativos")" class="btn-inicio">
+                    <i class="fas fa-home"></i> Inicio
+                </a>
+                <div class="page-title-container">
+                    <h1 class="page-title">Edición de Usuarios</h1>
+                </div>
+            </div>
+        </div>
 
-    .nav-link {
-        color: #333;
-        padding: 10px 15px;
-    }
+        <br>
+        <br>
 
-        .nav-link:hover {
-            background-color: #3bb4bc;
-            color: white;
-        }
+        <div class="results-panel">
+            <h2 class="results-title" style="color: #392F5A;"><i class="fas fa-users"></i> Usuarios del Sistema</h2>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Cédula</th>
+                            <th>Correo</th>
+                            <th>Comentarios</th>
+                            <th>Jornada</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="usuariosBody">
+                        @foreach (var usuario in Model)
+                        {
+                            <tr>
+                                <td>@usuario.Nombre</td>
+                                <td>@usuario.Apellido</td>
+                                <td>@usuario.Cedula</td>
+                                <td>@usuario.Correo</td>
+                                <td>@usuario.Comentarios</td>
+                                <td>@usuario.Jornada</td>
+                                <td>
+                                    <a href="@Url.Action("Edit", "Administrativos", new { id = usuario.Id_Empleado })" class="btn btn-sm" style="background-color: #D6E5FF; color: #333;">
+                                        <i class="fas fa-edit"></i> Editar
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div id="paginationContainer" class="d-flex justify-content-center mt-3"></div>
+        </div>
+    </div>
+</body>
+</html>
 
-    .nav-header {
-        padding: 10px 15px;
-        color: #0b7b82;
-        font-size: 0.8em;
-        text-transform: uppercase;
-        font-weight: bold;
-    }
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var rowsPerPage = 5;
+            var $rows = $("#usuariosBody tr");
+            var totalPages = Math.ceil($rows.length / rowsPerPage);
+            var currentPage = 1;
 
-    /* Main Content Styles */
-    .main-content {
-        padding: 20px;
-    }
+            function showPage(page) {
+                var start = (page - 1) * rowsPerPage;
+                var end = start + rowsPerPage;
 
-    .content-wrapper {
-        background-color: white;
-        padding: 25px;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        margin-top: 20px;
-    }
+                $rows.hide().slice(start, end).show();
+                $("#paginationContainer").html(createPagination(page, totalPages));
+            }
 
-    /* Button Styles */
-    .btn {
-        padding: 15px 25px;
-        border-radius: 5px;
-        font-weight: 500;
-        transition: all 0.3s ease;
-        text-transform: none;
-        margin-bottom: 15px;
-    }
+            function createPagination(page, total) {
+                var pagination = `<nav><ul class="pagination">`;
 
-    .btn-primary {
-        background-color: var(--primary-turquoise);
-        border-color: var(--primary-turquoise);
-        color: white;
-    }
+                if (page > 1) {
+                    pagination += `<li class="page-item"><a href="#" class="page-link" data-page="${page - 1}">«</a></li>`;
+                }
 
-        .btn-primary:hover {
-            background-color: var(--hover-turquoise);
-            border-color: var(--hover-turquoise);
-            transform: translateY(-2px);
-        }
+                for (var i = 1; i <= total; i++) {
+                    pagination += `<li class="page-item ${i === page ? 'active' : ''}">
+                                             <a href="#" class="page-link" data-page="${i}">${i}</a>
+                                           </li>`;
+                }
 
-    .btn-info {
-        background-color: var(--secondary-turquoise);
-        border-color: var(--secondary-turquoise);
-        color: white;
-    }
+                if (page < total) {
+                    pagination += `<li class="page-item"><a href="#" class="page-link" data-page="${page + 1}">»</a></li>`;
+                }
 
-        .btn-info:hover {
-            background-color: var(--hover-turquoise);
-            border-color: var(--hover-turquoise);
-            transform: translateY(-2px);
-        }
+                pagination += `</ul></nav>`;
+                return pagination;
+            }
 
-    .custom-btn {
-        background-color: #0b7b82 !important;
-        color: white !important;
-        border: none;
-        padding: 12px 24px;
-        border-radius: 8px;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 16px;
-        text-decoration: none;
-        transition: background 0.3s ease, transform 0.2s ease;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    }
-</style>
+            $(document).on("click", ".page-link", function (e) {
+                e.preventDefault();
+                var page = $(this).data("page");
+                showPage(page);
+            });
 
-<div style="text-align: center; margin-bottom: 20px;">
-    <a href="@Url.Action("Administrativo", "Administrativos")" class="custom-btn">
-        <i class="fas fa-home"></i> Inicio
-    </a>
-</div>
-<table class="table">
-
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Nombre)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Apellido)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Cedula)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Correo)
-        </th>
-
-        <th>
-            @Html.DisplayNameFor(model => model.Comentarios)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Jornada)
-        </th>
-
-
-        <th>Accion</th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Apellido)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cedula)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Correo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Comentarios)
-            </td>
-
-
-            <td>
-                @Html.DisplayFor(modelItem => item.Jornada)
-            </td>
-
-
-            <td>
-
-
-                @Html.ActionLink("Editar", "Edit", "Empleados",
-         new { id = item.Id_Empleado },
-         new { @class = "btn btn-info w-100" })
-
-            </td>
-
-
-        </tr>
-    }
-
-</table>
+            showPage(currentPage);
+        });
+    </script>
+}

@@ -2,19 +2,15 @@
     ViewBag.Title = "Administrativo";
 }
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Centro Integral Santo Domingo</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="~/CSS/VistaGeneral.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
+<link href="~/CSS/VistaGeneral.css" rel="stylesheet" />
+<link href="~/CSS/VistaAsignacionRolesTemporales.css" rel="stylesheet" />
+
+
 </head>
 <body>
     <div class="container-fluid">
-
         <div class="row">
             <!-- Sidebar -->
             <div class="col-md-3 col-lg-2 sidebar">
@@ -80,9 +76,8 @@
                 </div>
             </div>
 
-
             <!-- Main Content -->
-            <div class="button-container">
+            <div class="col-md-9 col-lg-10 button-container" style="padding-right: 0;">
                 <div style="display: flex; align-items: center; margin-bottom: 10px;">
                     <a href="@Url.Action("VistaAdmin", "Empleados")" style="text-decoration: none; color: #000000; font-size: 18px; display: flex; align-items: center;">
                         <i class="fas fa-home" style="margin-right: 5px;"></i>
@@ -92,88 +87,204 @@
 
                 <div style="text-align: left; margin-bottom: 5px;">
                     <span style="font-size: 14px; color: #555;">
-                        Obtén una visión completa de la información clínica, administrativa y financiera de tu clínica de salud
+                        Obtén una visión completa de la información clínica, administrativa y financiera de tu clínica de salud.
                     </span>
                 </div>
                 <br />
 
                 <!-- Información de Permisos -->
-                <div class="permission-info">
-                    @if (ViewBag.EsAdministrador)
-                    {
-                        <div class="alert alert-success">
-                            <p><strong>Rol:</strong> Administrador</p>
-                            <p><strong>Estado:</strong> @ViewBag.Estado</p>
-                            <p><strong>Departamento:</strong> @ViewBag.Departamento</p>
-                            <p>Tiene acceso completo a todos los módulos administrativos.</p>
-                        </div>
-                    }
-                    else if (ViewBag.TienePermisos)
-                    {
-                        <div class="alert alert-success">
-                            <p><strong>Estado:</strong> @ViewBag.Estado</p>
-                            <p><strong>Departamento Asignado:</strong> @ViewBag.Departamento</p>
-                            <p>Tiene acceso a los módulos administrativos según su asignación temporal.</p>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="alert alert-warning">
-                            <p>No tiene permisos activos para acceder a los módulos administrativos.</p>
-                            <p>Por favor, contacte al administrador para obtener los permisos necesarios.</p>
-                        </div>
-                    }
+                <div class="simple-card" style="margin-bottom: 20px; width: 95%; max-width: 1300px; margin-left: auto; margin-right: auto; overflow-x: hidden;">
+                    <div class="card-header" style="background-color: #f8f9fa; padding: 15px;">
+                        <h3 class="card-title" style="margin: 0; color: #333;">Información de Permisos</h3>
+                    </div>
+                    <div class="card-body" style="padding: 15px;">
+                        @if (ViewBag.EsAdministrador)
+                        {
+                            <div style="margin-bottom: 10px;">
+                                <h5 style="margin-bottom: 10px; color: #28a745;">Administrador</h5>
+                                <p style="margin-bottom: 5px;"><strong>Estado:</strong> @ViewBag.Estado</p>
+                                <p style="margin-bottom: 5px;"><strong>Departamento:</strong> @ViewBag.Departamento</p>
+                                <p style="margin-bottom: 0;">Tiene acceso completo a todos los módulos administrativos del sistema.</p>
+                            </div>
+                        }
+                        else if (ViewBag.TienePermisos)
+                        {
+                            <div style="margin-bottom: 10px;">
+                                <h5 style="margin-bottom: 10px; color: #17a2b8;">Usuario con Permisos</h5>
+                                <p style="margin-bottom: 5px;"><strong>Estado:</strong> @ViewBag.Estado</p>
+                                <p style="margin-bottom: 5px;"><strong>Departamento Asignado:</strong> @ViewBag.Departamento</p>
+                                <p style="margin-bottom: 0;">Tiene acceso a los módulos administrativos según su asignación temporal en el sistema.</p>
+                            </div>
+                        }
+                        else
+                        {
+                            <div style="margin-bottom: 10px;">
+                                <h5 style="margin-bottom: 10px; color: #dc3545;">Acceso Restringido</h5>
+                                <p style="margin-bottom: 5px;">No tiene permisos activos para acceder a los módulos administrativos.</p>
+                                <p style="margin-bottom: 0;">Por favor, contacte al administrador para obtener los permisos necesarios para utilizar esta sección.</p>
+                            </div>
+                        }
+                    </div>
                 </div>
+
+                @if (TempData["SuccessMessage"] != null)
+                {
+                    <div class="alert alert-success" role="alert">
+                        @TempData["SuccessMessage"]
+                    </div>
+                }
 
                 @if (ViewBag.TienePermisos || ViewBag.EsAdministrador)
                 {
-                    <div class="container">
-                        <div class="row mb-4 text-center row-cols-4 g-3">
-                            <div class="col">
-                                @Html.ActionLink("Registro de Usuarios", "Create", "Administrativos", null, new { @class = "btn btn-info btn-sm w-100" })
+                    <div class="dashboard-cards">
+                        <!-- Tarjeta 1 -->
+                        <div class="simple-card">
+                            <div class="card-number">1</div>
+                            <div class="card-header">
+                                <h3 class="card-title">Registro de Usuarios</h3>
+                                <span class="card-subtitle"></span>
                             </div>
-                            <div class="col">
-                                @Html.ActionLink("Asignación de Roles", "Index", "AsignacionRolesTemporales", null, new { @class = "btn btn-primary btn-sm w-100" })
+                            <div class="card-body">
+                                <p>Creación de nuevas cuentas de usuario</p>
                             </div>
-                            <div class="col">
-                                @Html.ActionLink("Editar Usuarios", "VistaADM", "Administrativos", null, new { @class = "btn btn-info btn-sm w-100" })
-                            </div>
+                            <a href="@Url.Action("Create", "Administrativos")" class="detail-btn">
+                                <i class="fas fa-arrow-right"></i> Ingresar
+                            </a>
                         </div>
 
-                        <div class="row mb-4 text-center row-cols-4 g-3">
-                            <div class="col">
-                                @Html.ActionLink("Deshabilitar Usuarios", "VistaEliminar", "Administrativos", null, new { @class = "btn btn-primary btn-sm w-100" })
+                        <!-- Tarjeta 2 -->
+                        <div class="simple-card">
+                            <div class="card-number">2</div>
+                            <div class="card-header">
+                                <h3 class="card-title">Asignación de Roles</h3>
+                                <span class="card-subtitle"></span>
                             </div>
-                            <div class="col">
-                                @Html.ActionLink("Buscar Usuarios", "Buscar", "Administrativos", null, new { @class = "btn btn-primary btn-sm w-100" })
+                            <div class="card-body">
+                                <p>Gestión de roles y permisos de usuarios</p>
                             </div>
-                            <div class="col">
-                                @Html.ActionLink("Auditoría Administrativa", "VistaAuditoría", "Administrativos", null, new { @class = "btn btn-info btn-sm w-100" })
-                            </div>
+                            <a href="@Url.Action("Index", "AsignacionRolesTemporales")" class="detail-btn">
+                                <i class="fas fa-arrow-right"></i> Ingresar
+                            </a>
                         </div>
 
-                        <div class="row mb-4 text-center row-cols-4 g-3">
-                            <div class="col">
-                                @Html.ActionLink("Ver Pagos", "VerPagos", "Factura", null, new { @class = "btn btn-info btn-sm w-100" })
+                        <!-- Tarjeta 3 -->
+                        <div class="simple-card">
+                            <div class="card-number">3</div>
+                            <div class="card-header">
+                                <h3 class="card-title">Editar Usuarios</h3>
+                                <span class="card-subtitle"></span>
                             </div>
+                            <div class="card-body">
+                                <p>Modificación de información de usuarios</p>
+                            </div>
+                            <a href="@Url.Action("VistaADM", "Administrativos")" class="detail-btn">
+                                <i class="fas fa-arrow-right"></i> Ingresar
+                            </a>
                         </div>
+
+                        <!-- Tarjeta 4 -->
+                        <div class="simple-card">
+                            <div class="card-number">4</div>
+                            <div class="card-header">
+                                <h3 class="card-title">Deshabilitar Usuarios</h3>
+                                <span class="card-subtitle"></span>
+                            </div>
+                            <div class="card-body">
+                                <p>Desactivación de cuentas de usuario</p>
+                            </div>
+                            <a href="@Url.Action("VistaEliminar", "Administrativos")" class="detail-btn">
+                                <i class="fas fa-arrow-right"></i> Ingresar
+                            </a>
+                        </div>
+
+                        <!-- Tarjeta 5 -->
+                        <div class="simple-card">
+                            <div class="card-number">5</div>
+                            <div class="card-header">
+                                <h3 class="card-title">Buscar Usuarios</h3>
+                                <span class="card-subtitle"></span>
+                            </div>
+                            <div class="card-body">
+                                <p>Búsqueda en la base de datos de usuarios</p>
+                            </div>
+                            <a href="@Url.Action("Buscar", "Administrativos")" class="detail-btn">
+                                <i class="fas fa-arrow-right"></i> Ingresar
+                            </a>
+                        </div>
+
+                        <!-- Tarjeta 6 -->
+                        <div class="simple-card">
+                            <div class="card-number">6</div>
+                            <div class="card-header">
+                                <h3 class="card-title">Auditoría Administrativa</h3>
+                                <span class="card-subtitle"></span>
+                            </div>
+                            <div class="card-body">
+                                <p>Revisión de cambios y acciones realizadas</p>
+                            </div>
+                            <a href="@Url.Action("VistaAuditoría", "Administrativos")" class="detail-btn">
+                                <i class="fas fa-arrow-right"></i> Ingresar
+                            </a>
+                        </div>
+
+                        <!-- Tarjeta 7 -->
+                        <div class="simple-card">
+                            <div class="card-number">7</div>
+                            <div class="card-header">
+                                <h3 class="card-title">Ver Pagos</h3>
+                                <span class="card-subtitle"></span>
+                            </div>
+                            <div class="card-body">
+                                <p>Visualización de historial de pagos realizados</p>
+                            </div>
+                            <a href="@Url.Action("VerPagos", "Factura")" class="detail-btn">
+                                <i class="fas fa-arrow-right"></i> Ingresar
+                            </a>
+                        </div>
+
+                        <!-- Tarjeta 8 -->
+                        <div class="simple-card">
+                            <div class="card-number">8</div>
+                            <div class="card-header">
+                                <h3 class="card-title">Historial de Actividades</h3>
+                                <span class="card-subtitle"></span>
+                            </div>
+                            <div class="card-body">
+                                <p>Revisión del registro de actividades del sistema</p>
+                            </div>
+                            <a href="@Url.Action("ListarHistorial", "Administrativos")" class="detail-btn">
+                                <i class="fas fa-arrow-right"></i> Ingresar
+                            </a>
+                        </div>
+
+
                     </div>
+
                 }
                 else
                 {
-                    <div class="alert alert-danger">
-                        <p>No tiene acceso a los módulos administrativos.</p>
-                        <p>Para obtener acceso, necesita:</p>
-                        <ul>
-                            <li>Estar asignado a un departamento</li>
-                            <li>Tener un rol temporal activo</li>
-                            <li>Tener el estado "Activo" en su asignación</li>
-                        </ul>
+                    <!-- Mensaje de acceso denegado -->
+                    <div class="simple-card" style="margin-bottom: 20px; width: 95%; max-width: 1300px; margin-left: auto; margin-right: auto; border-left: 4px solid #dc3545;">
+                        <div class="card-header" style="background-color: #f8f9fa; padding: 15px;">
+                            <h3 class="card-title" style="margin: 0; color: #dc3545;">Acceso Denegado</h3>
+                        </div>
+                        <div class="card-body" style="padding: 15px;">
+                            <p style="margin-bottom: 10px;">No tiene acceso a los módulos administrativos.</p>
+                            <p style="margin-bottom: 10px;">Para obtener acceso, necesita:</p>
+                            <ul style="padding-left: 20px; margin-top: 10px;">
+                                <li style="margin-bottom: 5px;">Estar asignado a un departamento</li>
+                                <li style="margin-bottom: 5px;">Tener un rol temporal activo</li>
+                                <li style="margin-bottom: 5px;">Tener el estado "Activo" en su asignación</li>
+                            </ul>
+                        </div>
                     </div>
                 }
             </div>
         </div>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -196,5 +307,4 @@
             });
         });
     </script>
-
 </body>
