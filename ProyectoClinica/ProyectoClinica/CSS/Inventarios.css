@@ -1,0 +1,520 @@
+﻿
+:root {
+    --primary-turquoise: #008B8B;
+    --secondary-turquoise: #48D1CC;
+    --hover-turquoise: #20B2AA;
+    --background-light: #F5F5F5;
+}
+/* Asegura que los botones de filtro estén siempre horizontales */
+.filter-buttons {
+    display: flex;
+    flex-direction: row !important;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+    .filter-buttons .btn {
+        white-space: nowrap;
+        min-width: 100px;
+    }
+
+/* Contenedor de filtros */
+.filters-container {
+    display: flex;
+    flex-wrap: wrap; /* Permite que los filtros se ajusten en pantallas pequeñas */
+    justify-content: center; /* Centra los filtros */
+    align-items: center;
+    gap: 10px; /* Espaciado entre los filtros */
+    margin-bottom: 20px;
+}
+
+    /* Ajuste para los inputs y selects */
+    .filters-container input,
+    .filters-container select {
+        width: 220px; /* Ajusta el ancho uniforme */
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+/* Alineación de los botones */
+.filter-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Espaciado entre los botones */
+}
+
+
+/* Evita el desplazamiento horizontal en la tabla */
+.table-container {
+    width: 100%;
+    overflow-x: hidden; /* 🔹 Evita la barra de desplazamiento horizontal */
+}
+
+/* Ajusta la tabla para que se adapte bien sin hacer scroll */
+.table {
+    width: 100%;
+    table-layout: auto; /* 🔹 Permite que las columnas se ajusten automáticamente */
+    word-wrap: break-word;
+    white-space: normal; /* 🔹 Evita que las celdas hagan que la tabla se expanda */
+}
+
+/* Ajusta la celda de acciones para que los botones queden en línea */
+.action-buttons {
+    display: flex;
+    justify-content: center; /* Centra los botones en la celda */
+    align-items: center;
+    gap: 5px; /* Espacio entre los botones */
+    flex-wrap: nowrap; /* Evita que los botones se pongan en vertical */
+}
+
+    /* Ajusta los botones para que tengan un tamaño uniforme */
+    .action-buttons a {
+        padding: 6px 10px;
+        font-size: 14px;
+        white-space: nowrap; /* Evita que el texto de los botones se divida */
+    }
+
+
+/* Mantiene los filtros alineados y responsivos */
+.row.mb-3 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* Evita el desplazamiento horizontal en toda la página */
+body {
+    overflow-x: hidden;
+}
+
+
+body {
+    background-color: var(--background-light);
+    font-family: Arial, sans-serif;
+    margin: 0;
+    min-height: 100vh;
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
+    background-color: #008B8B;
+    z-index: 1001;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 220px; /*Ancho*/
+    height: 100vh;
+    background-color: white;
+    padding-top: 5px; /*Espacio*/
+    padding-left: 5px; /*Espacio*/
+    padding-right: 5px; /*Espacio*/
+    overflow-y: auto;
+    z-index: 1000;
+}
+
+    .sidebar a {
+        display: block;
+        color: #000000;
+        padding: 5px 10px;
+        text-decoration: none;
+        font-size: 18px;
+        margin-bottom: 2px;
+    }
+
+        .sidebar a:hover {
+            background-color: #3bb4bc80;
+            border-radius: 5px;
+        }
+
+
+.content {
+    padding: 20px;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+    .content h2 {
+        color: #0b7b82;
+        text-align: left;
+        margin-bottom: 20px;
+        padding-left: 20px;
+    }
+
+    .content p {
+        text-align: left;
+        padding-left: 20px;
+        margin-bottom: 10px;
+        line-height: 1.6;
+    }
+
+.nav-link {
+    color: #333;
+    padding: 10px 15px;
+}
+
+    .nav-link:hover {
+        background-color: #3bb4bc;
+        color: white;
+    }
+
+.nav-header {
+    padding: 10px 15px;
+    color: #0b7b82;
+    font-size: 0.8em;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+/* Main Content Styles */
+.main-content {
+    padding: 20px;
+}
+
+.content-wrapper {
+    background-color: white;
+    padding: 50px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-top: 20px;
+}
+
+/* Button Styles */
+.btn {
+    padding: 15px 25px;
+    border-radius: 5px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    text-transform: none;
+    margin-bottom: 15px;
+}
+
+.btn-primary {
+    background-color: var(--primary-turquoise);
+    border-color: var(--primary-turquoise);
+    color: white;
+}
+
+    .btn-primary:hover {
+        background-color: var(--hover-turquoise);
+        border-color: var(--hover-turquoise);
+        transform: translateY(-2px);
+    }
+
+.btn-info {
+    background-color: var(--secondary-turquoise);
+    border-color: var(--secondary-turquoise);
+    color: white;
+}
+
+    .btn-info:hover {
+        background-color: var(--hover-turquoise);
+        border-color: var(--hover-turquoise);
+        transform: translateY(-2px);
+    }
+/* Aumenta el tamaño de los botones de acción en la tabla */
+.action-buttons .btn,
+.d-flex.gap-1 .btn {
+    padding: 8px 12px;
+    font-size: 14px;
+    white-space: nowrap;
+    min-width: 80px;
+    margin: 2px;
+}
+
+/* Asegura que los botones de detalle y ocultar tengan un tamaño consistente */
+.btn-info, .btn-hide {
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Aumenta el tamaño de los botones de filtro */
+.filter-buttons .btn {
+    padding: 10px 15px;
+    font-size: 15px;
+    min-width: 120px;
+    height: 45px;
+}
+
+/* Incrementa el tamaño del botón Crear */
+.btn.text-white[style*="background-color: #3bb4bc"] {
+    padding: 10px 20px;
+    font-size: 16px;
+    min-width: 100px;
+    height: 45px;
+}
+
+/* Asegura que el botón Mostrar Inactivos sea del mismo tamaño */
+.btn-show-inactive {
+    padding: 10px 20px;
+    font-size: 16px;
+    min-width: 150px;
+    height: 45px;
+}
+/* Ajusta los botones de acción para evitar que se corten */
+.action-buttons .btn,
+.d-flex.gap-1 .btn {
+    padding: 8px 10px;
+    font-size: 14px;
+    white-space: nowrap;
+    min-width: 70px; /* Reducimos un poco el ancho mínimo */
+    margin: 2px;
+    overflow: visible; /* Asegura que el contenido no se corte */
+}
+
+/* Solución definitiva para los botones cortados */
+
+/* 1. Aumenta significativamente el ancho de la columna de acciones */
+.table th:nth-child(9),
+.table td:nth-child(9) {
+    width: 25% !important; /* Aumentamos considerablemente el ancho de la columna */
+    min-width: 200px !important;
+}
+
+/* 2. Elimina cualquier restricción de tamaño para los botones */
+.d-flex.gap-1 .btn {
+    padding: 8px;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: visible;
+    text-overflow: initial;
+    width: auto !important;
+    max-width: none !important;
+}
+
+/* 3. Asegura que el contenedor tenga suficiente espacio */
+.d-flex.gap-1 {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    justify-content: space-around !important;
+    width: 100% !important;
+    min-width: 190px !important;
+}
+
+/* 4. Reducir el ancho de otras columnas para compensar */
+.table th:not(:nth-child(9)),
+.table td:not(:nth-child(9)) {
+    width: auto !important;
+}
+
+/* Ajusta el contenedor de los botones */
+.d-flex.gap-1 {
+    display: flex;
+    flex-direction: row !important;
+    gap: 5px;
+    justify-content: center;
+    flex-wrap: nowrap;
+    width: 100%;
+}
+
+.gallery-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.image-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.gallery-item {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.gallery-image {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+    .gallery-image:hover {
+        transform: scale(1.05);
+    }
+
+.image-caption {
+    padding: 10px;
+    text-align: center;
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+/* Estilos específicos para la tabla */
+.table-container {
+    width: 100%;
+    overflow-x: hidden; /* Evita el scroll horizontal */
+    margin-bottom: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.table {
+    width: 100%;
+    table-layout: fixed; /* Importante: fija el ancho de las columnas */
+    word-wrap: break-word; /* Permite que el texto se rompa y continúe en la siguiente línea */
+    white-space: normal; /* Permite saltos de línea en el texto */
+}
+
+    .table th, .table td {
+        overflow-wrap: break-word; /* Asegura que las palabras largas se rompan */
+        word-break: break-word; /* Rompe palabras si es necesario */
+    }
+
+    .table tbody tr:nth-child(even) {
+        background-color: #f8f9fa;
+    }
+
+    .table tbody tr:hover {
+        background-color: #e9ecef;
+    }
+
+/* Ajustes para el contenedor principal */
+.button-container {
+    padding: 20px;
+    background-color: var(--background-light);
+    margin-left: 220px; /* Mismo ancho que la sidebar */
+}
+
+/* Estilos para el header y botones de acción */
+.inventory-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 0 15px;
+}
+
+/* Modifica estos estilos en tu archivo CSS */
+
+/* Ajusta los botones de acción para que estén en línea horizontal */
+.action-buttons {
+    display: flex;
+    flex-direction: row !important; /* Fuerza la dirección horizontal */
+    justify-content: center;
+    gap: 5px;
+    flex-wrap: nowrap;
+}
+
+    /* Ajusta el tamaño de los botones para que quepan en una fila */
+    .action-buttons .btn,
+    .d-flex.gap-1 .btn {
+        padding: 5px 8px;
+        font-size: 12px;
+        white-space: nowrap;
+        width: auto;
+    }
+
+/* Elimina la configuración de dirección de columna */
+.d-flex.gap-1 {
+    display: flex;
+    flex-direction: row !important;
+    gap: 5px;
+    justify-content: center;
+}
+
+/* Ajusta los anchos de las columnas específicas */
+.table th:nth-child(1), .table td:nth-child(1) {
+    width: 16%;
+}
+/* Estado */
+.table th:nth-child(2), .table td:nth-child(2) {
+    width: 15%;
+}
+/* Nombre */
+.table th:nth-child(3), .table td:nth-child(3) {
+    width: 10%;
+}
+/* Marca */
+.table th:nth-child(4), .table td:nth-child(4) {
+    width: 13%;
+}
+/* Cantidad */
+.table th:nth-child(5), .table td:nth-child(5) {
+    width: 10%;
+}
+/* Precio */
+.table th:nth-child(6), .table td:nth-child(6) {
+    width: 15%;
+}
+/* Caducidad */
+.table th:nth-child(7), .table td:nth-child(7) {
+    width: 15%;
+}
+/* Tipo */
+.table th:nth-child(8), .table td:nth-child(8) {
+    width: 15%;
+}
+/* Ingreso */
+.table th:nth-child(9), .table td:nth-child(9) {
+    width: 17%;
+}
+/* Acciones */
+.action-buttons .btn {
+    padding: 6px 10px;
+    font-size: 12px;
+}
+
+/* Estilos para el scrollbar de la tabla */
+.table-container::-webkit-scrollbar {
+    height: 8px;
+    width: 8px;
+}
+
+.table-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+    background: var(--primary-turquoise);
+    border-radius: 4px;
+}
+
+    .table-container::-webkit-scrollbar-thumb:hover {
+        background: var(--hover-turquoise);
+    }
+
+/* Estilos para elementos ocultos */
+.hidden-row {
+    display: none;
+}
+
+/* Estilo para el botón Mostrar/Ocultar inactivos */
+.btn-show-inactive {
+    background-color: #6c757d;
+    color: white;
+    margin-left: 10px;
+}
+
+    .btn-show-inactive:hover {
+        background-color: #5a6268;
+    }
+
+/* Estilo para el botón de ocultar */
+.btn-hide {
+    background-color: #dc3545;
+    color: white;
+}
+
+    .btn-hide:hover {
+        background-color: #c82333;
+    }

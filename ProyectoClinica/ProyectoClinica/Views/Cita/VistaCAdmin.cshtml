@@ -91,36 +91,76 @@
                     </span>
                 </div>
                 <br />
-
-                @if (TempData["SuccessMessage"] != null)
-                {
-                    <div class="alert alert-success" role="alert">
-                        @TempData["SuccessMessage"]
-                    </div>
-                }
-
-                <div class="container">
-                    <div class="row mb-4 text-center row-cols-4 g-3">
-                        <div class="col">
-                            @Html.ActionLink("Gestón de horarios", "GHorarios", "Cita", null, new { @class = "btn btn-primary btn-sm w-100" })
+                <div class="dashboard-cards">
+                    <!-- Tarjeta 1 -->
+                    <div class="simple-card">
+                        <div class="card-number">1</div>
+                        <div class="card-header">
+                            <h3 class="card-title">Gestión de horarios</h3>
                         </div>
-                        <div class="col">
-                            @Html.ActionLink("Programación de citas", "PCitas", "Cita", null, new { @class = "btn btn-info btn-sm w-100" })
+                        <div class="card-body">
+                            <p>Administra los horarios disponibles para citas médicas</p>
                         </div>
-                        <div class="col">
-                            @Html.ActionLink("Historial de citas", "HCita", "Cita", null, new { @class = "btn btn-primary btn-sm w-100" })
-                        </div>
+                        <a href="@Url.Action("GHorarios", "Cita")" class="detail-btn">
+                            <i class="fas fa-arrow-right"></i> Ingresar
+                        </a>
                     </div>
 
-                    <div class="row mb-4 text-center row-cols-4 g-3">
-                        <div class="col">
-                            @Html.ActionLink("Sección de comentarios", "SAdComentarios", "Cita", null, new { @class = "btn btn-info btn-sm w-100" })
+                    <!-- Tarjeta 2 -->
+                    <div class="simple-card">
+                        <div class="card-number">2</div>
+                        <div class="card-header">
+                            <h3 class="card-title">Programación de citas</h3>
                         </div>
-                        <div class="col">
-                            @Html.ActionLink("Cancelación de citas", "CCita", "Cita", null, new { @class = "btn btn-primary btn-sm w-100" })
+                        <div class="card-body">
+                            <p>Programa nuevas citas de forma rápida y sencilla</p>
                         </div>
+                        <a href="@Url.Action("PCitas", "Cita")" class="detail-btn">
+                            <i class="fas fa-arrow-right"></i> Ingresar
+                        </a>
                     </div>
 
+                    <!-- Tarjeta 3 -->
+                    <div class="simple-card">
+                        <div class="card-number">3</div>
+                        <div class="card-header">
+                            <h3 class="card-title">Historial de citas</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>Consulta el historial completo de citas realizadas</p>
+                        </div>
+                        <a href="@Url.Action("HCita", "Cita")" class="detail-btn">
+                            <i class="fas fa-arrow-right"></i> Ingresar
+                        </a>
+                    </div>
+
+                    <!-- Tarjeta 4 -->
+                    <div class="simple-card">
+                        <div class="card-number">4</div>
+                        <div class="card-header">
+                            <h3 class="card-title">Sección de comentarios</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>Revisa los comentarios y opiniones de los clientes</p>
+                        </div>
+                        <a href="@Url.Action("SAdComentarios", "Cita")" class="detail-btn">
+                            <i class="fas fa-arrow-right"></i> Ingresar
+                        </a>
+                    </div>
+
+                    <!-- Tarjeta 5 -->
+                    <div class="simple-card">
+                        <div class="card-number">5</div>
+                        <div class="card-header">
+                            <h3 class="card-title">Cancelación de citas</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>Gestiona las solicitudes de cancelación de citas</p>
+                        </div>
+                        <a href="@Url.Action("CCita", "Cita")" class="detail-btn">
+                            <i class="fas fa-arrow-right"></i> Ingresar
+                        </a>
+                    </div>
                 </div>
 
 

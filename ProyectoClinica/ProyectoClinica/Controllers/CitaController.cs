@@ -123,6 +123,28 @@ namespace ProyectoClinica.Controllers
         [HttpPost]
         public ActionResult Crear(Cita Cita)
         {
+            if (Cita.Fecha_Cita < DateTime.Today)
+            {
+                ModelState.AddModelError("Fecha_Cita", "No se puede agendar una cita en una fecha pasada.");
+            }
+
+            var diaSemana = (int)Cita.Fecha_Cita.DayOfWeek; // 0 = Domingo, 6 = Sábado
+            if (diaSemana == 0 || diaSemana == 6)
+            {
+                ModelState.AddModelError("Fecha_Cita", "No se pueden agendar citas los sábados ni domingos.");
+            }
+
+            if (Cita.Fecha_Cita == DateTime.Today && Cita.Hora_cita < DateTime.Now.TimeOfDay)
+            {
+                ModelState.AddModelError("Hora_cita", "No se puede agendar una cita en una hora pasada.");
+            }
+
+            if (Cita.Hora_cita < TimeSpan.FromHours(7) || Cita.Hora_cita > TimeSpan.FromHours(20))
+            {
+                ModelState.AddModelError("Hora_cita", "La hora debe estar entre las 07:00 y las 20:00.");
+            }
+
+
             if (ModelState.IsValid)
             {
                 var CitaExistente = BaseDatos.Cita
@@ -242,6 +264,16 @@ namespace ProyectoClinica.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditarMedico(Medico medico)
         {
+            if (medico.Horario_inicio < TimeSpan.FromHours(7) || medico.Horario_inicio > TimeSpan.FromHours(20))
+            {
+                ModelState.AddModelError("Hora_Inicio", "La hora de inicio debe estar entre las 07:00 y las 20:00.");
+            }
+
+            if (medico.Horario_fin < TimeSpan.FromHours(7) || medico.Horario_fin > TimeSpan.FromHours(20))
+            {
+                ModelState.AddModelError("Hora_Fin", "La hora de fin debe estar entre las 07:00 y las 20:00.");
+            }
+
             if (ModelState.IsValid)
             {
                 BaseDatos.Entry(medico).State = EntityState.Modified;
@@ -298,6 +330,27 @@ namespace ProyectoClinica.Controllers
         [HttpPost]
         public ActionResult CrearADM(Cita Cita)
         {
+            if (Cita.Fecha_Cita < DateTime.Today)
+            {
+                ModelState.AddModelError("Fecha_Cita", "No se puede agendar una cita en una fecha pasada.");
+            }
+
+            var diaSemana = (int)Cita.Fecha_Cita.DayOfWeek; // 0 = Domingo, 6 = Sábado
+            if (diaSemana == 0 || diaSemana == 6)
+            {
+                ModelState.AddModelError("Fecha_Cita", "No se pueden agendar citas los sábados ni domingos.");
+            }
+
+            if (Cita.Fecha_Cita == DateTime.Today && Cita.Hora_cita < DateTime.Now.TimeOfDay)
+            {
+                ModelState.AddModelError("Hora_cita", "No se puede agendar una cita en una hora pasada.");
+            }
+
+            if (Cita.Hora_cita < TimeSpan.FromHours(7) || Cita.Hora_cita > TimeSpan.FromHours(20))
+            {
+                ModelState.AddModelError("Hora_cita", "La hora debe estar entre las 07:00 y las 20:00.");
+            }
+
             if (ModelState.IsValid)
             {
                 var CitaExistente = BaseDatos.Cita

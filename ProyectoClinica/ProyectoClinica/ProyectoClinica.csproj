@@ -545,9 +545,11 @@
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="CSS\Administrativo.css" />
+    <Content Include="CSS\CCitas.css" />
     <Content Include="CSS\Comentarios.css" />
     <Content Include="CSS\Editar.css" />
     <Content Include="CSS\EliminarAdmin.css" />
+    <Content Include="CSS\Inventarios.css" />
     <Content Include="CSS\Receta.css" />
     <Content Include="CSS\Notificaciones.css" />
     <Content Include="CSS\VistaAsignacionRolesTemporales.css" />
