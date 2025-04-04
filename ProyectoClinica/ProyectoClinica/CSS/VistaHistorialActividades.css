@@ -1,0 +1,119 @@
+﻿table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th {
+    background-color: #f8f9fa;
+    padding: 12px 8px;
+    text-align: left;
+    font-weight: 600;
+    color: #333;
+    border-bottom: 2px solid #dee2e6;
+    white-space: nowrap;
+}
+
+td {
+    padding: 10px 8px;
+    border-bottom: 1px solid #dee2e6;
+    vertical-align: middle;
+}
+
+/* Definir anchos específicos para columnas */
+.col-nombre {
+    width: 12%;
+}
+
+.col-evento {
+    width: 15%;
+    min-width: 120px;
+}
+
+.col-descripcion {
+    width: 15%;
+}
+
+.col-fecha {
+    width: 12%;
+}
+
+.col-rol-anterior {
+    width: 10%;
+}
+
+.col-rol-nuevo {
+    width: 10%;
+}
+
+.col-area {
+    width: 10%;
+}
+
+.col-motivo {
+    width: 13%;
+}
+
+.col-acciones {
+    width: 160px;
+    min-width: 160px;
+}
+
+/* Estilos para botones de acción */
+.action-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    justify-content: center;
+}
+
+.action-btn {
+    padding: 6px 8px;
+    font-size: 13px;
+    white-space: nowrap;
+    display: inline-block;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.action-icon {
+    margin-right: 3px;
+}
+
+/* Estilo para el contenedor principal */
+.results-panel {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+/* Mejoras en la paginación */
+.pagination {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 15px 0;
+    justify-content: center;
+}
+
+.page-item {
+    margin: 0 2px;
+}
+
+.page-link {
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    text-decoration: none;
+    color: #333;
+}
+
+.page-item.active .page-link {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}

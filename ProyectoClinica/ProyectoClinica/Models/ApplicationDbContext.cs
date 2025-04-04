@@ -77,8 +77,8 @@ namespace ProyectoClinica.Models
         public DbSet<Destacado_Comentario> Destacado_Comentario { get; set; }
         public DbSet<Sensible_Comentario> Sensible_Comentario { get; set; }
         public DbSet<AsignacionRolesTemporales> AsignacionRolesTemporales { get; set; }
-
         public DbSet<UsuariosAdmin> UsuariosAdmin { get; set; }
+        public DbSet<Historial_Aplicaciones> Historial_Aplicaciones { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -138,6 +138,7 @@ namespace ProyectoClinica.Models
             modelBuilder.Entity<Sensible_Comentario>().ToTable("Sensible_Comentario");
             modelBuilder.Entity<AsignacionRolesTemporales>().ToTable("AsignacionRolesTemporales");
             modelBuilder.Entity<UsuariosAdmin>().ToTable("UsuariosAdmin");
+            modelBuilder.Entity<Historial_Aplicaciones>().ToTable("Historial_Aplicaciones");
 
             // Configuración de relaciones para evitar ciclos de cascada
             // Relación entre Reporte y Cita

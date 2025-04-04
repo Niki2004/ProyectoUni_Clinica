@@ -1,0 +1,77 @@
+﻿@model ProyectoClinica.Models.Historial_Aplicaciones
+
+@{
+    ViewBag.Title = "EliminarHistorial";
+}
+
+<link rel="stylesheet" href="~/CSS/Crear.css" /> 
+<link href="~/CSS/EliminarAdmin.css" rel="stylesheet" />
+
+<div class="container-form">
+    <h2 class="page-title">Eliminar Historial</h2>
+    <div class="warning-message">
+        <i class="fas fa-exclamation-triangle"></i> ¿Estás seguro que deseas eliminar este historial? Esta acción no se puede deshacer.
+    </div>
+    <div class="form-horizontal">
+        <div class="form-section">
+            <legend>Información del Usuario</legend>
+            <div class="form-grid">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ApplicationUser.Nombre, new { @class = "control-label" })
+                    <div class="info-value">@Html.DisplayFor(model => model.ApplicationUser.Nombre)</div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Tipo_Evento, "Tipo de Evento", new { @class = "control-label" })
+                    <div class="info-value">@Html.DisplayFor(model => model.Tipo_Evento)</div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Fecha_Hora, "Fecha y Hora", new { @class = "control-label" })
+                    <div class="info-value">@Html.DisplayFor(model => model.Fecha_Hora)</div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Exitoso, "Estado", new { @class = "control-label" })
+                    <div class="info-value">@Html.DisplayFor(model => model.Exitoso)</div>
+                </div>
+            </div>
+        </div>
+        <div class="form-section">
+            <legend>Detalles del Evento</legend>
+            <div class="form-grid">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Descripcion, new { @class = "control-label" })
+                    <div class="info-value">@Html.DisplayFor(model => model.Descripcion)</div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Area_Accedida, "Área Accedida", new { @class = "control-label" })
+                    <div class="info-value">@Html.DisplayFor(model => model.Area_Accedida)</div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Rol_Anterior, "Rol Anterior", new { @class = "control-label" })
+                    <div class="info-value">@Html.DisplayFor(model => model.Rol_Anterior)</div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Rol_Nuevo, "Rol Nuevo", new { @class = "control-label" })
+                    <div class="info-value">@Html.DisplayFor(model => model.Rol_Nuevo)</div>
+                </div>
+            </div>
+        </div>
+        <div class="form-section">
+            <legend>Información Adicional</legend>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Motivo_Bloqueo, "Motivo del Bloqueo", new { @class = "control-label" })
+                <div class="info-value">@Html.DisplayFor(model => model.Motivo_Bloqueo)</div>
+            </div>
+        </div>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-group text-center">
+                <input type="submit" value="Eliminar Historial" class="btn-primary" />
+                @Html.ActionLink("Regresar a la lista", "ListarHistorial", null, new { @class = "btn-secondary" })
+            </div>
+        }
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
