@@ -1,0 +1,95 @@
+﻿@model ProyectoClinica.Models.Historial_Aplicaciones
+
+@{
+    ViewBag.Title = "Crear Historial";
+}
+
+<link rel="stylesheet" href="~/CSS/Crear.css" /> 
+
+<div class="container-form">
+    <h2 class="page-title">Crear Historial</h2>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-section">
+                <legend>Historial de Aplicaciones</legend>
+                <div class="form-grid">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Id, "Usuario", new { @class = "control-label" })
+                        @Html.DropDownListFor(model => model.Id, (IEnumerable<SelectListItem>)ViewBag.Usuarios, "Seleccione un usuario", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Id, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Tipo_Evento, "Tipo de Evento", new { @class = "control-label" })
+                        @Html.DropDownListFor(model => model.Tipo_Evento, new SelectList(new[] { "Cambiode Rol", "Acceso Restringido", "Bloqueo de Cuenta" }), "Seleccione el tipo de evento", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Tipo_Evento, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <legend>Detalles del Evento</legend>
+                <div class="form-grid">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Rol_Anterior, "Rol Anterior", new { @class = "control-label" })
+                        @Html.EditorFor(model => model.Rol_Anterior, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Rol_Anterior, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Rol_Nuevo, "Rol Nuevo", new { @class = "control-label" })
+                        @Html.EditorFor(model => model.Rol_Nuevo, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Rol_Nuevo, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Area_Accedida, "Área Accedida", new { @class = "control-label" })
+                        @Html.EditorFor(model => model.Area_Accedida, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Area_Accedida, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Exitoso, "Estado", new { @class = "control-label" })
+                        <div class="checkbox">
+                            @Html.EditorFor(model => model.Exitoso)
+                            @Html.ValidationMessageFor(model => model.Exitoso, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <legend>Descripción</legend>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Descripcion, new { @class = "control-label" })
+                    @Html.TextAreaFor(model => model.Descripcion, new { @class = "form-control", rows = "3" })
+                    @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-section">
+                <legend>Motivo de Bloqueo</legend>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Motivo_Bloqueo, "Motivo de Bloqueo", new { @class = "control-label" })
+                    @Html.TextAreaFor(model => model.Motivo_Bloqueo, new { @class = "form-control", rows = "3" })
+                    @Html.ValidationMessageFor(model => model.Motivo_Bloqueo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group text-center">
+                <input type="submit" value="Crear Actividad" class="btn-primary" />
+                @Html.ActionLink("Regresar a la lista", "ListarHistorial", null, new { @class = "btn-secondary" })
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -450,6 +450,10 @@
     <Compile Include="Migrations\202503240117000_CambiosAsigancionTemporalRoles.Designer.cs">
       <DependentUpon>202503240117000_CambiosAsigancionTemporalRoles.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202504040231111_nuevaConfi.cs" />
+    <Compile Include="Migrations\202504040231111_nuevaConfi.Designer.cs">
+      <DependentUpon>202504040231111_nuevaConfi.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Administrativa.cs" />
@@ -473,6 +477,7 @@
     <Compile Include="Models\Estado_Comentario.cs" />
     <Compile Include="Models\Evaluacion.cs" />
     <Compile Include="Models\Facturacion_Productos_Conta.cs" />
+    <Compile Include="Models\Historial_Aplicaciones .cs" />
     <Compile Include="Models\Inventario_Detalle_Conta.cs" />
     <Compile Include="Models\Inventario_Encabezado_Conta.cs" />
     <Compile Include="Models\Metodo_Pago_Utilizado.cs" />
@@ -558,6 +563,7 @@
     <Content Include="CSS\Menu.css" />
     <Content Include="CSS\Content.css" />
     <Content Include="CSS\Tablas.css" />
+    <Content Include="CSS\VistaHistorialActividades.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -809,6 +815,10 @@
     <Content Include="Views\ReporteContaduria\Impuestos.cshtml" />
     <Content Include="Views\Expedientes\Respaldo.cshtml" />
     <Content Include="Views\Expedientes\SubirImagenes.cshtml" />
+    <Content Include="Views\Administrativos\ListarHistorial.cshtml" />
+    <Content Include="Views\Administrativos\CrearHistorial.cshtml" />
+    <Content Include="Views\Administrativos\EditarHistorial.cshtml" />
+    <Content Include="Views\Administrativos\EliminarHistorial.cshtml" />
     <None Include="Views\Shared\_LayoutEmpleados.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -851,6 +861,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202503240117000_CambiosAsigancionTemporalRoles.resx">
       <DependentUpon>202503240117000_CambiosAsigancionTemporalRoles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202504040231111_nuevaConfi.resx">
+      <DependentUpon>202504040231111_nuevaConfi.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
