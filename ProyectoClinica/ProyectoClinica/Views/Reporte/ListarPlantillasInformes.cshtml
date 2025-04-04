@@ -1,37 +1,52 @@
-﻿@{
+﻿@model IEnumerable<ProyectoClinica.Models.PlantillaInforme>
+
+@{
     ViewBag.Title = "Listar Plantillas de Informes";
 }
 
-<link href="~/CSS/Reportes.css" rel="stylesheet" />
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plantillas de Informes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="~/CSS/Administrativo.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="page-container">
+        <div class="header-container">
+            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; margin-bottom: 20px;">
+                <a href="@Url.Action("Personalizacion", "Reporte")" class="btn-inicio" style="flex: 0 0 auto;">
+                    <i class="fas fa-home"></i> Inicio
+                </a>
+                <div class="page-title-container" style="flex: 1 1 auto; text-align: center;">
+                    <h1 class="page-title" style="margin: 0;">Plantillas de Informes</h1>
+                </div>
+                <div style="flex: 0 0 auto;">
+                    <a href="@Url.Action("GuardarPlantillaInforme")" class="btn-crear-pago">
+                        <i class="fas fa-plus"></i> Nueva Plantilla
+                    </a>
+                </div>
+            </div>
+        </div>
 
-<div class="report-header">
-    <h2>Detalles de las plantillas</h2>
-    <a href="@Url.Action("Personalizacion", "Reporte")" class="custom-btn home-btn">
-        <i class="fas fa-home"></i>
-    </a>
-</div>
+        <br>
 
-<a href="@Url.Action("GuardarPlantillaInforme")" class="btn btn-primary">
-    <i class="fas fa-plus"></i>
-</a>
+        <div class="results-panel">
+            <h2 class="results-title" style="color: #392F5A;"><i class="fas fa-file-alt"></i> Lista de Plantillas</h2>
 
-<br />
-<br />
-<div class="container">
-    <div class="card mb-4 shadow-sm filter-card">
-        @if (Model.Count > 0)
-        {
-            <div class="card-body p-0">
+            @if (Model.Any())
+            {
                 <div class="table-responsive">
-                    <table id="comentariosTable" class="modern-table text-center">
+                    <table class="table">
                         <thead>
                             <tr>
                                 <th>Nombre de la Plantilla</th>
-                                <th>Breve descripción</th>
+                                <th>Breve Descripción</th>
                                 <th>Fecha de Creación</th>
                             </tr>
                         </thead>
-                        <tbody id="comentariosBody">
+                        <tbody id="plantillasBody">
                             @foreach (var plantilla in Model)
                             {
                                 <tr>
@@ -42,25 +57,25 @@
                             }
                         </tbody>
                     </table>
-                    <div id="paginationContainer" class="d-flex justify-content-center mt-3"></div>
-
                 </div>
-            </div>
-        }
-        else
-        {
-            <div class="alert alert-warning text-center" role="alert">
-                No hay plantillas guardadas.
-            </div>
-        }
+                <div id="paginationContainer" class="d-flex justify-content-center mt-3"></div>
+            }
+            else
+            {
+                <div class="alert alert-warning text-center" role="alert">
+                    No hay plantillas guardadas.
+                </div>
+            }
+        </div>
     </div>
-</div>
+</body>
+</html>
 
 @section Scripts {
     <script>
         $(document).ready(function () {
-            var rowsPerPage = 5; // Número de comentarios por página
-            var $rows = $("#comentariosBody tr");
+            var rowsPerPage = 5;
+            var $rows = $("#plantillasBody tr");
             var totalPages = Math.ceil($rows.length / rowsPerPage);
             var currentPage = 1;
 
@@ -81,8 +96,8 @@
 
                 for (var i = 1; i <= total; i++) {
                     pagination += `<li class="page-item ${i === page ? 'active' : ''}">
-                                     <a href="#" class="page-link" data-page="${i}">${i}</a>
-                                    </li>`;
+                                         <a href="#" class="page-link" data-page="${i}">${i}</a>
+                                       </li>`;
                 }
 
                 if (page < total) {

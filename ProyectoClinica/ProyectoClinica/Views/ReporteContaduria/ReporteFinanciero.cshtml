@@ -1,66 +1,69 @@
 ﻿@model IEnumerable<ProyectoClinica.Models.Contabilidad>
+
 @{
     ViewBag.Title = "Reporte de Contabilidad";
     var transaccion = Model.Select(c => c.Estatus_pago).Distinct().OrderBy(e => e).ToList();
 }
 
-<link href="~/CSS/Reportes.css" rel="stylesheet" />
-
-<div class="report-header">
-    <h2>Reporte de Contabilidad</h2>
-    <a href="@Url.Action("VistaAdmRep", "Reporte")" class="custom-btn home-btn">
-        <i class="fas fa-home"></i>
-    </a>
-</div>
-
-<div class="container">
-    <div class="card mb-4 shadow-sm filter-card">
-        <div class="card-header" style="background-color: #0b7b82; color: white;">
-            <h5 class="mb-0"><i class="fas fa-filter"></i> Filtros de búsqueda</h5>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte de Contabilidad</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="~/CSS/Administrativo.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="page-container">
+        <div class="header-container">
+            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                <a href="@Url.Action("VistaAdmRep", "Reporte")" class="btn-inicio">
+                    <i class="fas fa-home"></i> Inicio
+                </a>
+                <div class="page-title-container">
+                    <h1 class="page-title">Reporte de Contabilidad</h1>
+                </div>
+            </div>
         </div>
 
-        <div class="card-body">
-            @using (Html.BeginForm("ReporteFinanciero", "ReporteContaduria", FormMethod.Get, new { @class = "form-inline" }))
+        <br><br>
+
+        <div class="search-panel">
+            <h2 class="search-title" style="color: #392F5A;"><i class="fas fa-search"></i> Filtros de búsqueda</h2>
+            @using (Html.BeginForm("ReporteFinanciero", "ReporteContaduria", FormMethod.Get, new { @class = "mb-4" }))
             {
-                <div class="row">
-                    <div class="col-md-4 mb-3">
-                        <label for="transaccion" class="form-label">Área de salud:</label>
-                        <select name="TipoTransaccion" id="TipoTransaccion" class="form-control w-100">
-                            <option value="">-- Nombre del Estatus --</option>
-                            @foreach (var esp in transaccion)
-                            {
-                                <option value="@esp" @(ViewBag.Transaccion != null && ViewBag.Transaccion.ToString() == esp ? "selected" : "")>@esp</option>
-                            }
-                        </select>
-                    </div>
-                    <div class="col-md-4 align-self-end mb-3">
-                        <div class="d-flex gap-2">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-search"></i> Buscar
-                            </button>
-                            <a href="@Url.Action("ReporteFinanciero", "ReporteContaduria")" class="btn btn-secondary">
-                                <i class="fas fa-broom"></i> Limpiar
-                            </a>
+                <div class="row align-items-end g-3">
+                    <div class="col-md-4">
+                        <div class="form-group mb-0">
+                            <label for="TipoTransaccion" class="form-label">Área de salud:</label>
+                            <select name="TipoTransaccion" id="TipoTransaccion" class="form-control">
+                                <option value="">-- Nombre del Estatus --</option>
+                                @foreach (var esp in transaccion)
+                                {
+                                    <option value="@esp" @(ViewBag.Transaccion != null && ViewBag.Transaccion.ToString() == esp ? "selected" : "")>@esp</option>
+                                }
+                            </select>
                         </div>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="submit" class="btn-search w-100" style="background-color: #D6E5FF; color: #333; border: none;">
+                            <i class="fas fa-search me-2"></i>Buscar
+                        </button>
                     </div>
                 </div>
             }
         </div>
-    </div>
 
-    <div class="card shadow-sm">
-        <div class="card-header bg-light">
-            <div class="d-flex justify-content-between align-items-center">
-                <h5 class="mb-0"><i class="fas fa-calendar-check"></i> Listado de contaduria</h5>
-                <a href="@Url.Action("ExportarExcelFinanciero", "ReporteContaduria", new { nombreArea = ViewBag.Transaccion })"
-                   class="btn btn-success btn-sm">
+        <div class="results-panel">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                <h2 class="results-title" style="color: #392F5A; margin: 0;"><i class="fas fa-users"></i> Resultados</h2>
+                <a href="@Url.Action("ExportarExcelFinanciero", "ReporteContaduria", new { negativo = ViewBag.Negativo, sensible = ViewBag.Sensible, destacado = ViewBag.Destacado, estado = ViewBag.Estado })" class="btn btn-success">
                     <i class="fas fa-file-excel"></i> Exportar a Excel
                 </a>
-            </div>
-        </div>
-        <div class="card-body p-0">
+            </div>  
+<br />
             <div class="table-responsive">
-                <table id="comentariosTable" class="modern-table">
+                <table class="table">
                     <thead>
                         <tr>
                             <th>Registro</th>
@@ -91,7 +94,7 @@
                         else
                         {
                             <tr>
-                                <td colspan="5" class="text-center py-4">
+                                <td colspan="7" class="text-center py-4">
                                     <div class="alert alert-info mb-0">
                                         <i class="fas fa-info-circle me-2"></i> No se encontraron datos de contaduria con los filtros seleccionados
                                     </div>
@@ -100,17 +103,17 @@
                         }
                     </tbody>
                 </table>
-                <div id="paginationContainer" class="d-flex justify-content-center mt-3"></div>
             </div>
+            <div id="paginationContainer" class="d-flex justify-content-center mt-3"></div>
         </div>
     </div>
-</div>
-
+</body>
+</html>
 
 @section Scripts {
     <script>
         $(document).ready(function () {
-            var rowsPerPage = 5; // Número de comentarios por página
+            var rowsPerPage = 5;
             var $rows = $("#comentariosBody tr");
             var totalPages = Math.ceil($rows.length / rowsPerPage);
             var currentPage = 1;
@@ -131,9 +134,7 @@
                 }
 
                 for (var i = 1; i <= total; i++) {
-                    pagination += `<li class="page-item ${i === page ? 'active' : ''}">
-                                     <a href="#" class="page-link" data-page="${i}">${i}</a>
-                                    </li>`;
+                    pagination += `<li class="page-item ${i === page ? 'active' : ''}"><a href="#" class="page-link" data-page="${i}">${i}</a></li>`;
                 }
 
                 if (page < total) {

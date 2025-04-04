@@ -73,7 +73,7 @@
 </style>
 
 <div class="container-form">
-    <h2 class="page-title">Modificación de la cita</h2>
+    <h2 class="page-title">Agenda la Cita</h2>
 
 
     @using (Html.BeginForm("CrearADM", "Cita", FormMethod.Post))
@@ -130,7 +130,13 @@
             <div class="col-md-6">
                 <div class="form-group">
                     @Html.LabelFor(model => model.Fecha_Cita, new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.Fecha_Cita, new { @class = "form-control", type = "date" })
+                    @Html.TextBoxFor(model => model.Fecha_Cita, new
+                       {
+                           @class = "form-control",
+                           @type = "date",
+                           @min = DateTime.Today.ToString("yyyy-MM-dd"),
+                           @id = "Fecha_Cita"
+                       })
                     @Html.ValidationMessageFor(model => model.Fecha_Cita, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -138,7 +144,8 @@
             <div class="col-md-6">
                 <div class="form-group">
                     @Html.LabelFor(model => model.Hora_cita, new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.Hora_cita, new { @class = "form-control", type = "time" })
+                      @Html.TextBoxFor(model => model.Hora_cita, new
+                      {@class = "form-control", @type = "time", @min = "07:00", @max = "20:00"})
                     @Html.ValidationMessageFor(model => model.Hora_cita, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -190,6 +197,16 @@
                     }
                 });
             });;
+
+            document.getElementById('Fecha_Cita').addEventListener('change', function () {
+                const fecha = new Date(this.value);
+                const dia = fecha.getUTCDay(); // 0 = domingo, 6 = sábado
+
+                if (dia === 0 || dia === 6) {
+                    alert("No se pueden agendar citas los sábados ni domingos.");
+                    this.value = "";
+                }
+            });
         </script>
     }
 </div>

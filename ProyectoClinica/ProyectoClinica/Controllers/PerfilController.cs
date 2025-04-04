@@ -168,6 +168,27 @@ namespace ProyectoClinica.Controllers
         [HttpPost]
         public ActionResult Editar(Cita cita)
         {
+            if (cita.Fecha_Cita < DateTime.Today)
+            {
+                ModelState.AddModelError("Fecha_Cita", "No se puede agendar una cita en una fecha pasada.");
+            }
+
+            var diaSemana = (int)cita.Fecha_Cita.DayOfWeek; // 0 = Domingo, 6 = Sábado
+            if (diaSemana == 0 || diaSemana == 6)
+            {
+                ModelState.AddModelError("Fecha_Cita", "No se pueden agendar citas los sábados ni domingos.");
+            }
+
+            if (cita.Fecha_Cita == DateTime.Today && cita.Hora_cita < DateTime.Now.TimeOfDay)
+            {
+                ModelState.AddModelError("Hora_cita", "No se puede agendar una cita en una hora pasada.");
+            }
+
+            if (cita.Hora_cita < TimeSpan.FromHours(7) || cita.Hora_cita > TimeSpan.FromHours(20))
+            {
+                ModelState.AddModelError("Hora_cita", "La hora debe estar entre las 07:00 y las 20:00.");
+            }
+
             if (!ModelState.IsValid)
             {
                 ViewBag.IdMedico = new SelectList(BaseDatos.Medico, "Id_Medico", "Nombre", cita.Id_Medico);
@@ -409,6 +430,18 @@ namespace ProyectoClinica.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult RecetaDOC(Modificacion_Receta modificacion_receta)
         {
+
+            if (modificacion_receta.Fecha_Modificacion < DateTime.Today)
+            {
+                ModelState.AddModelError("Fecha_Cita", "No se puede agendar una cita en una fecha pasada.");
+            }
+
+            var diaSemana = (int)modificacion_receta.Fecha_Modificacion.DayOfWeek; // 0 = Domingo, 6 = Sábado
+            if (diaSemana == 0 || diaSemana == 6)
+            {
+                ModelState.AddModelError("Fecha_Cita", "No se pueden agendar citas los sábados ni domingos.");
+            }
+
             if (ModelState.IsValid)
             {
                 // Crear una nueva modificación de receta basada en la receta seleccionada
