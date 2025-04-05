@@ -6,6 +6,7 @@
 }
 
 .main-container {
+    transition: padding-left 0.3s ease;
     padding-left: 220px;
     padding-top: 20px;
     width: 100%;

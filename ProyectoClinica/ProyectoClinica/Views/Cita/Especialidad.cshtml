@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Especialidad";
 }
 
@@ -12,47 +11,123 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/CSS/menu.css" />
     <link rel="stylesheet" href="~/CSS/Content.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <style>
+        /* Estilos específicos para solucionar el problema de ancho */
+        body {
+            overflow-x: hidden;
+        }
+
+        .sidebar {
+            width: 220px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            overflow-y: auto;
+            z-index: 100;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding-top: 15px;
+        }
+
+        .main-container {
+            margin-left: 220px;
+            width: calc(100% - 220px);
+            padding: 0;
+        }
+
+        .content {
+            width: 100%;
+            max-width: 1200px;
+            padding: 20px;
+            margin: 0 auto;
+            box-sizing: border-box;
+        }
+
+        media (min-width: 1600px) {
+            .content {
+                max-width: 1400px;
+            }
+        }
+
+        .servicios-lista {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .servicios-lista p {
+            width: calc(33% - 10px);
+            margin: 5px;
+            display: flex;
+            align-items: center;
+        }
+
+        .servicios-lista p::before {
+            content: "•";
+            margin-right: 5px;
+        }
+
+        media (max-width: 768px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .main-container {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .servicios-lista p {
+                width: calc(50% - 10px);
+            }
+        }
+
+        media (max-width: 576px) {
+            .servicios-lista p {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="container-fluid">
-
-        <div class="row">
-            <div class="col-md-3 col-lg-2 sidebar">
-                <div class="sidebar">
-
-                    <div class="p-3 d-flex justify-content-center">
-                        <a href="@Url.Action("VistaCita", "Cita")" style="text-decoration: none; display: block;">
-                            <img src="~/Imagenes/Logo.png" alt="Centro Integral Santo Domingo Logo" class="img-fluid" style="max-width: 195px; height: auto;" />
-                        </a>
-                    </div>
-
-                    <center><div class="nav-header">Plataforma</div></center>
-                    <div class="nav flex-column">
-                        <a href="@Url.Action("Index", "Cita")" class="nav-link">
-                            <i class="fas fa-calendar-alt"></i> Cita
-                        </a>
-                        <a href="@Url.Action("AtencionCliente", "Cita")" class="nav-link">
-                            <i class="fas fa-comments"></i> Comentarios
-                        </a>
-                    </div>
-                    <hr />
-
-                    <center><div class="nav-header">Información</div></center>
-                    <div class="nav flex-column">
-                        <a class="nav-link">
-                            <i class="fas fa-stethoscope"></i> Especialidad
-                        </a>
-                        <a href="@Url.Action("Contactanos", "Cita")" class="nav-link">
-                            <i class="fas fa-phone-alt"></i> Contáctanos
-                        </a>
-                        <a href="@Url.Action("Ubicacion", "Cita")" class="nav-link">
-                            <i class="fas fa-map-marker-alt"></i> Ubicación
-                        </a>
-                    </div>
-
-                </div>
+    <div class="container-fluid p-0">
+        <div class="sidebar">
+            <div class="p-3 d-flex justify-content-center">
+                <a href="@Url.Action("VistaCita", "Cita")" style="text-decoration: none; display: block;">
+                    <img src="~/Imagenes/Logo.png" alt="Centro Integral Santo Domingo Logo" class="img-fluid" style="max-width: 195px; height: auto;" />
+                </a>
             </div>
-            
+
+            <center><div class="nav-header">Plataforma</div></center>
+            <div class="nav flex-column">
+                <a href="@Url.Action("Index", "Cita")" class="nav-link">
+                    <i class="fas fa-calendar-alt"></i> Cita
+                </a>
+                <a href="@Url.Action("AtencionCliente", "Cita")" class="nav-link">
+                    <i class="fas fa-comments"></i> Comentarios
+                </a>
+            </div>
+            <hr />
+
+            <center><div class="nav-header">Información</div></center>
+            <div class="nav flex-column">
+                <a class="nav-link active">
+                    <i class="fas fa-stethoscope"></i> Especialidad
+                </a>
+                <a href="@Url.Action("Contactanos", "Cita")" class="nav-link">
+                    <i class="fas fa-phone-alt"></i> Contáctanos
+                </a>
+                <a href="@Url.Action("Ubicacion", "Cita")" class="nav-link">
+                    <i class="fas fa-map-marker-alt"></i> Ubicación
+                </a>
+            </div>
+        </div>
+
+        <div class="main-container">
             <div class="content">
                 <h2 class="text-center" style="color: #0b7b82;">Sobre nuestros servicios</h2>
                 <p style="text-align: justify;">
@@ -65,38 +140,34 @@
 
                 <h2 class="text-center" style="color: #0b7b82;">Servicios</h2>
 
-                <div style="display: flex; flex-direction: column;">
-                    <div style="display: flex; flex-wrap: wrap; justify-content: space-between; margin-bottom: 20px;">
-                        <p style="width: 30%; margin: 5px;">• Urología</p>
-                        <p style="width: 30%; margin: 5px;">• Pediatría</p>
-                        <p style="width: 30%; margin: 5px;">• Nutrición</p>
-                        <p style="width: 30%; margin: 5px;">• Ortopedia</p>
-                        <p style="width: 30%; margin: 5px;">• Psicología</p>
-                        <p style="width: 30%; margin: 5px;">• Radiología</p>
-                        <p style="width: 30%; margin: 5px;">• Psiquiatría</p>
-                        <p style="width: 30%; margin: 5px;">• Ginecología</p>
-                        <p style="width: 30%; margin: 5px;">• Psicopedagogía</p>
-                        <p style="width: 30%; margin: 5px;">• Terapia de voz</p>
-                        <p style="width: 30%; margin: 5px;">• Medicina General</p>
-                        <p style="width: 30%; margin: 5px;">• Medicina Familiar</p>
-                        <p style="width: 30%; margin: 5px;">• Gastroenterología</p>
-                        <p style="width: 30%; margin: 5px;">• Terapia de lenguaje</p>
-                        <p style="width: 30%; margin: 5px;">• Consulta en Cirugía</p>
-                        <p style="width: 30%; margin: 5px;">• Medicina Comunitaria</p>
-                        <p style="width: 30%; margin: 5px;">• Otorrinolaringología</p>
-                        <p style="width: 30%; margin: 5px;">• Consulta Dermatología</p>
-                        <p style="width: 30%; margin: 5px;">• Consulta en Neumología</p>
-                        <p style="width: 30%; margin: 5px;">• Consulta Endocrinología</p>
-                        <p style="width: 30%; margin: 5px;">• Consulta al Adulto Mayor</p>
-                    </div>
+                <div class="servicios-lista">
+                    <p>Urología</p>
+                    <p>Pediatría</p>
+                    <p>Nutrición</p>
+                    <p>Ortopedia</p>
+                    <p>Psicología</p>
+                    <p>Radiología</p>
+                    <p>Psiquiatría</p>
+                    <p>Ginecología</p>
+                    <p>Psicopedagogía</p>
+                    <p>Terapia de voz</p>
+                    <p>Medicina General</p>
+                    <p>Medicina Familiar</p>
+                    <p>Gastroenterología</p>
+                    <p>Terapia de lenguaje</p>
+                    <p>Consulta en Cirugía</p>
+                    <p>Medicina Comunitaria</p>
+                    <p>Otorrinolaringología</p>
+                    <p>Consulta Dermatología</p>
+                    <p>Consulta en Neumología</p>
+                    <p>Consulta Endocrinología</p>
+                    <p>Consulta al Adulto Mayor</p>
                 </div>
-
-                <br />
             </div>
-
-            <script src="~/lib/jquery/dist/jquery.min.js"></script>
-            <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         </div>
     </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
