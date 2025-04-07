@@ -202,6 +202,12 @@ body {
     margin-left: auto;
 }
 
+#calendar {
+    width: 80% !important; 
+    height: 700px !important; 
+   
+}
+
 .row-cols-4 {
     margin-right: -15px;
     margin-left: -15px;
@@ -281,6 +287,7 @@ body {
     transform: rotate(180deg);
 }
 
+/* 4 columnas para pantallas grandes */
 .dashboard-cards {
     display: grid;
     grid-template-columns: repeat(4, 0.20fr);
@@ -337,14 +344,14 @@ body {
 
 .card-title {
     color: #0b7b82;
-    font-size: 18px;
+    font-size: 1.2rem;
     font-weight: 500;
     margin-left: 45px;
 }
 
 .card-subtitle {
     color: #999;
-    font-size: 15px;
+    font-size: 1rem;
     font-weight: 400;
 }
 
@@ -365,7 +372,7 @@ body {
     transition: var(--transition);
     border: none;
     cursor: pointer;
-    margin-top: 20px;
+    margin-top: 10px;
     text-align: center;
     align-self: flex-end;
 }
@@ -378,6 +385,10 @@ body {
     .detail-btn i {
         margin-right: 5px;
     }
+
+html {
+    font-size: 15px;
+}
 
 @media (max-width: 768px) {
     .container.body-content {
@@ -402,17 +413,34 @@ body {
         font-size: 1.8rem;
     }
 
-    @media (max-width: 992px) {
+@media (max-width: 1200px) {
+        .dashboard-cards {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+
+ /* 2 columnas para pantallas pequeñas */
+ @media (max-width: 992px) {
         .dashboard-cards {
             grid-template-columns: repeat(2, 1fr);
         }
     }
 
-    @media (max-width: 768px) {
-        .dashboard-cards {
+    /* 1 columna para pantallas muy pequeñas (celulares) */
+ @media (max-width: 576px) {
+      .dashboard-cards {
             grid-template-columns: repeat(1, 1fr);
-                    
-        }
+      }
+   }
 
-            
-    }
+@media (max-width: 768px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 12px;
+  }
+}

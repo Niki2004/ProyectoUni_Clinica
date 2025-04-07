@@ -1,179 +1,135 @@
 ﻿@model IEnumerable<ProyectoClinica.Models.Empleado>
 
 @{
-    ViewBag.Title = "VistaEmpleados";
-}
-<style>
-    :root {
-        --primary-turquoise: #008B8B;
-        --secondary-turquoise: #48D1CC;
-        --hover-turquoise: #20B2AA;
-        --background-light: #F5F5F5;
-    }
-
-    body {
-        background-color: var(--background-light);
-        font-family: Arial, sans-serif;
-        margin: 0;
-        min-height: 100vh;
-    }
-
-    /* Sidebar Styles */
-    .sidebar {
-        background-color: white;
-        min-height: 100vh;
-        padding-top: 20px;
-        box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-    }
-
-    .nav-link {
-        color: #333;
-        padding: 10px 15px;
-    }
-
-        .nav-link:hover {
-            background-color: #3bb4bc;
-            color: white;
-        }
-
-    .nav-header {
-        padding: 10px 15px;
-        color: #0b7b82;
-        font-size: 0.8em;
-        text-transform: uppercase;
-        font-weight: bold;
-    }
-
-    /* Main Content Styles */
-    .main-content {
-        padding: 20px;
-    }
-
-    .content-wrapper {
-        background-color: white;
-        padding: 25px;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        margin-top: 20px;
-    }
-
-    /* Button Styles */
-    .btn {
-        padding: 15px 25px;
-        border-radius: 5px;
-        font-weight: 500;
-        transition: all 0.3s ease;
-        text-transform: none;
-        margin-bottom: 15px;
-    }
-
-    .btn-primary {
-        background-color: var(--primary-turquoise);
-        border-color: var(--primary-turquoise);
-        color: white;
-    }
-
-        .btn-primary:hover {
-            background-color: var(--hover-turquoise);
-            border-color: var(--hover-turquoise);
-            transform: translateY(-2px);
-        }
-
-    .btn-info {
-        background-color: var(--secondary-turquoise);
-        border-color: var(--secondary-turquoise);
-        color: white;
-    }
-
-        .btn-info:hover {
-            background-color: var(--hover-turquoise);
-            border-color: var(--hover-turquoise);
-            transform: translateY(-2px);
-        }
-    .custom-btn {
-        background-color: #0b7b82 !important;
-        color: white !important;
-        border: none;
-        padding: 12px 24px;
-        border-radius: 8px;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 16px;
-        text-decoration: none;
-        transition: background 0.3s ease, transform 0.2s ease;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    }
-</style>
-
-<div style="text-align: center; margin-bottom: 20px;">
-    <a href="@Url.Action("Empleados", "Empleados")" class="custom-btn">
-        <i class="fas fa-home"></i> Inicio
-    </a>
-</div>
-<table class="table">
-
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Nombre)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Apellido)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Cedula)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Correo)
-        </th>
-      
-        <th>
-            @Html.DisplayNameFor(model => model.Comentarios)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Jornada)
-        </th>
-
-       
-        <th>Accion</th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-
-        <td>
-            @Html.DisplayFor(modelItem => item.Nombre)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Apellido)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Cedula)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Correo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Comentarios)
-        </td>
-
-
-        <td>
-            @Html.DisplayFor(modelItem => item.Jornada)
-        </td>
-
-
-        <td>
-
-    
-            @Html.ActionLink("Editar", "Edit", "Empleados",
-     new { id = item.Id_Empleado },
-     new { @class = "btn btn-info w-100" })
-
-        </td>
-        
-
-    </tr>
+    ViewBag.Title = "Vista de Empleados";
 }
 
-</table>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vista de Empleados</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link href="~/CSS/Administrativo.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="page-container">
+        <div class="header-container">
+            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                <a href="@Url.Action("Empleados", "Empleados")" class="btn-inicio">
+                    <i class="fas fa-home"></i> Inicio
+                </a>
+                <div class="page-title-container">
+                    <h1 class="page-title">Lista de Empleados</h1>
+                </div>
+            </div>
+        </div>
+
+        <br />
+        <div class="results-panel mt-4">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h2 class="results-title" style="color: #392F5A;"><i class="fas fa-users"></i> Resultados de Empleados</h2>
+            </div>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Cédula</th>
+                            <th>Correo</th>
+                            <th>Comentarios</th>
+                            <th>Jornada</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Any())
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.Nombre</td>
+                                    <td>@item.Apellido</td>
+                                    <td>@item.Cedula</td>
+                                    <td>@item.Correo</td>
+                                    <td>@item.Comentarios</td>
+                                    <td>@item.Jornada</td>
+                                    <td>
+                                        <a href="@Url.Action("Edit", "Empleados", new { id = item.Id_Empleado })"
+                                           class="btn"
+                                           style="background-color: #b0bec5; color: white; border: none;">
+                                            <i class="fas fa-edit"></i> Editar
+                                        </a>
+                                    </td>
+
+
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="7" class="text-center py-4">
+                                    <div class="alert alert-info mb-0">
+                                        <i class="fas fa-info-circle me-2"></i> No se encontraron empleados con los filtros seleccionados
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <div id="paginationContainer" class="d-flex justify-content-center mt-3"></div>
+            </div>
+        </div>
+    </div>
+
+    @section Scripts {
+        <script>
+            $(document).ready(function () {
+                var rowsPerPage = 5;
+                var $rows = $("tbody tr");
+                var totalPages = Math.ceil($rows.length / rowsPerPage);
+                var currentPage = 1;
+
+                function showPage(page) {
+                    var start = (page - 1) * rowsPerPage;
+                    var end = start + rowsPerPage;
+
+                    $rows.hide().slice(start, end).show();
+                    $("#paginationContainer").html(createPagination(page, totalPages));
+                }
+
+                function createPagination(page, total) {
+                    var pagination = `<nav><ul class="pagination">`;
+
+                    if (page > 1) {
+                        pagination += `<li class="page-item"><a href="#" class="page-link" data-page="${page - 1}">«</a></li>`;
+                    }
+
+                    for (var i = 1; i <= total; i++) {
+                        pagination += `<li class="page-item ${i === page ? 'active' : ''}">
+                                    <a href="#" class="page-link" data-page="${i}">${i}</a>
+                                </li>`;
+                    }
+
+                    if (page < total) {
+                        pagination += `<li class="page-item"><a href="#" class="page-link" data-page="${page + 1}">»</a></li>`;
+                    }
+
+                    pagination += `</ul></nav>`;
+                    return pagination;
+                }
+
+                $(document).on("click", ".page-link", function (e) {
+                    e.preventDefault();
+                    var page = $(this).data("page");
+                    showPage(page);
+                });
+
+                showPage(currentPage);
+            });
+        </script>
+    }
+</body>
+</html>

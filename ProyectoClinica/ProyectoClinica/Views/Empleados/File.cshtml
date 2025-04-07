@@ -2,54 +2,85 @@
     ViewBag.Title = "Subir PDF";
 }
 
-
-<style>
-    .custom-btn {
-        background-color: #0b7b82 !important;
-        color: white !important;
-        border: none;
-        padding: 12px 24px;
-        border-radius: 8px;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 16px;
-        text-decoration: none;
-        transition: background 0.3s ease, transform 0.2s ease;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    }
-</style>
-
-<div style="text-align: center; margin-bottom: 20px;">
-    <a href="@Url.Action("Empleados", "Empleados")" class="custom-btn">
-        <i class="fas fa-home"></i> Inicio
-    </a>
-</div>
-
-<div class="container mt-5">
-    <h2> Subir PDF</h2>
-
-    @using (Html.BeginForm("File", "Empleados", FormMethod.Post, new { enctype = "multipart/form-data" }))
-    {
-        @Html.AntiForgeryToken()
-
-        <div class="mb-4">
-            @Html.Label("Nombre", htmlAttributes: new { @class = "form-label" })
-            @Html.TextBox("nombre", null, new { @class = "form-control shadow-sm border-0 rounded-lg", placeholder = "Nombre del PDF" })
-            @Html.ValidationMessage("nombre", "", new { @class = "text-danger" })
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Subir PDF</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link href="~/CSS/Administrativo.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="page-container">
+        <div class="header-container">
+            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                <a href="@Url.Action("Empleados", "Empleados")" class="btn-inicio">
+                    <i class="fas fa-home"></i> Inicio
+                </a>
+                <div class="page-title-container">
+                    <h1 class="page-title">Subir PDF</h1>
+                </div>
+            </div>
         </div>
 
-        <div class="mb-4">
-            @Html.Label("Archivo PDF", htmlAttributes: new { @class = "form-label" })
-            <input type="file" name="file" class="form-control shadow-sm border-0 rounded-lg" accept="application/pdf" />
-            @Html.ValidationMessage("file", "", new { @class = "text-danger" })
-        </div>
+        <br />
+        <br />
 
-        <button type="submit" class="btn" style="background-color: #48D1CC; color: white; border-radius: 50px; box-shadow: 0 4px 6px rgba(72, 209, 204, 0.4); transition: all 0.3s ease; padding: 6px 12px; font-size: 12px;">
-            Subir PDF
-        </button>
-    }
-</div>
+        <div class="search-panel">
+            <h2 class="search-title" style="color: #392F5A;"><i class="fas fa-upload"></i> Formulario de carga</h2>
+
+            @using (Html.BeginForm("File", "Empleados", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre del PDF:</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-file-signature"></i></span>
+                        @Html.TextBox("nombre", null, new { @class = "form-control", placeholder = "Ej: Manual_Empleado.pdf", required = "required" })
+                    </div>
+                    @Html.ValidationMessage("nombre", "", new { @class = "text-danger" })
+                </div>
+
+                <div class="mb-3">
+                    <label for="file" class="form-label">Archivo PDF:</label>
+                    <div class="file-upload-wrapper" style="position: relative;">
+                        <!-- Panel donde se hace clic para seleccionar el archivo -->
+                        <div class="file-upload-panel w-100 mt-3 p-4 text-center" style="border: 2px dashed #d3d3d3; border-radius: 10px; cursor: pointer; position: relative; background-color: #f7f7f7;">
+                            <!-- El input tipo file sigue siendo invisible pero cubre todo el panel -->
+                            <input type="file" id="file" name="file" class="form-control" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0;" accept="application/pdf" required />
+                            <i class="fas fa-cloud-upload-alt fa-3x text-primary"></i>
+                            <span class="file-name mt-2 text-primary fw-bold"></span>
+                            <div class="mt-2">Seleccionar archivo PDF</div>
+                        </div>
+                    </div>
+                    @Html.ValidationMessage("file", "", new { @class = "text-danger" })
+                </div>
+
+
+                <button type="submit" class="btn w-100 mt-3" style="background-color: #d3d3d3; color: #333; border: none; transition: background-color 0.3s ease;">
+                    <i class="fas fa-upload me-2"></i> Subir PDF
+                </button>
+            }
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const fileInput = document.getElementById('file');
+            const fileNameDisplay = document.querySelector('.file-name');
+
+            fileInput.addEventListener('change', function () {
+                if (this.files.length > 0) {
+                    fileNameDisplay.textContent = this.files[0].name;
+                } else {
+                    fileNameDisplay.textContent = '';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

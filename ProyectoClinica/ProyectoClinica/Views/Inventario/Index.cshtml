@@ -3,586 +3,423 @@
 @{
     ViewBag.Title = "Inventario";
 }
+<head>
+    <link href="~/CSS/Inventarios.css" rel="stylesheet" />
+    <link href="~/CSS/VistaGeneral.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-<style>
-    :root {
-        --primary-turquoise: #008B8B;
-        --secondary-turquoise: #48D1CC;
-        --hover-turquoise: #20B2AA;
-        --background-light: #F5F5F5;
-    }
-    /* Asegura que los botones de filtro estén siempre horizontales */
-    .filter-buttons {
-        display: flex;
-        flex-direction: row !important;
-        justify-content: center;
-        gap: 10px;
-        margin-top: 10px;
-        margin-bottom: 20px;
-    }
-
-        .filter-buttons .btn {
-            white-space: nowrap;
-            min-width: 100px;
+    <style>
+        /* Estilos originales */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
         }
 
-    /* Contenedor de filtros */
-    .filters-container {
-        display: flex;
-        flex-wrap: wrap; /* Permite que los filtros se ajusten en pantallas pequeñas */
-        justify-content: center; /* Centra los filtros */
-        align-items: center;
-        gap: 10px; /* Espaciado entre los filtros */
-        margin-bottom: 20px;
-    }
-
-        /* Ajuste para los inputs y selects */
-        .filters-container input,
-        .filters-container select {
-            width: 220px; /* Ajusta el ancho uniforme */
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+        .payment-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
         }
 
-    /* Alineación de los botones */
-    .filter-buttons {
-        display: flex;
-        justify-content: center;
-        gap: 10px; /* Espaciado entre los botones */
-    }
-
-
-    /* Evita el desplazamiento horizontal en la tabla */
-    .table-container {
-        width: 100%;
-        overflow-x: hidden; /* 🔹 Evita la barra de desplazamiento horizontal */
-    }
-
-    /* Ajusta la tabla para que se adapte bien sin hacer scroll */
-    .table {
-        width: 100%;
-        table-layout: auto; /* 🔹 Permite que las columnas se ajusten automáticamente */
-        word-wrap: break-word;
-        white-space: normal; /* 🔹 Evita que las celdas hagan que la tabla se expanda */
-    }
-
-    /* Ajusta la celda de acciones para que los botones queden en línea */
-    .action-buttons {
-        display: flex;
-        justify-content: center; /* Centra los botones en la celda */
-        align-items: center;
-        gap: 5px; /* Espacio entre los botones */
-        flex-wrap: nowrap; /* Evita que los botones se pongan en vertical */
-    }
-
-        /* Ajusta los botones para que tengan un tamaño uniforme */
-        .action-buttons a {
-            padding: 6px 10px;
-            font-size: 14px;
-            white-space: nowrap; /* Evita que el texto de los botones se divida */
-        }
-
-
-    /* Mantiene los filtros alineados y responsivos */
-    .row.mb-3 {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 10px;
-    }
-
-    /* Evita el desplazamiento horizontal en toda la página */
-    body {
-        overflow-x: hidden;
-    }
-
-
-    body {
-        background-color: var(--background-light);
-        font-family: Arial, sans-serif;
-        margin: 0;
-        min-height: 100vh;
-    }
-
-    .header {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 50px;
-        background-color: #008B8B;
-        z-index: 1001;
-    }
-
-    .sidebar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 220px; /*Ancho*/
-        height: 100vh;
-        background-color: white;
-        padding-top: 5px; /*Espacio*/
-        padding-left: 5px; /*Espacio*/
-        padding-right: 5px; /*Espacio*/
-        overflow-y: auto;
-        z-index: 1000;
-    }
-
-        .sidebar a {
-            display: block;
-            color: #000000;
-            padding: 5px 10px;
-            text-decoration: none;
-            font-size: 18px;
-            margin-bottom: 2px;
-        }
-
-            .sidebar a:hover {
-                background-color: #3bb4bc80;
-                border-radius: 5px;
+            .payment-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
             }
 
-
-    .content {
-        padding: 20px;
-        max-width: 700px;
-        margin: 0 auto;
-    }
-
-        .content h2 {
-            color: #0b7b82;
-            text-align: left;
-            margin-bottom: 20px;
-            padding-left: 20px;
-        }
-
-        .content p {
-            text-align: left;
-            padding-left: 20px;
-            margin-bottom: 10px;
-            line-height: 1.6;
-        }
-
-    .nav-link {
-        color: #333;
-        padding: 10px 15px;
-    }
-
-        .nav-link:hover {
-            background-color: #3bb4bc;
+        .card-status-chip {
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
             color: white;
         }
 
-    .nav-header {
-        padding: 10px 15px;
-        color: #0b7b82;
-        font-size: 0.8em;
-        text-transform: uppercase;
-        font-weight: bold;
-    }
-
-    /* Main Content Styles */
-    .main-content {
-        padding: 20px;
-    }
-
-    .content-wrapper {
-        background-color: white;
-        padding: 50px;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        margin-top: 20px;
-    }
-
-    /* Button Styles */
-    .btn {
-        padding: 15px 25px;
-        border-radius: 5px;
-        font-weight: 500;
-        transition: all 0.3s ease;
-        text-transform: none;
-        margin-bottom: 15px;
-    }
-
-    .btn-primary {
-        background-color: var(--primary-turquoise);
-        border-color: var(--primary-turquoise);
-        color: white;
-    }
-
-        .btn-primary:hover {
-            background-color: var(--hover-turquoise);
-            border-color: var(--hover-turquoise);
-            transform: translateY(-2px);
+        .status-activo {
+            background-color: #28a745; /* Verde para activo */
         }
 
-    .btn-info {
-        background-color: var(--secondary-turquoise);
-        border-color: var(--secondary-turquoise);
-        color: white;
-    }
-
-        .btn-info:hover {
-            background-color: var(--hover-turquoise);
-            border-color: var(--hover-turquoise);
-            transform: translateY(-2px);
-        }
-    /* Aumenta el tamaño de los botones de acción en la tabla */
-    .action-buttons .btn,
-    .d-flex.gap-1 .btn {
-        padding: 8px 12px;
-        font-size: 14px;
-        white-space: nowrap;
-        min-width: 80px;
-        margin: 2px;
-    }
-
-    /* Asegura que los botones de detalle y ocultar tengan un tamaño consistente */
-    .btn-info, .btn-hide {
-        height: 38px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    /* Aumenta el tamaño de los botones de filtro */
-    .filter-buttons .btn {
-        padding: 10px 15px;
-        font-size: 15px;
-        min-width: 120px;
-        height: 45px;
-    }
-
-    /* Incrementa el tamaño del botón Crear */
-    .btn.text-white[style*="background-color: #3bb4bc"] {
-        padding: 10px 20px;
-        font-size: 16px;
-        min-width: 100px;
-        height: 45px;
-    }
-
-    /* Asegura que el botón Mostrar Inactivos sea del mismo tamaño */
-    .btn-show-inactive {
-        padding: 10px 20px;
-        font-size: 16px;
-        min-width: 150px;
-        height: 45px;
-    }
-    /* Ajusta los botones de acción para evitar que se corten */
-    .action-buttons .btn,
-    .d-flex.gap-1 .btn {
-        padding: 8px 10px;
-        font-size: 14px;
-        white-space: nowrap;
-        min-width: 70px; /* Reducimos un poco el ancho mínimo */
-        margin: 2px;
-        overflow: visible; /* Asegura que el contenido no se corte */
-    }
-
-    /* Solución definitiva para los botones cortados */
-
-    /* 1. Aumenta significativamente el ancho de la columna de acciones */
-    .table th:nth-child(9),
-    .table td:nth-child(9) {
-        width: 25% !important; /* Aumentamos considerablemente el ancho de la columna */
-        min-width: 200px !important;
-    }
-
-    /* 2. Elimina cualquier restricción de tamaño para los botones */
-    .d-flex.gap-1 .btn {
-        padding: 8px;
-        font-size: 14px;
-        white-space: nowrap;
-        overflow: visible;
-        text-overflow: initial;
-        width: auto !important;
-        max-width: none !important;
-    }
-
-    /* 3. Asegura que el contenedor tenga suficiente espacio */
-    .d-flex.gap-1 {
-        display: flex !important;
-        flex-direction: row !important;
-        flex-wrap: nowrap !important;
-        justify-content: space-around !important;
-        width: 100% !important;
-        min-width: 190px !important;
-    }
-
-    /* 4. Reducir el ancho de otras columnas para compensar */
-    .table th:not(:nth-child(9)),
-    .table td:not(:nth-child(9)) {
-        width: auto !important;
-    }
-
-    /* Ajusta el contenedor de los botones */
-    .d-flex.gap-1 {
-        display: flex;
-        flex-direction: row !important;
-        gap: 5px;
-        justify-content: center;
-        flex-wrap: nowrap;
-        width: 100%;
-    }
-    .gallery-container {
-        padding: 20px;
-        max-width: 1200px;
-        margin: 0 auto;
-    }
-
-    .image-gallery {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 20px;
-        padding: 20px;
-    }
-
-    .gallery-item {
-        border-radius: 8px;
-        overflow: hidden;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-
-    .gallery-image {
-        width: 100%;
-        height: 250px;
-        object-fit: cover;
-        display: block;
-        transition: transform 0.3s ease;
-    }
-
-        .gallery-image:hover {
-            transform: scale(1.05);
+        .status-inactivo {
+            background-color: #dc3545; /* Rojo para inactivo */
         }
 
-    .image-caption {
-        padding: 10px;
-        text-align: center;
-        background-color: #f8f9fa;
-        color: #333;
-    }
-
-    /* Estilos específicos para la tabla */
-    .table-container {
-        width: 100%;
-        overflow-x: hidden; /* Evita el scroll horizontal */
-        margin-bottom: 20px;
-        background: white;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-
-    .table {
-        width: 100%;
-        table-layout: fixed; /* Importante: fija el ancho de las columnas */
-        word-wrap: break-word; /* Permite que el texto se rompa y continúe en la siguiente línea */
-        white-space: normal; /* Permite saltos de línea en el texto */
-    }
-
-        .table th, .table td {
-            overflow-wrap: break-word; /* Asegura que las palabras largas se rompan */
-            word-break: break-word; /* Rompe palabras si es necesario */
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
         }
 
-        .table tbody tr:nth-child(even) {
-            background-color: #f8f9fa;
+        .card-id {
+            font-weight: bold;
+            color: #666;
         }
 
-        .table tbody tr:hover {
-            background-color: #e9ecef;
+        .card-date {
+            color: #888;
+            font-size: 14px;
         }
 
-    /* Ajustes para el contenedor principal */
-    .button-container {
-        padding: 20px;
-        background-color: var(--background-light);
-        margin-left: 220px; /* Mismo ancho que la sidebar */
-    }
+        .card-body {
+            padding: 15px;
+        }
 
-    /* Estilos para el header y botones de acción */
-    .inventory-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-        padding: 0 15px;
-    }
+        .card-product-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
 
-    /* Modifica estos estilos en tu archivo CSS */
+            .card-product-header i {
+                font-size: 18px;
+                color: #3bb4bc;
+                margin-right: 10px;
+            }
 
-    /* Ajusta los botones de acción para que estén en línea horizontal */
-    .action-buttons {
-        display: flex;
-        flex-direction: row !important; /* Fuerza la dirección horizontal */
-        justify-content: center;
-        gap: 5px;
-        flex-wrap: nowrap;
-    }
+        .card-product-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: #3bb4bc;
+            margin-right: 10px;
+            flex: 1;
+        }
 
-        /* Ajusta el tamaño de los botones para que quepan en una fila */
-        .action-buttons .btn,
-        .d-flex.gap-1 .btn {
-            padding: 5px 8px;
+        .card-status-badge {
+            padding: 3px 10px;
+            border-radius: 20px;
             font-size: 12px;
-            white-space: nowrap;
-            width: auto;
+            font-weight: bold;
+            color: white;
+            display: inline-block;
         }
 
-    /* Elimina la configuración de dirección de columna */
-    .d-flex.gap-1 {
-        display: flex;
-        flex-direction: row !important;
-        gap: 5px;
-        justify-content: center;
-    }
-
-    /* Ajusta los anchos de las columnas específicas */
-    .table th:nth-child(1), .table td:nth-child(1) {
-        width: 16%;
-    }
-    /* Estado */
-    .table th:nth-child(2), .table td:nth-child(2) {
-        width: 15%;
-    }
-    /* Nombre */
-    .table th:nth-child(3), .table td:nth-child(3) {
-        width: 10%;
-    }
-    /* Marca */
-    .table th:nth-child(4), .table td:nth-child(4) {
-        width: 13%;
-    }
-    /* Cantidad */
-    .table th:nth-child(5), .table td:nth-child(5) {
-        width: 10%;
-    }
-    /* Precio */
-    .table th:nth-child(6), .table td:nth-child(6) {
-        width: 15%;
-    }
-    /* Caducidad */
-    .table th:nth-child(7), .table td:nth-child(7) {
-        width: 15%;
-    }
-    /* Tipo */
-    .table th:nth-child(8), .table td:nth-child(8) {
-        width: 15%;
-    }
-    /* Ingreso */
-    .table th:nth-child(9), .table td:nth-child(9) {
-        width: 17%;
-    }
-    /* Acciones */
-    .action-buttons .btn {
-        padding: 6px 10px;
-        font-size: 12px;
-    }
-
-    /* Estilos para el scrollbar de la tabla */
-    .table-container::-webkit-scrollbar {
-        height: 8px;
-        width: 8px;
-    }
-
-    .table-container::-webkit-scrollbar-track {
-        background: #f1f1f1;
-    }
-
-    .table-container::-webkit-scrollbar-thumb {
-        background: var(--primary-turquoise);
-        border-radius: 4px;
-    }
-
-        .table-container::-webkit-scrollbar-thumb:hover {
-            background: var(--hover-turquoise);
+        .card-info {
+            display: flex;
+            margin-bottom: 10px;
         }
 
-    /* Estilos para elementos ocultos */
-    .hidden-row {
-        display: none;
-    }
-
-    /* Estilo para el botón Mostrar/Ocultar inactivos */
-    .btn-show-inactive {
-        background-color: #6c757d;
-        color: white;
-        margin-left: 10px;
-    }
-
-        .btn-show-inactive:hover {
-            background-color: #5a6268;
+        .info-label {
+            font-weight: bold;
+            width: 100px;
+            color: #666;
         }
 
-    /* Estilo para el botón de ocultar */
-    .btn-hide {
-        background-color: #dc3545;
-        color: white;
-    }
-
-        .btn-hide:hover {
-            background-color: #c82333;
+        .info-value {
+            flex: 1;
         }
-</style>
+
+        .card-footer {
+            padding: 15px;
+            border-top: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f9f9f9;
+        }
+
+        .card-user {
+            color: #888;
+            font-size: 14px;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 10px; /* Espacio entre botones */
+        }
+
+        .btn-action {
+            padding: 6px 12px;
+            background-color: #3bb4bc;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+            display: inline-block;
+            transition: all 0.2s ease;
+        }
+
+            .btn-action:hover {
+                background-color: #0b7b82;
+                color: white;
+            }
+
+        .btn-hide {
+            background-color: #6c757d;
+        }
+
+            .btn-hide:hover {
+                background-color: #5a6268;
+            }
+
+        .empty-state {
+            text-align: center;
+            padding: 50px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+            .empty-state i {
+                font-size: 50px;
+                color: #ccc;
+                margin-bottom: 20px;
+            }
+
+            .empty-state p {
+                color: #888;
+                margin-bottom: 20px;
+            }
+
+        .hidden-card {
+            display: none;
+        }
+
+        /* Estilos para la paginación */
+        .pagination {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 0;
+        }
+
+        .page-item {
+            margin: 0 2px;
+        }
+
+        .page-link {
+            padding: 6px 12px;
+            border: 1px solid #dee2e6;
+            color: #3bb4bc;
+            background-color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+        .page-item.active .page-link {
+            background-color: #3bb4bc;
+            border-color: #3bb4bc;
+            color: white;
+        }
+
+        .page-link:hover {
+            background-color: #e9ecef;
+            color: #0b7b82;
+        }
+
+        .inventory-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .filters-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* Nuevos estilos para indicadores de stock y fecha de caducidad */
+        .alert-badge {
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+            display: inline-block;
+            margin-top: 5px;
+        }
+
+        .low-stock {
+            background-color: #dc3545; /* Rojo para bajo stock */
+        }
+
+        .expiring-soon {
+            background-color: #ffc107; /* Amarillo para próximo a vencer */
+            color: #212529;
+        }
+
+        .expired {
+            background-color: #ff6b6b; /* Rojo más intenso para expirado */
+        }
+
+        .alert-indicators {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin-top: 10px;
+        }
+
+        /* Estilos para notificaciones */
+        .notification-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1050;
+            width: 350px;
+        }
+
+        .notification {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            margin-bottom: 10px;
+            overflow: hidden;
+            animation: slideIn 0.3s ease-out forwards;
+        }
+
+        .notification-header {
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .notification-body {
+            padding: 15px;
+        }
+
+        .notification-title {
+            margin: 0;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+
+            .notification-title i {
+                margin-right: 8px;
+            }
+
+        .notification-close {
+            background: none;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .notification-danger {
+            border-left: 4px solid #dc3545;
+        }
+
+        .notification-warning {
+            border-left: 4px solid #ffc107;
+        }
+
+        .notification-list {
+            max-height: 150px;
+            overflow-y: auto;
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .notification-item {
+            margin-bottom: 5px;
+        }
+
+        keyframes slideIn {
+            from
+
+        {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        }
+
+    </style>
 </head>
 <body>
     <div class="container-fluid">
+        <!-- Contenedor de notificaciones -->
+        <div id="notificationContainer" class="notification-container"></div>
 
         <div class="row">
             <!-- Sidebar -->
             <div class="col-md-3 col-lg-2 sidebar">
                 <div class="sidebar">
-                    <div class="text-center p-3">
-                        <img src="~/Imagenes/Logo.png" alt="Centro Integral Santo Domingo Logo" class="img-fluid" style="max-width: 150px; height: auto;" />
+                    <div class="p-3 d-flex justify-content-center">
+                        <img src="~/Imagenes/Logo.png" alt="Centro Integral Santo Domingo Logo" class="img-fluid" style="max-width: 195px; height: auto;" />
                     </div>
 
-                    <br />
+                    <center><div class="nav-header">Plataforma</div></center>
+                    <div class="nav-item">
+                        <a class="nav-link">
+                            <div>
+                                Navegación
+                            </div>
 
-                    <center><div class="nav-header">Navegación</div></center>
-                    <div class="nav flex-column">
-                        <a class="nav-link">
-                            <i class="fas fa-cash-register"></i> Punto de venta
                         </a>
-                    </div><br />
-                    <div class="nav flex-column">
-                        <a class="nav-link">
-                            <i class="fas fa-boxes"></i> Inventario
-                        </a>
-                    </div><br />
-                    <div class="nav flex-column">
-                        <a href="@Url.Action("VistaCON", "Contabilidad")" class="nav-link">
-                            <i class="fas fa-calculator"></i> Contabilidad
-                        </a>
-                    </div><br />
-                    <div class="nav flex-column">
-                        <a href="@Url.Action("VistaAdmRep", "Reporte")" class="nav-link">
-                            <i class="fas fa-chart-line"></i> Reportes
-                        </a>
+                        <ul class="submenu">
+                            <br />
+                            <a href="@Url.Action("Index", "Inventario")" class="nav-link">
+                                <i class="fas fa-boxes"></i> Inventario
+                            </a>
+                            <br />
+                            <a href="@Url.Action("VistaCON", "Contabilidad")" class="nav-link">
+                                <i class="fas fa-calculator"></i> Contabilidad
+                            </a>
+                            <br />
+                            <a href="@Url.Action("VistaAdmRep", "Reporte")" class="nav-link">
+                                <i class="fas fa-chart-line"></i> Reportes
+                            </a>
+                        </ul>
                     </div>
+
                     <hr />
 
-                    <center><div class="nav-header">Administración</div></center>
-                    <div class="nav flex-column">
-                        <a href="@Url.Action("Administrativo", "Administrativos")" class="nav-link">
-                            <i class="fas fa-user-tie"></i> Administrativo
-                        </a><br />
-                        <a href="@Url.Action("Empleados", "Empleados")" class="nav-link">
-                            <i class="fas fa-users"></i> Empleados
-                        </a><br />
+                    <div class="nav-item">
+                        <a class="nav-link">
+                            <div>
+                                Administración
+                            </div>
+
+                        </a>
+                        <ul class="submenu">
+                            <a href="@Url.Action("Administrativo", "Administrativos")" class="nav-link">
+                                <i class="fas fa-user-tie"></i> Administrativo
+                            </a>
+                            <br />
+                            <a href="@Url.Action("Empleados", "Empleados")" class="nav-link">
+                                <i class="fas fa-users"></i> Empleados
+                            </a>
+                            <br />
                             <a href="@Url.Action("Expedientes", "Expedientes")" class="nav-link">
                                 <i class="fas fa-folder-open"></i> Expedientes
-                            </a><br />
-                        <a href="@Url.Action("VistaCAdmin", "Cita")" class="nav-link">
-                            <i class="fas fa-calendar-check"></i> Citas
-                        </a>
+                            </a>
+                            <br />
+                            <a href="@Url.Action("VistaCAdmin", "Cita")" class="nav-link">
+                                <i class="fas fa-calendar-check"></i> Citas
+                            </a>
+                        </ul>
                     </div>
-
                 </div>
             </div>
+
+
             <!-- Main Content -->
             <div class="col-md-9 col-lg-10 ms-auto button-container">
                 <div class="inventory-header">
-                    <h2 style="text-align: ri; margin-bottom: 20px;">Inventario</h2>
+                    <h2 style="text-align: left; margin-bottom: 20px;">Inventario</h2>
                     <div>
                         @Html.ActionLink("Crear", "Crear", null, new { @class = "btn text-white", style = "background-color: #3bb4bc; border-radius: 5px;" })
                         <a href="@Url.Action("Index")" id="btnMostrarInactivos" class="btn btn-show-inactive" style="display: none;">Mostrar Inactivos</a>
@@ -609,44 +446,88 @@
                     </div>
                 }
 
-                <div class="table-container">
-                    <table class="table" id="tablaProductos">
-                        <thead style="background-color: #0b7b82; color: white;">
-                            <tr>
-                                <th>@Html.DisplayNameFor(model => model.Estado.Descripcion)</th>
-                                <th>@Html.DisplayNameFor(model => model.NombreArticulo)</th>
-                                <th>@Html.DisplayNameFor(model => model.Marca)</th>
-                                <th>@Html.DisplayNameFor(model => model.Cantidad)</th>
-                                <th>@Html.DisplayNameFor(model => model.PrecioUnitario)</th>
-                                <th>@Html.DisplayNameFor(model => model.FechaCaducidad)</th>
-                                <th>@Html.DisplayNameFor(model => model.TipoArticulo)</th>
-                                <th>@Html.DisplayNameFor(model => model.FechaIngreso)</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model)
-                            {
-                                <tr data-id="@item.Id_Articulo">
-                                    <td>@Html.DisplayFor(modelItem => item.Estado.Descripcion)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.NombreArticulo)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.Marca)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.Cantidad)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.PrecioUnitario)</td>
-                                    <td>@item.FechaCaducidad.ToString("dd/MM/yyyy")</td>
-                                    <td>@Html.DisplayFor(modelItem => item.TipoArticulo)</td>
-                                    <td>@item.FechaIngreso.ToString("dd/MM/yyyy")</td>
-                                    <td>
-                                        <div class="d-flex gap-1">
-                                            @Html.ActionLink("Detalle", "Detalles", new { id = item.Id_Articulo }, new { @class = "btn btn-info text-white", title = "Ver Detalles" })
-                                            <button class="btn btn-hide" onclick="ocultarItem(@item.Id_Articulo)" title="Ocultar Item">Ocultar</button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+                <!-- Cards de Inventario -->
+                <div class="cards-container">
+                    @foreach (var item in Model)
+                    {
+                        // Verificar stock bajo y fecha de caducidad
+                        bool lowStock = item.Cantidad < 10;
+                        bool isExpiring = (item.FechaCaducidad - DateTime.Now).TotalDays <= 15 && (item.FechaCaducidad - DateTime.Now).TotalDays > 0;
+                        bool isExpired = item.FechaCaducidad < DateTime.Now;
+
+                        <div class="payment-card" data-id="@item.Id_Articulo" data-low-stock="@lowStock" data-expiring="@isExpiring" data-expired="@isExpired">
+                            <div class="card-header">
+                                <div class="card-id">ID: @item.Id_Articulo</div>
+                            </div>
+                            <div class="card-body">
+                                <div class="card-product-header">
+                                    <i class="fas fa-box"></i>
+                                    <div class="card-product-name">@item.NombreArticulo</div>
+                                    <div class="card-status-badge @(item.Estado.Descripcion == "Activo" ? "status-activo" : "status-inactivo")">
+                                        @item.Estado.Descripcion
+                                    </div>
+                                </div>
+                                <div class="card-info">
+                                    <div class="info-label">Marca:</div>
+                                    <div class="info-value">@item.Marca</div>
+                                </div>
+                                <div class="card-info">
+                                    <div class="info-label">Tipo:</div>
+                                    <div class="info-value">@item.TipoArticulo</div>
+                                </div>
+                                <div class="card-info">
+                                    <div class="info-label">Precio:</div>
+                                    <div class="info-value">$@item.PrecioUnitario</div>
+                                </div>
+                                <div class="card-info">
+                                    <div class="info-label">Cantidad:</div>
+                                    <div class="info-value">
+                                        @item.Cantidad
+                                        @if (lowStock)
+                                        {
+                                            <span class="alert-badge low-stock"><i class="fas fa-exclamation-triangle"></i> Bajo stock</span>
+                                        }
+                                    </div>
+                                </div>
+                                <div class="alert-indicators">
+                                    @if (isExpiring)
+                                    {
+                                        <span class="alert-badge expiring-soon"><i class="fas fa-clock"></i> Próximo a vencer (15 días)</span>
+                                    }
+                                    @if (isExpired)
+                                    {
+                                        <span class="alert-badge expired"><i class="fas fa-exclamation-circle"></i> Producto vencido</span>
+                                    }
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="card-user">
+                                    <i class="fas fa-calendar-alt"></i> Vence: @item.FechaCaducidad.ToString("dd/MM/yyyy")
+                                </div>
+                                <div class="card-actions">
+                                    <a href="@Url.Action("Detalles", new { id = item.Id_Articulo })" class="btn-action">
+                                        <i class="fas fa-info-circle"></i> Detalle
+                                    </a>
+                                    <button class="btn-action btn-hide" onclick="ocultarItem(@item.Id_Articulo)">
+                                        <i class="fas fa-eye-slash"></i> Ocultar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    @if (!Model.Any())
+                    {
+                        <div class="empty-state" style="grid-column: 1 / -1;">
+                            <i class="fas fa-boxes"></i>
+                            <p>No se encontraron artículos en el inventario</p>
+                            <a href="@Url.Action("Crear")" class="btn text-white" style="background-color: #3bb4bc; border-radius: 5px;">
+                                <i class="fas fa-plus-circle"></i> Crear Nuevo Artículo
+                            </a>
+                        </div>
+                    }
                 </div>
+
+                <div id="paginationCards" class="d-flex justify-content-center mt-3"></div>
             </div>
         </div>
     </div>
@@ -655,26 +536,211 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        // Variable para almacenar los elementos ocultos
         var itemsOcultos = [];
 
         // Función para ocultar un item
         function ocultarItem(id) {
-            var row = $('tr[data-id="' + id + '"]');
+            var card = document.querySelector('.payment-card[data-id="' + id + '"]');
 
-            // Guarda la información del item antes de ocultarlo
-            itemsOcultos.push({
-                id: id,
-                html: row[0].outerHTML
-            });
+            if (card) {
+                // Guarda la información del item antes de ocultarlo
+                itemsOcultos.push({
+                    id: id,
+                    html: card.outerHTML
+                });
 
-            // Oculta la fila
-            row.addClass('hidden-row');
+                // Remover el elemento completamente del DOM para que no afecte la paginación
+                card.remove();
 
-            // Mostrar botón para mostrar inactivos si hay elementos ocultos
-            if (itemsOcultos.length > 0) {
-                $('#btnMostrarInactivos').show();
+                // Mostrar botón para mostrar inactivos si hay elementos ocultos
+                if (itemsOcultos.length > 0) {
+                    $('#btnMostrarInactivos').show();
+                }
+
+                // Recalcular paginación
+                actualizarPaginacion();
             }
         }
+
+        // Función para recalcular la paginación después de ocultar un producto
+        function actualizarPaginacion() {
+            const items = Array.from(document.querySelectorAll('.payment-card'));
+            const totalItems = items.length;
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
+            currentPage = 1;
+            showPage(currentPage);
+        }
+
+
+        // Función para crear y mostrar notificaciones
+        function showNotification(title, items, type) {
+            const notificationContainer = document.getElementById('notificationContainer');
+
+            // Crear el elemento de notificación
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+
+            // Crear el encabezado de la notificación
+            const header = document.createElement('div');
+            header.className = 'notification-header';
+
+            const titleEl = document.createElement('h5');
+            titleEl.className = 'notification-title';
+
+            // Añadir icono según el tipo
+            const icon = document.createElement('i');
+            if (type === 'danger') {
+                icon.className = 'fas fa-exclamation-triangle';
+            } else if (type === 'warning') {
+                icon.className = 'fas fa-clock';
+            }
+            titleEl.appendChild(icon);
+            titleEl.appendChild(document.createTextNode(title));
+
+            const closeBtn = document.createElement('button');
+            closeBtn.className = 'notification-close';
+            closeBtn.innerHTML = '&times;';
+            closeBtn.addEventListener('click', function () {
+                notification.remove();
+            });
+
+            header.appendChild(titleEl);
+            header.appendChild(closeBtn);
+
+            // Crear el cuerpo de la notificación
+            const body = document.createElement('div');
+            body.className = 'notification-body';
+
+            // Crear la lista de elementos
+            const list = document.createElement('ul');
+            list.className = 'notification-list';
+
+            items.forEach(item => {
+                const listItem = document.createElement('li');
+                listItem.className = 'notification-item';
+                listItem.textContent = item;
+                list.appendChild(listItem);
+            });
+
+            body.appendChild(list);
+
+            // Ensamblar la notificación
+            notification.appendChild(header);
+            notification.appendChild(body);
+
+            // Añadir la notificación al contenedor
+            notificationContainer.appendChild(notification);
+
+            // Eliminar la notificación después de un tiempo
+            setTimeout(() => {
+                notification.remove();
+            }, 10000); // 10 segundos
+        }
+
+        // Toggle submenu functionality
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function () {
+                // Close all other open submenus
+                document.querySelectorAll('.submenu').forEach(submenu => {
+                    if (submenu !== this.nextElementSibling) {
+                        submenu.classList.remove('active');
+                        this.classList.remove('active');
+                    }
+                });
+
+                // Toggle the clicked submenu
+                const submenu = this.nextElementSibling;
+                if (submenu) {
+                    submenu.classList.toggle('active');
+                    this.classList.toggle('active');
+                }
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Paginación
+            const itemsPerPage = 8;
+            const items = Array.from(document.querySelectorAll('.payment-card'));
+            const totalItems = items.length;
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
+            const paginationContainer = document.getElementById('paginationCards');
+
+            let currentPage = 1;
+
+            function showPage(pageNumber) {
+                const items = Array.from(document.querySelectorAll('.payment-card'));
+                const startIndex = (pageNumber - 1) * itemsPerPage;
+                const endIndex = startIndex + itemsPerPage;
+
+                items.forEach((item, index) => {
+                    item.style.display = (index >= startIndex && index < endIndex) ? 'block' : 'none';
+                });
+
+                updatePagination(pageNumber);
+            }
+
+            function updatePagination(pageNumber) {
+                paginationContainer.innerHTML = '';
+
+                for (let i = 1; i <= totalPages; i++) {
+                    const pageButton = document.createElement('button');
+                    pageButton.innerText = i;
+                    pageButton.className = 'page-link';
+                    if (i === pageNumber) {
+                        pageButton.classList.add('active');
+                    }
+
+                    pageButton.addEventListener('click', function () {
+                        currentPage = i;
+                        showPage(currentPage);
+                    });
+
+                    const listItem = document.createElement('li');
+                    listItem.className = 'page-item';
+                    listItem.appendChild(pageButton);
+                    paginationContainer.appendChild(listItem);
+                }
+            }
+
+            // Mostrar la primera página
+            showPage(currentPage);
+
+            // Verificar productos con bajo stock y próximos a vencer
+            const lowStockItems = Array.from(document.querySelectorAll('.payment-card[data-low-stock="True"]'));
+            const expiringItems = Array.from(document.querySelectorAll('.payment-card[data-expiring="True"]'));
+            const expiredItems = Array.from(document.querySelectorAll('.payment-card[data-expired="True"]'));
+
+            // Notificación de productos con bajo stock
+            if (lowStockItems.length > 0) {
+                const lowStockNames = lowStockItems.map(item => {
+                    const name = item.querySelector('.card-product-name').textContent;
+                    const quantity = item.querySelector('.info-value').textContent.trim().split('\n')[0].trim();
+                    return `${name} (${quantity})`;
+                });
+
+                showNotification(
+                    `¡Alerta! ${lowStockItems.length} productos con bajo stock`,
+                    lowStockNames,
+                    'danger'
+                );
+            }
+
+            // Notificación de productos próximos a vencer o vencidos
+            const allExpiringItems = [...expiringItems, ...expiredItems];
+            if (allExpiringItems.length > 0) {
+                const expiringNames = allExpiringItems.map(item => {
+                    const name = item.querySelector('.card-product-name').textContent;
+                    const expiryDate = item.querySelector('.card-user').textContent.split('Vence:')[1].trim();
+                    const status = item.getAttribute('data-expired') === 'True' ? 'VENCIDO' : 'Próximo a vencer';
+                    return `${name} (${status} - ${expiryDate})`;
+                });
+
+                showNotification(
+                    `¡Alerta! ${allExpiringItems.length} productos próximos a vencer o vencidos`,
+                    expiringNames,
+                    'warning'
+                );
+            }
+        });
     </script>
 </body>

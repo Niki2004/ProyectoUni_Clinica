@@ -317,6 +317,18 @@ body {
     color: #B8D8FF;
 }
 
+.btn-pastel-azul {
+    background-color: #a3c6e0; /* Azul pastel */
+    color: white;
+}
+
+.btn-pastel-verde {
+    background-color: #a8d5ba; /* Verde pastel */
+    color: white;
+}
+
+
+
 .form-control {
     border-color: #ced4da !important;
 }
@@ -325,3 +337,4 @@ body {
         border-color: #ced4da !important;
         box-shadow: none !important;
     }
+

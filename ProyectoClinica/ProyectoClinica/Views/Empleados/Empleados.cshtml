@@ -27,9 +27,7 @@
 
                         </a>
                         <ul class="submenu">
-                            <a @*href="@Url.Action(" ", "Punto de Venta")"*@ class="nav-link">
-                                <i class="fas fa-cash-register"></i> Punto de Venta
-                            </a>
+                           
                             <br />
                             <a href="@Url.Action("Index", "Inventario")" class="nav-link">
                                 <i class="fas fa-boxes"></i> Inventario
@@ -98,43 +96,134 @@
                     </div>
                 }
 
-                <div class="container">
-                    <div class="row mb-4 text-center row-cols-4 g-3">
-                        <div class="col">
-                            @Html.ActionLink("Registro de empleados", "Create", "Empleados", null, new { @class = "btn btn-primary btn-sm w-100" })
+                <div class="dashboard-cards">
+                    <div class="simple-card">
+                        <div class="card-number">1</div>
+                        <div class="card-header">
+                            <h3 class="card-title">Registro de empleados</h3>
                         </div>
-                        <div class="col">
-                            @Html.ActionLink("Asignación de Roles", "Index", "AsignacionRolesTemporales", null, new { @class = "btn btn-primary btn-sm w-100" })
+                        <div class="card-body">
+                            <p>Registrar nuevos empleados en el sistema.</p>
                         </div>
-                        <div class="col">
-                            @Html.ActionLink("Editar Empleado", "VistaEmpleados", "Empleados", null, new { @class = "btn btn-primary btn-sm w-100" })
-                        </div>
+                        <a href="@Url.Action("Create", "Empleados")" class="detail-btn">
+                                 <i class="fas fa-arrow-right">
+                            </i> Ingresar
+                        </a>
                     </div>
 
-                    <div class="row mb-4 text-center row-cols-4 g-3">
-                        <div class="col">
-                            @Html.ActionLink("Desactivar perfiles", "vistaEliminar", "Empleados", null, new { @class = "btn btn-info btn-sm w-100" })
+                    <div class="simple-card">
+                        <div class="card-number">2</div>
+                        <div class="card-header">
+                            <h3 class="card-title">Asignación de Roles</h3>
                         </div>
-                        <div class="col">
-                            @Html.ActionLink("Buscar Empleado", "Buscar", "Empleados", null, new { @class = "btn btn-primary btn-sm w-100" })
+                        <div class="card-body">
+                            <p>Asignar y gestionar roles temporales.</p>
                         </div>
-                        <div class="col">
-                            @Html.ActionLink("Evaluacion", "vistaEvaluacion", "Empleados", null, new { @class = "btn btn-info btn-sm w-100" })
-                        </div>
+                        <a href="@Url.Action("Index", "AsignacionRolesTemporales")" class="detail-btn">
+            <i class="fas fa-arrow-right">
+                            </i> Ingresar
+                        </a>
                     </div>
 
-                    <div class="row mb-4 text-center row-cols-4 g-3">
-                        <div class="col">
-                            @Html.ActionLink("Subir PDF", "File", "Empleados", null, new { @class = "btn btn-primary btn-sm w-100" })
+                    <div class="simple-card">
+                        <div class="card-number">3</div>
+                        <div class="card-header">
+                            <h3 class="card-title">Editar Empleado</h3>
                         </div>
-                        <div class="col">
-                            @Html.ActionLink("Historial del empleado", "vistaHistorial", "Empleados", null, new { @class = "btn btn-info btn-sm w-100" })
+                        <div class="card-body">
+                            <p>Modificar información de empleados.</p>
                         </div>
-                        <div class="col">
-                            @Html.ActionLink("Ver PDF", "vistaPDF", "Empleados", null, new { @class = "btn btn-primary btn-sm w-100" })
+                        <a href="@Url.Action("VistaEmpleados", "Empleados")" class="detail-btn">
+            <i class="fas fa-arrow-right">
+                            </i> Ingresar
+                        </a>
+                    </div>
+
+                    <div class="simple-card">
+                        <div class="card-number">4</div>
+                        <div class="card-header">
+                            <h3 class="card-title">Desactivar perfiles</h3>
                         </div>
+                        <div class="card-body">
+                            <p>Gestionar perfiles de empleados.</p>
+                        </div>
+                        <a href="@Url.Action("vistaEliminar", "Empleados")" class="detail-btn">
+            <i class="fas fa-arrow-right">
+                            </i> Ingresar
+                        </a>
+                    </div>
+
+                    <div class="simple-card">
+                        <div class="card-number">5</div>
+                        <div class="card-header">
+                            <h3 class="card-title">Buscar Empleado</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>Encuentra empleados por nombre o ID.</p>
+                        </div>
+                        <a href="@Url.Action("Buscar", "Empleados")" class="detail-btn">
+            <i class="fas fa-arrow-right">
+                            </i> Ingresar
+                        </a>
+                    </div>
+
+                    <div class="simple-card">
+                        <div class="card-number">6</div>
+                        <div class="card-header">
+                            <h3 class="card-title">Evaluación</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>Evaluaciones de desempeño de empleados.</p>
+                        </div>
+                        <a href="@Url.Action("vistaEvaluacion", "Empleados")" class="detail-btn">
+            <i class="fas fa-arrow-right">
+                            </i> Ingresar
+                        </a>
+                    </div>
+
+                    <div class="simple-card">
+                        <div class="card-number">7</div>
+                        <div class="card-header">
+                            <h3 class="card-title">Subir PDF</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>Adjuntar documentos en formato PDF.</p>
+                        </div>
+                        <a href="@Url.Action("File", "Empleados")" class="detail-btn">
+            <i class="fas fa-arrow-right">
+                            </i> Ingresar
+                        </a>
+                    </div>
+
+                    <div class="simple-card">
+                        <div class="card-number">8</div>
+                        <div class="card-header">
+                            <h3 class="card-title">Historial del empleado</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>Consulta el historial de cada empleado.</p>
+                        </div>
+                        <a href="@Url.Action("vistaHistorial", "Empleados")" class="detail-btn">
+                             <i class="fas fa-arrow-right">
+                            </i> Ingresar
+                        </a>
+                    </div>
+
+                    <div class="simple-card">
+                        <div class="card-number">9</div>
+                        <div class="card-header">
+                            <h3 class="card-title">Ver PDF</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>Visualiza documentos PDF subidos.</p>
+                        </div>
+                        <a href="@Url.Action("vistaPDF", "Empleados")" class="detail-btn">
+                             <i class="fas fa-arrow-right">
+                            </i> Ingresar
+                        </a>
                     </div>
                 </div>
+
 
             </div>
 

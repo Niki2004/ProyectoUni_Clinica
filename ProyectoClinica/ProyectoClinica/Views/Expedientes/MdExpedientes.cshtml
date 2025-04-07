@@ -1,238 +1,11 @@
 ﻿@model IEnumerable<ProyectoClinica.Models.Empleado>
 
 @{
-    ViewBag.Title = "Administrador";
+    ViewBag.Title = "Médico";
 }
 
+<link href="~/CSS/VistaGeneral.css" rel="stylesheet" />
 
-
-
-<style>
-    :root {
-        --primary-turquoise: #008B8B;
-        --secondary-turquoise: #48D1CC;
-        --hover-turquoise: #20B2AA;
-        --background-light: #F5F5F5;
-    }
-
-    body {
-        background-color: var(--background-light);
-        font-family: Arial, sans-serif;
-        margin: 0;
-        min-height: 100vh;
-    }
-
-    .header {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 50px;
-        background-color: #008B8B;
-        z-index: 1001;
-    }
-
-    .sidebar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 220px;
-        height: 100vh;
-        background-color: white;
-        padding-top: 5px;
-        padding-left: 5px;
-        padding-right: 5px;
-        overflow-y: auto;
-        z-index: 1000;
-    }
-
-        .sidebar a {
-            display: block;
-            color: #000000;
-            padding: 5px 10px;
-            text-decoration: none;
-            font-size: 18px;
-            margin-bottom: 2px;
-        }
-
-            .sidebar a:hover {
-                background-color: #3bb4bc80;
-                border-radius: 5px;
-            }
-
-
-    .content {
-        padding: 20px;
-        max-width: 700px;
-        margin: 0 auto;
-    }
-
-        .content h2 {
-            color: #0b7b82;
-            text-align: left;
-            margin-bottom: 20px;
-            padding-left: 20px;
-        }
-
-        .content p {
-            text-align: left;
-            padding-left: 20px;
-            margin-bottom: 10px;
-            line-height: 1.6;
-        }
-
-    .nav-link {
-        color: #333;
-        padding: 10px 15px;
-    }
-
-        .nav-link:hover {
-            background-color: #3bb4bc;
-            color: white;
-        }
-
-    .nav-header {
-        padding: 10px 15px;
-        color: #0b7b82;
-        font-size: 0.8em;
-        text-transform: uppercase;
-        font-weight: bold;
-    }
-
-
-    .main-content {
-        padding: 20px;
-    }
-
-    .content-wrapper {
-        background-color: white;
-        padding: 50px;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        margin-top: 20px;
-    }
-
-
-    .btn {
-        padding: 15px 25px;
-        border-radius: 5px;
-        font-weight: 500;
-        transition: all 0.3s ease;
-        text-transform: none;
-        margin-bottom: 15px;
-    }
-
-    .btn-primary {
-        background-color: var(--primary-turquoise);
-        border-color: var(--primary-turquoise);
-        color: white;
-    }
-
-        .btn-primary:hover {
-            background-color: var(--hover-turquoise);
-            border-color: var(--hover-turquoise);
-            transform: translateY(-2px);
-        }
-
-    .btn-info {
-        background-color: var(--secondary-turquoise);
-        border-color: var(--secondary-turquoise);
-        color: white;
-    }
-
-        .btn-info:hover {
-            background-color: var(--hover-turquoise);
-            border-color: var(--hover-turquoise);
-            transform: translateY(-2px);
-        }
-
-    .gallery-container {
-        padding: 20px;
-        max-width: 1200px;
-        margin: 0 auto;
-    }
-
-    .image-gallery {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 20px;
-        padding: 20px;
-    }
-
-    .gallery-item {
-        border-radius: 8px;
-        overflow: hidden;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-
-    .gallery-image {
-        width: 100%;
-        height: 250px;
-        object-fit: cover;
-        display: block;
-        transition: transform 0.3s ease;
-    }
-
-        .gallery-image:hover {
-            transform: scale(1.05);
-        }
-
-    .image-caption {
-        padding: 10px;
-        text-align: center;
-        background-color: #f8f9fa;
-        color: #333;
-    }
-
-    .button-container {
-        position: fixed;
-        top: 50px;
-        left: 220px;
-        right: 0;
-        bottom: 0;
-        overflow-y: auto;
-        padding: 20px;
-        background-color: var(--background-light);
-    }
-
-
-    .container {
-        max-width: 100%;
-        padding-right: 15px;
-        padding-left: 15px;
-        margin-right: auto;
-        margin-left: auto;
-    }
-
-
-    .row-cols-4 {
-        margin-right: -15px;
-        margin-left: -15px;
-    }
-
-    .col {
-        padding-right: 15px;
-        padding-left: 15px;
-    }
-
-
-    .button-container::-webkit-scrollbar {
-        width: 8px;
-    }
-
-    .button-container::-webkit-scrollbar-track {
-        background: #f1f1f1;
-    }
-
-    .button-container::-webkit-scrollbar-thumb {
-        background: var(--primary-turquoise);
-        border-radius: 4px;
-    }
-
-        .button-container::-webkit-scrollbar-thumb:hover {
-            background: var(--hover-turquoise);
-        }
-</style>
 </head>
 <body>
     <div class="container-fluid">
@@ -246,85 +19,35 @@
                         <img src="~/Imagenes/Logo.png" alt="Centro Integral Santo Domingo Logo" class="img-fluid" style="max-width: 195px; height: auto;" />
                     </div>
 
-                    <br />
+                    <center><div class="nav-header">Plataforma</div></center>
+                    <div class="nav-item">
+                        <a class="nav-link">
+                            <div>
+                                Navegación
+                            </div>
 
-                    <center><div class="nav-header">Navegación</div></center>
-
-                    <div class="nav flex-column">
-                        <a href="@Url.Action("MdExpedientes","Expedientes")" class="nav-link">
-                            <i class="fas fa-folder-open"></i> Expedientes
                         </a>
-                    </div><br />
-                    <div class="nav flex-column">
-                        <a href="@Url.Action("VistaDoc", "Cita")"class="nav-link">
-                            <i class="fas fa-calendar-check"></i> Citas
-                        </a>
-                    </div><br />
-
-
+                        <ul class="submenu">
+                            <a href="@Url.Action("MdExpedientes", "Expedientes")" class="nav-link">
+                                <i class="fas fa-folder-open"></i> Expedientes
+                            </a>
+                            <br />
+                            <a href="@Url.Action("VistaDOC", "Cita")" class="nav-link">
+                                <i class="fas fa-calendar-check"></i> Citas
+                            </a>
+                        </ul>
+                    </div>
 
                 </div>
-
             </div>
 
-        </div>
-            <!-- Sidebar -->
-            <!--<div class="col-md-3 col-lg-2 sidebar">
-                <div class="sidebar">
-                    <div class="text-center p-3">
-                        <img src="~/Imagenes/Logo.png" alt="Centro Integral Santo Domingo Logo" class="img-fluid" style="max-width: 150px; height: auto;" />
-                    </div>
-
-                    <br />
-
-                    <center><div class="nav-header">Navegación</div></center>
-                    <div class="nav flex-column">
-                        <a class="nav-link">
-                            <i class="fas fa-cash-register"></i> Punto de venta
-                        </a>
-                    </div><br />
-                    <div class="nav flex-column">
-                        <a href="@Url.Action("Index", "Inventario")" class="nav-link">
-                            <i class="fas fa-boxes"></i> Inventario
-                        </a>
-                    </div><br />
-                    <div class="nav flex-column">
-                        <a href="@Url.Action("VistaCON", "Contabilidad")" class="nav-link">
-                            <i class="fas fa-calculator"></i> Contabilidad
-                        </a>
-                    </div><br />
-                    <div class="nav flex-column">
-                        <a href="@Url.Action("VistaAdmRep", "Reporte")" class="nav-link">
-                            <i class="fas fa-chart-line"></i> Reportes
-                        </a>
-                    </div>
-                    <hr />
-
-                    <center><div class="nav-header">Administración</div></center>
-                    <div class="nav flex-column">
-                        <a href="@Url.Action("Administrativo", "Administrativos")" class="nav-link">
-                            <i class="fas fa-user-tie"></i> Administrativo
-                        </a><br />
-                        <a class="nav-link">
-                            <i class="fas fa-users"></i> Empleados
-                        </a><br />
-                        <a class="nav-link">
-                            <i class="fas fa-folder-open"></i> Expedientes
-                        </a><br />
-                        <a href="@Url.Action("VistaCAdmin", "Cita")" class="nav-link">
-                            <i class="fas fa-calendar-check"></i> Citas
-                        </a>
-                    </div>
-
-                </div>
-            </div>-->
             <!-- Main Content -->
             <div class="button-container">
                 <div style="display: flex; align-items: center; margin-bottom: 10px;">
                     <a href="@Url.Action("IndDOC", "Cita")" style="text-decoration: none; color: #000000; font-size: 18px; display: flex; align-items: center;">
                         <i class="fas fa-home" style="margin-right: 5px;"></i>
                     </a>
-                    <h4 style="margin-left: 10px; font-weight: bold; color: #333;">Expedientes</h4>
+                    <h4 style="margin-left: 10px; font-weight: bold; color: #333;">Módulo de Expedientes</h4>
                 </div>
 
                 <div style="text-align: left; margin-bottom: 5px;">
@@ -341,38 +64,77 @@
                     </div>
                 }
 
-                <div class="container">
-                    <div class="row mb-4 text-center row-cols-4 g-3">
 
-                        <div class="col">
-                            @Html.ActionLink("Historial del paciente ", "VistaHistorialMd", "Expedientes", null, new { @class = "btn btn-primary btn-sm w-100" })
+                <div class="dashboard-cards">
+                    <!-- Tarjeta 1 -->
+                    <div class="simple-card">
+                        <div class="card-number">1</div>
+                        <div class="card-header">
+                            <h3 class="card-title">Historial del paciente</h3>
+                            <span class="card-subtitle"></span>
                         </div>
-                       
-
-                        <div class="col">
-                            @Html.ActionLink("Agregar Notas", "DOCHCita", "Perfil", null, new { @class = "btn btn-primary btn-sm w-100" })
+                        <div class="card-body">
+                            <p>Accede al historial médico del paciente.</p>
                         </div>
-
+                        <a href="@Url.Action("VistaHistorialMd", "Expedientes")" class="detail-btn">
+                            <i class="fas fa-arrow-right"></i> Ingresar
+                        </a>
                     </div>
 
-                    <div class="row mb-4 text-center row-cols-4 g-3">
-                        
-                        <div class="col">
-                            @Html.ActionLink("Agregar imagenes", "SubirImagenes", "Expedientes", null, new { @class = "btn btn-primary btn-sm w-100" })
+                    <!-- Tarjeta 2 -->
+                    <div class="simple-card">
+                        <div class="card-number">2</div>
+                        <div class="card-header">
+                            <h3 class="card-title">Agregar Notas</h3>
+                            <span class="card-subtitle"></span>
                         </div>
+                        <div class="card-body">
+                            <p>Agregar notas para la consulta o expediente.</p>
+                        </div>
+                        <a href="@Url.Action("DOCHCita", "Perfil")" class="detail-btn">
+                            <i class="fas fa-arrow-right"></i> Ingresar
+                        </a>
                     </div>
 
-
+                    <!-- Tarjeta 3 -->
+                    <div class="simple-card">
+                        <div class="card-number">3</div>
+                        <div class="card-header">
+                            <h3 class="card-title">Agregar Imágenes</h3>
+                            <span class="card-subtitle"></span>
+                        </div>
+                        <div class="card-body">
+                            <p>Sube imágenes para el expediente del paciente.</p>
+                        </div>
+                        <a href="@Url.Action("SubirImagenes", "Expedientes")" class="detail-btn">
+                            <i class="fas fa-arrow-right"></i> Ingresar
+                        </a>
+                    </div>
                 </div>
-
             </div>
-
-
-
         </div>
 
 
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            // Toggle submenu functionality
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function () {
+                    // Close all other open submenus
+                    document.querySelectorAll('.submenu').forEach(submenu => {
+                        if (submenu !== this.nextElementSibling) {
+                            submenu.classList.remove('active');
+                            this.classList.remove('active');
+                        }
+                    });
+
+                    // Toggle the clicked submenu
+                    const submenu = this.nextElementSibling;
+                    submenu.classList.toggle('active');
+                    this.classList.toggle('active');
+                });
+            });
+        </script>
 
 </body>

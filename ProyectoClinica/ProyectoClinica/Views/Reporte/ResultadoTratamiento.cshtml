@@ -1,66 +1,71 @@
 ﻿@model IEnumerable<ProyectoClinica.Models.Receta>
+
 @{
-    ViewBag.Title = "Reporte de Citas";
+    ViewBag.Title = "Reporte de Tratamientos";
     var nombreReceta = Model.Select(c => c.Nombre_Receta).Distinct().OrderBy(e => e).ToList();
 }
 
-<link href="~/CSS/Reportes.css" rel="stylesheet" />
-
-<div class="report-header">
-    <h2>Reporte de Tratamientos</h2>
-    <a href="@Url.Action("VistaAdmRep", "Reporte")" class="custom-btn home-btn">
-        <i class="fas fa-home"></i>
-    </a>
-</div>
-
-<div class="container">
-    <div class="card mb-4 shadow-sm filter-card">
-        <div class="card-header" style="background-color: #0b7b82; color: white;">
-            <h5 class="mb-0"><i class="fas fa-filter"></i> Filtros de búsqueda</h5>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reporte de Tratamientos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link href="~/CSS/Administrativo.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="page-container">
+        <div class="header-container">
+            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                <a href="@Url.Action("VistaAdmRep", "Reporte")" class="btn-inicio">
+                    <i class="fas fa-home"></i> Inicio
+                </a>
+                <div class="page-title-container">
+                    <h1 class="page-title">Reporte de Tratamientos</h1>
+                </div>
+            </div>
         </div>
 
-        <div class="card-body">
-            @using (Html.BeginForm("ResultadoTratamiento", "Reporte", FormMethod.Get, new { @class = "form-inline" }))
+        <br />
+        <br />
+
+        <div class="search-panel">
+            <h2 class="search-title" style="color: #392F5A;"><i class="fas fa-filter"></i> Filtros de búsqueda</h2>
+            @using (Html.BeginForm("ResultadoTratamiento", "Reporte", FormMethod.Get))
             {
-                <div class="row">
-                    <div class="col-md-4 mb-3">
-                        <label for="nombreReceta" class="form-label">Recetas:</label>
-                        <select name="nombreReceta" id="nombreReceta" class="form-control w-100">
-                            <option value="">-- Nombre de Recetas --</option>
-                            @foreach (var esp in nombreReceta)
-                            {
-                                <option value="@esp" @(ViewBag.NombreReceta != null && ViewBag.NombreReceta.ToString() == esp ? "selected" : "")>@esp</option>
-                            }
-                        </select>
-                    </div>
-                    <div class="col-md-4 align-self-end mb-3">
-                        <div class="d-flex gap-2">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-search"></i> Buscar
-                            </button>
-                            <a href="@Url.Action("ResultadoTratamiento", "Reporte")" class="btn btn-secondary">
-                                <i class="fas fa-broom"></i> Limpiar
-                            </a>
+                <div class="row align-items-end g-3">
+                    <div class="col-md-6">
+                        <div class="form-group mb-0">
+                            <label for="nombreReceta" class="form-label">Nombre de Receta:</label>
+                            <select name="nombreReceta" id="nombreReceta" class="form-select">
+                                <option value="">-- Todas las recetas --</option>
+                                @foreach (var esp in nombreReceta)
+                                {
+                                    <option value="@esp" @(ViewBag.NombreReceta != null && ViewBag.NombreReceta.ToString() == esp ? "selected" : "")>@esp</option>
+                                }
+                            </select>
                         </div>
                     </div>
+                    <div class="col-md-3">
+                        <button type="submit" class="btn-search w-100" style="background-color: #D6E5FF; color: #333; border: none;">
+                            <i class="fas fa-search me-2"></i>Buscar
+                        </button>
+                    </div>
+                  
                 </div>
             }
         </div>
-    </div>
 
-    <div class="card shadow-sm">
-        <div class="card-header bg-light">
-            <div class="d-flex justify-content-between align-items-center">
-                <h5 class="mb-0"><i class="fas fa-calendar-check"></i> Listado de tratamientos</h5>
+        <div class="results-panel mt-4">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h2 class="results-title" style="color: #392F5A;"><i class="fas fa-notes-medical"></i> Resultados de Tratamientos</h2>
                 <a href="@Url.Action("ExportarExcelRecetas", "Reporte", new { nombreReceta = ViewBag.NombreReceta })"
                    class="btn btn-success btn-sm">
                     <i class="fas fa-file-excel"></i> Exportar a Excel
                 </a>
             </div>
-        </div>
-        <div class="card-body p-0">
             <div class="table-responsive">
-                <table id="comentariosTable" class="modern-table">
+                <table class="table">
                     <thead>
                         <tr>
                             <th>Fecha</th>
@@ -71,7 +76,7 @@
                             <th>Motivo</th>
                         </tr>
                     </thead>
-                    <tbody id="comentariosBody">
+                    <tbody id="tratamientosBody">
                         @if (Model.Any())
                         {
                             foreach (var receta in Model)
@@ -89,7 +94,7 @@
                         else
                         {
                             <tr>
-                                <td colspan="5" class="text-center py-4">
+                                <td colspan="6" class="text-center py-4">
                                     <div class="alert alert-info mb-0">
                                         <i class="fas fa-info-circle me-2"></i> No se encontraron tratamientos con los filtros seleccionados
                                     </div>
@@ -102,52 +107,47 @@
             </div>
         </div>
     </div>
-</div>
 
-@section Scripts {
-    <script>
-        $(document).ready(function () {
-            var rowsPerPage = 5; // Número de comentarios por página
-            var $rows = $("#comentariosBody tr");
-            var totalPages = Math.ceil($rows.length / rowsPerPage);
-            var currentPage = 1;
+    @section Scripts {
+        <script>
+            $(document).ready(function () {
+                var rowsPerPage = 5;
+                var $rows = $("#tratamientosBody tr");
+                var totalPages = Math.ceil($rows.length / rowsPerPage);
+                var currentPage = 1;
 
-            function showPage(page) {
-                var start = (page - 1) * rowsPerPage;
-                var end = start + rowsPerPage;
-
-                $rows.hide().slice(start, end).show();
-                $("#paginationContainer").html(createPagination(page, totalPages));
-            }
-
-            function createPagination(page, total) {
-                var pagination = `<nav><ul class="pagination">`;
-
-                if (page > 1) {
-                    pagination += `<li class="page-item"><a href="#" class="page-link" data-page="${page - 1}">«</a></li>`;
+                function showPage(page) {
+                    var start = (page - 1) * rowsPerPage;
+                    var end = start + rowsPerPage;
+                    $rows.hide().slice(start, end).show();
+                    $("#paginationContainer").html(createPagination(page, totalPages));
                 }
 
-                for (var i = 1; i <= total; i++) {
-                    pagination += `<li class="page-item ${i === page ? 'active' : ''}">
-                                 <a href="#" class="page-link" data-page="${i}">${i}</a>
-                                </li>`;
+                function createPagination(page, total) {
+                    var pagination = `<nav><ul class="pagination">`;
+                    if (page > 1) {
+                        pagination += `<li class="page-item"><a href="#" class="page-link" data-page="${page - 1}">«</a></li>`;
+                    }
+                    for (var i = 1; i <= total; i++) {
+                        pagination += `<li class="page-item ${i === page ? 'active' : ''}">
+                                    <a href="#" class="page-link" data-page="${i}">${i}</a></li>`;
+                    }
+                    if (page < total) {
+                        pagination += `<li class="page-item"><a href="#" class="page-link" data-page="${page + 1}">»</a></li>`;
+                    }
+                    pagination += `</ul></nav>`;
+                    return pagination;
                 }
 
-                if (page < total) {
-                    pagination += `<li class="page-item"><a href="#" class="page-link" data-page="${page + 1}">»</a></li>`;
-                }
+                $(document).on("click", ".page-link", function (e) {
+                    e.preventDefault();
+                    var page = $(this).data("page");
+                    showPage(page);
+                });
 
-                pagination += `</ul></nav>`;
-                return pagination;
-            }
-
-            $(document).on("click", ".page-link", function (e) {
-                e.preventDefault();
-                var page = $(this).data("page");
-                showPage(page);
+                showPage(currentPage);
             });
-
-            showPage(currentPage);
-        });
-    </script>
-}
+        </script>
+    }
+</body>
+</html>

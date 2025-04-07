@@ -98,7 +98,6 @@ namespace ProyectoClinica.Controllers
                     range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
                 }
 
-                // Agregar datos desde la fila 2 (como en la imagen)
                 int row = 2;
                 foreach (var cita in listaCitas)
                 {
@@ -118,20 +117,12 @@ namespace ProyectoClinica.Controllers
                     row++;
                 }
 
-                // Añadir nota de pie de página en la fila 5 (como en la imagen)
-                worksheet.Cells["A5"].Value = "El informe de asistencia proporciona un desglose detallado de las citas médicas programadas en el centro médico.";
-                worksheet.Cells["A5:F5"].Merge = true;
-                worksheet.Cells["A5"].Style.Font.Italic = true;
-                worksheet.Cells["A5"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
-
-                // Configuración de ancho de columnas similar a la imagen
                 worksheet.Column(1).Width = 15; // Fecha
                 worksheet.Column(2).Width = 30; // Nombre del paciente
                 worksheet.Column(3).Width = 35; // Motivo
                 worksheet.Column(4).Width = 15; // Estado
                 worksheet.Column(5).Width = 15; // Especialidad
 
-                // Agregar un borde verde en las celdas C9:C10 (como se ve en la imagen)
                 using (var range = worksheet.Cells["C9:C10"])
                 {
                     range.Style.Border.Top.Style = ExcelBorderStyle.Thin;

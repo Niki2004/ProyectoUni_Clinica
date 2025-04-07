@@ -4,148 +4,130 @@
     ViewBag.Title = "Deshabilitar Empleado";
 }
 
-<style>
-    .container-form {
-        max-width: 1100px;
-        margin: 0 auto;
-        padding: 20px;
-        background-color: #f8f9fa;
-        border-radius: 10px;
-        box-shadow: 0 0 15px rgba(0,0,0,0.1);
-    }
-
-    .page-title {
-        color: #0b7b82;
-        text-align: center;
-        margin-bottom: 20px;
-        padding-bottom: 10px;
-        border-bottom: 2px solid #0b7b82;
-    }
-
-    .custom-btn {
-        background-color: #0b7b82;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 8px;
-        font-size: 14px;
-        text-decoration: none;
-        transition: background 0.3s ease, transform 0.2s ease;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-        display: inline-block;
-        text-align: center;
-    }
-
-        .custom-btn:hover {
-            background-color: #096c72;
-            transform: translateY(-1px);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-
-    .table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-    }
-
-        .table th, .table td {
-            padding: 12px;
-            border: 1px solid #dee2e6;
-            text-align: center;
-            font-size: 14px;
-        }
-
-        .table th {
-            background-color: #0b7b82;
-            color: white;
-            font-weight: bold;
-        }
-
-        .table tr:nth-child(even) td {
-            background-color: #f2f2f2;
-        }
-
-    .action-link {
-        background-color: #dc3545;
-        color: white;
-        padding: 6px 12px;
-        border-radius: 5px;
-        text-decoration: none;
-        transition: background 0.3s ease, transform 0.2s ease;
-        display: inline-block;
-        font-size: 14px;
-    }
-
-        .action-link:hover {
-            background-color: #c82333;
-            transform: translateY(-2px);
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.15);
-        }
-    .custom-btn {
-        background-color: #0b7b82 !important;
-        color: white !important;
-        border: none;
-        padding: 12px 24px;
-        border-radius: 8px;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 16px;
-        text-decoration: none;
-        transition: background 0.3s ease, transform 0.2s ease;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-</style>
-
-<div class="container-form">
-    @if (TempData["SuccessMessage"] != null)
-    {
-        <div class="alert alert-success" role="alert">
-            @TempData["SuccessMessage"]
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Deshabilitar Empleado</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link href="~/CSS/Administrativo.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="page-container">
+        <div class="header-container">
+            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                <a href="@Url.Action("Empleados", "Empleados")" class="btn-inicio">
+                    <i class="fas fa-home"></i> Inicio
+                </a>
+                <div class="page-title-container">
+                    <h1 class="page-title">Deshabilitar Empleado</h1>
+                </div>
+            </div>
         </div>
-    }
-    <h2 class="page-title">Deshabilitar Empleado</h2>
 
-    <div style="text-align: center; margin-bottom: 20px;">
-        <a href="@Url.Action("Empleados", "Empleados")" class="custom-btn">
-            <i class="fas fa-home"></i> Inicio
-        </a>
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success mt-3">
+                @TempData["SuccessMessage"]
+            </div>
+        }
+
+        <div class="results-panel mt-4">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h2 class="results-title" style="color: #392F5A;"><i class="fas fa-user-slash"></i> Lista de Empleados</h2>
+            </div>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.First().Estado.Descripcion)</th>
+                            <th>@Html.DisplayNameFor(model => model.First().Comentarios)</th>
+                            <th>@Html.DisplayNameFor(model => model.First().Nombre)</th>
+                            <th>@Html.DisplayNameFor(model => model.First().Apellido)</th>
+                            <th>@Html.DisplayNameFor(model => model.First().Cedula)</th>
+                            <th>@Html.DisplayNameFor(model => model.First().Jornada)</th>
+                            <th>@Html.DisplayNameFor(model => model.First().Departamento)</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="empleadosBody">
+                        @if (Model.Any())
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.Estado.Descripcion</td>
+                                    <td>@item.Comentarios</td>
+                                    <td>@item.Nombre</td>
+                                    <td>@item.Apellido</td>
+                                    <td>@item.Cedula</td>
+                                    <td>@item.Jornada</td>
+                                    <td>@item.Departamento</td>
+                                    <td>
+                                        <a href="@Url.Action("Delete", new { id = item.Id_Empleado })"
+                                           class="btn btn-sm"
+                                           style="background-color: #ef9a9a; color: white; border: none;">
+                                            <i class="fas fa-trash-alt"></i> Deshabilitar
+                                        </a>
+                                    </td>
+
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="8" class="text-center py-4">
+                                    <div class="alert alert-info mb-0">
+                                        <i class="fas fa-info-circle me-2"></i> No hay empleados registrados.
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <div id="paginationContainer" class="d-flex justify-content-center mt-3"></div>
+            </div>
+        </div>
     </div>
+</body>
+</html>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>@Html.DisplayNameFor(model => model.First().Estado.Descripcion)</th>
-                <th>@Html.DisplayNameFor(model => model.First().Comentarios)</th>
-                <th>@Html.DisplayNameFor(model => model.First().Nombre)</th>
-                <th>@Html.DisplayNameFor(model => model.First().Apellido)</th>
-                <th>@Html.DisplayNameFor(model => model.First().Cedula)</th>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var rowsPerPage = 5;
+            var $rows = $("#empleadosBody tr");
+            var totalPages = Math.ceil($rows.length / rowsPerPage);
+            var currentPage = 1;
 
-                <th>@Html.DisplayNameFor(model => model.First().Jornada)</th>
+            function showPage(page) {
+                var start = (page - 1) * rowsPerPage;
+                var end = start + rowsPerPage;
 
-                <th>@Html.DisplayNameFor(model => model.First().Departamento)</th>
-                <th>Acción</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>@Html.DisplayFor(modelItem => item.Estado.Descripcion)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Comentarios)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Nombre)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Apellido)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Cedula)</td>
-
-                    <td>@Html.DisplayFor(modelItem => item.Jornada)</td>
-
-                    <td>@Html.DisplayFor(modelItem => item.Departamento)</td>
-                    <td>
-                        @Html.ActionLink("Deshabilitar", "Delete", new { id = item.Id_Empleado }, new { @class = "action-link" })
-                    </td>
-                </tr>
+                $rows.hide().slice(start, end).show();
+                $("#paginationContainer").html(createPagination(page, totalPages));
             }
-        </tbody>
-    </table>
-</div>
+
+            function createPagination(current, total) {
+                let html = '<nav><ul class="pagination">';
+                for (let i = 1; i <= total; i++) {
+                    html += `<li class="page-item ${i === current ? 'active' : ''}">
+                                 <a class="page-link" href="#">${i}</a>
+                             </li>`;
+                }
+                html += '</ul></nav>';
+                return html;
+            }
+
+            $("#paginationContainer").on("click", ".page-link", function (e) {
+                e.preventDefault();
+                var selectedPage = parseInt($(this).text());
+                currentPage = selectedPage;
+                showPage(currentPage);
+            });
+
+            showPage(currentPage);
+        });
+    </script>
+}

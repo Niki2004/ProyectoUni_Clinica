@@ -101,7 +101,7 @@ namespace ProyectoClinica.Controllers
                 worksheet.Column(6).Width = 50;
 
                 var stream = new MemoryStream(package.GetAsByteArray());
-                string fileName = "Informe_Recetas";
+                string fileName = "Informe_Contaduria";
 
                 if (!string.IsNullOrEmpty(TipoTransaccion))
                 {

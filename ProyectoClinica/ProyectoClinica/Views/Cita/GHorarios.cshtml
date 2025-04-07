@@ -1,81 +1,133 @@
 ﻿@model IEnumerable<ProyectoClinica.Models.Medico>
 
 @{
-    ViewBag.Title = "Doctores";
+    ViewBag.Title = "Administrador";
 }
 
-<div style="padding: 20px; max-width: 800px; margin: auto;">
-    <a href="@Url.Action("VistaCAdmin", "Cita")" class="custom-btn">
-        <i class="fas fa-arrow-left"></i> Regresar
-    </a>
-    <h2 style="text-align: center; margin: 20px 0;">Doctores</h2>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Doctores</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="~/CSS/Tablas.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="header-container" style="display: flex; justify-content: center; align-items: center; width: 100%; margin: 0 auto; max-width: 1200px;">
+        <div class="header-container" style="display: flex; justify-content: center; align-items: center; width: 100%; margin: 0 auto; max-width: 1200px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                <a href="@Url.Action("VistaCAdmin", "Cita")" class="btn-inicio">
+                    <i class="fas fa-home"></i> Regresar
+                </a>
+                <div class="page-title-container" style="position: absolute; left: 50%; transform: translateX(-50%);">
+                    <h1 class="page-title">Listado de Doctores</h1>
+                </div>
+                <div style="width: 120px;"></div> <!-- Espaciador para alinear -->
+            </div>
+        </div>
+    </div>
 
-    <div class="doctor-list">
+    <br><br>
+
+    <!-- Tarjetas de Doctores -->
+    <div class="cards-container">
         @foreach (var item in Model)
         {
-            <div class="doctor-card">
-                <div class="doctor-img">
-                    <img src="@item.Imagen" alt="Perfil" class="profile-pic" />
+            <div class="payment-card">
+                <div class="card-status-chip estado-contabilidad-otro">
+                    Doctor
                 </div>
-                <div class="doctor-info">
-                    <h3>@item.Especialidad</h3>
-                    <p>@item.Nombre</p>
+                <div class="card-header">
+                    <div class="card-id">@item.Especialidad</div>
+                    <div class="card-date">ID: @item.Id_Medico</div>
                 </div>
-                <a href="@Url.Action("EditarMedico", "Cita", new { id = item.Id_Medico })" class="edit-icon">
-                    <i class="fas fa-edit"></i>
-                </a>
+                <div class="card-body">
+                    <div class="card-info">
+                        <div class="info-label">Nombre:</div>
+                        <div class="info-value">@item.Nombre</div>
+                    </div>
+                    <div class="card-info">
+                        <div class="info-label">Foto:</div>
+                        <div class="info-value">
+                            <img src="@item.Imagen" alt="Foto del doctor" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;" />
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="card-user">
+                        <i class="fas fa-user-md"></i> Médico
+                    </div>
+                    <div>
+                        <a href="@Url.Action("EditarMedico", "Cita", new { id = item.Id_Medico })" class="btn-action">
+                            <i class="fas fa-edit"></i> Editar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+
+        @if (!Model.Any())
+        {
+            <div class="empty-state" style="grid-column: 1 / -1;">
+                <i class="fas fa-user-md"></i>
+                <p>No se encontraron doctores registrados</p>
             </div>
         }
     </div>
-</div>
 
-<style>
-    .custom-btn {
-        background-color: #0b7b82;
-        color: white;
-        padding: 10px 20px;
-        border-radius: 8px;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 16px;
-        margin-bottom: 20px;
-    }
+    <div id="paginationCards" class="d-flex justify-content-center mt-3"></div>
+</body>
+</html>
 
-    .doctor-list {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    }
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var rowsPerPage = 5;
+            var $cards = $(".payment-card");
+            var totalPagesCards = Math.ceil($cards.length / rowsPerPage);
+            var currentPageCards = 1;
 
-    .doctor-card {
-        display: flex;
-        align-items: center;
-        background: white;
-        padding: 10px;
-        border-radius: 10px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        position: relative;
-    }
+            function showPage(page, items, totalPages, container) {
+                var start = (page - 1) * rowsPerPage;
+                var end = start + rowsPerPage;
 
-    .doctor-img img {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        object-fit: cover;
-    }
+                items.hide().slice(start, end).show();
+                $(container).html(createPagination(page, totalPages, container));
+            }
 
-    .doctor-info {
-        margin-left: 15px;
-        flex-grow: 1;
-    }
+            function createPagination(page, total, container) {
+                var pagination = `<nav><ul class="pagination">`;
 
-    .edit-icon {
-        position: absolute;
-        right: 15px;
-        color: #0b7b82;
-        font-size: 18px;
-        text-decoration: none;
-    }
-</style>
+                if (page > 1) {
+                    pagination += `<li class="page-item"><a href="#" class="page-link" data-page="${page - 1}" data-container="${container}">«</a></li>`;
+                }
+
+                for (var i = 1; i <= total; i++) {
+                    pagination += `<li class="page-item ${i === page ? 'active' : ''}">
+                                         <a href="#" class="page-link" data-page="${i}" data-container="${container}">${i}</a>
+                                       </li>`;
+                }
+
+                if (page < total) {
+                    pagination += `<li class="page-item"><a href="#" class="page-link" data-page="${page + 1}" data-container="${container}">»</a></li>`;
+                }
+
+                pagination += `</ul></nav>`;
+                return pagination;
+            }
+
+            $(document).on("click", ".page-link", function (e) {
+                e.preventDefault();
+                var page = $(this).data("page");
+                var container = $(this).data("container");
+
+                if (container === "#paginationCards") {
+                    showPage(page, $cards, totalPagesCards, "#paginationCards");
+                }
+            });
+
+            showPage(currentPageCards, $cards, totalPagesCards, "#paginationCards");
+        });
+    </script>
+}
