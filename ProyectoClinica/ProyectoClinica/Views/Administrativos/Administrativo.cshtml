@@ -2,332 +2,15 @@
     ViewBag.Title = "Administrativo";
 }
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Centro Integral Santo Domingo</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
+<link href="~/CSS/VistaGeneral.css" rel="stylesheet" />
+<link href="~/CSS/VistaAsignacionRolesTemporales.css" rel="stylesheet" />
 
-    <style>
-        :root {
-            --primary-turquoise: #008B8B;
-            --secondary-turquoise: #48D1CC;
-            --hover-turquoise: #20B2AA;
-            --background-light: #F5F5F5;
-        }
-
-        body {
-            background-color: var(--background-light);
-            font-family: Arial, sans-serif;
-            margin: 0;
-            min-height: 100vh;
-        }
-
-        .header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 50px;
-            background-color: #008B8B;
-            z-index: 1001;
-        }
-
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 239px;
-            height: 100vh;
-            background-color: white;
-            padding-top: 65px;
-            padding-left: 15px;
-            padding-right: 15px;
-            overflow-y: auto;
-            z-index: 1000;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-
-            .sidebar a {
-                display: block;
-                color: #000000;
-                padding: 5px 10px;
-                text-decoration: none;
-                font-size: 18px;
-                margin-bottom: 2px;
-            }
-
-                .sidebar a:hover {
-                    background-color: #3bb4bc80;
-                    border-radius: 5px;
-                }
-
-
-        .content {
-            max-width: 847px;
-            margin: 0 0 40px auto;
-            padding: 20px;
-        }
-
-            .content h2 {
-                color: #0b7b82;
-                text-align: left;
-                margin-bottom: 20px;
-                padding-left: 20px;
-            }
-
-            .content p {
-                text-align: left;
-                padding-left: 20px;
-                margin-bottom: 10px;
-                line-height: 1.6;
-            }
-
-        .nav-link {
-            color: #333;
-            padding: 10px 15px;
-        }
-
-            .nav-link:hover {
-                background-color: #3bb4bc;
-                color: white;
-            }
-
-        .nav-header {
-            padding: 10px 15px;
-            color: #17183B;
-            font-size: 0.8em;
-            text-transform: uppercase;
-            font-weight: bold;
-        }
-
-
-        .main-content {
-            padding: 20px;
-        }
-
-        .content-wrapper {
-            background-color: white;
-            padding: 50px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            margin-top: 20px;
-        }
-
-
-        .btn {
-            padding: 15px 25px;
-            border-radius: 5px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            text-transform: none;
-            margin-bottom: 15px;
-        }
-
-        .btn-primary {
-            background-color: var(--primary-turquoise);
-            border-color: var(--primary-turquoise);
-            color: white;
-        }
-
-            .btn-primary:hover {
-                background-color: var(--hover-turquoise);
-                border-color: var(--hover-turquoise);
-                transform: translateY(-2px);
-            }
-
-        .btn-info {
-            background-color: var(--secondary-turquoise);
-            border-color: var(--secondary-turquoise);
-            color: white;
-        }
-
-            .btn-info:hover {
-                background-color: var(--hover-turquoise);
-                border-color: var(--hover-turquoise);
-                transform: translateY(-2px);
-            }
-
-        .gallery-container {
-            padding: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .image-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            padding: 20px;
-        }
-
-        .gallery-item {
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .gallery-image {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-            display: block;
-            transition: transform 0.3s ease;
-        }
-
-            .gallery-image:hover {
-                transform: scale(1.05);
-            }
-
-        .image-caption {
-            padding: 10px;
-            text-align: center;
-            background-color: #f8f9fa;
-            color: #333;
-        }
-
-        
-        .button-container {
-            margin-left: 19px; 
-            position: fixed;
-            top: 90px; 
-            left: 220px;
-            right: 0;
-            bottom: 0;
-            overflow-y: auto;
-            padding: 20px;
-            background-color: var(--background-light);
-        }
-
-        .container {
-            max-width: 100%;
-            padding-right: 15px;
-            padding-left: 15px;
-            margin-right: auto;
-            margin-left: auto;
-        }
-
-        .row-cols-4 {
-            margin-right: -15px;
-            margin-left: -15px;
-        }
-
-        .col {
-            padding-right: 15px;
-            padding-left: 15px;
-        }
-
-        .button-container::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .button-container::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-
-        .button-container::-webkit-scrollbar-thumb {
-            background: var(--primary-turquoise);
-            border-radius: 4px;
-        }
-
-            .button-container::-webkit-scrollbar-thumb:hover {
-                background: var(--hover-turquoise);
-            }
-
-        .nav-item {
-            position: relative;
-        }
-
-        .nav-link {
-            display: flex;
-            align-items: center;
-            color: #000000;
-            padding: 10px 15px;
-            text-decoration: none;
-            cursor: pointer;
-            justify-content: space-between;
-        }
-
-            .nav-link:hover {
-                background-color: #3bb4bc80;
-                border-radius: 5px;
-            }
-
-        .submenu {
-            display: none;
-            background-color: transparent;
-            list-style: none;
-            padding-left: 15px;
-        }
-
-            .submenu.active {
-                display: block;
-            }
-
-            .submenu a {
-                display: block;
-                color: #000000;
-                padding: 5px 10px;
-                text-decoration: none;
-                font-size: 18px;
-                margin-bottom: 2px;
-            }
-
-                .submenu a:hover {
-                    background-color: #3bb4bc80;
-                    border-radius: 5px;
-                }
-
-        .dropdown-icon {
-            transition: transform 0.3s;
-        }
-
-        .nav-link.active .dropdown-icon {
-            transform: rotate(180deg);
-        }
-
-        media (max-width: 768px) {
-            .container.body-content
-
-        {
-            padding: 15px;
-        }
-
-        }
-
-        media (max-width: 576px) {
-            .container.body-content
-
-        {
-            padding: 10px;
-        }
-
-        }
-
-        media (min-width: 1400px) {
-            .container.body-content
-
-        {
-            max-width: 1320px;
-        }
-
-        }
-
-        media (max-width: 576px) {
-            h1
-
-        {
-            font-size: 1.8rem;
-        }
-    </style>
 
 </head>
 <body>
     <div class="container-fluid">
-
         <div class="row">
             <!-- Sidebar -->
             <div class="col-md-3 col-lg-2 sidebar">
@@ -393,9 +76,8 @@
                 </div>
             </div>
 
-
             <!-- Main Content -->
-            <div class="button-container">
+            <div class="col-md-9 col-lg-10 button-container" style="padding-right: 0;">
                 <div style="display: flex; align-items: center; margin-bottom: 10px;">
                     <a href="@Url.Action("VistaAdmin", "Empleados")" style="text-decoration: none; color: #000000; font-size: 18px; display: flex; align-items: center;">
                         <i class="fas fa-home" style="margin-right: 5px;"></i>
@@ -405,91 +87,204 @@
 
                 <div style="text-align: left; margin-bottom: 5px;">
                     <span style="font-size: 14px; color: #555;">
-                        Obtén una visión completa de la información clínica, administrativa y financiera de tu clínica de salud
+                        Obtén una visión completa de la información clínica, administrativa y financiera de tu clínica de salud.
                     </span>
                 </div>
                 <br />
 
                 <!-- Información de Permisos -->
-                <div class="permission-info">
-                    @if (ViewBag.EsAdministrador)
-                    {
-                        <div class="alert alert-success">
-                            <p><strong>Rol:</strong> Administrador</p>
-                            <p><strong>Estado:</strong> @ViewBag.Estado</p>
-                            <p><strong>Departamento:</strong> @ViewBag.Departamento</p>
-                            <p>Tiene acceso completo a todos los módulos administrativos.</p>
-                        </div>
-                    }
-                    else if (ViewBag.TienePermisos)
-                    {
-                        <div class="alert alert-success">
-                            <p><strong>Estado:</strong> @ViewBag.Estado</p>
-                            <p><strong>Departamento Asignado:</strong> @ViewBag.Departamento</p>
-                            <p>Tiene acceso a los módulos administrativos según su asignación temporal.</p>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="alert alert-warning">
-                            <p>No tiene permisos activos para acceder a los módulos administrativos.</p>
-                            <p>Por favor, contacte al administrador para obtener los permisos necesarios.</p>
-                        </div>
-                    }
+                <div class="simple-card" style="margin-bottom: 20px; width: 95%; max-width: 1300px; margin-left: auto; margin-right: auto; overflow-x: hidden;">
+                    <div class="card-header" style="background-color: #f8f9fa; padding: 15px;">
+                        <h3 class="card-title" style="margin: 0; color: #333;">Información de Permisos</h3>
+                    </div>
+                    <div class="card-body" style="padding: 15px;">
+                        @if (ViewBag.EsAdministrador)
+                        {
+                            <div style="margin-bottom: 10px;">
+                                <h5 style="margin-bottom: 10px; color: #28a745;">Administrador</h5>
+                                <p style="margin-bottom: 5px;"><strong>Estado:</strong> @ViewBag.Estado</p>
+                                <p style="margin-bottom: 5px;"><strong>Departamento:</strong> @ViewBag.Departamento</p>
+                                <p style="margin-bottom: 0;">Tiene acceso completo a todos los módulos administrativos del sistema.</p>
+                            </div>
+                        }
+                        else if (ViewBag.TienePermisos)
+                        {
+                            <div style="margin-bottom: 10px;">
+                                <h5 style="margin-bottom: 10px; color: #17a2b8;">Usuario con Permisos</h5>
+                                <p style="margin-bottom: 5px;"><strong>Estado:</strong> @ViewBag.Estado</p>
+                                <p style="margin-bottom: 5px;"><strong>Departamento Asignado:</strong> @ViewBag.Departamento</p>
+                                <p style="margin-bottom: 0;">Tiene acceso a los módulos administrativos según su asignación temporal en el sistema.</p>
+                            </div>
+                        }
+                        else
+                        {
+                            <div style="margin-bottom: 10px;">
+                                <h5 style="margin-bottom: 10px; color: #dc3545;">Acceso Restringido</h5>
+                                <p style="margin-bottom: 5px;">No tiene permisos activos para acceder a los módulos administrativos.</p>
+                                <p style="margin-bottom: 0;">Por favor, contacte al administrador para obtener los permisos necesarios para utilizar esta sección.</p>
+                            </div>
+                        }
+                    </div>
                 </div>
+
+                @if (TempData["SuccessMessage"] != null)
+                {
+                    <div class="alert alert-success" role="alert">
+                        @TempData["SuccessMessage"]
+                    </div>
+                }
 
                 @if (ViewBag.TienePermisos || ViewBag.EsAdministrador)
                 {
-                    <div class="container">
-                        <div class="row mb-4 text-center row-cols-4 g-3">
-                            <div class="col">
-                                @Html.ActionLink("Lista de Usuarios", "VistaListar", "Administrativos", null, new { @class = "btn btn-primary btn-sm w-100" })
+                    <div class="dashboard-cards">
+                        <!-- Tarjeta 1 -->
+                        <div class="simple-card">
+                            <div class="card-number">1</div>
+                            <div class="card-header">
+                                <h3 class="card-title">Registro de Usuarios</h3>
+                                <span class="card-subtitle"></span>
                             </div>
-                            <div class="col">
-                                @Html.ActionLink("Registro de Usuarios", "Create", "Administrativos", null, new { @class = "btn btn-info btn-sm w-100" })
+                            <div class="card-body">
+                                <p>Creación de nuevas cuentas de usuario</p>
                             </div>
-                            <div class="col">
-                                @Html.ActionLink("Asignación de Roles", "Index", "AsignacionRolesTemporales", null, new { @class = "btn btn-primary btn-sm w-100" })
-                            </div>
+                            <a href="@Url.Action("Create", "Administrativos")" class="detail-btn">
+                                <i class="fas fa-arrow-right"></i> Ingresar
+                            </a>
                         </div>
 
-                        <div class="row mb-4 text-center row-cols-4 g-3">
-                            <div class="col">
-                                @Html.ActionLink("Editar Usuarios", "VistaADM", "Administrativos", null, new { @class = "btn btn-info btn-sm w-100" })
+                        <!-- Tarjeta 2 -->
+                        <div class="simple-card">
+                            <div class="card-number">2</div>
+                            <div class="card-header">
+                                <h3 class="card-title">Asignación de Roles</h3>
+                                <span class="card-subtitle"></span>
                             </div>
-                            <div class="col">
-                                @Html.ActionLink("Deshabilitar Usuarios", "VistaEliminar", "Administrativos", null, new { @class = "btn btn-primary btn-sm w-100" })
+                            <div class="card-body">
+                                <p>Gestión de roles y permisos de usuarios</p>
                             </div>
-                            <div class="col">
-                                @Html.ActionLink("Auditoría Administrativa", "VistaAuditoría", "Administrativos", null, new { @class = "btn btn-info btn-sm w-100" })
-                            </div>
+                            <a href="@Url.Action("Index", "AsignacionRolesTemporales")" class="detail-btn">
+                                <i class="fas fa-arrow-right"></i> Ingresar
+                            </a>
                         </div>
 
-                        <div class="row mb-4 text-center row-cols-4 g-3">
-                            <div class="col">
-                                @Html.ActionLink("Buscar Usuarios", "Buscar", "Administrativos", null, new { @class = "btn btn-primary btn-sm w-100" })
+                        <!-- Tarjeta 3 -->
+                        <div class="simple-card">
+                            <div class="card-number">3</div>
+                            <div class="card-header">
+                                <h3 class="card-title">Editar Usuarios</h3>
+                                <span class="card-subtitle"></span>
                             </div>
-                            <div class="col">
-                                @Html.ActionLink("Ver Pagos", "VerPagos", "Factura", null, new { @class = "btn btn-info btn-sm w-100" })
+                            <div class="card-body">
+                                <p>Modificación de información de usuarios</p>
                             </div>
+                            <a href="@Url.Action("VistaADM", "Administrativos")" class="detail-btn">
+                                <i class="fas fa-arrow-right"></i> Ingresar
+                            </a>
                         </div>
+
+                        <!-- Tarjeta 4 -->
+                        <div class="simple-card">
+                            <div class="card-number">4</div>
+                            <div class="card-header">
+                                <h3 class="card-title">Deshabilitar Usuarios</h3>
+                                <span class="card-subtitle"></span>
+                            </div>
+                            <div class="card-body">
+                                <p>Desactivación de cuentas de usuario</p>
+                            </div>
+                            <a href="@Url.Action("VistaEliminar", "Administrativos")" class="detail-btn">
+                                <i class="fas fa-arrow-right"></i> Ingresar
+                            </a>
+                        </div>
+
+                        <!-- Tarjeta 5 -->
+                        <div class="simple-card">
+                            <div class="card-number">5</div>
+                            <div class="card-header">
+                                <h3 class="card-title">Buscar Usuarios</h3>
+                                <span class="card-subtitle"></span>
+                            </div>
+                            <div class="card-body">
+                                <p>Búsqueda en la base de datos de usuarios</p>
+                            </div>
+                            <a href="@Url.Action("Buscar", "Administrativos")" class="detail-btn">
+                                <i class="fas fa-arrow-right"></i> Ingresar
+                            </a>
+                        </div>
+
+                        <!-- Tarjeta 6 -->
+                        <div class="simple-card">
+                            <div class="card-number">6</div>
+                            <div class="card-header">
+                                <h3 class="card-title">Auditoría Administrativa</h3>
+                                <span class="card-subtitle"></span>
+                            </div>
+                            <div class="card-body">
+                                <p>Revisión de cambios y acciones realizadas</p>
+                            </div>
+                            <a href="@Url.Action("VistaAuditoría", "Administrativos")" class="detail-btn">
+                                <i class="fas fa-arrow-right"></i> Ingresar
+                            </a>
+                        </div>
+
+                        <!-- Tarjeta 7 -->
+                        <div class="simple-card">
+                            <div class="card-number">7</div>
+                            <div class="card-header">
+                                <h3 class="card-title">Ver Pagos</h3>
+                                <span class="card-subtitle"></span>
+                            </div>
+                            <div class="card-body">
+                                <p>Visualización de historial de pagos realizados</p>
+                            </div>
+                            <a href="@Url.Action("VerPagos", "Factura")" class="detail-btn">
+                                <i class="fas fa-arrow-right"></i> Ingresar
+                            </a>
+                        </div>
+
+                        <!-- Tarjeta 8 -->
+                        <div class="simple-card">
+                            <div class="card-number">8</div>
+                            <div class="card-header">
+                                <h3 class="card-title">Historial de Actividades</h3>
+                                <span class="card-subtitle"></span>
+                            </div>
+                            <div class="card-body">
+                                <p>Revisión del registro de actividades del sistema</p>
+                            </div>
+                            <a href="@Url.Action("ListarHistorial", "Administrativos")" class="detail-btn">
+                                <i class="fas fa-arrow-right"></i> Ingresar
+                            </a>
+                        </div>
+
+
                     </div>
+
                 }
                 else
                 {
-                    <div class="alert alert-danger">
-                        <p>No tiene acceso a los módulos administrativos.</p>
-                        <p>Para obtener acceso, necesita:</p>
-                        <ul>
-                            <li>Estar asignado a un departamento</li>
-                            <li>Tener un rol temporal activo</li>
-                            <li>Tener el estado "Activo" en su asignación</li>
-                        </ul>
+                    <!-- Mensaje de acceso denegado -->
+                    <div class="simple-card" style="margin-bottom: 20px; width: 95%; max-width: 1300px; margin-left: auto; margin-right: auto; border-left: 4px solid #dc3545;">
+                        <div class="card-header" style="background-color: #f8f9fa; padding: 15px;">
+                            <h3 class="card-title" style="margin: 0; color: #dc3545;">Acceso Denegado</h3>
+                        </div>
+                        <div class="card-body" style="padding: 15px;">
+                            <p style="margin-bottom: 10px;">No tiene acceso a los módulos administrativos.</p>
+                            <p style="margin-bottom: 10px;">Para obtener acceso, necesita:</p>
+                            <ul style="padding-left: 20px; margin-top: 10px;">
+                                <li style="margin-bottom: 5px;">Estar asignado a un departamento</li>
+                                <li style="margin-bottom: 5px;">Tener un rol temporal activo</li>
+                                <li style="margin-bottom: 5px;">Tener el estado "Activo" en su asignación</li>
+                            </ul>
+                        </div>
                     </div>
                 }
             </div>
         </div>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -512,5 +307,4 @@
             });
         });
     </script>
-
 </body>

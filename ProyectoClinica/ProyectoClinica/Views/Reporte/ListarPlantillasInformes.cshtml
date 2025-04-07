@@ -1,110 +1,120 @@
-﻿@{
+﻿@model IEnumerable<ProyectoClinica.Models.PlantillaInforme>
+
+@{
     ViewBag.Title = "Listar Plantillas de Informes";
 }
 
-<div style="text-align: center; margin-bottom: 20px;">
-    <a href="@Url.Action("Personalizacion", "Reporte")" class="custom-btn">
-        <i class="fas fa-home"></i> Inicio
-    </a>
-</div>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plantillas de Informes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="~/CSS/Administrativo.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="page-container">
+        <div class="header-container">
+            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; margin-bottom: 20px;">
+                <a href="@Url.Action("Personalizacion", "Reporte")" class="btn-inicio" style="flex: 0 0 auto;">
+                    <i class="fas fa-home"></i> Inicio
+                </a>
+                <div class="page-title-container" style="flex: 1 1 auto; text-align: center;">
+                    <h1 class="page-title" style="margin: 0;">Plantillas de Informes</h1>
+                </div>
+                <div style="flex: 0 0 auto;">
+                    <a href="@Url.Action("GuardarPlantillaInforme")" class="btn-crear-pago">
+                        <i class="fas fa-plus"></i> Nueva Plantilla
+                    </a>
+                </div>
+            </div>
+        </div>
 
-<h2 class="text-center mb-4">Detalles de las plantillas</h2>
+        <br>
 
-@if (Model.Count > 0)
-{
-    <div class="table-responsive">
-        <table class="table table-bordered table-striped table-hover">
-            <thead class="thead-dark">
-                <tr>
-                    <th>Nombre de la Plantilla</th>
-                    <th>Breve descripción</th>
-                    <th>Fecha de Creación</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var plantilla in Model)
-                {
-                    <tr>
-                        <td>@plantilla.NombrePlantilla</td>
-                        <td>@plantilla.CamposSeleccionados</td>
-                        <td>@plantilla.FechaCreacion.ToString("dd/MM/yyyy HH:mm:ss")</td>
-                    </tr>
+        <div class="results-panel">
+            <h2 class="results-title" style="color: #392F5A;"><i class="fas fa-file-alt"></i> Lista de Plantillas</h2>
+
+            @if (Model.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Nombre de la Plantilla</th>
+                                <th>Breve Descripción</th>
+                                <th>Fecha de Creación</th>
+                            </tr>
+                        </thead>
+                        <tbody id="plantillasBody">
+                            @foreach (var plantilla in Model)
+                            {
+                                <tr>
+                                    <td>@plantilla.NombrePlantilla</td>
+                                    <td>@plantilla.CamposSeleccionados</td>
+                                    <td>@plantilla.FechaCreacion.ToString("dd/MM/yyyy")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div id="paginationContainer" class="d-flex justify-content-center mt-3"></div>
+            }
+            else
+            {
+                <div class="alert alert-warning text-center" role="alert">
+                    No hay plantillas guardadas.
+                </div>
+            }
+        </div>
+    </div>
+</body>
+</html>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var rowsPerPage = 5;
+            var $rows = $("#plantillasBody tr");
+            var totalPages = Math.ceil($rows.length / rowsPerPage);
+            var currentPage = 1;
+
+            function showPage(page) {
+                var start = (page - 1) * rowsPerPage;
+                var end = start + rowsPerPage;
+
+                $rows.hide().slice(start, end).show();
+                $("#paginationContainer").html(createPagination(page, totalPages));
+            }
+
+            function createPagination(page, total) {
+                var pagination = `<nav><ul class="pagination">`;
+
+                if (page > 1) {
+                    pagination += `<li class="page-item"><a href="#" class="page-link" data-page="${page - 1}">«</a></li>`;
                 }
-            </tbody>
-        </table>
-    </div>
-}
-else
-{
-    <div class="alert alert-warning text-center" role="alert">
-        No hay plantillas guardadas.
-    </div>
-}
 
-<div class="text-center mt-4">
-    <a href="@Url.Action("GuardarPlantillaInforme")" class="btn btn-primary">
-        <i class="fas fa-plus"></i> Crear Nueva Plantilla
-    </a>
-</div>
+                for (var i = 1; i <= total; i++) {
+                    pagination += `<li class="page-item ${i === page ? 'active' : ''}">
+                                         <a href="#" class="page-link" data-page="${i}">${i}</a>
+                                       </li>`;
+                }
 
+                if (page < total) {
+                    pagination += `<li class="page-item"><a href="#" class="page-link" data-page="${page + 1}">»</a></li>`;
+                }
 
-    <style>
-        /* Estilos para la tabla */
-        .table {
-            width: 100%;
-            margin-top: 20px;
-            border-radius: 10px;
-        }
-
-            .table th, .table td {
-                padding: 15px;
-                text-align: center;
+                pagination += `</ul></nav>`;
+                return pagination;
             }
 
-        .thead-dark {
-            background-color: #0b7b82;
-            color: white;
-        }
+            $(document).on("click", ".page-link", function (e) {
+                e.preventDefault();
+                var page = $(this).data("page");
+                showPage(page);
+            });
 
-        .table-hover tbody tr:hover {
-            background-color: #f1f1f1;
-            cursor: pointer;
-        }
-
-        .alert {
-            font-size: 18px;
-            padding: 20px;
-        }
-
-        .btn-primary {
-            background-color: #0b7b82;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: white;
-            font-size: 16px;
-            transition: background 0.3s ease;
-        }
-
-            .btn-primary:hover {
-                background-color: #095f59;
-            }
-
-        .custom-btn {
-            background-color: #0b7b82 !important;
-            color: white !important;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 16px;
-            text-decoration: none;
-            transition: background 0.3s ease, transform 0.2s ease;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-        }
-    </style>
+            showPage(currentPage);
+        });
+    </script>
+}

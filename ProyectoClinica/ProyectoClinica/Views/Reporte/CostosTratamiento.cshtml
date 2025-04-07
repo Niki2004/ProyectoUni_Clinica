@@ -5,132 +5,155 @@
     var Servicio2 = Model.Select(c => c.Nombre_Servicio).Distinct().OrderBy(e => e).ToList();
 }
 
-<style>
-    .custom-btn {
-        background-color: #0b7b82 !important;
-        color: white !important;
-        border: none;
-        padding: 12px 24px;
-        border-radius: 8px;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 16px;
-        text-decoration: none;
-        transition: background 0.3s ease, transform 0.2s ease;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    }
-</style>
-
-<div style="text-align: center; margin-bottom: 20px;">
-    <a href="@Url.Action("VistaAdmRep", "Reporte")" class="custom-btn">
-        <i class="fas fa-home"></i> Inicio
-    </a>
-</div>
-
-<center><h2 class="mb-4">Reporte de procedimientos y sus costos</h2></center>
-
-<div class="card mb-4 shadow-sm">
-    <div class="card-header" style="background-color: #0b7b82; color: white;">
-        <h5 class="mb-0"><i class="fas fa-filter"></i> Filtros de búsqueda</h5>
-    </div>
-
-    <div class="card-body">
-        @using (Html.BeginForm("CostosTratamiento", "Reporte", FormMethod.Get, new { @class = "form-inline" }))
-        {
-            <div class="row">
-                <div class="col-md-4 mb-3">
-                    <label for="ProcedimientoCostos" class="form-label">ProcedimientoCostos:</label>
-                    <select name="ProcedimientoCostos" id="ProcedimientoCostos" class="form-control w-100">
-                        <option value="">-- Todos los servicios --</option>
-                        @foreach (var esp in ProcedimientoCostos)
-                        {
-                            <option value="@esp" @(ViewBag.Especialidad != null && ViewBag.Especialidad.ToString() == esp ? "selected" : "")>@esp</option>
-                        }
-                    </select>
-                </div>
-
-                <h3>vs</h3>
-
-                <div class="col-md-4 mb-3">
-                    <label for="Servicio2" class="form-label">Servicios:</label>
-                    <select name="Servicio2" id="Servicio2" class="form-control w-100">
-                        <option value="">-- Todos los servicios --</option>
-                        @foreach (var esps in Servicio2)
-                        {
-                            <option value="@esps" @(ViewBag.Servicio2 != null && ViewBag.Servicio2.ToString() == esps ? "selected" : "")>@esps</option>
-                        }
-                    </select>
-                </div>
-
-                <div class="col-md-4 align-self-end mb-3">
-                    <div class="d-flex gap-2">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-search"></i> Buscar
-                        </button>
-                        <a href="@Url.Action("CostosTratamiento", "Reporte")" class="btn btn-secondary">
-                            <i class="fas fa-broom"></i> Limpiar
-                        </a>
-                    </div>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Reporte de Costos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="~/CSS/Administrativo.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="page-container">
+        <div class="header-container">
+            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                <a href="@Url.Action("VistaAdmRep", "Reporte")" class="btn-inicio">
+                    <i class="fas fa-home"></i> Inicio
+                </a>
+                <div class="page-title-container">
+                    <h1 class="page-title">Reporte de Procedimientos y Costos</h1>
                 </div>
             </div>
-        }
-    </div>
-</div>
-
-<div class="card shadow-sm">
-    <div class="card-header bg-light">
-        <div class="d-flex justify-content-between align-items-center">
-            <h5 class="mb-0"><i class="fas fa-calendar-check"></i> Listado de costos</h5>
-            <a href="@Url.Action("ExportarExcelCostosTratamiento", "Reporte", new { Procedimientocostos = ViewBag.ProcedimientoCostos, servicio2 = ViewBag.Servicio2})"
-               class="btn btn-success btn-sm">
-                <i class="fas fa-file-excel"></i> Exportar a Excel
-            </a>
         </div>
-    </div>
-    <div class="card-body p-0">
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover table-striped mb-0">
-                <thead class="table-primary">
-                    <tr>
-                        <th>Nombre de servicio</th>
-                        <th>Precio del servicio</th>
-                        <th>Especialidad</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (Model.Any())
-                    {
-                        foreach (var Especialidad in Model)
+
+        <br><br>
+
+        <div class="search-panel">
+            <h2 class="search-title" style="color: #392F5A;"><i class="fas fa-search"></i> Filtros de búsqueda</h2>
+            @using (Html.BeginForm("CostosTratamiento", "Reporte", FormMethod.Get))
+            {
+                <div class="row align-items-end g-3">
+                    <div class="col-md-4">
+                        <label class="form-label">Procedimiento Costos:</label>
+                        <select name="ProcedimientoCostos" id="ProcedimientoCostos" class="form-control">
+                            <option value="">-- Todos los servicios --</option>
+                            @foreach (var esp in ProcedimientoCostos)
+                            {
+                                <option value="@esp" @(ViewBag.ProcedimientoCostos != null && ViewBag.ProcedimientoCostos.ToString() == esp ? "selected" : "")>@esp</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Servicios:</label>
+                        <select name="Servicio2" id="Servicio2" class="form-control">
+                            <option value="">-- Todos los servicios --</option>
+                            @foreach (var esps in Servicio2)
+                            {
+                                <option value="@esps" @(ViewBag.Servicio2 != null && ViewBag.Servicio2.ToString() == esps ? "selected" : "")>@esps</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="submit" class="btn-search w-100" style="background-color: #D6E5FF; color: #333; border: none;">
+                            <i class="fas fa-search me-2"></i>Buscar
+                        </button>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="results-panel">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h2 class="results-title" style="color: #392F5A;"><i class="fas fa-file-invoice-dollar"></i> Resultados</h2>
+                <a href="@Url.Action("ExportarExcelCostosTratamiento", "Reporte", new { Procedimientocostos = ViewBag.ProcedimientoCostos, servicio2 = ViewBag.Servicio2 })"
+                   class="btn btn-success btn-sm">
+                    <i class="fas fa-file-excel"></i> Exportar a Excel
+                </a>
+            </div>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nombre de servicio</th>
+                            <th>Precio del servicio</th>
+                            <th>Especialidad</th>
+                        </tr>
+                    </thead>
+                    <tbody id="costosBody">
+                        @if (Model.Any())
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.Nombre_Servicio</td>
+                                    <td>₡@item.Precio_Servicio</td>
+                                    <td>@item.Especialidad</td>
+                                </tr>
+                            }
+                        }
+                        else
                         {
                             <tr>
-                                
-                                <td>@Especialidad.Nombre_Servicio</td>
-                                <td>₡@Especialidad.Precio_Servicio</td>
-                                <td>@Especialidad.Especialidad</td>
-                               
+                                <td colspan="3" class="text-center py-4">
+                                    <div class="alert alert-info mb-0">
+                                        <i class="fas fa-info-circle me-2"></i> No se encontraron servicios con los filtros seleccionados
+                                    </div>
+                                </td>
                             </tr>
                         }
-                    }
-                    else
-                    {
-                        <tr>
-                            <td colspan="5" class="text-center py-4">
-                                <div class="alert alert-info mb-0">
-                                    <i class="fas fa-info-circle me-2"></i> No se encontraron procedimientos con los filtros seleccionados
-                                </div>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
+            <div id="paginationContainer" class="d-flex justify-content-center mt-3"></div>
         </div>
     </div>
-</div>
+</body>
+</html>
 
 @section Scripts {
     <script>
         $(document).ready(function () {
+            var rowsPerPage = 5;
+            var $rows = $("#costosBody tr");
+            var totalPages = Math.ceil($rows.length / rowsPerPage);
+            var currentPage = 1;
+
+            function showPage(page) {
+                var start = (page - 1) * rowsPerPage;
+                var end = start + rowsPerPage;
+
+                $rows.hide().slice(start, end).show();
+                $("#paginationContainer").html(createPagination(page, totalPages));
+            }
+
+            function createPagination(page, total) {
+                var pagination = `<nav><ul class="pagination">`;
+
+                if (page > 1) {
+                    pagination += `<li class="page-item"><a href="#" class="page-link" data-page="${page - 1}">«</a></li>`;
+                }
+
+                for (var i = 1; i <= total; i++) {
+                    pagination += `<li class="page-item ${i === page ? 'active' : ''}">
+                                           <a href="#" class="page-link" data-page="${i}">${i}</a>
+                                       </li>`;
+                }
+
+                if (page < total) {
+                    pagination += `<li class="page-item"><a href="#" class="page-link" data-page="${page + 1}">»</a></li>`;
+                }
+
+                pagination += `</ul></nav>`;
+                return pagination;
+            }
+
+            $(document).on("click", ".page-link", function (e) {
+                e.preventDefault();
+                var page = $(this).data("page");
+                showPage(page);
+            });
+
+            showPage(currentPage);
         });
     </script>
 }

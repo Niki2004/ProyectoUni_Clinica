@@ -1,193 +1,11 @@
 ﻿@{
-    ViewBag.Title = "Punto de Venta";
+    ViewBag.Title = "Secretaria";
 }
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
+<link href="~/CSS/VistaGeneral.css" rel="stylesheet" />
 
-
-
-@{
-    ViewBag.Title = "Administrador";
-}
-
-
-
-<style>
-    :root {
-        --primary-turquoise: #008B8B;
-        --secondary-turquoise: #48D1CC;
-        --hover-turquoise: #20B2AA;
-        --background-light: #F5F5F5;
-    }
-
-    body {
-        background-color: var(--background-light);
-        font-family: Arial, sans-serif;
-        margin: 0;
-        min-height: 100vh;
-    }
-
-    .header {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 50px;
-        background-color: #008B8B;
-        z-index: 1001;
-    }
-
-    .sidebar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 220px; /*Ancho*/
-        height: 100vh;
-        background-color: white;
-        padding-top: 5px; /*Espacio*/
-        padding-left: 5px; /*Espacio*/
-        padding-right: 5px; /*Espacio*/
-        overflow-y: auto;
-        z-index: 1000;
-    }
-
-        .sidebar a {
-            display: block;
-            color: #000000;
-            padding: 5px 10px;
-            text-decoration: none;
-            font-size: 18px;
-            margin-bottom: 2px;
-        }
-
-            .sidebar a:hover {
-                background-color: #3bb4bc80;
-                border-radius: 5px;
-            }
-
-
-    .content {
-        padding: 20px;
-        max-width: 700px;
-        margin: 0 auto;
-    }
-
-        .content h2 {
-            color: #0b7b82;
-            text-align: left;
-            margin-bottom: 20px;
-            padding-left: 20px;
-        }
-
-        .content p {
-            text-align: left;
-            padding-left: 20px;
-            margin-bottom: 10px;
-            line-height: 1.6;
-        }
-
-    .nav-link {
-        color: #333;
-        padding: 10px 15px;
-    }
-
-        .nav-link:hover {
-            background-color: #3bb4bc;
-            color: white;
-        }
-
-    .nav-header {
-        padding: 10px 15px;
-        color: #0b7b82;
-        font-size: 0.8em;
-        text-transform: uppercase;
-        font-weight: bold;
-    }
-
-    /* Main Content Styles */
-    .main-content {
-        padding: 20px;
-    }
-
-    .content-wrapper {
-        background-color: white;
-        padding: 50px;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        margin-top: 20px;
-    }
-
-    /* Button Styles */
-    .btn {
-        padding: 15px 25px;
-        border-radius: 5px;
-        font-weight: 500;
-        transition: all 0.3s ease;
-        text-transform: none;
-        margin-bottom: 15px;
-    }
-
-    .btn-primary {
-        background-color: var(--primary-turquoise);
-        border-color: var(--primary-turquoise);
-        color: white;
-    }
-
-        .btn-primary:hover {
-            background-color: var(--hover-turquoise);
-            border-color: var(--hover-turquoise);
-            transform: translateY(-2px);
-        }
-
-    .btn-info {
-        background-color: var(--secondary-turquoise);
-        border-color: var(--secondary-turquoise);
-        color: white;
-    }
-
-        .btn-info:hover {
-            background-color: var(--hover-turquoise);
-            border-color: var(--hover-turquoise);
-            transform: translateY(-2px);
-        }
-
-    .gallery-container {
-        padding: 20px;
-        max-width: 1200px;
-        margin: 0 auto;
-    }
-
-    .image-gallery {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 20px;
-        padding: 20px;
-    }
-
-    .gallery-item {
-        border-radius: 8px;
-        overflow: hidden;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-
-    .gallery-image {
-        width: 100%;
-        height: 250px;
-        object-fit: cover;
-        display: block;
-        transition: transform 0.3s ease;
-    }
-
-        .gallery-image:hover {
-            transform: scale(1.05);
-        }
-
-    .image-caption {
-        padding: 10px;
-        text-align: center;
-        background-color: #f8f9fa;
-        color: #333;
-    }
-</style>
 <body>
     <div class="container-fluid">
 
@@ -195,72 +13,112 @@
             <!-- Sidebar -->
             <div class="col-md-3 col-lg-2 sidebar">
                 <div class="sidebar">
-                    <div class="text-center p-3">
-                        <img src="~/Imagenes/Logo.png" alt="Centro Integral Santo Domingo Logo" class="img-fluid" style="max-width: 150px; height: auto;" />
+                    <div class="p-3 d-flex justify-content-center">
+                        <img src="~/Imagenes/Logo.png" alt="Centro Integral Santo Domingo Logo" class="img-fluid" style="max-width: 195px; height: auto;" />
                     </div>
 
-                    <br />
+                    <center><div class="nav-header">Plataforma</div></center>
+                    <div class="nav-item">
+                        <a class="nav-link">
+                            <div>
+                                Navegación
+                            </div>
 
-                    <center><div class="nav-header">Navegación</div></center>
-                    <div class="nav flex-column">
-                        <a href="@Url.Action("Index", "Factura")" class="nav-link">
-                            <i class="fas fa-cash-register"></i> Punto de venta
+                        </a>
+                        <ul class="submenu">
+                            <a href="@Url.Action("Index", "Factura")" class="nav-link">
+                                <i class="fas fa-cash-register"></i> Punto de venta
+                            </a>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="button-container">
+                <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                    <a href="@Url.Action("VistaSEC", "Factura")" style="text-decoration: none; color: #000000; font-size: 18px; display: flex; align-items: center;">
+                        <i class="fas fa-home" style="margin-right: 5px;"></i>
+                        <h4 style="margin: 0; font-weight: bold; color: #333;">Módulo de Punto de Venta</h4>
+                    </a>
+                </div>
+
+                <div style="text-align: left; margin-bottom: 5px;">
+                    <span style="font-size: 14px; color: #555;">
+                        Obtén una visión completa de la información clínica, administrativa y financiera de tu clínica de salud
+                    </span>
+                </div>
+                <br />
+
+
+                <div class="dashboard-cards">
+                    <!-- Tarjeta 1 - Pago de Servicio -->
+                    <div class="simple-card">
+                        <div class="card-number">1</div>
+                        <div class="card-header">
+                            <h3 class="card-title">Pago de Servicio</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>Realiza pagos de servicio de manera rápida y segura.</p>
+                        </div>
+                        <a href="/Factura/RealizarPago" class="detail-btn">
+                            <i class="fas fa-arrow-right"></i> Ingresar
                         </a>
                     </div>
 
-                </div>
-            </div>
-            <!-- Main Content -->
-            <div class="content">
-                
-
-                <div class="container mt-5">
-                    <h2 class="text-center">Punto de Venta</h2>
-                    <p class="text-center">Gestión de Pagos y Servicios Médicos</p>
-
-                    <div class="card shadow-sm p-4">
-                        <div class="row mb-3">
-                            <div class="col text-center">
-                                <a href="/Factura/RealizarPago" class="btn w-100" style="background-color: #3bb4bc; color: white;">Pago de Servicio</a>
-                            </div>
-                            
-                            <div class="col text-center">
-                                <a href="/Descuento/Index" class="btn w-100" style="background-color: #3bb4bc; color: white;">Descuentos/Afiliaciones</a>
-                            </div>
+                    <!-- Tarjeta 2 - Descuentos/Afiliaciones -->
+                    <div class="simple-card">
+                        <div class="card-number">2</div>
+                        <div class="card-header">
+                            <h3 class="card-title">Descuentos/Afiliaciones</h3>
                         </div>
-                        <div class="row">
-                            <div class="col text-center">
-                                <a href="/Factura/VerPagos" class="btn w-100" style="background-color: #2A324B; color: white;">Ver Pagos Realizados</a>
-                            </div>
-                           
+                        <div class="card-body">
+                            <p>Accede a descuentos y afíliate a programas especiales.</p>
                         </div>
+                        <a href="/Descuento/Index" class="detail-btn">
+                            <i class="fas fa-arrow-right"></i> Ingresar
+                        </a>
+                    </div>
+
+                    <!-- Tarjeta 3 - Ver Pagos Realizados -->
+                    <div class="simple-card">
+                        <div class="card-number">3</div>
+                        <div class="card-header">
+                            <h3 class="card-title">Ver Pagos Realizados</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>Consulta los pagos que has realizado anteriormente.</p>
+                        </div>
+                        <a href="/Factura/VerPagos" class="detail-btn">
+                            <i class="fas fa-arrow-right"></i> Ingresar
+                        </a>
                     </div>
                 </div>
-                <style>
-                    body {
-                        background-color: #f8f9fa;
-                    }
-
-                    .card {
-                        border-radius: 15px;
-                    }
-
-                    .btn {
-                        border-radius: 8px;
-                        padding: 10px;
-                    }
-
-                    .text-center {
-                        font-family: Arial, sans-serif;
-                        color: #333;
-                    }
-                </style>
             </div>
-
 
             <script src="~/lib/jquery/dist/jquery.min.js"></script>
             <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+            <script>
+                // Toggle submenu functionality
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.addEventListener('click', function () {
+                        // Close all other open submenus
+                        document.querySelectorAll('.submenu').forEach(submenu => {
+                            if (submenu !== this.nextElementSibling) {
+                                submenu.classList.remove('active');
+                                this.classList.remove('active');
+                            }
+                        });
 
+                        // Toggle the clicked submenu
+                        const submenu = this.nextElementSibling;
+                        submenu.classList.toggle('active');
+                        this.classList.toggle('active');
+                    });
+                });
+            </script>
         </div>
     </div>
 

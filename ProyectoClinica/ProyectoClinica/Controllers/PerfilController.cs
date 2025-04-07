@@ -117,6 +117,7 @@ namespace ProyectoClinica.Controllers
         }
 
         //---------------------------------------------------- Vista de citas ------------------------------------------------------------
+        [Authorize(Roles = "Usuario")]
         public ActionResult VistaCita()
         {
             var citas = BaseDatos.Cita.ToList();
@@ -124,6 +125,7 @@ namespace ProyectoClinica.Controllers
         }
 
         //---------------------------------------------------- Vista de citas ------------------------------------------------------------
+        [Authorize(Roles = "Usuario")]
         public ActionResult EliminarCita()
         {
             var citas = BaseDatos.Cita.ToList();
@@ -131,6 +133,7 @@ namespace ProyectoClinica.Controllers
         }
 
         //---------------------------------------------------- Vista de citas ------------------------------------------------------------
+        [Authorize(Roles = "Usuario")]
         public ActionResult HistorialCita()
         {
             var citas = BaseDatos.Cita.ToList();
@@ -138,14 +141,15 @@ namespace ProyectoClinica.Controllers
         }
 
         //---------------------------------------------------- Vista de citas ------------------------------------------------------------
+        [Authorize(Roles = "Usuario")]
         public ActionResult NotasPersonale()
         {
             var notasPersonales = BaseDatos.Nota_Paciente.ToList();
             return View(notasPersonales);
         }
 
-
         //---------------------------------------------------- Editar cita ------------------------------------------------------------
+        [Authorize(Roles = "Usuario")]
         public ActionResult Editar(int? id)
         {
             if (id == null)
@@ -164,6 +168,27 @@ namespace ProyectoClinica.Controllers
         [HttpPost]
         public ActionResult Editar(Cita cita)
         {
+            if (cita.Fecha_Cita < DateTime.Today)
+            {
+                ModelState.AddModelError("Fecha_Cita", "No se puede agendar una cita en una fecha pasada.");
+            }
+
+            var diaSemana = (int)cita.Fecha_Cita.DayOfWeek; // 0 = Domingo, 6 = Sábado
+            if (diaSemana == 0 || diaSemana == 6)
+            {
+                ModelState.AddModelError("Fecha_Cita", "No se pueden agendar citas los sábados ni domingos.");
+            }
+
+            if (cita.Fecha_Cita == DateTime.Today && cita.Hora_cita < DateTime.Now.TimeOfDay)
+            {
+                ModelState.AddModelError("Hora_cita", "No se puede agendar una cita en una hora pasada.");
+            }
+
+            if (cita.Hora_cita < TimeSpan.FromHours(7) || cita.Hora_cita > TimeSpan.FromHours(20))
+            {
+                ModelState.AddModelError("Hora_cita", "La hora debe estar entre las 07:00 y las 20:00.");
+            }
+
             if (!ModelState.IsValid)
             {
                 ViewBag.IdMedico = new SelectList(BaseDatos.Medico, "Id_Medico", "Nombre", cita.Id_Medico);
@@ -205,6 +230,7 @@ namespace ProyectoClinica.Controllers
         }
 
         //---------------------------------------------------- Eliminar cita ------------------------------------------------------------
+        [Authorize(Roles = "Usuario")]
         [HttpGet]
         public ActionResult Eliminar(int? id)
         {
@@ -217,7 +243,7 @@ namespace ProyectoClinica.Controllers
 
             return View(cita);
         }
-
+        
         [HttpPost, ActionName("Eliminar")]
         public ActionResult EliminarCitaUsuario(int? id)
         {
@@ -238,7 +264,7 @@ namespace ProyectoClinica.Controllers
         }
 
         //---------------------------------------------------- Editar Nota ------------------------------------------------------------
-        // GET: Editar Nota
+        [Authorize(Roles = "Usuario")]
         [HttpGet]
         public ActionResult EditarNota(int id)
         {
@@ -251,7 +277,6 @@ namespace ProyectoClinica.Controllers
             return View(notaPaciente);
         }
 
-        // POST: Editar Nota
         [HttpPost]
         public ActionResult EditarNota(Nota_Paciente notaPaciente)
         {
@@ -277,8 +302,7 @@ namespace ProyectoClinica.Controllers
         }
 
         //---------------------------------------------------- Eliminar Nota ------------------------------------------------------------
-
-        // GET: Eliminar Nota
+        [Authorize(Roles = "Usuario")]
         [HttpGet]
         public ActionResult EliminarNota(int id)
         {
@@ -291,7 +315,6 @@ namespace ProyectoClinica.Controllers
             return View(notaPaciente);
         }
 
-        // POST: Eliminar Nota
         [HttpPost, ActionName("EliminarNota")]
         public ActionResult ConfirmarEliminarNota(int id)
         {
@@ -319,6 +342,7 @@ namespace ProyectoClinica.Controllers
         }
 
         //---------------------------------------------------- Notificacion ------------------------------------------------------------
+        [Authorize(Roles = "Usuario")]
         public ActionResult Notificaciones()
         {
             var notificaciones = Session["Notificaciones"] as List<string> ?? new List<string>();
@@ -329,6 +353,7 @@ namespace ProyectoClinica.Controllers
             return View(notificaciones);
         }
 
+        [Authorize(Roles = "Administrador")]
         public ActionResult NotificacionesADM()
         {
             var notificaciones = Session["NotificacionesADM"] as List<string> ?? new List<string>();
@@ -340,7 +365,7 @@ namespace ProyectoClinica.Controllers
         }
 
         //---------------------------------------------------- Medico ------------------------------------------------------------
-        
+        [Authorize(Roles = "Medico")]
         [HttpGet]
         public ActionResult DOCHCita()
         {
@@ -348,7 +373,6 @@ namespace ProyectoClinica.Controllers
             return View(Medico);
         }
 
-        // Acción para filtrar citas
         public ActionResult FiltrarCitas(string tipoConsulta)
         {
             try
@@ -380,6 +404,7 @@ namespace ProyectoClinica.Controllers
             }
         }
 
+        [Authorize(Roles = "Medico")]
         [HttpGet]
         public ActionResult NotasAdicionales()
         {
@@ -387,12 +412,14 @@ namespace ProyectoClinica.Controllers
             return View(Medico);
         }
 
+        [Authorize(Roles = "Medico")]
         public ActionResult ConcenReceta()
         {
             var Receta = BaseDatos.Receta.ToList();
             return View(Receta);
         }
 
+        [Authorize(Roles = "Medico")]
         public ActionResult RecetaDOC()
         {
             ViewBag.Id_Receta = new SelectList(BaseDatos.Receta, "Id_receta", "Nombre_Receta");
@@ -403,6 +430,18 @@ namespace ProyectoClinica.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult RecetaDOC(Modificacion_Receta modificacion_receta)
         {
+
+            if (modificacion_receta.Fecha_Modificacion < DateTime.Today)
+            {
+                ModelState.AddModelError("Fecha_Cita", "No se puede agendar una cita en una fecha pasada.");
+            }
+
+            var diaSemana = (int)modificacion_receta.Fecha_Modificacion.DayOfWeek; // 0 = Domingo, 6 = Sábado
+            if (diaSemana == 0 || diaSemana == 6)
+            {
+                ModelState.AddModelError("Fecha_Cita", "No se pueden agendar citas los sábados ni domingos.");
+            }
+
             if (ModelState.IsValid)
             {
                 // Crear una nueva modificación de receta basada en la receta seleccionada
@@ -420,12 +459,12 @@ namespace ProyectoClinica.Controllers
         }
 
         //---------------------------------------------------- Receta ------------------------------------------------------
-
+        [Authorize(Roles = "Usuario")]
         public ActionResult CrearReceta()
         {
             return View();
         }
-
+       
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CrearReceta(Receta receta)
@@ -440,6 +479,7 @@ namespace ProyectoClinica.Controllers
             return View(receta);
         }
 
+        [Authorize(Roles = "Usuario")]
         public ActionResult IndexReceta()
         {
             var viewModel = new RecetaViewModel
@@ -452,13 +492,14 @@ namespace ProyectoClinica.Controllers
         }
 
         //---------------------------------------------------- Nota ------------------------------------------------------
+        [Authorize(Roles = "Medico")]
         public ActionResult NotasMedicas()
         {
             var citas = BaseDatos.Nota_Medico.ToList();
             return View(citas);
         }
 
-        //Crear Nota
+        [Authorize(Roles = "Medico")]
         [HttpGet]
         public ActionResult Nota_Medico()
         {
@@ -482,7 +523,7 @@ namespace ProyectoClinica.Controllers
             return View(nota_medico);
         }
 
-        //Editar Nota
+        [Authorize(Roles = "Medico")]
         [HttpGet]
         public ActionResult EditarNotaMedico(int id)
         {
@@ -495,7 +536,6 @@ namespace ProyectoClinica.Controllers
             return View(NotaMedico);
         }
 
-        // POST: Editar Nota
         [HttpPost]
         public ActionResult EditarNotaMedico(Nota_Medico nota_medico)
         {
@@ -520,7 +560,7 @@ namespace ProyectoClinica.Controllers
             return View(nota_medico);
         }
 
-        //Eliminar Nota
+        [Authorize(Roles = "Medico")]
         [HttpGet]
         public ActionResult EliminarNotaMedico(int id)
         {
@@ -533,7 +573,6 @@ namespace ProyectoClinica.Controllers
             return View(notaMedico);
         }
 
-        // POST: Eliminar Nota
         [HttpPost, ActionName("EliminarNotaMedico")]
         public ActionResult ConfirmarEliminarNotaMedico(int id)
         {
@@ -561,6 +600,7 @@ namespace ProyectoClinica.Controllers
         }
 
         //---------------------------------------------------- Vista de citas F ------------------------------------------------------------
+        [Authorize(Roles = "Usuario")]
         public ActionResult VistaCitaFutura()
         {
             var citasFuturas = BaseDatos.Cita

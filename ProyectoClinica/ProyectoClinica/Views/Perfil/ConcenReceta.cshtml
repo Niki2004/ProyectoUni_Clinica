@@ -1,173 +1,140 @@
 ﻿@model IEnumerable<ProyectoClinica.Models.Receta>
 
 @{
-    ViewBag.Title = "Recetas";
+    ViewBag.Title = "Recetas del Paciente";
 }
 
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recetas del Paciente</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="~/CSS/Administrativo.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="page-container">
+        <div class="header-container">
+            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                <a href="@Url.Action("PerfilMED", "Perfil")" class="btn-inicio">
+                    <i class="fas fa-home"></i> Inicio
+                </a>
+                <div class="page-title-container">
+                    <h1 class="page-title">Recetas del Paciente</h1>
+                </div>
+            </div>
+        </div>
 
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f5f5f5;
-    }
+        <br>
+        <br>
 
-    .profile-container {
-        max-width: 800px;
-        margin: 20px auto;
-        padding: 20px;
-        background: #fff;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
+        <div class="results-panel">
+            <h2 class="results-title" style="color: #392F5A;"><i class="fas fa-prescription"></i> Listado de Recetas</h2>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead style="background-color: #3bb4bc; color: white;">
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.Fecha_Creacion)</th>
+                            <th>@Html.DisplayNameFor(model => model.Nombre_Receta)</th>
+                            <th>@Html.DisplayNameFor(model => model.Observaciones_Pacientes)</th>
+                            <th>@Html.DisplayNameFor(model => model.Duracion_Tratamiento)</th>
+                            <th>@Html.DisplayNameFor(model => model.Cantidad_Requerida)</th>
+                            <th>@Html.DisplayNameFor(model => model.Motivo_Solicitud)</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="recetasBody">
+                        @foreach (var item in Model)
+                        {
+                            <tr id="receta_@item.Id_receta">
+                                <td>@item.Fecha_Creacion.ToString("dd/MM/yyyy")</td>
+                                <td>@Html.DisplayFor(modelItem => item.Nombre_Receta)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Observaciones_Pacientes)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Duracion_Tratamiento)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Cantidad_Requerida)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Motivo_Solicitud)</td>
+                                <td>
+                                    <a href="@Url.Action("RecetaDOC", "Perfil", new { id = item.Id_receta })" class="btn btn-sm" style="background-color: #D1B49E; color: white;">Confirmación Receta</a>
+                                </td>
+                                <td>
+                                    <!-- Aquí usamos onclick para llamar a confirmarReceta -->
+                                    <a href="javascript:void(0);" class="btn btn-sm" style="background-color: #d4a785; color: white;"
+                                       onclick="confirmarReceta(@item.Id_receta)">Eliminación Receta</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <div id="paginationContainer" class="d-flex justify-content-center mt-3"></div>
 
-    .profile-header {
-        display: flex;
-        align-items: center;
-        gap: 20px;
-        margin-bottom: 30px;
-        border-bottom: 1px solid #ddd;
-        padding-bottom: 20px;
-    }
+            </div>
+        </div>
+    </div>
 
-    .profile-pic {
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 3px solid #3bb4bc;
-    }
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var rowsPerPage = 5;  // Número de filas por página
+            var $rows = $("#recetasBody tr");  // Filas de la tabla
+            var totalPages = Math.ceil($rows.length / rowsPerPage);  // Total de páginas
+            var currentPage = 1;  // Página actual
 
-    .profile-details {
-        flex: 1;
-    }
+            // Función para mostrar la página correspondiente
+            function showPage(page) {
+                var start = (page - 1) * rowsPerPage;  // Índice de inicio
+                var end = start + rowsPerPage;  // Índice de fin
 
-    .profile-name {
-        font-size: 1.5rem;
-        font-weight: bold;
-        margin: 0;
-    }
-
-    .profile-email {
-        color: #777;
-        font-size: 0.9rem;
-    }
-
-    .profile-sections {
-        margin-top: 20px;
-    }
-
-    .section {
-        margin-bottom: 20px;
-    }
-
-        .section h3 {
-            margin-bottom: 10px;
-            color: #000000;
-            font-size: 1.2rem;
-            border-left: 4px solid #0b7b82;
-            padding-left: 8px;
-        }
-
-        .section ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-            .section ul li {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                background: #f9f9f9;
-                padding: 10px 15px;
-                border-radius: 5px;
-                margin-bottom: 10px;
-                transition: background 0.3s ease;
+                $rows.hide().slice(start, end).show();  // Oculta todas y muestra las correspondientes
+                $("#paginationContainer").html(createPagination(page, totalPages));  // Crea la paginación
             }
 
-                .section ul li:hover {
-                    background: #3bb4bc80;
+            // Función para crear los botones de paginación
+            function createPagination(page, total) {
+                var pagination = `<nav><ul class="pagination">`;
+
+                // Botón de "anterior"
+                if (page > 1) {
+                    pagination += `<li class="page-item"><a href="#" class="page-link" data-page="${page - 1}">«</a></li>`;
                 }
 
-                .section ul li i {
-                    margin-right: 10px;
-                    color: #0b7b82;
+                // Botones de las páginas
+                for (var i = 1; i <= total; i++) {
+                    pagination += `<li class="page-item ${i === page ? 'active' : ''}">
+                                        <a href="#" class="page-link" data-page="${i}">${i}</a>
+                                      </li>`;
                 }
 
-    .badge {
-        background-color: #0b7b82;
-        color: white;
-        font-size: 0.8rem;
-        font-weight: bold;
-        padding: 4px 8px;
-        border-radius: 50%;
-        margin-left: auto;
-    }
+                // Botón de "siguiente"
+                if (page < total) {
+                    pagination += `<li class="page-item"><a href="#" class="page-link" data-page="${page + 1}">»</a></li>`;
+                }
 
-    .text-success {
-        color: #28a745;
-        font-size: 0.9rem;
-        /* Botón personalizado */
-    }
+                pagination += `</ul></nav>`;
+                return pagination;
+            }
 
-    .custom-btn {
-        background-color: #0b7b82 !important;
-        color: white !important;
-        border: none;
-        padding: 12px 24px;
-        border-radius: 8px;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 16px;
-        text-decoration: none;
-        transition: background 0.3s ease, transform 0.2s ease;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    }
-</style>
+            // Evento para cambiar de página al hacer clic en un número
+            $(document).on("click", ".page-link", function (e) {
+                e.preventDefault();
+                var page = $(this).data("page");
+                showPage(page);  // Muestra la página seleccionada
+            });
 
-<div style="text-align: center; margin-bottom: 20px;">
-    <a href="@Url.Action("PerfilMED", "Perfil")" class="custom-btn">
-        <i class="fas fa-home"></i> Inicio
-    </a>
-</div>
-<br />
+            showPage(currentPage);  // Muestra la primera página por defecto
+        });
 
+        // Función para manejar la confirmación y eliminación de la fila
+        function confirmarReceta(idReceta) {
+            // Eliminar la fila de la tabla usando el id de la receta
+            $('#receta_' + idReceta).remove();
 
-<!-- Título principal -->
-<h2 class="text-center" style="color: #0b7b82;">Recetas del Paciente</h2>
-<br />
-<!-- Tabla con estilo mejorado -->
-<table class="table table-striped table-bordered table-hover">
-    <thead style="background-color: #3bb4bc; color: white;">
-        <tr>
-            <th>@Html.DisplayNameFor(model => model.Fecha_Creacion)</th>
-            <th>@Html.DisplayNameFor(model => model.Nombre_Receta)</th>
-            <th>@Html.DisplayNameFor(model => model.Observaciones_Pacientes)</th>
-            <th>@Html.DisplayNameFor(model => model.Duracion_Tratamiento)</th>
-            <th>@Html.DisplayNameFor(model => model.Cantidad_Requerida)</th>
-            <th>@Html.DisplayNameFor(model => model.Motivo_Solicitud)</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => item.Fecha_Creacion)</td>
-                <td>@Html.DisplayFor(modelItem => item.Nombre_Receta)</td>
-                <td>@Html.DisplayFor(modelItem => item.Observaciones_Pacientes)</td>
-                <td>@Html.DisplayFor(modelItem => item.Duracion_Tratamiento)</td>
-                <td>@Html.DisplayFor(modelItem => item.Cantidad_Requerida)</td>
-                <td>@Html.DisplayFor(modelItem => item.Motivo_Solicitud)</td>
-                <td>
-                    <a href="@Url.Action("RecetaDOC", "Perfil")" class="btn btn-sm" style="background-color: #0b7b82; color: white;">Confirmación Receta</a>
-                </td>
-            </tr>
+            // Aquí puedes realizar la lógica de la confirmación de la receta
+            // Por ejemplo, podrías hacer una llamada AJAX para confirmar la receta en el backend si lo deseas.
+            console.log('Receta confirmada y eliminada: ' + idReceta);
         }
-    </tbody>
-</table>
+    </script>
 
 
+</body>
+</html>

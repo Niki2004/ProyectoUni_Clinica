@@ -4,102 +4,7 @@
     ViewBag.Title = "Crear Caja Chica";
 }
 
-<style>
-    /* Estilos generales */
-    .container-form {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
-        background-color: #f8f9fa;
-        border-radius: 10px;
-        box-shadow: 0 0 15px rgba(0,0,0,0.1);
-    }
-
-    .page-title {
-        color: #0b7b82;
-        text-align: center;
-        margin-bottom: 30px;
-        padding-bottom: 10px;
-        border-bottom: 2px solid #0b7b82;
-    }
-
-    .form-section {
-        background-color: white;
-        padding: 20px;
-        border-radius: 8px;
-        margin-bottom: 20px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    }
-
-    .form-group {
-        margin-bottom: 20px;
-    }
-
-    .control-label {
-        font-weight: 600;
-        color: #2c3e50;
-    }
-
-    .form-control {
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        padding: 8px 12px;
-        transition: border-color 0.3s ease;
-    }
-
-        .form-control:focus {
-            border-color: #0b7b82;
-            box-shadow: 0 0 0 0.2rem rgba(11, 123, 130, 0.25);
-        }
-
-    .btn-pago {
-        background-color: #0b7b82;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 5px;
-        text-decoration: none;
-        display: inline-block;
-        margin-top: 5px;
-        text-align: center;
-        transition: all 0.3s ease;
-    }
-
-        .btn-pago:hover {
-            background-color: #096c72;
-            transform: translateY(-1px);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-
-    .btn-submit {
-        background-color: #28a745;
-        color: white;
-        border: none;
-        padding: 12px 24px;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 16px;
-        transition: all 0.3s ease;
-    }
-
-        .btn-submit:hover {
-            background-color: #218838;
-            transform: translateY(-1px);
-        }
-
-    .text-danger {
-        color: #dc3545;
-        font-size: 0.875rem;
-        margin-top: 4px;
-    }
-
-    /* Grid layout para campos */
-    .form-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
-    }
-</style>
+<link href="~/CSS/Crear.css" rel="stylesheet" />
 
 
 <div class="container-form">
@@ -113,7 +18,7 @@
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
             <div class="form-section">
-                <h4>Información Básica</h4>
+                <legend>Información Básica</legend>
                 <div class="form-group">
                     @Html.LabelFor(model => model.Id_Contabilidad, "Contabilidad", new { @class = "control-label" })
                     @Html.DropDownList("Id_Contabilidad", ViewBag.Contabilidad as SelectList, "Seleccione una opción", new { @class = "form-control" })
@@ -121,7 +26,7 @@
             </div>
 
             <div class="form-section">
-                <h4>Fechas</h4>
+                <legend>Fechas</legend>
                 <div class="form-grid">
                     <div class="form-group">
                         @Html.LabelFor(model => model.Fecha_Registro, "Fecha Registro", new { @class = "control-label" })
@@ -141,7 +46,7 @@
             </div>
 
             <div class="form-section">
-                <h4>Información Financiera</h4>
+                <legend>Información Financiera</legend>
                 <div class="form-grid">
                     <div class="form-group">
                         @Html.LabelFor(model => model.Monto, "Monto", new { @class = "control-label" })
@@ -166,7 +71,7 @@
             </div>
 
             <div class="form-section">
-                <h4>Totales y Estado</h4>
+                <legend>Totales y Estado</legend>
                 <div class="form-grid">
                     <div class="form-group">
                         @Html.LabelFor(model => model.Numero_Comprobante, "Número de Comprobante", new { @class = "control-label" })
@@ -196,7 +101,7 @@
             </div>
 
             <div class="form-section">
-                <h4>Comentarios y Observaciones</h4>
+                <legend>Comentarios y Observaciones</legend>
                 <div class="form-group">
                     @Html.LabelFor(model => model.Concepto, new { @class = "control-label" })
                     @Html.TextAreaFor(model => model.Concepto, new { @class = "form-control", rows = "3" })
@@ -209,7 +114,7 @@
             </div>
 
             <div class="form-section">
-                <h4>Usuarios Responsables</h4>
+                <legend>Usuarios Responsables</legend>
                 <div class="form-group">
                     @Html.LabelFor(model => model.Usuario_Registro, "Registro de Usuario", new { @class = "control-label" })
                     @Html.TextAreaFor(model => model.Usuario_Registro, new { @class = "form-control", rows = "3" })
@@ -222,8 +127,8 @@
             </div>
 
             <div class="form-group text-center">
-                <input type="submit" value="Crear Caja Chica" class="btn-submit" style="background-color: #0b7b82; color: #ffffff; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px;" />
-                @Html.ActionLink("Regresar a la Lista", "Index", null, new { @class = "btn-pago", style = "margin-left: 10px;" })
+                <input type="submit" value="Crear Caja Chica" class="btn-primary" />
+                @Html.ActionLink("Regresar a la Lista", "Index", null, new { @class = "btn-secondary"})
             </div>
         </div>
     }

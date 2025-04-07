@@ -36,7 +36,6 @@ namespace ProyectoClinica.Controllers
 
         }
 
-        // GET: Cita
         [Authorize(Roles = "Usuario")]
         public ActionResult Index()
         {
@@ -44,21 +43,18 @@ namespace ProyectoClinica.Controllers
             return View(citas);
         }
 
-        //Información de la clinica
         [Authorize(Roles = "Usuario")]
         public ActionResult VistaCita()
         {
             return View();
         }
 
-        //Información de la clinica
         [Authorize(Roles = "Usuario")]
         public ActionResult Especialidad()
         {
             return View();
         }
 
-        //Información de la clinica
         [Authorize(Roles = "Usuario")]
         public ActionResult Contactanos()
         {
@@ -92,6 +88,7 @@ namespace ProyectoClinica.Controllers
         }
 
         //---------------------------------------------------- Obtener ------------------------------------------------------------
+        [Authorize(Roles = "Usuario")]
         [HttpGet]
         public ActionResult GetEvents()
         {
@@ -113,6 +110,7 @@ namespace ProyectoClinica.Controllers
         }
 
         //---------------------------------------------------- Crear ------------------------------------------------------------
+        [Authorize(Roles = "Usuario")]
         [HttpGet]
         public ActionResult Crear()
         {
@@ -125,6 +123,28 @@ namespace ProyectoClinica.Controllers
         [HttpPost]
         public ActionResult Crear(Cita Cita)
         {
+            if (Cita.Fecha_Cita < DateTime.Today)
+            {
+                ModelState.AddModelError("Fecha_Cita", "No se puede agendar una cita en una fecha pasada.");
+            }
+
+            var diaSemana = (int)Cita.Fecha_Cita.DayOfWeek; // 0 = Domingo, 6 = Sábado
+            if (diaSemana == 0 || diaSemana == 6)
+            {
+                ModelState.AddModelError("Fecha_Cita", "No se pueden agendar citas los sábados ni domingos.");
+            }
+
+            if (Cita.Fecha_Cita == DateTime.Today && Cita.Hora_cita < DateTime.Now.TimeOfDay)
+            {
+                ModelState.AddModelError("Hora_cita", "No se puede agendar una cita en una hora pasada.");
+            }
+
+            if (Cita.Hora_cita < TimeSpan.FromHours(7) || Cita.Hora_cita > TimeSpan.FromHours(20))
+            {
+                ModelState.AddModelError("Hora_cita", "La hora debe estar entre las 07:00 y las 20:00.");
+            }
+
+
             if (ModelState.IsValid)
             {
                 var CitaExistente = BaseDatos.Cita
@@ -173,8 +193,8 @@ namespace ProyectoClinica.Controllers
             return View(Cita);
         }
 
-
         //---------------------------------------------------- Crear nota ----------------------------------------------------------
+        [Authorize(Roles = "Usuario")]
         [HttpGet]
         public ActionResult CrearNota()
         {
@@ -207,6 +227,7 @@ namespace ProyectoClinica.Controllers
         }
 
         //---------------------------------------------------- Gestión horario ------------------------------------------------------
+        [Authorize(Roles = "Administrador")]
         [HttpGet]
         public ActionResult GHorarios()
         {
@@ -214,6 +235,7 @@ namespace ProyectoClinica.Controllers
             return View(Medico);
         }
 
+        [Authorize(Roles = "Administrador")]
         [HttpGet]
         public ActionResult HCita()
         {
@@ -221,8 +243,7 @@ namespace ProyectoClinica.Controllers
             return View(Cita);
         }
 
-
-        //Editar
+        [Authorize(Roles = "Administrador")]
         [HttpGet]
         public ActionResult EditarMedico(int id)
         {
@@ -243,6 +264,16 @@ namespace ProyectoClinica.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditarMedico(Medico medico)
         {
+            if (medico.Horario_inicio < TimeSpan.FromHours(7) || medico.Horario_inicio > TimeSpan.FromHours(20))
+            {
+                ModelState.AddModelError("Hora_Inicio", "La hora de inicio debe estar entre las 07:00 y las 20:00.");
+            }
+
+            if (medico.Horario_fin < TimeSpan.FromHours(7) || medico.Horario_fin > TimeSpan.FromHours(20))
+            {
+                ModelState.AddModelError("Hora_Fin", "La hora de fin debe estar entre las 07:00 y las 20:00.");
+            }
+
             if (ModelState.IsValid)
             {
                 BaseDatos.Entry(medico).State = EntityState.Modified;
@@ -278,6 +309,7 @@ namespace ProyectoClinica.Controllers
             return Json(citas, JsonRequestBehavior.AllowGet);
         }
 
+        [Authorize(Roles = "Administrador")]
         [HttpGet]
         public ActionResult PCitas()
         {
@@ -285,6 +317,7 @@ namespace ProyectoClinica.Controllers
             return View(Medico);
         }
 
+        [Authorize(Roles = "Administrador")]
         [HttpGet]
         public ActionResult CrearADM()
         {
@@ -297,6 +330,27 @@ namespace ProyectoClinica.Controllers
         [HttpPost]
         public ActionResult CrearADM(Cita Cita)
         {
+            if (Cita.Fecha_Cita < DateTime.Today)
+            {
+                ModelState.AddModelError("Fecha_Cita", "No se puede agendar una cita en una fecha pasada.");
+            }
+
+            var diaSemana = (int)Cita.Fecha_Cita.DayOfWeek; // 0 = Domingo, 6 = Sábado
+            if (diaSemana == 0 || diaSemana == 6)
+            {
+                ModelState.AddModelError("Fecha_Cita", "No se pueden agendar citas los sábados ni domingos.");
+            }
+
+            if (Cita.Fecha_Cita == DateTime.Today && Cita.Hora_cita < DateTime.Now.TimeOfDay)
+            {
+                ModelState.AddModelError("Hora_cita", "No se puede agendar una cita en una hora pasada.");
+            }
+
+            if (Cita.Hora_cita < TimeSpan.FromHours(7) || Cita.Hora_cita > TimeSpan.FromHours(20))
+            {
+                ModelState.AddModelError("Hora_cita", "La hora debe estar entre las 07:00 y las 20:00.");
+            }
+
             if (ModelState.IsValid)
             {
                 var CitaExistente = BaseDatos.Cita
@@ -345,7 +399,8 @@ namespace ProyectoClinica.Controllers
             // Si el modelo no es válido, regresar la vista con los errores
             return View(Cita);
         }
-
+        
+        [Authorize(Roles = "Administrador")]
         [HttpGet]
         public ActionResult CCita()
         {
@@ -353,6 +408,7 @@ namespace ProyectoClinica.Controllers
             return View(cita);
         }
 
+        [Authorize(Roles = "Administrador")]
         [HttpGet]
         public ActionResult Eliminar(int? id)
         {
@@ -386,6 +442,7 @@ namespace ProyectoClinica.Controllers
         }
 
         //---------------------------------------------------- Doctor ------------------------------------------------------
+        [Authorize(Roles = "Medico")]
         [HttpGet]
         public ActionResult GetDOctCitas()
         {
@@ -407,6 +464,7 @@ namespace ProyectoClinica.Controllers
         }
 
         //---------------------------------------------------- Atención cliente ------------------------------------------------------
+        [Authorize(Roles = "Usuario")]
         [HttpGet]
         public ActionResult AtencionCliente()
         {
@@ -414,6 +472,7 @@ namespace ProyectoClinica.Controllers
             return View(cita);
         }
 
+        [Authorize(Roles = "Usuario")]
         [HttpGet]
         public ActionResult CrearAtencionCliente()
         {
@@ -445,6 +504,7 @@ namespace ProyectoClinica.Controllers
         }
 
         //---------------------------------------------------- Atención cliente AD------------------------------------------------------
+        [Authorize(Roles = "Administrador")]
         [HttpGet]
         public ActionResult SAdComentarios()
         {
@@ -452,6 +512,7 @@ namespace ProyectoClinica.Controllers
             return View(comentario);
         }
 
+        [Authorize(Roles = "Administrador")]
         [HttpGet]
         public ActionResult SComentarios()
         {

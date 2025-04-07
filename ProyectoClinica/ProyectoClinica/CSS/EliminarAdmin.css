@@ -1,0 +1,19 @@
+﻿.warning-message {
+    padding: 15px 20px;
+    background-color: rgba(220, 53, 69, 0.1);
+    border-left: 5px solid #dc3545;
+    color: #dc3545;
+    margin: 20px 0;
+    border-radius: 8px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(220, 53, 69, 0.2);
+    animation: pulse 2s infinite;
+}
+
+    .warning-message i {
+        margin-right: 12px;
+        font-size: 22px;
+        color: #dc3545;
+    }

@@ -98,7 +98,6 @@ namespace ProyectoClinica.Controllers
                     range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
                 }
 
-                // Agregar datos desde la fila 2 (como en la imagen)
                 int row = 2;
                 foreach (var cita in listaCitas)
                 {
@@ -118,20 +117,12 @@ namespace ProyectoClinica.Controllers
                     row++;
                 }
 
-                // Añadir nota de pie de página en la fila 5 (como en la imagen)
-                worksheet.Cells["A5"].Value = "El informe de asistencia proporciona un desglose detallado de las citas médicas programadas en el centro médico.";
-                worksheet.Cells["A5:F5"].Merge = true;
-                worksheet.Cells["A5"].Style.Font.Italic = true;
-                worksheet.Cells["A5"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
-
-                // Configuración de ancho de columnas similar a la imagen
                 worksheet.Column(1).Width = 15; // Fecha
-                worksheet.Column(2).Width = 25; // Nombre del paciente
-                worksheet.Column(3).Width = 30; // Motivo
+                worksheet.Column(2).Width = 30; // Nombre del paciente
+                worksheet.Column(3).Width = 35; // Motivo
                 worksheet.Column(4).Width = 15; // Estado
                 worksheet.Column(5).Width = 15; // Especialidad
 
-                // Agregar un borde verde en las celdas C9:C10 (como se ve en la imagen)
                 using (var range = worksheet.Cells["C9:C10"])
                 {
                     range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
@@ -236,10 +227,10 @@ namespace ProyectoClinica.Controllers
                 // Configuración de ancho de columnas
                 worksheet.Column(1).Width = 20; // Fecha de creación
                 worksheet.Column(2).Width = 25; // Nombre de la receta
-                worksheet.Column(3).Width = 30; // Observaciones
+                worksheet.Column(3).Width = 50; // Observaciones
                 worksheet.Column(4).Width = 25; // Duración del tratamiento
                 worksheet.Column(5).Width = 20; // Cantidad requerida
-                worksheet.Column(6).Width = 25; // Motivo de la solicitud
+                worksheet.Column(6).Width = 50; // Motivo de la solicitud
 
                 var stream = new MemoryStream(package.GetAsByteArray());
                 string fileName = "Informe_Recetas";
@@ -510,7 +501,7 @@ namespace ProyectoClinica.Controllers
                     row++;
                 }
 
-                worksheet.Column(1).Width = 20;
+                worksheet.Column(1).Width = 30;
                 worksheet.Column(2).Width = 25;
                 worksheet.Column(3).Width = 30;
 
@@ -608,14 +599,14 @@ namespace ProyectoClinica.Controllers
                     row++;
                 }
 
-                worksheet.Column(1).Width = 20; 
+                worksheet.Column(1).Width = 25; 
                 worksheet.Column(2).Width = 25;
-                worksheet.Column(3).Width = 30; 
-                worksheet.Column(4).Width = 25; 
+                worksheet.Column(3).Width = 10; 
+                worksheet.Column(4).Width = 50; 
                 worksheet.Column(5).Width = 20; 
-                worksheet.Column(6).Width = 25;
-                worksheet.Column(7).Width = 25;
-                worksheet.Column(8).Width = 25;
+                worksheet.Column(6).Width = 50;
+                worksheet.Column(7).Width = 15;
+                worksheet.Column(8).Width = 15;
 
 
                 var stream = new MemoryStream(package.GetAsByteArray());
@@ -632,6 +623,7 @@ namespace ProyectoClinica.Controllers
             }
         }
 
+        [Authorize(Roles = "Administrador")]
         public ActionResult GuardarPlantillaInforme()
         {
             return View();
@@ -658,6 +650,7 @@ namespace ProyectoClinica.Controllers
             return View("Error");
         }
 
+        [Authorize(Roles = "Administrador")]
         public ActionResult ListarPlantillasInformes()
         {
             var plantillas = _context.PlantillaInforme.ToList();
@@ -759,10 +752,10 @@ namespace ProyectoClinica.Controllers
                 }
 
                 worksheet.Column(1).Width = 50;
-                worksheet.Column(2).Width = 15;
+                worksheet.Column(2).Width = 10;
                 worksheet.Column(3).Width = 10;
                 worksheet.Column(4).Width = 30;
-                worksheet.Column(5).Width = 20;
+                worksheet.Column(5).Width = 30;
                 worksheet.Column(6).Width = 50;
 
                 string fileName = "Informe_Pacientes";
@@ -864,11 +857,11 @@ namespace ProyectoClinica.Controllers
 
                 // Configuración de ancho de columnas
                 worksheet.Column(1).Width = 20; 
-                worksheet.Column(2).Width = 25; 
-                worksheet.Column(3).Width = 30; 
-                worksheet.Column(4).Width = 25; 
+                worksheet.Column(2).Width = 20; 
+                worksheet.Column(3).Width = 50; 
+                worksheet.Column(4).Width = 20; 
                 worksheet.Column(5).Width = 20;
-                worksheet.Column(6).Width = 25; 
+                worksheet.Column(6).Width = 20; 
 
                 var stream = new MemoryStream(package.GetAsByteArray());
                 string fileName = "Informe_Atencion_Cliente";
@@ -957,11 +950,11 @@ namespace ProyectoClinica.Controllers
                 }
 
                 // Configuración de ancho de columnas
-                worksheet.Column(1).Width = 20;
+                worksheet.Column(1).Width = 25;
                 worksheet.Column(2).Width = 25;
-                worksheet.Column(3).Width = 30;
-                worksheet.Column(4).Width = 25;
-                worksheet.Column(5).Width = 20;
+                worksheet.Column(3).Width = 50;
+                worksheet.Column(4).Width = 10;
+                worksheet.Column(5).Width = 10;
                 worksheet.Column(6).Width = 50;
 
                 var stream = new MemoryStream(package.GetAsByteArray());

@@ -141,7 +141,8 @@ namespace ProyectoClinica.Controllers
             {
                 _context.Entry(administrativo).State = EntityState.Modified;
                 _context.SaveChanges();
-                return RedirectToAction("VistaEmpleados");
+                TempData["SuccessMessage"] = "El empleado se ha actualizado correctamente.";
+                return RedirectToAction("VistaADM");
             }
             ViewBag.Id_Estado = new SelectList(_context.Estado, "Id_Estado", "Descripcion", administrativo.Id_Estado);
             return View(administrativo);
@@ -219,6 +220,116 @@ namespace ProyectoClinica.Controllers
             }
 
             return View(administrativo.ToList());
+        }
+
+        public ActionResult ListarHistorial()
+        {
+            var historial = _context.Historial_Aplicaciones
+                .Include(h => h.ApplicationUser)
+                .OrderByDescending(h => h.Fecha_Hora)
+                .ToList();
+            return View(historial);
+        }
+
+        public ActionResult CrearHistorial()
+        {
+            var usuarios = _context.Users.Select(u => new SelectListItem
+            {
+                Value = u.Id,
+                Text = u.UserName
+            }).ToList();
+
+            ViewBag.Usuarios = new SelectList(usuarios, "Value", "Text");
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CrearHistorial(Historial_Aplicaciones historial)
+        {
+            if (ModelState.IsValid)
+            {
+                historial.Fecha_Hora = DateTime.Now;
+                _context.Historial_Aplicaciones.Add(historial);
+                _context.SaveChanges();
+                TempData["SuccessMessage"] = "El registro de historial se ha creado correctamente.";
+                return RedirectToAction("ListarHistorial");
+            }
+
+            var usuarios = _context.Users.Select(u => new SelectListItem
+            {
+                Value = u.Id,
+                Text = u.UserName
+            }).ToList();
+
+            ViewBag.Usuarios = new SelectList(usuarios, "Value", "Text", historial.Id);
+            return View(historial);
+        }
+
+        public ActionResult EditarHistorial(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var historial = _context.Historial_Aplicaciones.Find(id);
+            if (historial == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.Usuarios = new SelectList(_context.Users, "Id", "UserName", historial.Id);
+            return View(historial);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditarHistorial(Historial_Aplicaciones historial)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Entry(historial).State = EntityState.Modified;
+                _context.SaveChanges();
+                TempData["SuccessMessage"] = "El registro de historial se ha actualizado correctamente.";
+                return RedirectToAction("ListarHistorial");
+            }
+
+            ViewBag.Usuarios = new SelectList(_context.Users, "Id", "UserName", historial.Id);
+            return View(historial);
+        }
+
+        public ActionResult EliminarHistorial(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var historial = _context.Historial_Aplicaciones
+                .Include(h => h.ApplicationUser)
+                .FirstOrDefault(h => h.Id_Historial == id);
+
+            if (historial == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(historial);
+        }
+
+        [HttpPost, ActionName("EliminarHistorial")]
+        [ValidateAntiForgeryToken]
+        public ActionResult EliminarHistorialConfirmado(int id)
+        {
+            var historial = _context.Historial_Aplicaciones.Find(id);
+            if (historial != null)
+            {
+                _context.Historial_Aplicaciones.Remove(historial);
+                _context.SaveChanges();
+                TempData["SuccessMessage"] = "El registro de historial se ha eliminado correctamente.";
+            }
+            return RedirectToAction("ListarHistorial");
         }
 
     }

@@ -1,126 +1,153 @@
 ﻿@model IEnumerable<ProyectoClinica.Models.Atencion_Cliente>
+
 @{
     ViewBag.Title = "Reporte de Atención al cliente";
     var nombreArea = Model.Select(c => c.Tipo_Servicio).Distinct().OrderBy(e => e).ToList();
 }
 
-<style>
-    .custom-btn {
-        background-color: #0b7b82 !important;
-        color: white !important;
-        border: none;
-        padding: 12px 24px;
-        border-radius: 8px;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 16px;
-        text-decoration: none;
-        transition: background 0.3s ease, transform 0.2s ease;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    }
-</style>
-
-<div style="text-align: center; margin-bottom: 20px;">
-    <a href="@Url.Action("VistaAdmRep", "Reporte")" class="custom-btn">
-        <i class="fas fa-home"></i> Inicio
-    </a>
-</div>
-
-<center><h2 class="mb-4">Reporte de Área de Salud</h2></center>
-
-<div class="card mb-4 shadow-sm">
-    <div class="card-header" style="background-color: #0b7b82; color: white;">
-        <h5 class="mb-0"><i class="fas fa-filter"></i> Filtros de búsqueda</h5>
-    </div>
-
-    <div class="card-body">
-        @using (Html.BeginForm("AtencionCliente", "Reporte", FormMethod.Get, new { @class = "form-inline" }))
-        {
-            <div class="row">
-                <div class="col-md-4 mb-3">
-                    <label for="nombreArea" class="form-label">Área de salud:</label>
-                    <select name="SaludEvaluada" id="nombreArea" class="form-control w-100">
-                        <option value="">-- Nombre del Área --</option>
-                        @foreach (var esp in nombreArea)
-                        {
-                            <option value="@esp"@(ViewBag.SaludEvaluada != null && ViewBag.SaludEvaluada.ToString() == esp ? "selected" : "")>@esp</option>
-                        }
-                    </select>
-
-                </div>
-                <div class="col-md-4 align-self-end mb-3">
-                    <div class="d-flex gap-2">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-search"></i> Buscar
-                        </button>
-                        <a href="@Url.Action("AtencionCliente", "Reporte")" class="btn btn-secondary">
-                            <i class="fas fa-broom"></i> Limpiar
-                        </a>
-                    </div>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="~/CSS/Administrativo.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="page-container">
+        <div class="header-container">
+            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                <a href="@Url.Action("VistaAdmRep", "Reporte")" class="btn-inicio">
+                    <i class="fas fa-home"></i> Inicio
+                </a>
+                <div class="page-title-container">
+                    <h1 class="page-title">Reporte de Área de Salud</h1>
                 </div>
             </div>
-        }
-    </div>
-</div>
-
-<div class="card shadow-sm">
-    <div class="card-header bg-light">
-        <div class="d-flex justify-content-between align-items-center">
-            <h5 class="mb-0"><i class="fas fa-calendar-check"></i> Listado de Área de salud</h5>
-            <a href="@Url.Action("ExportarExcelAtencionCliente", "Reporte", new { nombreArea = ViewBag.AreaSalud })"
-               class="btn btn-success btn-sm">
-                <i class="fas fa-file-excel"></i> Exportar a Excel
-            </a>
         </div>
-    </div>
-    <div class="card-body p-0">
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover table-striped mb-0">
-                <thead class="table-primary">
-                    <tr>
-                        <th>Fecha de la evaluación</th>
-                        <th>Área de salud</th>
-                        <th>Comentario del paciente</th>
-                        <th>Prioridad de mejora</th>
-                        <th>Tipo de servicio</th>
-                        <th>Clasificación del problema</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (Model.Any())
-                    {
-                        foreach (var receta in Model)
+
+        <div class="search-panel">
+            <h2 class="search-title" style="color: #392F5A;"><i class="fas fa-search"></i> Filtros de Búsqueda</h2>
+            @using (Html.BeginForm("AtencionCliente", "Reporte", FormMethod.Get, new { @class = "mb-4" }))
+            {
+                <div class="row align-items-end g-3">
+                    <div class="col-md-4">
+                        <div class="form-group mb-0">
+                            <label class="form-label">Área de salud:</label>
+                            <select name="SaludEvaluada" id="nombreArea" class="form-control" style="border-color: #ced4da; box-shadow: none;">
+                                <option value="">-- Nombre del Área --</option>
+                                @foreach (var esp in nombreArea)
+                                {
+                                    <option value="@esp" @(ViewBag.SaludEvaluada != null && ViewBag.SaludEvaluada.ToString() == esp ? "selected" : "")>@esp</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="submit" class="btn-search w-100" style="background-color: #D6E5FF; color: #333; border: none;">
+                            <i class="fas fa-search me-2"></i> Buscar
+                        </button>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="results-panel">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                <h2 class="results-title" style="color: #392F5A; margin: 0;"><i class="fas fa-users"></i> Resultados</h2>
+                <a href="@Url.Action("ExportarExcelAtencionCliente", "Reporte", new { negativo = ViewBag.Negativo, sensible = ViewBag.Sensible, destacado = ViewBag.Destacado, estado = ViewBag.Estado })" class="btn btn-success">
+                    <i class="fas fa-file-excel"></i> Exportar a Excel
+                </a>
+            </div>
+            <br />
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Área de salud</th>
+                            <th>Comentario</th>
+                            <th>Prioridad</th>
+                            <th>Tipo de servicio</th>
+                            <th>Clasificación</th>
+                        </tr>
+                    </thead>
+                    <tbody id="comentariosBody">
+                        @if (Model.Any())
+                        {
+                            foreach (var receta in Model)
+                            {
+                                <tr>
+                                    <td>@receta.Fechas_Comentario.ToString("dd/MM/yyyy")</td>
+                                    <td>@receta.Salud_Evaluada</td>
+                                    <td>@receta.Comentarios_Paciente</td>
+                                    <td>@receta.Prioridad_Mejora</td>
+                                    <td>@receta.Tipo_Servicio</td>
+                                    <td>@receta.Clasificacion_Problema</td>
+                                </tr>
+                            }
+                        }
+                        else
                         {
                             <tr>
-                                <td>@receta.Fechas_Comentario.ToString("dd/MM/yyyy")</td>
-                                <td>@receta.Salud_Evaluada</td>
-                                <td>@receta.Comentarios_Paciente</td>
-                                <td>@receta.Prioridad_Mejora</td>
-                                <td>@receta.Tipo_Servicio</td>
-                                <td>@receta.Clasificacion_Problema</td>
+                                <td colspan="6" class="text-center py-4">
+                                    <div class="alert alert-info mb-0">
+                                        <i class="fas fa-info-circle me-2"></i> No se encontraron áreas de salud con los filtros seleccionados
+                                    </div>
+                                </td>
                             </tr>
                         }
-                    }
-                    else
-                    {
-                        <tr>
-                            <td colspan="5" class="text-center py-4">
-                                <div class="alert alert-info mb-0">
-                                    <i class="fas fa-info-circle me-2"></i> No se encontraron areas de salud con los filtros seleccionados
-                                </div>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
+            <div id="paginationContainer" class="d-flex justify-content-center mt-3"></div>
         </div>
     </div>
-</div>
 
-@section Scripts {
     <script>
         $(document).ready(function () {
+            var rowsPerPage = 5;
+            var $rows = $("#comentariosBody tr");
+            var totalPages = Math.ceil($rows.length / rowsPerPage);
+            var currentPage = 1;
+
+            function showPage(page) {
+                var start = (page - 1) * rowsPerPage;
+                var end = start + rowsPerPage;
+
+                $rows.hide().slice(start, end).show();
+                $("#paginationContainer").html(createPagination(page, totalPages));
+            }
+
+            function createPagination(page, total) {
+                var pagination = `<nav><ul class="pagination">`;
+
+                if (page > 1) {
+                    pagination += `<li class="page-item"><a href="#" class="page-link" data-page="${page - 1}">«</a></li>`;
+                }
+
+                for (var i = 1; i <= total; i++) {
+                    pagination += `<li class="page-item ${i === page ? 'active' : ''}">
+                                         <a href="#" class="page-link" data-page="${i}">${i}</a>
+                                       </li>`;
+                }
+
+                if (page < total) {
+                    pagination += `<li class="page-item"><a href="#" class="page-link" data-page="${page + 1}">»</a></li>`;
+                }
+
+                pagination += `</ul></nav>`;
+                return pagination;
+            }
+
+            $(document).on("click", ".page-link", function (e) {
+                e.preventDefault();
+                var page = $(this).data("page");
+                showPage(page);
+            });
+
+            showPage(currentPage);
         });
     </script>
-}
+</body>
+</html>
