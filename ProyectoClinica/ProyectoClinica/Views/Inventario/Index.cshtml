@@ -3,13 +3,350 @@
 @{
     ViewBag.Title = "Inventario";
 }
+<style>
+    /* Estilos originales */
+    .cards-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+    }
 
+    .payment-card {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+        .payment-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+    .card-status-chip {
+        padding: 3px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: bold;
+        color: white;
+    }
+
+    .status-activo {
+        background-color: #28a745; /* Verde para activo */
+    }
+
+    .status-inactivo {
+        background-color: #dc3545; /* Rojo para inactivo */
+    }
+
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .card-id {
+        font-weight: bold;
+        color: #666;
+    }
+
+    .card-date {
+        color: #888;
+        font-size: 14px;
+    }
+
+    .card-body {
+        padding: 15px;
+    }
+
+    .card-product-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+        .card-product-header i {
+            font-size: 18px;
+            color: #3bb4bc;
+            margin-right: 10px;
+        }
+
+    .card-product-name {
+        font-size: 18px;
+        font-weight: bold;
+        color: #3bb4bc;
+        margin-right: 10px;
+        flex: 1;
+    }
+
+    .card-status-badge {
+        padding: 3px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: bold;
+        color: white;
+        display: inline-block;
+    }
+
+    .card-info {
+        display: flex;
+        margin-bottom: 10px;
+    }
+
+    .info-label {
+        font-weight: bold;
+        width: 100px;
+        color: #666;
+    }
+
+    .info-value {
+        flex: 1;
+    }
+
+    .card-footer {
+        padding: 15px;
+        border-top: 1px solid #f0f0f0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #f9f9f9;
+    }
+
+    .card-user {
+        color: #888;
+        font-size: 14px;
+    }
+
+    .card-actions {
+        display: flex;
+        gap: 10px; /* Espacio entre botones */
+    }
+
+    .btn-action {
+        padding: 6px 12px;
+        background-color: #3bb4bc;
+        color: white;
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: 14px;
+        border: none;
+        cursor: pointer;
+        display: inline-block;
+        transition: all 0.2s ease;
+    }
+
+        .btn-action:hover {
+            background-color: #0b7b82;
+            color: white;
+        }
+
+    .btn-hide {
+        background-color: #6c757d;
+    }
+
+        .btn-hide:hover {
+            background-color: #5a6268;
+        }
+
+    .empty-state {
+        text-align: center;
+        padding: 50px;
+        background-color: #f9f9f9;
+        border-radius: 10px;
+        margin: 20px 0;
+    }
+
+        .empty-state i {
+            font-size: 50px;
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+
+        .empty-state p {
+            color: #888;
+            margin-bottom: 20px;
+        }
+
+    .hidden-card {
+        display: none;
+    }
+
+    /* Estilos para la paginación */
+    .pagination {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        list-style: none;
+        padding: 0;
+    }
+
+    .page-item {
+        margin: 0 2px;
+    }
+
+    .page-link {
+        padding: 6px 12px;
+        border: 1px solid #dee2e6;
+        color: #3bb4bc;
+        background-color: #fff;
+        text-decoration: none;
+        border-radius: 4px;
+    }
+
+    .page-item.active .page-link {
+        background-color: #3bb4bc;
+        border-color: #3bb4bc;
+        color: white;
+    }
+
+    .page-link:hover {
+        background-color: #e9ecef;
+        color: #0b7b82;
+    }
+
+    .inventory-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .filters-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+
+    .filter-buttons {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    /* Nuevos estilos para indicadores de stock y fecha de caducidad */
+    .alert-badge {
+        padding: 3px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: bold;
+        color: white;
+        display: inline-block;
+        margin-top: 5px;
+    }
+
+    .low-stock {
+        background-color: #dc3545; /* Rojo para bajo stock */
+    }
+
+    .expiring-soon {
+        background-color: #ffc107; /* Amarillo para próximo a vencer */
+        color: #212529;
+    }
+
+    .expired {
+        background-color: #ff6b6b; /* Rojo más intenso para expirado */
+    }
+
+    .alert-indicators {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        margin-top: 10px;
+    }
+
+    /* Estilos para notificaciones */
+    .notification-container {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1050;
+        width: 350px;
+    }
+
+    .notification {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        margin-bottom: 10px;
+        overflow: hidden;
+        animation: slideIn 0.3s ease-out forwards;
+    }
+
+    .notification-header {
+        padding: 10px 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .notification-body {
+        padding: 15px;
+    }
+
+    .notification-title {
+        margin: 0;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+    }
+
+    .notification-title i {
+        margin-right: 8px;
+    }
+
+    .notification-close {
+        background: none;
+        border: none;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    .notification-danger {
+        border-left: 4px solid #dc3545;
+    }
+
+    .notification-warning {
+        border-left: 4px solid #ffc107;
+    }
+
+    .notification-list {
+        max-height: 150px;
+        overflow-y: auto;
+        margin: 0;
+        padding-left: 20px;
+    }
+
+    .notification-item {
+        margin-bottom: 5px;
+    }
+
+    keyframes slideIn {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+</style>
 <link href="~/CSS/Inventarios.css" rel="stylesheet" />
 <link href="~/CSS/VistaGeneral.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 </head>
 <body>
     <div class="container-fluid">
+        <!-- Contenedor de notificaciones -->
+        <div id="notificationContainer" class="notification-container"></div>
 
         <div class="row">
             <!-- Sidebar -->
@@ -80,7 +417,7 @@
             <!-- Main Content -->
             <div class="col-md-9 col-lg-10 ms-auto button-container">
                 <div class="inventory-header">
-                    <h2 style="text-align: ri; margin-bottom: 20px;">Inventario</h2>
+                    <h2 style="text-align: left; margin-bottom: 20px;">Inventario</h2>
                     <div>
                         @Html.ActionLink("Crear", "Crear", null, new { @class = "btn text-white", style = "background-color: #3bb4bc; border-radius: 5px;" })
                         <a href="@Url.Action("Index")" id="btnMostrarInactivos" class="btn btn-show-inactive" style="display: none;">Mostrar Inactivos</a>
@@ -107,44 +444,88 @@
                     </div>
                 }
 
-                <div class="table-container">
-                    <table class="table" id="tablaProductos">
-                        <thead style="background-color: #0b7b82; color: white;">
-                            <tr>
-                                <th>@Html.DisplayNameFor(model => model.Estado.Descripcion)</th>
-                                <th>@Html.DisplayNameFor(model => model.NombreArticulo)</th>
-                                <th>@Html.DisplayNameFor(model => model.Marca)</th>
-                                <th>@Html.DisplayNameFor(model => model.Cantidad)</th>
-                                <th>@Html.DisplayNameFor(model => model.PrecioUnitario)</th>
-                                <th>@Html.DisplayNameFor(model => model.FechaCaducidad)</th>
-                                <th>@Html.DisplayNameFor(model => model.TipoArticulo)</th>
-                                <th>@Html.DisplayNameFor(model => model.FechaIngreso)</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model)
-                            {
-                                <tr data-id="@item.Id_Articulo">
-                                    <td>@Html.DisplayFor(modelItem => item.Estado.Descripcion)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.NombreArticulo)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.Marca)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.Cantidad)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.PrecioUnitario)</td>
-                                    <td>@item.FechaCaducidad.ToString("dd/MM/yyyy")</td>
-                                    <td>@Html.DisplayFor(modelItem => item.TipoArticulo)</td>
-                                    <td>@item.FechaIngreso.ToString("dd/MM/yyyy")</td>
-                                    <td>
-                                        <div class="d-flex gap-1">
-                                            @Html.ActionLink("Detalle", "Detalles", new { id = item.Id_Articulo }, new { @class = "btn btn-info text-white", title = "Ver Detalles" })
-                                            <button class="btn btn-hide" onclick="ocultarItem(@item.Id_Articulo)" title="Ocultar Item">Ocultar</button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+                <!-- Cards de Inventario -->
+                <div class="cards-container">
+                    @foreach (var item in Model)
+                    {
+                        // Verificar stock bajo y fecha de caducidad
+                        bool lowStock = item.Cantidad < 10;
+                        bool isExpiring = (item.FechaCaducidad - DateTime.Now).TotalDays <= 15 && (item.FechaCaducidad - DateTime.Now).TotalDays > 0;
+                        bool isExpired = item.FechaCaducidad < DateTime.Now;
+
+                        <div class="payment-card" data-id="@item.Id_Articulo" data-low-stock="@lowStock" data-expiring="@isExpiring" data-expired="@isExpired">
+                            <div class="card-header">
+                                <div class="card-id">ID: @item.Id_Articulo</div>
+                            </div>
+                            <div class="card-body">
+                                <div class="card-product-header">
+                                    <i class="fas fa-box"></i>
+                                    <div class="card-product-name">@item.NombreArticulo</div>
+                                    <div class="card-status-badge @(item.Estado.Descripcion == "Activo" ? "status-activo" : "status-inactivo")">
+                                        @item.Estado.Descripcion
+                                    </div>
+                                </div>
+                                <div class="card-info">
+                                    <div class="info-label">Marca:</div>
+                                    <div class="info-value">@item.Marca</div>
+                                </div>
+                                <div class="card-info">
+                                    <div class="info-label">Tipo:</div>
+                                    <div class="info-value">@item.TipoArticulo</div>
+                                </div>
+                                <div class="card-info">
+                                    <div class="info-label">Precio:</div>
+                                    <div class="info-value">$@item.PrecioUnitario</div>
+                                </div>
+                                <div class="card-info">
+                                    <div class="info-label">Cantidad:</div>
+                                    <div class="info-value">
+                                        @item.Cantidad
+                                        @if (lowStock)
+                                        {
+                                            <span class="alert-badge low-stock"><i class="fas fa-exclamation-triangle"></i> Bajo stock</span>
+                                        }
+                                    </div>
+                                </div>
+                                <div class="alert-indicators">
+                                    @if (isExpiring)
+                                    {
+                                        <span class="alert-badge expiring-soon"><i class="fas fa-clock"></i> Próximo a vencer (15 días)</span>
+                                    }
+                                    @if (isExpired)
+                                    {
+                                        <span class="alert-badge expired"><i class="fas fa-exclamation-circle"></i> Producto vencido</span>
+                                    }
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="card-user">
+                                    <i class="fas fa-calendar-alt"></i> Vence: @item.FechaCaducidad.ToString("dd/MM/yyyy")
+                                </div>
+                                <div class="card-actions">
+                                    <a href="@Url.Action("Detalles", new { id = item.Id_Articulo })" class="btn-action">
+                                        <i class="fas fa-info-circle"></i> Detalle
+                                    </a>
+                                    <button class="btn-action btn-hide" onclick="ocultarItem(@item.Id_Articulo)">
+                                        <i class="fas fa-eye-slash"></i> Ocultar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    @if (!Model.Any())
+                    {
+                        <div class="empty-state" style="grid-column: 1 / -1;">
+                            <i class="fas fa-boxes"></i>
+                            <p>No se encontraron artículos en el inventario</p>
+                            <a href="@Url.Action("Crear")" class="btn text-white" style="background-color: #3bb4bc; border-radius: 5px;">
+                                <i class="fas fa-plus-circle"></i> Crear Nuevo Artículo
+                            </a>
+                        </div>
+                    }
                 </div>
+
+                <div id="paginationCards" class="d-flex justify-content-center mt-3"></div>
             </div>
         </div>
     </div>
@@ -153,26 +534,105 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        // Variable para almacenar los elementos ocultos
         var itemsOcultos = [];
 
         // Función para ocultar un item
         function ocultarItem(id) {
-            var row = $('tr[data-id="' + id + '"]');
+            var card = document.querySelector('.payment-card[data-id="' + id + '"]');
 
-            // Guarda la información del item antes de ocultarlo
-            itemsOcultos.push({
-                id: id,
-                html: row[0].outerHTML
+            if (card) {
+                // Guarda la información del item antes de ocultarlo
+                itemsOcultos.push({
+                    id: id,
+                    html: card.outerHTML
+                });
+
+                // Remover el elemento completamente del DOM para que no afecte la paginación
+                card.remove();
+
+                // Mostrar botón para mostrar inactivos si hay elementos ocultos
+                if (itemsOcultos.length > 0) {
+                    $('#btnMostrarInactivos').show();
+                }
+
+                // Recalcular paginación
+                actualizarPaginacion();
+            }
+        }
+
+        // Función para recalcular la paginación después de ocultar un producto
+        function actualizarPaginacion() {
+            const items = Array.from(document.querySelectorAll('.payment-card'));
+            const totalItems = items.length;
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
+            currentPage = 1;
+            showPage(currentPage);
+        }
+        
+
+        // Función para crear y mostrar notificaciones
+        function showNotification(title, items, type) {
+            const notificationContainer = document.getElementById('notificationContainer');
+
+            // Crear el elemento de notificación
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+
+            // Crear el encabezado de la notificación
+            const header = document.createElement('div');
+            header.className = 'notification-header';
+
+            const titleEl = document.createElement('h5');
+            titleEl.className = 'notification-title';
+
+            // Añadir icono según el tipo
+            const icon = document.createElement('i');
+            if (type === 'danger') {
+                icon.className = 'fas fa-exclamation-triangle';
+            } else if (type === 'warning') {
+                icon.className = 'fas fa-clock';
+            }
+            titleEl.appendChild(icon);
+            titleEl.appendChild(document.createTextNode(title));
+
+            const closeBtn = document.createElement('button');
+            closeBtn.className = 'notification-close';
+            closeBtn.innerHTML = '&times;';
+            closeBtn.addEventListener('click', function () {
+                notification.remove();
             });
 
-            // Oculta la fila
-            row.addClass('hidden-row');
+            header.appendChild(titleEl);
+            header.appendChild(closeBtn);
 
-            // Mostrar botón para mostrar inactivos si hay elementos ocultos
-            if (itemsOcultos.length > 0) {
-                $('#btnMostrarInactivos').show();
-            }
+            // Crear el cuerpo de la notificación
+            const body = document.createElement('div');
+            body.className = 'notification-body';
+
+            // Crear la lista de elementos
+            const list = document.createElement('ul');
+            list.className = 'notification-list';
+
+            items.forEach(item => {
+                const listItem = document.createElement('li');
+                listItem.className = 'notification-item';
+                listItem.textContent = item;
+                list.appendChild(listItem);
+            });
+
+            body.appendChild(list);
+
+            // Ensamblar la notificación
+            notification.appendChild(header);
+            notification.appendChild(body);
+
+            // Añadir la notificación al contenedor
+            notificationContainer.appendChild(notification);
+
+            // Eliminar la notificación después de un tiempo
+            setTimeout(() => {
+                notification.remove();
+            }, 10000); // 10 segundos
         }
 
         // Toggle submenu functionality
@@ -188,9 +648,97 @@
 
                 // Toggle the clicked submenu
                 const submenu = this.nextElementSibling;
-                submenu.classList.toggle('active');
-                this.classList.toggle('active');
+                if (submenu) {
+                    submenu.classList.toggle('active');
+                    this.classList.toggle('active');
+                }
             });
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Paginación
+            const itemsPerPage = 8;
+            const items = Array.from(document.querySelectorAll('.payment-card'));
+            const totalItems = items.length;
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
+            const paginationContainer = document.getElementById('paginationCards');
+
+            let currentPage = 1;
+
+            function showPage(pageNumber) {
+                const items = Array.from(document.querySelectorAll('.payment-card'));
+                const startIndex = (pageNumber - 1) * itemsPerPage;
+                const endIndex = startIndex + itemsPerPage;
+
+                items.forEach((item, index) => {
+                    item.style.display = (index >= startIndex && index < endIndex) ? 'block' : 'none';
+                });
+
+                updatePagination(pageNumber);
+            }
+
+            function updatePagination(pageNumber) {
+                paginationContainer.innerHTML = '';
+
+                for (let i = 1; i <= totalPages; i++) {
+                    const pageButton = document.createElement('button');
+                    pageButton.innerText = i;
+                    pageButton.className = 'page-link';
+                    if (i === pageNumber) {
+                        pageButton.classList.add('active');
+                    }
+
+                    pageButton.addEventListener('click', function () {
+                        currentPage = i;
+                        showPage(currentPage);
+                    });
+
+                    const listItem = document.createElement('li');
+                    listItem.className = 'page-item';
+                    listItem.appendChild(pageButton);
+                    paginationContainer.appendChild(listItem);
+                }
+            }
+
+            // Mostrar la primera página
+            showPage(currentPage);
+
+            // Verificar productos con bajo stock y próximos a vencer
+            const lowStockItems = Array.from(document.querySelectorAll('.payment-card[data-low-stock="True"]'));
+            const expiringItems = Array.from(document.querySelectorAll('.payment-card[data-expiring="True"]'));
+            const expiredItems = Array.from(document.querySelectorAll('.payment-card[data-expired="True"]'));
+
+            // Notificación de productos con bajo stock
+            if (lowStockItems.length > 0) {
+                const lowStockNames = lowStockItems.map(item => {
+                    const name = item.querySelector('.card-product-name').textContent;
+                    const quantity = item.querySelector('.info-value').textContent.trim().split('\n')[0].trim();
+                    return `${name} (${quantity})`;
+                });
+
+                showNotification(
+                    `¡Alerta! ${lowStockItems.length} productos con bajo stock`,
+                    lowStockNames,
+                    'danger'
+                );
+            }
+
+            // Notificación de productos próximos a vencer o vencidos
+            const allExpiringItems = [...expiringItems, ...expiredItems];
+            if (allExpiringItems.length > 0) {
+                const expiringNames = allExpiringItems.map(item => {
+                    const name = item.querySelector('.card-product-name').textContent;
+                    const expiryDate = item.querySelector('.card-user').textContent.split('Vence:')[1].trim();
+                    const status = item.getAttribute('data-expired') === 'True' ? 'VENCIDO' : 'Próximo a vencer';
+                    return `${name} (${status} - ${expiryDate})`;
+                });
+
+                showNotification(
+                    `¡Alerta! ${allExpiringItems.length} productos próximos a vencer o vencidos`,
+                    expiringNames,
+                    'warning'
+                );
+            }
         });
     </script>
 </body>
