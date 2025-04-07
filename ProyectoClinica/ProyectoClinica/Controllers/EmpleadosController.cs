@@ -279,6 +279,44 @@ namespace ProyectoClinica.Controllers
             return View(pdfFiles);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EliminarPDF(string fileName)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(fileName))
+                {
+                    return Json(new { success = false, message = "Nombre de archivo no válido" });
+                }
+
+                var uploadsPath = Server.MapPath("~/Uploads");
+                var filePath = Path.Combine(uploadsPath, fileName);
+
+                if (System.IO.File.Exists(filePath))
+                {
+                    // Eliminar el registro de la base de datos si existe
+                    var pdfRecord = BaseDatos.PDF.FirstOrDefault(p => p.Ruta.Contains(fileName));
+                    if (pdfRecord != null)
+                    {
+                        BaseDatos.PDF.Remove(pdfRecord);
+                        BaseDatos.SaveChanges();
+                    }
+
+                    // Eliminar el archivo físico
+                    System.IO.File.Delete(filePath);
+                    return Json(new { success = true, message = "Archivo eliminado correctamente" });
+                }
+                else
+                {
+                    return Json(new { success = false, message = "El archivo no existe" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Error al eliminar el archivo: " + ex.Message });
+            }
+        }
 
         //-----------------------------------------------------------------Controller Historial -------------------------------------------------------------------------------------
 

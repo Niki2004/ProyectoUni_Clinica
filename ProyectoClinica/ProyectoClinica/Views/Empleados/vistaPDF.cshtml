@@ -4,81 +4,74 @@
     ViewBag.Title = "Lista de PDFs";
 }
 
-
-<div class="button-container">
+<div class="pdf-container">
     <div class="header"></div>
-    <div style="text-align: center; margin-bottom: 20px;">
-        <a href="@Url.Action("Empleados", "Empleados")" class="custom-btn">
+    <div class="navigation">
+        <a href="@Url.Action("Empleados", "Empleados")" class="nav-btn">
             <i class="fas fa-home"></i> Inicio
         </a>
     </div>
     <div class="content-wrapper">
-        <h2 class="text-center">Lista de PDFs</h2>
-
+        <div class="title-section">
+            <h2>Lista de PDFs</h2>
+            <div class="title-decoration"></div>
+        </div>
 
         @if (Model != null && Model.Length > 0)
         {
-            <div class="table-responsive">
-                <table class="table table-hover table-bordered text-center">
-                    <thead class="table-dark">
-                        <tr>
-                            <th scope="col">Nombre del Archivo</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var pdfPath in Model)
-                        {
-                            var fileName = System.IO.Path.GetFileName(pdfPath);
-                            var relativePath = Url.Content("~/Uploads/" + fileName);
-                            var cleanName = System.Text.RegularExpressions.Regex.Replace(fileName, "^[a-f0-9-]+_", "");
+            <div class="pdf-grid">
+                @foreach (var pdfPath in Model)
+                {
+                    var fileName = System.IO.Path.GetFileName(pdfPath);
+                    var relativePath = Url.Content("~/Uploads/" + fileName);
+                    var cleanName = System.Text.RegularExpressions.Regex.Replace(fileName, "^[a-f0-9-]+_", "");
 
-                            <tr class="pdf-row">
-                                <td>
-                                    <span class="file-name">@cleanName</span>
-                                    <div class="action-buttons">
-                                        <a href="@relativePath" target="_blank" class="btn btn-sm btn-primary">
-                                            <i class="bi bi-eye"></i> Ver
-                                        </a>
-
-                                        <a href="@relativePath" download="@fileName" class="btn btn-info btn-sm">
-                                            Descargar
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+                    <div class="pdf-card">
+                        <div class="pdf-icon">
+                            <i class="fas fa-file-pdf"></i>
+                        </div>
+                        <div class="pdf-content">
+                            <h3 class="pdf-title">@cleanName</h3>
+                            <div class="pdf-actions">
+                                <a href="@relativePath" target="_blank" class="action-btn view-btn">
+                                    <i class="fas fa-eye"></i> Ver
+                                </a>
+                                <a href="@relativePath" download="@fileName" class="action-btn download-btn">
+                                    <i class="fas fa-download"></i> Descargar
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
             </div>
         }
         else
         {
-            <div class="alert alert-warning text-center" role="alert">
-                No se encontraron archivos PDF en la carpeta <strong>Uploads</strong>.
+            <div class="empty-state">
+                <i class="fas fa-folder-open"></i>
+                <p>No se encontraron archivos PDF en la carpeta <strong>Uploads</strong>.</p>
             </div>
         }
     </div>
 </div>
 
-<!-- Estilos -->
 <style>
     :root {
-        /* Variables de color */
         --primary-turquoise: #008B8B;
         --secondary-turquoise: #48D1CC;
         --hover-turquoise: #20B2AA;
         --background-light: #F5F5F5;
+        --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        --transition-speed: 0.3s;
     }
 
-    /* Body global */
     body {
         background-color: var(--background-light);
-        font-family: Arial, sans-serif;
+        font-family: 'Segoe UI', Arial, sans-serif;
         margin: 0;
         min-height: 100vh;
     }
 
-    /* Header fijo */
     .header {
         position: fixed;
         top: 0;
@@ -89,11 +82,9 @@
         z-index: 1001;
     }
 
-    /* Contenedor principal */
-    .button-container {
-        /* Como ya no hay sidebar, podemos empezar en top: 50px y left: 0 */
+    .pdf-container {
         position: fixed;
-        top: 50px; /* Altura del header */
+        top: 50px;
         left: 0;
         right: 0;
         bottom: 0;
@@ -102,96 +93,14 @@
         background-color: var(--background-light);
     }
 
-    /* Contenido */
-    .content-wrapper {
-        background-color: #fff;
-        padding: 50px;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        margin-top: 20px;
-        max-width: 1000px; 
-        margin-left: auto;
-        margin-right: auto;
+    .navigation {
+        text-align: center;
+        margin-bottom: 30px;
     }
 
-        /* Encabezados */
-        .content-wrapper h2 {
-            color: var(--primary-turquoise);
-            margin-bottom: 20px;
-        }
-
-    /* Tabla */
-    .table thead.table-dark th {
-        background-color: var(--primary-turquoise) !important;
-        border-color: var(--primary-turquoise) !important;
-    }
-
-    .table-bordered > :not(caption) > * > * {
-        border-color: var(--secondary-turquoise) !important;
-    }
-
-    /* Botones */
-    .btn-primary {
+    .nav-btn {
         background-color: var(--primary-turquoise);
-        border-color: var(--primary-turquoise);
-        color: #fff;
-    }
-
-        .btn-primary:hover {
-            background-color: var(--hover-turquoise);
-            border-color: var(--hover-turquoise);
-        }
-
-    .btn-info {
-        background-color: var(--secondary-turquoise);
-        border-color: var(--secondary-turquoise);
-        color: #fff;
-    }
-
-        .btn-info:hover {
-            background-color: var(--hover-turquoise);
-            border-color: var(--hover-turquoise);
-        }
-
-    /* Filas PDF */
-    .pdf-row {
-        position: relative;
-    }
-
-    .file-name {
-        display: block;
-        font-weight: bold;
-    }
-
-    .action-buttons {
-        display: none;
-        margin-top: 5px;
-    }
-
-    .pdf-row:hover .action-buttons {
-        display: inline-block;
-    }
-
-    /* Scrollbar (opcional) */
-    .button-container::-webkit-scrollbar {
-        width: 8px;
-    }
-
-    .button-container::-webkit-scrollbar-track {
-        background: #f1f1f1;
-    }
-
-    .button-container::-webkit-scrollbar-thumb {
-        background: var(--primary-turquoise);
-        border-radius: 4px;
-    }
-
-        .button-container::-webkit-scrollbar-thumb:hover {
-            background: var(--hover-turquoise);
-        }
-    .custom-btn {
-        background-color: #0b7b82 !important;
-        color: white !important;
+        color: white;
         border: none;
         padding: 12px 24px;
         border-radius: 8px;
@@ -200,7 +109,143 @@
         gap: 8px;
         font-size: 16px;
         text-decoration: none;
-        transition: background 0.3s ease, transform 0.2s ease;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        transition: all var(--transition-speed) ease;
+        box-shadow: var(--card-shadow);
+    }
+
+    .nav-btn:hover {
+        background-color: var(--hover-turquoise);
+        transform: translateY(-2px);
+    }
+
+    .content-wrapper {
+        background-color: #fff;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: var(--card-shadow);
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .title-section {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .title-section h2 {
+        color: var(--primary-turquoise);
+        font-size: 2.2em;
+        margin-bottom: 10px;
+    }
+
+    .title-decoration {
+        width: 60px;
+        height: 4px;
+        background-color: var(--secondary-turquoise);
+        margin: 0 auto;
+        border-radius: 2px;
+    }
+
+    .pdf-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        padding: 20px 0;
+    }
+
+    .pdf-card {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: var(--card-shadow);
+        transition: transform var(--transition-speed) ease;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .pdf-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .pdf-icon {
+        font-size: 2.5em;
+        color: var(--primary-turquoise);
+    }
+
+    .pdf-content {
+        flex: 1;
+    }
+
+    .pdf-title {
+        margin: 0 0 10px 0;
+        color: #333;
+        font-size: 1.1em;
+        word-break: break-word;
+    }
+
+    .pdf-actions {
+        display: flex;
+        gap: 10px;
+    }
+
+    .action-btn {
+        padding: 8px 15px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-size: 0.9em;
+        transition: all var(--transition-speed) ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .view-btn {
+        background-color: var(--primary-turquoise);
+        color: white;
+    }
+
+    .download-btn {
+        background-color: var(--secondary-turquoise);
+        color: white;
+    }
+
+    .action-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 40px;
+        color: #666;
+    }
+
+    .empty-state i {
+        font-size: 3em;
+        color: var(--secondary-turquoise);
+        margin-bottom: 20px;
+    }
+
+    .empty-state p {
+        font-size: 1.2em;
+    }
+
+    /* Scrollbar personalizado */
+    .pdf-container::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .pdf-container::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    .pdf-container::-webkit-scrollbar-thumb {
+        background: var(--primary-turquoise);
+        border-radius: 4px;
+    }
+
+    .pdf-container::-webkit-scrollbar-thumb:hover {
+        background: var(--hover-turquoise);
     }
 </style>

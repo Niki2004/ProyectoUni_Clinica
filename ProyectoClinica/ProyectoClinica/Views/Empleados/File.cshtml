@@ -2,11 +2,101 @@
     ViewBag.Title = "Subir PDF";
 }
 
+<div class="upload-container">
+    <div class="header"></div>
+    <div class="navigation">
+        <a href="@Url.Action("Empleados", "Empleados")" class="nav-btn">
+            <i class="fas fa-home"></i> Inicio
+        </a>
+    </div>
+    <div class="content-wrapper">
+        <div class="title-section">
+            <h2>Subir PDF</h2>
+            <div class="title-decoration"></div>
+        </div>
+
+        @using (Html.BeginForm("File", "Empleados", FormMethod.Post, new { enctype = "multipart/form-data", @class = "upload-form" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+                <div class="input-container">
+                    <i class="fas fa-file-signature"></i>
+                    @Html.TextBox("nombre", null, new
+                    {
+                        @class = "form-input",
+                        placeholder = "Nombre del PDF",
+                        required = "required"
+                    })
+                </div>
+                @Html.ValidationMessage("nombre", "", new { @class = "validation-message" })
+            </div>
+
+            <div class="form-group">
+                <div class="file-upload-container">
+                    <label for="file" class="file-upload-label">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <span class="file-upload-text">Seleccionar archivo PDF</span>
+                        <span class="file-name"></span>
+                    </label>
+                    <input type="file" id="file" name="file" class="file-input" accept="application/pdf" required />
+                </div>
+                @Html.ValidationMessage("file", "", new { @class = "validation-message" })
+            </div>
+
+            <button type="submit" class="submit-btn">
+                <i class="fas fa-upload"></i> Subir PDF
+            </button>
+        }
+    </div>
+</div>
 
 <style>
-    .custom-btn {
-        background-color: #0b7b82 !important;
-        color: white !important;
+    :root {
+        --primary-turquoise: #008B8B;
+        --secondary-turquoise: #48D1CC;
+        --hover-turquoise: #20B2AA;
+        --background-light: #F5F5F5;
+        --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        --transition-speed: 0.3s;
+    }
+
+    body {
+        background-color: var(--background-light);
+        font-family: 'Segoe UI', Arial, sans-serif;
+        margin: 0;
+        min-height: 100vh;
+    }
+
+    .header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 50px;
+        background-color: var(--primary-turquoise);
+        z-index: 1001;
+    }
+
+    .upload-container {
+        position: fixed;
+        top: 50px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        overflow-y: auto;
+        padding: 20px;
+        background-color: var(--background-light);
+    }
+
+    .navigation {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .nav-btn {
+        background-color: var(--primary-turquoise);
+        color: white;
         border: none;
         padding: 12px 24px;
         border-radius: 8px;
@@ -15,41 +105,190 @@
         gap: 8px;
         font-size: 16px;
         text-decoration: none;
-        transition: background 0.3s ease, transform 0.2s ease;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        transition: all var(--transition-speed) ease;
+        box-shadow: var(--card-shadow);
     }
+
+        .nav-btn:hover {
+            background-color: var(--hover-turquoise);
+            transform: translateY(-2px);
+        }
+
+    .content-wrapper {
+        background-color: #fff;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: var(--card-shadow);
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .title-section {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+        .title-section h2 {
+            color: var(--primary-turquoise);
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+
+    .title-decoration {
+        width: 60px;
+        height: 4px;
+        background-color: var(--secondary-turquoise);
+        margin: 0 auto;
+        border-radius: 2px;
+    }
+
+    .upload-form {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .form-group {
+        position: relative;
+    }
+
+    .input-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+        .input-container i {
+            position: absolute;
+            left: 15px;
+            color: var(--primary-turquoise);
+            font-size: 1.2em;
+        }
+
+    .form-input {
+        width: 100%;
+        padding: 12px 15px 12px 45px;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 1em;
+        transition: all var(--transition-speed) ease;
+    }
+
+        .form-input:focus {
+            border-color: var(--secondary-turquoise);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(72, 209, 204, 0.2);
+        }
+
+    .file-upload-container {
+        position: relative;
+    }
+
+    .file-upload-label {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 30px;
+        border: 2px dashed #e0e0e0;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all var(--transition-speed) ease;
+    }
+
+        .file-upload-label:hover {
+            border-color: var(--secondary-turquoise);
+            background-color: rgba(72, 209, 204, 0.05);
+        }
+
+        .file-upload-label i {
+            font-size: 2.5em;
+            color: var(--primary-turquoise);
+            margin-bottom: 10px;
+        }
+
+    .file-upload-text {
+        color: #666;
+        font-size: 1.1em;
+    }
+
+    .file-name {
+        margin-top: 10px;
+        color: var(--primary-turquoise);
+        font-weight: 500;
+    }
+
+    .file-input {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    .submit-btn {
+        background-color: var(--primary-turquoise);
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-size: 1.1em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        cursor: pointer;
+        transition: all var(--transition-speed) ease;
+        box-shadow: var(--card-shadow);
+    }
+
+        .submit-btn:hover {
+            background-color: var(--hover-turquoise);
+            transform: translateY(-2px);
+        }
+
+    .validation-message {
+        color: #dc3545;
+        font-size: 0.9em;
+        margin-top: 5px;
+        display: block;
+    }
+
+    /* Scrollbar personalizado */
+    .upload-container::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .upload-container::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    .upload-container::-webkit-scrollbar-thumb {
+        background: var(--primary-turquoise);
+        border-radius: 4px;
+    }
+
+        .upload-container::-webkit-scrollbar-thumb:hover {
+            background: var(--hover-turquoise);
+        }
 </style>
 
-<div style="text-align: center; margin-bottom: 20px;">
-    <a href="@Url.Action("Empleados", "Empleados")" class="custom-btn">
-        <i class="fas fa-home"></i> Inicio
-    </a>
-</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const fileInput = document.querySelector('.file-input');
+        const fileNameDisplay = document.querySelector('.file-name');
 
-<div class="container mt-5">
-    <h2> Subir PDF</h2>
-
-    @using (Html.BeginForm("File", "Empleados", FormMethod.Post, new { enctype = "multipart/form-data" }))
-    {
-        @Html.AntiForgeryToken()
-
-        <div class="mb-4">
-            @Html.Label("Nombre", htmlAttributes: new { @class = "form-label" })
-            @Html.TextBox("nombre", null, new { @class = "form-control shadow-sm border-0 rounded-lg", placeholder = "Nombre del PDF" })
-            @Html.ValidationMessage("nombre", "", new { @class = "text-danger" })
-        </div>
-
-        <div class="mb-4">
-            @Html.Label("Archivo PDF", htmlAttributes: new { @class = "form-label" })
-            <input type="file" name="file" class="form-control shadow-sm border-0 rounded-lg" accept="application/pdf" />
-            @Html.ValidationMessage("file", "", new { @class = "text-danger" })
-        </div>
-
-        <button type="submit" class="btn" style="background-color: #48D1CC; color: white; border-radius: 50px; box-shadow: 0 4px 6px rgba(72, 209, 204, 0.4); transition: all 0.3s ease; padding: 6px 12px; font-size: 12px;">
-            Subir PDF
-        </button>
-    }
-</div>
+        fileInput.addEventListener('change', function () {
+            if (this.files.length > 0) {
+                fileNameDisplay.textContent = this.files[0].name;
+            } else {
+                fileNameDisplay.textContent = '';
+            }
+        });
+    });
+</script>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
