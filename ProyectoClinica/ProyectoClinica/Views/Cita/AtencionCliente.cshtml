@@ -1,4 +1,9 @@
-﻿﻿@model IEnumerable<ProyectoClinica.Models.Atencion_Cliente>
+﻿@model IEnumerable<ProyectoClinica.Models.Atencion_Cliente>
+
+@{
+    ViewBag.Title = "Comentarios";
+}
+
 
 <!DOCTYPE html>
 <html lang="es">
@@ -47,45 +52,47 @@
                                     </h4>
 
                                     <div class="comment-list">
-                                        @foreach (var item in Model)
-                                        {
-                                            <div class="comment-item">
-                                                <div class="comment-header">
-                                                    <div class="comment-author">@item.Tipo_Servicio</div>
-                                                    <div class="comment-date">@item.Fechas_Comentario.ToString("dd/MM/yyyy")</div>
-                                                </div>
-                                                <div class="comment-body">
-                                                    <p>@item.Comentarios_Paciente</p>
-                                                </div>
-                                                <div class="meta-item">
-                                                    <span class="meta-label">Salud:</span>
-                                                    <span>@item.Salud_Evaluada</span>
-                                                </div>
-                                                <div class="meta-item">
-                                                    <span class="meta-label">Problema:</span>
-                                                    <span>@item.Clasificacion_Problema</span>
-                                                </div>
-                                                <div class="meta-item">
-                                                    <span class="meta-label">Prioridad:</span>
-                                                    @{
-                                                        string priorityClass = "";
-                                                        switch (item.Prioridad_Mejora?.ToLower())
-                                                        {
-                                                            case "alta":
-                                                                priorityClass = "priority-alta";
-                                                                break;
-                                                            case "media":
-                                                                priorityClass = "priority-media";
-                                                                break;
-                                                            default:
-                                                                priorityClass = "priority-baja";
-                                                                break;
+                                        <div id="comentariosBody">
+                                            @foreach (var item in Model)
+                                            {
+                                                <div class="comment-item">
+                                                    <div class="comment-header">
+                                                        <div class="comment-author">@item.Tipo_Servicio</div>
+                                                        <div class="comment-date">@item.Fechas_Comentario.ToString("dd/MM/yyyy")</div>
+                                                    </div>
+                                                    <div class="comment-body">
+                                                        <p>@item.Comentarios_Paciente</p>
+                                                    </div>
+                                                    <div class="meta-item">
+                                                        <span class="meta-label">Salud:</span>
+                                                        <span>@item.Salud_Evaluada</span>
+                                                    </div>
+                                                    <div class="meta-item">
+                                                        <span class="meta-label">Problema:</span>
+                                                        <span>@item.Clasificacion_Problema</span>
+                                                    </div>
+                                                    <div class="meta-item">
+                                                        <span class="meta-label">Prioridad:</span>
+                                                        @{
+                                                            string priorityClass = "";
+                                                            switch (item.Prioridad_Mejora?.ToLower())
+                                                            {
+                                                                case "alta":
+                                                                    priorityClass = "priority-alta";
+                                                                    break;
+                                                                case "media":
+                                                                    priorityClass = "priority-media";
+                                                                    break;
+                                                                default:
+                                                                    priorityClass = "priority-baja";
+                                                                    break;
+                                                            }
                                                         }
-                                                    }
-                                                    <span class="priority-badge @priorityClass">@item.Prioridad_Mejora</span>
+                                                        <span class="priority-badge @priorityClass">@item.Prioridad_Mejora</span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        }
+                                            }
+                                        </div>
 
                                         @if (!Model.Any())
                                         {
@@ -94,19 +101,19 @@
                                             </div>
                                         }
                                     </div>
+                                    <div id="paginationContainer" class="d-flex justify-content-center mt-3"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                <br />
+                    <br />
 
                     <div class="col-lg-4 col-md-12">
                         <div class="thank-you-box">
                             <h4>¡Gracias por tus comentarios!</h4>
                             <p class="centered-text">Valoramos mucho tu opinión, tu comentario ayuda a mejorar nuestros servicios y a brindar una mejor atención a todos nuestros pacientes.</p>
                             <div class="thank-you-image">
-
                                 <img src="~/Imagenes/Logo.png" alt="Gracias" class="img-fluid">
                             </div>
                         </div>
@@ -117,14 +124,45 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        const filterButtons = document.querySelectorAll('.filter-btn');
-        filterButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                filterButtons.forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
+        $(document).ready(function () {
+            var rowsPerPage = 5; // Número de comentarios por página
+            var $rows = $("#comentariosBody .comment-item"); // Comentarios a paginar
+            var totalPages = Math.ceil($rows.length / rowsPerPage); // Número total de páginas
+            var currentPage = 1;
+
+            function showPage(page) {
+                var start = (page - 1) * rowsPerPage;
+                var end = start + rowsPerPage;
+                $rows.hide().slice(start, end).show(); // Muestra los comentarios de la página actual
+                $("#paginationContainer").html(createPagination(page, totalPages)); // Crea la paginación
+            }
+
+            function createPagination(page, total) {
+                var pagination = `<nav><ul class="pagination">`;
+                if (page > 1) {
+                    pagination += `<li class="page-item"><a href="#" class="page-link" data-page="${page - 1}">«</a></li>`;
+                }
+                for (var i = 1; i <= total; i++) {
+                    pagination += `<li class="page-item ${i === page ? 'active' : ''}">
+                                                    <a href="#" class="page-link" data-page="${i}">${i}</a>
+                                               </li>`;
+                }
+                if (page < total) {
+                    pagination += `<li class="page-item"><a href="#" class="page-link" data-page="${page + 1}">»</a></li>`;
+                }
+                pagination += `</ul></nav>`;
+                return pagination;
+            }
+
+            $(document).on("click", ".page-link", function (e) {
+                e.preventDefault();
+                var page = $(this).data("page");
+                showPage(page); // Muestra la página seleccionada
             });
+
+            showPage(currentPage); // Muestra la primera página
         });
     </script>
 

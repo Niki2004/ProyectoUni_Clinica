@@ -2,124 +2,65 @@
     ViewBag.Title = "Respaldo de Documentos";
 }
 
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f5f5f5;
-    }
-
-    .custom-btn {
-        background-color: #0b7b82 !important;
-        color: white !important;
-        border: none;
-        padding: 8px 12px;
-        border-radius: 5px;
-        font-size: 14px;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        cursor: pointer;
-    }
-
-    .custom-btn:hover {
-        background-color: #09686e !important;
-        text-decoration: none;
-    }
-
-    .upload-form {
-        margin-top: 20px;
-        padding: 20px;
-        background: #fff;
-        border-radius: 5px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-
-    .file-input {
-        margin: 10px 0;
-    }
-
-    .alert {
-        padding: 15px;
-        margin-bottom: 20px;
-        border: 1px solid transparent;
-        border-radius: 4px;
-    }
-
-    .alert-success {
-        color: #155724;
-        background-color: #d4edda;
-        border-color: #c3e6cb;
-    }
-
-    .alert-danger {
-        color: #721c24;
-        background-color: #f8d7da;
-        border-color: #f5c6cb;
-    }
-
-    .container {
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 20px;
-    }
-
-    .header {
-        text-align: center;
-        margin-bottom: 30px;
-    }
-
-    .header h2 {
-        color: #0b7b82;
-        margin-bottom: 10px;
-    }
-
-    .header p {
-        color: #666;
-        font-size: 16px;
-    }
-</style>
-
-<div class="container">
-    <div class="header">
-        <h2>Respaldo de Documentos</h2>
-        <p>Sube y guarda tus documentos importantes de manera segura</p>
-    </div>
-
-    <center>
-        <a href="@Url.Action("Expedientes", "Expedientes")" class="btn custom-btn">
-            <i class="fas fa-home"></i> Inicio
-        </a>
-    </center>
-
-    @if (TempData["SuccessMessage"] != null)
-    {
-        <div class="alert alert-success">
-            @TempData["SuccessMessage"]
-        </div>
-    }
-
-    @if (TempData["ErrorMessage"] != null)
-    {
-        <div class="alert alert-danger">
-            @TempData["ErrorMessage"]
-        </div>
-    }
-
-    <div class="upload-form">
-        <h3>Guardar Documento</h3>
-        @using (Html.BeginForm("SubirADrive", "Expedientes", FormMethod.Post, new { enctype = "multipart/form-data" }))
-        {
-            @Html.AntiForgeryToken()
-            <div class="file-input">
-                <input type="file" name="archivo" class="form-control" accept=".pdf,.doc,.docx" required />
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Respaldo de Documentos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link href="~/CSS/Administrativo.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="page-container">
+        <div class="header-container">
+            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                <a href="@Url.Action("Expedientes", "Expedientes")" class="btn-inicio">
+                    <i class="fas fa-home"></i> Inicio
+                </a>
+                <div class="page-title-container">
+                    <h1 class="page-title">Respaldo de Documentos</h1>
+                </div>
             </div>
-            <button type="submit" class="btn custom-btn">
-                <i class="fas fa-save"></i> Guardar Documento
-            </button>
-        }
-    </div>
-</div>
+        </div>
 
+        <br />
+        <br />
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success" style="margin: 0 20px;">
+                <i class="fas fa-check-circle"></i> @TempData["SuccessMessage"]
+            </div>
+        }
+
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger" style="margin: 0 20px;">
+                <i class="fas fa-exclamation-circle"></i> @TempData["ErrorMessage"]
+            </div>
+        }
+
+        <div class="results-panel mt-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2 class="results-title" style="color: #0b7b82;">
+                    <i class="fas fa-upload"></i> Guardar Documento
+                </h2>
+            </div>
+
+            <div class="upload-form" style="margin: 0 20px;">
+                @using (Html.BeginForm("SubirADrive", "Expedientes", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="mb-3">
+                        <label for="archivo" class="form-label">Selecciona un documento (.pdf, .doc, .docx):</label>
+                        <input type="file" name="archivo" id="archivo" class="form-control" accept=".pdf,.doc,.docx" required />
+                    </div>
+                    <button type="submit" class="btn-search">
+                        <i class="fas fa-save me-2"></i> Guardar Documento
+                    </button>
+                }
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -3,345 +3,350 @@
 @{
     ViewBag.Title = "Inventario";
 }
-<style>
-    /* Estilos originales */
-    .cards-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        gap: 20px;
-        margin-top: 20px;
-    }
+<head>
+    <link href="~/CSS/Inventarios.css" rel="stylesheet" />
+    <link href="~/CSS/VistaGeneral.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    .payment-card {
-        background-color: white;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        position: relative;
-        overflow: hidden;
-        transition: all 0.3s ease;
-    }
-
-        .payment-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    <style>
+        /* Estilos originales */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
         }
 
-    .card-status-chip {
-        padding: 3px 10px;
-        border-radius: 20px;
-        font-size: 12px;
-        font-weight: bold;
-        color: white;
-    }
-
-    .status-activo {
-        background-color: #28a745; /* Verde para activo */
-    }
-
-    .status-inactivo {
-        background-color: #dc3545; /* Rojo para inactivo */
-    }
-
-    .card-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 15px;
-        border-bottom: 1px solid #f0f0f0;
-    }
-
-    .card-id {
-        font-weight: bold;
-        color: #666;
-    }
-
-    .card-date {
-        color: #888;
-        font-size: 14px;
-    }
-
-    .card-body {
-        padding: 15px;
-    }
-
-    .card-product-header {
-        display: flex;
-        align-items: center;
-        margin-bottom: 15px;
-    }
-
-        .card-product-header i {
-            font-size: 18px;
-            color: #3bb4bc;
-            margin-right: 10px;
+        .payment-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
         }
 
-    .card-product-name {
-        font-size: 18px;
-        font-weight: bold;
-        color: #3bb4bc;
-        margin-right: 10px;
-        flex: 1;
-    }
+            .payment-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            }
 
-    .card-status-badge {
-        padding: 3px 10px;
-        border-radius: 20px;
-        font-size: 12px;
-        font-weight: bold;
-        color: white;
-        display: inline-block;
-    }
-
-    .card-info {
-        display: flex;
-        margin-bottom: 10px;
-    }
-
-    .info-label {
-        font-weight: bold;
-        width: 100px;
-        color: #666;
-    }
-
-    .info-value {
-        flex: 1;
-    }
-
-    .card-footer {
-        padding: 15px;
-        border-top: 1px solid #f0f0f0;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background-color: #f9f9f9;
-    }
-
-    .card-user {
-        color: #888;
-        font-size: 14px;
-    }
-
-    .card-actions {
-        display: flex;
-        gap: 10px; /* Espacio entre botones */
-    }
-
-    .btn-action {
-        padding: 6px 12px;
-        background-color: #3bb4bc;
-        color: white;
-        border-radius: 5px;
-        text-decoration: none;
-        font-size: 14px;
-        border: none;
-        cursor: pointer;
-        display: inline-block;
-        transition: all 0.2s ease;
-    }
-
-        .btn-action:hover {
-            background-color: #0b7b82;
+        .card-status-chip {
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
             color: white;
         }
 
-    .btn-hide {
-        background-color: #6c757d;
-    }
-
-        .btn-hide:hover {
-            background-color: #5a6268;
+        .status-activo {
+            background-color: #28a745; /* Verde para activo */
         }
 
-    .empty-state {
-        text-align: center;
-        padding: 50px;
-        background-color: #f9f9f9;
-        border-radius: 10px;
-        margin: 20px 0;
-    }
-
-        .empty-state i {
-            font-size: 50px;
-            color: #ccc;
-            margin-bottom: 20px;
+        .status-inactivo {
+            background-color: #dc3545; /* Rojo para inactivo */
         }
 
-        .empty-state p {
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .card-id {
+            font-weight: bold;
+            color: #666;
+        }
+
+        .card-date {
             color: #888;
+            font-size: 14px;
+        }
+
+        .card-body {
+            padding: 15px;
+        }
+
+        .card-product-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+            .card-product-header i {
+                font-size: 18px;
+                color: #3bb4bc;
+                margin-right: 10px;
+            }
+
+        .card-product-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: #3bb4bc;
+            margin-right: 10px;
+            flex: 1;
+        }
+
+        .card-status-badge {
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+            display: inline-block;
+        }
+
+        .card-info {
+            display: flex;
+            margin-bottom: 10px;
+        }
+
+        .info-label {
+            font-weight: bold;
+            width: 100px;
+            color: #666;
+        }
+
+        .info-value {
+            flex: 1;
+        }
+
+        .card-footer {
+            padding: 15px;
+            border-top: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f9f9f9;
+        }
+
+        .card-user {
+            color: #888;
+            font-size: 14px;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 10px; /* Espacio entre botones */
+        }
+
+        .btn-action {
+            padding: 6px 12px;
+            background-color: #3bb4bc;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+            display: inline-block;
+            transition: all 0.2s ease;
+        }
+
+            .btn-action:hover {
+                background-color: #0b7b82;
+                color: white;
+            }
+
+        .btn-hide {
+            background-color: #6c757d;
+        }
+
+            .btn-hide:hover {
+                background-color: #5a6268;
+            }
+
+        .empty-state {
+            text-align: center;
+            padding: 50px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+            .empty-state i {
+                font-size: 50px;
+                color: #ccc;
+                margin-bottom: 20px;
+            }
+
+            .empty-state p {
+                color: #888;
+                margin-bottom: 20px;
+            }
+
+        .hidden-card {
+            display: none;
+        }
+
+        /* Estilos para la paginación */
+        .pagination {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 0;
+        }
+
+        .page-item {
+            margin: 0 2px;
+        }
+
+        .page-link {
+            padding: 6px 12px;
+            border: 1px solid #dee2e6;
+            color: #3bb4bc;
+            background-color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+        .page-item.active .page-link {
+            background-color: #3bb4bc;
+            border-color: #3bb4bc;
+            color: white;
+        }
+
+        .page-link:hover {
+            background-color: #e9ecef;
+            color: #0b7b82;
+        }
+
+        .inventory-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 20px;
         }
 
-    .hidden-card {
-        display: none;
-    }
+        .filters-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-bottom: 15px;
+        }
 
-    /* Estilos para la paginación */
-    .pagination {
-        margin-top: 20px;
-        display: flex;
-        justify-content: center;
-        list-style: none;
-        padding: 0;
-    }
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
 
-    .page-item {
-        margin: 0 2px;
-    }
+        /* Nuevos estilos para indicadores de stock y fecha de caducidad */
+        .alert-badge {
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+            display: inline-block;
+            margin-top: 5px;
+        }
 
-    .page-link {
-        padding: 6px 12px;
-        border: 1px solid #dee2e6;
-        color: #3bb4bc;
-        background-color: #fff;
-        text-decoration: none;
-        border-radius: 4px;
-    }
+        .low-stock {
+            background-color: #dc3545; /* Rojo para bajo stock */
+        }
 
-    .page-item.active .page-link {
-        background-color: #3bb4bc;
-        border-color: #3bb4bc;
-        color: white;
-    }
+        .expiring-soon {
+            background-color: #ffc107; /* Amarillo para próximo a vencer */
+            color: #212529;
+        }
 
-    .page-link:hover {
-        background-color: #e9ecef;
-        color: #0b7b82;
-    }
+        .expired {
+            background-color: #ff6b6b; /* Rojo más intenso para expirado */
+        }
 
-    .inventory-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-    }
+        .alert-indicators {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin-top: 10px;
+        }
 
-    .filters-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 10px;
-        margin-bottom: 15px;
-    }
+        /* Estilos para notificaciones */
+        .notification-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1050;
+            width: 350px;
+        }
 
-    .filter-buttons {
-        display: flex;
-        gap: 10px;
-        margin-bottom: 20px;
-    }
+        .notification {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            margin-bottom: 10px;
+            overflow: hidden;
+            animation: slideIn 0.3s ease-out forwards;
+        }
 
-    /* Nuevos estilos para indicadores de stock y fecha de caducidad */
-    .alert-badge {
-        padding: 3px 10px;
-        border-radius: 20px;
-        font-size: 12px;
-        font-weight: bold;
-        color: white;
-        display: inline-block;
-        margin-top: 5px;
-    }
+        .notification-header {
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #f0f0f0;
+        }
 
-    .low-stock {
-        background-color: #dc3545; /* Rojo para bajo stock */
-    }
+        .notification-body {
+            padding: 15px;
+        }
 
-    .expiring-soon {
-        background-color: #ffc107; /* Amarillo para próximo a vencer */
-        color: #212529;
-    }
+        .notification-title {
+            margin: 0;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
 
-    .expired {
-        background-color: #ff6b6b; /* Rojo más intenso para expirado */
-    }
+            .notification-title i {
+                margin-right: 8px;
+            }
 
-    .alert-indicators {
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-        margin-top: 10px;
-    }
+        .notification-close {
+            background: none;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
 
-    /* Estilos para notificaciones */
-    .notification-container {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        z-index: 1050;
-        width: 350px;
-    }
+        .notification-danger {
+            border-left: 4px solid #dc3545;
+        }
 
-    .notification {
-        background-color: white;
-        border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        margin-bottom: 10px;
-        overflow: hidden;
-        animation: slideIn 0.3s ease-out forwards;
-    }
+        .notification-warning {
+            border-left: 4px solid #ffc107;
+        }
 
-    .notification-header {
-        padding: 10px 15px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 1px solid #f0f0f0;
-    }
+        .notification-list {
+            max-height: 150px;
+            overflow-y: auto;
+            margin: 0;
+            padding-left: 20px;
+        }
 
-    .notification-body {
-        padding: 15px;
-    }
+        .notification-item {
+            margin-bottom: 5px;
+        }
 
-    .notification-title {
-        margin: 0;
-        font-weight: bold;
-        display: flex;
-        align-items: center;
-    }
+        keyframes slideIn {
+            from
 
-    .notification-title i {
-        margin-right: 8px;
-    }
-
-    .notification-close {
-        background: none;
-        border: none;
-        font-size: 16px;
-        cursor: pointer;
-    }
-
-    .notification-danger {
-        border-left: 4px solid #dc3545;
-    }
-
-    .notification-warning {
-        border-left: 4px solid #ffc107;
-    }
-
-    .notification-list {
-        max-height: 150px;
-        overflow-y: auto;
-        margin: 0;
-        padding-left: 20px;
-    }
-
-    .notification-item {
-        margin-bottom: 5px;
-    }
-
-    keyframes slideIn {
-        from {
+        {
             transform: translateX(100%);
             opacity: 0;
         }
+
         to {
             transform: translateX(0);
             opacity: 1;
         }
-    }
-</style>
-<link href="~/CSS/Inventarios.css" rel="stylesheet" />
-<link href="~/CSS/VistaGeneral.css" rel="stylesheet" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        }
 
+    </style>
 </head>
 <body>
     <div class="container-fluid">
@@ -365,9 +370,6 @@
 
                         </a>
                         <ul class="submenu">
-                            <a href="@Url.Action(" ", "Punto de Venta")" class="nav-link">
-                                <i class="fas fa-cash-register"></i> Punto de Venta
-                            </a>
                             <br />
                             <a href="@Url.Action("Index", "Inventario")" class="nav-link">
                                 <i class="fas fa-boxes"></i> Inventario
@@ -568,7 +570,7 @@
             currentPage = 1;
             showPage(currentPage);
         }
-        
+
 
         // Función para crear y mostrar notificaciones
         function showNotification(title, items, type) {

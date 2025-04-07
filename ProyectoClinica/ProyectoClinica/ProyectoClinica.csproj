@@ -547,6 +547,7 @@
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="CSS\PDF.css" />
     <Content Include="CSS\Administrativo.css" />
     <Content Include="CSS\IndexInicio.css" />
     <Content Include="CSS\CCitas.css" />

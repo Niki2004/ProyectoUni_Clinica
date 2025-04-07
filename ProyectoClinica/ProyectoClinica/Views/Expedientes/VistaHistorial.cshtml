@@ -2,173 +2,196 @@
 
 @{
     ViewBag.Title = "Historial de Expedientes";
+    var especialidades = Model.Select(c => c.Medico.Especialidad).Distinct().OrderBy(e => e).ToList();
 }
 
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f5f5f5;
-    }
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Historial de Expedientes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        background: #fff;
-        margin-top: 20px;
-    }
+    <link href="~/CSS/Administrativo.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="page-container">
+        <div class="header-container">
+            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                <a href="@Url.Action("Expedientes", "Expedientes")" class="btn-inicio">
+                    <i class="fas fa-home"></i> Inicio
+                </a>
+                <div class="page-title-container">
+                    <h1 class="page-title">Historial de Expedientes</h1>
+                </div>
+            </div>
+        </div>
 
-    thead {
-        background-color: #3bb4bc;
-        color: #fff;
-    }
+        <br /><br />
 
-    th, td {
-        padding: 10px;
-        text-align: left;
-        border: 1px solid #ddd;
-    }
-
-    tbody tr:hover {
-        background-color: #f1f1f1;
-    }
-
-    .custom-btn {
-        background-color: #0b7b82 !important;
-        color: white !important;
-        border: none;
-        padding: 8px 12px;
-        border-radius: 5px;
-        font-size: 14px;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        cursor: pointer;
-    }
-
-        .custom-btn:hover {
-            background-color: #09686e !important;
-            text-decoration: none;
-        }
-
-    .upload-form {
-        margin-top: 20px;
-        padding: 20px;
-        background: #fff;
-        border-radius: 5px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-
-    .file-input {
-        margin: 10px 0;
-    }
-
-    .alert {
-        padding: 15px;
-        margin-bottom: 20px;
-        border: 1px solid transparent;
-        border-radius: 4px;
-    }
-
-    .alert-success {
-        color: #155724;
-        background-color: #d4edda;
-        border-color: #c3e6cb;
-    }
-
-    .alert-danger {
-        color: #721c24;
-        background-color: #f8d7da;
-        border-color: #f5c6cb;
-    }
-</style>
-
-<center>
-    <a href="@Url.Action("Expedientes", "Expedientes")" class="btn custom-btn">
-        <i class="fas fa-home"></i> Inicio
-    </a>
-</center>
-
-<br />
-<center><h2>Expedientes</h2></center>
-<br />
-
-@if (TempData["SuccessMessage"] != null)
-{
-    <div class="alert alert-success">
-        @TempData["SuccessMessage"]
-    </div>
-}
-
-@if (TempData["ErrorMessage"] != null)
-{
-    <div class="alert alert-danger">
-        @TempData["ErrorMessage"]
-    </div>
-}
-
-<table id="expedientesTable" class="table">
-    <thead>
-        <tr>
-            <th>Médico</th>
-            <th>Paciente</th>
-            <th>Estado</th>
-            <th>Hora</th>
-            <th>Complicaciones</th>
-            <th>Síntomas</th>
-            <th>Fecha</th>
-            <th>Modalidad</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
+        @if (TempData["SuccessMessage"] != null)
         {
-            <tr>
-                <td>@item.Medico.Nombre</td>
-                <td>@item.Nombre_Paciente</td>
-                <td>@item.Estado_Asistencia</td>
-                <td>@item.Hora_cita</td>
-                <td>@item.Descripcion_Complicaciones</td>
-                <td>@item.Sintomas</td>
-                <td>@item.Fecha_Cita.ToString("dd/MM/yyyy")</td>
-                <td>@item.Modalidad</td>
-            </tr>
+            <div class="alert alert-success">
+                @TempData["SuccessMessage"]
+            </div>
         }
-    </tbody>
-</table>
 
-<br />
-<center>
-    <button class="btn custom-btn" onclick="descargarPDF()">
-        <i class="fas fa-file-pdf"></i> Descargar PDF
-    </button>
-</center>
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger">
+                @TempData["ErrorMessage"]
+            </div>
+        }
 
-<!-- Cargar jsPDF y autoTable -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+        <div class="results-panel mt-4">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h2 class="results-title" style="color: #392F5A;"><i class="fas fa-file-medical-alt"></i> Expedientes registrados</h2>
+                <button class="btn btn-danger btn-sm" onclick="descargarPDF()">
+                    <i class="fas fa-file-pdf"></i> Descargar PDF
+                </button>
+            </div>
+            <div class="table-responsive">
+                <table class="table" id="expedientesTable">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>Médico</th>
+                            <th>Especialidad</th>
+                            <th>Paciente</th>
+                            <th>Síntomas</th>
+                            <th>Complicaciones</th>
+                            <th>Estado</th>
+                            <th>Modalidad</th>
+                        </tr>
+                    </thead>
+                    <tbody id="expedientesBody">
+                        @if (Model.Any())
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.Fecha_Cita.ToString("dd/MM/yyyy")</td>
+                                    <td>@item.Hora_cita</td>
+                                    <td>@item.Medico.Nombre</td>
+                                    <td>@item.Medico.Especialidad</td>
+                                    <td>@item.Nombre_Paciente</td>
+                                    <td>@item.Sintomas</td>
+                                    <td>@item.Descripcion_Complicaciones</td>
+                                    <td>
+                                        @if (item.Estado_Asistencia == "Asistió")
+                                        {
+                                            <span class="badge bg-success">@item.Estado_Asistencia</span>
+                                        }
+                                        else if (item.Estado_Asistencia == "No Asistió")
+                                        {
+                                            <span class="badge bg-danger">@item.Estado_Asistencia</span>
+                                        }
+                                        else if (item.Estado_Asistencia == "Pendiente")
+                                        {
+                                            <span class="badge bg-warning text-dark">@item.Estado_Asistencia</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-secondary">@item.Estado_Asistencia</span>
+                                        }
+                                    </td>
+                                    <td>@item.Modalidad</td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="9" class="text-center py-4">
+                                    <div class="alert alert-info mb-0">
+                                        <i class="fas fa-info-circle me-2"></i> No hay expedientes disponibles.
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <div id="paginationContainer" class="d-flex justify-content-center mt-3"></div>
+            </div>
+        </div>
+    </div>
 
-<script>
-    function descargarPDF() {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-        doc.setFont("helvetica", "bold");
-        doc.setFontSize(16);
-        doc.text("Historial de Expedientes", 70, 15);
+    <!-- jsPDF para exportar -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
 
-        doc.autoTable({
-            startY: 25,
-            html: '#expedientesTable',
-            theme: 'grid',
-            styles: { fontSize: 10, cellPadding: 3 },
-            headStyles: { fillColor: [59, 180, 188] },
-            alternateRowStyles: { fillColor: [240, 240, 240] },
-            margin: { top: 20 }
+    <script>
+        function descargarPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(16);
+            doc.text("Historial de Expedientes", 60, 15);
+
+            doc.autoTable({
+                startY: 25,
+                html: '#expedientesTable',
+                theme: 'grid',
+                styles: { fontSize: 9, cellPadding: 3 },
+                headStyles: { fillColor: [59, 180, 188] },
+                alternateRowStyles: { fillColor: [240, 240, 240] }
+            });
+
+            doc.save("Historial_Expedientes.pdf");
+        }
+
+        // Paginación básica
+        $(document).ready(function () {
+            var rowsPerPage = 5;
+            var $rows = $("#expedientesBody tr");
+            var totalPages = Math.ceil($rows.length / rowsPerPage);
+            var currentPage = 1;
+
+            function showPage(page) {
+                var start = (page - 1) * rowsPerPage;
+                var end = start + rowsPerPage;
+
+                $rows.hide().slice(start, end).show();
+                $("#paginationContainer").html(createPagination(page, totalPages));
+            }
+
+            function createPagination(page, total) {
+                var pagination = `<nav><ul class="pagination">`;
+
+                if (page > 1) {
+                    pagination += `<li class="page-item"><a href="#" class="page-link" data-page="${page - 1}">«</a></li>`;
+                }
+
+                for (var i = 1; i <= total; i++) {
+                    pagination += `<li class="page-item ${i === page ? 'active' : ''}">
+                                                <a href="#" class="page-link" data-page="${i}">${i}</a>
+                                           </li>`;
+                }
+
+                if (page < total) {
+                    pagination += `<li class="page-item"><a href="#" class="page-link" data-page="${page + 1}">»</a></li>`;
+                }
+
+                pagination += `</ul></nav>`;
+                return pagination;
+            }
+
+            $(document).on("click", ".page-link", function (e) {
+                e.preventDefault();
+                var page = parseInt($(this).data("page"));
+                if (!isNaN(page)) {
+                    currentPage = page;
+                    showPage(currentPage);
+                }
+            });
+
+            showPage(currentPage);
         });
-
-        doc.save("Historial_Expedientes.pdf");
-    }
-</script>
+    </script>
+</body>
+</html>

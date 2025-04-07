@@ -4,133 +4,108 @@
     ViewBag.Title = "Editar Empleado";
 }
 
-<h2>Editar Empleado</h2>
-
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
+<link href="~/CSS/Editar.css" rel="stylesheet" />
 
 <div class="container-form">
+    <h2 class="page-title">Editar Empleado</h2>
 
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @Html.HiddenFor(model => model.Id_Empleado)
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id_Empleado)
 
-    <div class="form-grid">
         <div class="form-section">
-            @Html.LabelFor(model => model.Id_Estado, "Estado")
-            @Html.DropDownList("Id_Estado", null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.Id_Estado, "", new { @class = "text-danger" })
+            <legend>Información Básica</legend>
+            <div class="detail-group">
+                <div class="detail-item">
+                    <div class="detail-label">@Html.LabelFor(model => model.Nombre)</div>
+                    <div class="detail-value">
+                        @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <div class="detail-label">@Html.LabelFor(model => model.Apellido)</div>
+                    <div class="detail-value">
+                        @Html.EditorFor(model => model.Apellido, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Apellido, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <div class="detail-label">@Html.LabelFor(model => model.Cedula)</div>
+                    <div class="detail-value">
+                        @Html.EditorFor(model => model.Cedula, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Cedula, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <div class="detail-label">@Html.LabelFor(model => model.Correo)</div>
+                    <div class="detail-value">
+                        @Html.EditorFor(model => model.Correo, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Correo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="form-section">
-            @Html.LabelFor(model => model.Comentarios)
-            @Html.EditorFor(model => model.Comentarios, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Comentarios, "", new { @class = "text-danger" })
+            <legend>Información Laboral</legend>
+            <div class="detail-group">
+                <div class="detail-item">
+                    <div class="detail-label">@Html.LabelFor(model => model.Jornada)</div>
+                    <div class="detail-value">
+                        @Html.EditorFor(model => model.Jornada, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Jornada, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <div class="detail-label">@Html.LabelFor(model => model.Departamento)</div>
+                    <div class="detail-value">
+                        @Html.EditorFor(model => model.Departamento, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Departamento, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <div class="detail-label">@Html.LabelFor(model => model.Comentarios)</div>
+                    <div class="detail-value">
+                        @Html.EditorFor(model => model.Comentarios, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Comentarios, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="form-section">
-            @Html.LabelFor(model => model.Nombre)
-            @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+            <legend>Estado y Fecha</legend>
+            <div class="detail-group">
+                <div class="detail-item">
+                    <div class="detail-label">@Html.LabelFor(model => model.Id_Estado, "Estado")</div>
+                    <div class="detail-value">
+                        @Html.DropDownList("Id_Estado", ViewBag.Id_Estado as SelectList, "Seleccione una opción", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Id_Estado, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <div class="detail-label">@Html.LabelFor(model => model.Fecha_registro, "Fecha de Registro")</div>
+                    <div class="detail-value">
+                        @Html.TextBoxFor(model => model.Fecha_registro, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                        @Html.ValidationMessageFor(model => model.Fecha_registro, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center" style="margin-top: 20px;">
+            <input type="submit" value="Guardar" class="btn-primary" style="margin-right: 10px;" />
+            @Html.ActionLink("Cancelar", "VistaEmpleados", null, new { @class = "btn-secondary" })
         </div>
 
-        <div class="form-section">
-            @Html.LabelFor(model => model.Apellido)
-            @Html.EditorFor(model => model.Apellido, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Apellido, "", new { @class = "text-danger" })
-        </div>
-
-        <div class="form-section">
-            @Html.LabelFor(model => model.Cedula)
-            @Html.EditorFor(model => model.Cedula, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Cedula, "", new { @class = "text-danger" })
-        </div>
-
-        <div class="form-section">
-            @Html.LabelFor(model => model.Correo)
-            @Html.EditorFor(model => model.Correo, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Correo, "", new { @class = "text-danger" })
-        </div>
-
-        <div class="form-section">
-            @Html.LabelFor(model => model.Jornada)
-            @Html.EditorFor(model => model.Jornada, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Jornada, "", new { @class = "text-danger" })
-        </div>
-
-        <div class="form-section">
-            @Html.LabelFor(model => model.Fecha_registro)
-            @Html.EditorFor(model => model.Fecha_registro, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Fecha_registro, "", new { @class = "text-danger" })
-        </div>
-
-        <div class="form-section">
-            @Html.LabelFor(model => model.Departamento)
-            @Html.EditorFor(model => model.Departamento, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Departamento, "", new { @class = "text-danger" })
-        </div>
-
-    </div>
-    <br />
-
-    <div class="btn-container">
-        <input type="submit" value="Guardar" class="btn-submit" />
-        @Html.ActionLink("Cancelar", "VistaEmpleados", null, new { @class = "custom-btn" })
-    </div>
+       
+    }
 </div>
-   
-
-    <style>
-        .btn-submit {
-            background-color: #28a745;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: all 0.3s ease;
-        }
-
-            .btn-submit:hover {
-                background-color: #218838;
-                transform: translateY(-1px);
-            }
-
-        .btn-submit, .btn-pago {
-            background-color: #0b7b82;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-            .btn-submit:hover, .btn-pago:hover {
-                background-color: #096c72;
-                transform: translateY(-1px);
-                box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            }
-
-        .custom-btn {
-            background-color: #0b7b82 !important;
-            color: white !important;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 16px;
-            text-decoration: none;
-            transition: background 0.3s ease, transform 0.2s ease;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-    </style>
-}
