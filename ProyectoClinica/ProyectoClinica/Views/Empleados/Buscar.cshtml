@@ -1,56 +1,86 @@
 ﻿@model IEnumerable<ProyectoClinica.Models.Empleado>
 
 @{
-    ViewBag.Title = "Lista de Empleados";
+    ViewBag.Title = "Reporte de Empleados";
 }
-<div style="text-align: center; margin-bottom: 20px;">
-    <a href="@Url.Action("Empleados", "Empleados")" class="custom-btn">
-        <i class="fas fa-home"></i> Inicio
-    </a>
-</div>
-<div class="container-fluid">
-    <div class="row">
-        <!-- Main Content -->
-        <div class="button-container">
-            <div class="content-wrapper">
-                <h2 class="mb-4">Búsqueda de Empleados</h2>
 
-                <form method="get" action="@Url.Action("Buscar")" class="search-form mb-4">
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reporte de Empleados</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link href="~/CSS/Administrativo.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="page-container">
+        <div class="header-container">
+            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                <a href="@Url.Action("Empleados", "Empleados")" class="btn-inicio">
+                    <i class="fas fa-home"></i> Inicio
+                </a>
+                <div class="page-title-container">
+                    <h1 class="page-title">Reporte de Empleados</h1>
+                </div>
+            </div>
+        </div>
+
+        <br />
+        <br />
+
+        <div class="search-panel">
+            <h2 class="search-title" style="color: #392F5A;"><i class="fas fa-filter"></i> Filtros de búsqueda</h2>
+            @using (Html.BeginForm("Buscar", "Empleados", FormMethod.Get))
+            {
+                <div class="row align-items-end g-3">
                     <div class="row g-3">
-                        <div class="col-md-5">
-                            <div class="form-group">
-                                <label class="form-label">Nombre:</label>
-                                <input type="text" name="nombre" value="@Request.QueryString["nombre"]" class="form-control" placeholder="Ingrese el nombre" />
+                        <div class="col-md-6">
+                            <div class="form-group mb-0">
+                                <label for="nombre" class="form-label">Nombre:</label>
+                                <input type="text" name="nombre" id="nombre" class="form-control"
+                                       value="@Request.QueryString["nombre"]"
+                                       placeholder="Ingrese el nombre" />
                             </div>
                         </div>
-                        <div class="col-md-5">
-                            <div class="form-group">
-                                <label class="form-label">Cédula:</label>
-                                <input type="text" name="cedula" value="@Request.QueryString["cedula"]" class="form-control" placeholder="Ingrese la cédula" />
+                        <div class="col-md-6">
+                            <div class="form-group mb-0">
+                                <label for="cedula" class="form-label">Cédula:</label>
+                                <input type="text" name="cedula" id="cedula" class="form-control"
+                                       value="@Request.QueryString["cedula"]"
+                                       placeholder="Ingrese la cédula" />
                             </div>
-                        </div>
-                        <div class="col-md-2 d-flex align-items-end">
-                            <button type="submit" class="btn btn-primary w-100">
-                                <i class="fas fa-search me-2"></i>Buscar
-                            </button>
                         </div>
                     </div>
-                </form>
 
-                <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead class="table-light">
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Apellido</th>
-                                <th>Cédula</th>
-                                <th>Correo</th>
-                                <th>Jornada</th>
-                                <th>Departamento</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var empleado in Model)
+                    <div class="col-md-2">
+                        <button type="submit" class="btn-search w-100" style="background-color: #D6E5FF; color: #333; border: none;">
+                            <i class="fas fa-search me-2"></i>Buscar
+                        </button>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="results-panel mt-4">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h2 class="results-title" style="color: #392F5A;"><i class="fas fa-users"></i> Lista de Empleados</h2>
+            </div>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Cédula</th>
+                            <th>Correo</th>
+                            <th>Jornada</th>
+                            <th>Departamento</th>
+                        </tr>
+                    </thead>
+                    <tbody id="empleadosBody">
+                        @if (Model.Any())
+                        {
+                            foreach (var empleado in Model)
                             {
                                 <tr>
                                     <td>@empleado.Nombre</td>
@@ -61,88 +91,72 @@
                                     <td>@empleado.Departamento</td>
                                 </tr>
                             }
-                        </tbody>
-                    </table>
-                </div>
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="6" class="text-center py-4">
+                                    <div class="alert alert-info mb-0">
+                                        <i class="fas fa-info-circle me-2"></i> No se encontraron empleados con los filtros seleccionados
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <div id="paginationContainer" class="d-flex justify-content-center mt-3"></div>
             </div>
         </div>
     </div>
-</div>
+</body>
+</html>
 
-<style>
-    .search-form {
-        background-color: #f8f9fa;
-        padding: 25px;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    }
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var rowsPerPage = 5;
+            var $rows = $("#empleadosBody tr");
+            var totalPages = Math.ceil($rows.length / rowsPerPage);
+            var currentPage = 1;
 
-    .form-label {
-        color: #0b7b82;
-        font-weight: 500;
-        margin-bottom: 8px;
-    }
+            function showPage(page) {
+                var start = (page - 1) * rowsPerPage;
+                var end = start + rowsPerPage;
 
-    .form-control {
-        border: 1px solid #ced4da;
-        padding: 0.75rem;
-        border-radius: 6px;
-        transition: border-color 0.2s ease-in-out;
-    }
+                $rows.hide().slice(start, end).show();
+                $("#paginationContainer").html(createPagination(page, totalPages));
+            }
 
-        .form-control:focus {
-            border-color: #008B8B;
-            box-shadow: 0 0 0 0.2rem rgba(0, 139, 139, 0.25);
-        }
+            function createPagination(page, total) {
+                var pagination = `<nav><ul class="pagination">`;
 
-    .table thead th {
-        background-color: #008B8B;
-        color: white;
-        border: none;
-        padding: 12px;
-        font-weight: 500;
-    }
+                if (page > 1) {
+                    pagination += `<li class="page-item"><a href="#" class="page-link" data-page="${page - 1}">«</a></li>`;
+                }
 
-    .table tbody tr:hover {
-        background-color: #3bb4bc20;
-        cursor: pointer;
-    }
+                for (var i = 1; i <= total; i++) {
+                    var active = (i === page) ? "active" : "";
+                    pagination += `<li class="page-item ${active}"><a href="#" class="page-link" data-page="${i}">${i}</a></li>`;
+                }
 
-    .table td {
-        padding: 12px;
-        vertical-align: middle;
-        border-color: #e9ecef;
-    }
+                if (page < total) {
+                    pagination += `<li class="page-item"><a href="#" class="page-link" data-page="${page + 1}">»</a></li>`;
+                }
 
-    .btn-primary {
-        background-color: #008B8B;
-        border-color: #008B8B;
-        padding: 0.75rem 1.5rem;
-        font-weight: 500;
-    }
+                pagination += `</ul></nav>`;
+                return pagination;
+            }
 
-        .btn-primary:hover {
-            background-color: #20B2AA;
-            border-color: #20B2AA;
-            transform: translateY(-1px);
-        }
+            $(document).on("click", ".pagination .page-link", function (e) {
+                e.preventDefault();
+                var selectedPage = parseInt($(this).data("page"));
+                if (!isNaN(selectedPage)) {
+                    currentPage = selectedPage;
+                    showPage(currentPage);
+                }
+            });
 
-    .content-wrapper {
-        margin-top: 70px;
-        padding: 30px;
-    }
-    .custom-btn {
-        background-color: #0b7b82 !important;
-        color: white !important;
-        border: none;
-        padding: 12px 24px;
-        border-radius: 8px;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 16px;
-        text-decoration: none;
-        transition: background 0.3s ease, transform 0.2s ease;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    }
-</style>
+            showPage(currentPage);
+        });
+    </script>
+}

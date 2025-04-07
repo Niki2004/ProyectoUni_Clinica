@@ -18,11 +18,9 @@
 </head>
 <body>
     <div class="container-fluid">
-
         <div class="row">
             <div class="col-md-3 col-lg-2 sidebar">
                 <div class="sidebar">
-
                     <div class="p-3 d-flex justify-content-center">
                         <a href="@Url.Action("VistaCita", "Cita")" style="text-decoration: none; display: block;">
                             <img src="~/Imagenes/Logo.png" alt="Centro Integral Santo Domingo Logo" class="img-fluid" style="max-width: 195px; height: auto;" />
@@ -55,31 +53,32 @@
 
                 </div>
             </div>
-            <div class="content">
+            <div class="main-container">
+                <div class="content">
 
-                <h2 class="text-center">Calendario</h2>
+                    <h2 class="text-center">Calendario</h2>
 
-                @if (TempData["SuccessMessage"] != null)
-                {
-                    <div class="alert alert-success" role="alert">
-                        @TempData["SuccessMessage"]
-                    </div>
-                }
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success" role="alert">
+                            @TempData["SuccessMessage"]
+                        </div>
+                    }
 
-                <br />
+                    <br />
 
-                <div id="calendar"></div>
-                <br />
+                    <div id="calendar"></div>
+                    <br />
 
-                <div id="cita-detalle" class="card" style="display:none; margin-top: 20px; padding: 15px; border: 1px solid #ccc; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                    <center><h4 class="card-title" style="color: #333; border-bottom: 1px solid #eee; padding-bottom: 10px;">Detalles de la Cita</h4></center>
-                    <div class="card-body">
-                        <p><strong style="color: #666;">Médico:</strong> <span id="doctor-cita"></span></p>
-                        <p><strong style="color: #666;">Fecha:</strong> <span id="fecha-cita"></span></p>
-                        <p><strong style="color: #666;">Hora:</strong> <span id="hora-cita"></span></p>
-                        <p>
-                            <strong style="color: #666;">Si deseas agregar una nota para saber sobre sintomas que te pasaron durante la semana, puedea darle click al botón:</strong>
-                            <button onclick="window.location.href='@Url.Action("CrearNota", "Cita")'" class="btn" style="
+                    <div id="cita-detalle" class="card" style="display:none; margin-top: 20px; padding: 15px; border: 1px solid #ccc; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <center><h4 class="card-title" style="color: #333; border-bottom: 1px solid #eee; padding-bottom: 10px;">Detalles de la Cita</h4></center>
+                        <div class="card-body">
+                            <p><strong style="color: #666;">Médico:</strong> <span id="doctor-cita"></span></p>
+                            <p><strong style="color: #666;">Fecha:</strong> <span id="fecha-cita"></span></p>
+                            <p><strong style="color: #666;">Hora:</strong> <span id="hora-cita"></span></p>
+                            <p>
+                                <strong style="color: #666;">Si deseas agregar una nota para saber sobre sintomas que te pasaron durante la semana, puedea darle click al botón:</strong>
+                                <button onclick="window.location.href='@Url.Action("CrearNota", "Cita")'" class="btn" style="
                                      background-color: #00a3cc;
                                      color: white;
                                      border: none;
@@ -90,79 +89,82 @@
                                      margin-left: 10px;
                                      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
                                      transition: background-color 0.3s ease;">
-                                <i class="fas fa-plus" style="margin-right: 5px;"></i>Agregar
-                            </button>
-                        </p>
+                                    <i class="fas fa-plus" style="margin-right: 5px;"></i>Agregar
+                                </button>
+                            </p>
+                        </div>
                     </div>
+
+
+                    @section Scripts {
+                        <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
+                        <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/locales/es.js"></script>
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css" />
+                        <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                            var calendarEl = document.getElementById('calendar');
+                            var selectedEvent = null;
+                            var calendar = new FullCalendar.Calendar(calendarEl, {
+                                locale: 'es',
+                                initialView: 'dayGridMonth',
+                                events: '/Cita/GetEvents',
+                                headerToolbar: {
+                                    left: 'prev,next today agendarButton',
+                                    center: 'title',
+                                    right: 'dayGridMonth'
+                                },
+                                buttonText: {
+                                    today: 'Hoy'
+                                },
+                                customButtons: {
+                                    agendarButton: {
+                                        text: 'Agendar Cita',
+                                        click: function () {
+                                            window.location.href = '@Url.Action("Crear", "Cita")';
+                                        }
+                                    }
+                                },
+                                eventColor: 'blue',
+                                eventTimeFormat: {
+                                    hour: '2-digit',
+                                    minute: '2-digit',
+                                    meridiem: false
+                                },
+                                dateClick: function (info) {
+                                    if (confirm(`¿Deseas agendar una cita para el día ${info.dateStr}?`)) {
+                                        window.location.href = '@Url.Action("Crear", "Cita")?fecha=' + info.dateStr;
+                                    }
+                                },
+                                eventClick: function (info) {
+                                    selectedEvent = info.event;
+                                    document.getElementById('cita-detalle').style.display = 'block';
+                                    const fecha = info.event.start;
+                                    const fechaFormateada = fecha.toLocaleDateString('es-ES', {
+                                        year: 'numeric',
+                                        month: 'long',
+                                        day: 'numeric'
+                                    });
+                                    const horaFormateada = fecha.toLocaleTimeString('es-ES', {
+                                        hour: '2-digit',
+                                        minute: '2-digit'
+                                    });
+                                    document.getElementById('doctor-cita').textContent = info.event.title;
+                                    document.getElementById('fecha-cita').textContent = fechaFormateada;
+                                    document.getElementById('hora-cita').textContent = horaFormateada;
+                                }
+                            });
+                            calendar.render();
+                        });
+                        </script>
+                    }
+
                 </div>
-
-                @section Scripts {
-                    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
-                    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/locales/es.js"></script>
-                    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css" />
-                    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var calendarEl = document.getElementById('calendar');
-            var selectedEvent = null;
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                locale: 'es',
-                initialView: 'dayGridMonth',
-                events: '/Cita/GetEvents',
-                headerToolbar: {
-                    left: 'prev,next today agendarButton',
-                    center: 'title',
-                    right: 'dayGridMonth'
-                },
-                buttonText: {
-                    today: 'Hoy'
-                },
-                customButtons: {
-                    agendarButton: {
-                        text: 'Agendar Cita',
-                        click: function () {
-                            window.location.href = '@Url.Action("Crear", "Cita")';
-                        }
-                    }
-                },
-                eventColor: 'blue',
-                eventTimeFormat: {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    meridiem: false
-                },
-                dateClick: function (info) {
-                    if (confirm(`¿Deseas agendar una cita para el día ${info.dateStr}?`)) {
-                        window.location.href = '@Url.Action("Crear", "Cita")?fecha=' + info.dateStr;
-                    }
-                },
-                eventClick: function (info) {
-                    selectedEvent = info.event;
-                    document.getElementById('cita-detalle').style.display = 'block';
-                    const fecha = info.event.start;
-                    const fechaFormateada = fecha.toLocaleDateString('es-ES', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                    });
-                    const horaFormateada = fecha.toLocaleTimeString('es-ES', {
-                        hour: '2-digit',
-                        minute: '2-digit'
-                    });
-                    document.getElementById('doctor-cita').textContent = info.event.title;
-                    document.getElementById('fecha-cita').textContent = fechaFormateada;
-                    document.getElementById('hora-cita').textContent = horaFormateada;
-                }
-            });
-            calendar.render();
-        });
-                    </script>
-                }
-
             </div>
+
             <script src="~/lib/jquery/dist/jquery.min.js"></script>
             <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         </div>
-    </div>
+        </div>
 
 </body>
 </Html>
