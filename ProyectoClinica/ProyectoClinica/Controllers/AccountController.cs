@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Data.Entity;
-using System.Globalization;
 using System.Linq;
-using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Services.Description;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Owin.Security;
 using ProyectoClinica.Models;
 
@@ -91,7 +88,7 @@ namespace ProyectoClinica.Controllers
                 switch (result)
                 {
                     case SignInStatus.Success:
-                        return RedirectToAction("Redirect", "Redirect");
+                        return RedirectToAction("Redirect", "Redirect", new { email = model.Email });
                     #region Codigo para sprint#4
                     //// Verificamos el rol del usuario
                     //var roles = await UserManager.GetRolesAsync(user.Id);
@@ -226,16 +223,22 @@ namespace ProyectoClinica.Controllers
         /// Metodo de Olvidar Contrasena
         /// </summary>
         /// <returns></returns>
-        #region Metodo de Olvido Contrasena
+        //Metodo de Olvido Contrasena
         // POST: /Account/ForgotPassword
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
+            
             if (ModelState.IsValid)
             {
                 var user = await UserManager.FindByEmailAsync(model.Email);
+
+                //if (_context.Recuperacion_Contra.Any(r => r.Id == user.Id));
+                //{
+                //    return View(model);
+                //}
 
                 if (user != null)
                 {
@@ -254,7 +257,14 @@ namespace ProyectoClinica.Controllers
                             {
                                 // Enviar correo electrónico con la contraseña temporal
                                 await SendPasswordResetEmail(user.Email, user.Nombre, tempPassword);
-                                
+
+                                var recuperacion = new Recuperacion_Contra
+                                {
+                                    Id = user.Id
+                                };
+
+                                _context.Recuperacion_Contra.Add(recuperacion);
+
                                 // Guardamos los cambios en la base de datos
                                 await _context.SaveChangesAsync();
 
@@ -412,10 +422,70 @@ namespace ProyectoClinica.Controllers
                 return builder.ToString();
             }
         }
-        #endregion
+
         //------------------------------------------------------------------------------------------------------
 
-        // GET: /Account/ResetPasswordConfirmation
+        [AllowAnonymous]
+        public ActionResult ResetPassword(string email)
+        {
+            ViewBag.Email = email;
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ResetPassword(string email, string password, string confirmPassword)
+        {
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(confirmPassword))
+            {
+                ModelState.AddModelError("", "Todos los campos son obligatorios.");
+                return View();
+            }
+
+            if (password != confirmPassword)
+            {
+                ModelState.AddModelError("", "Las contraseñas no coinciden.");
+                ViewBag.Email = email;
+                return View();
+            }
+
+            var user = await UserManager.FindByEmailAsync(email);
+            if (user != null)
+            {
+                var token = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                var result = await UserManager.ResetPasswordAsync(user.Id, token, password);
+
+                if (result.Succeeded)
+                {
+                    var recu = _context.Recuperacion_Contra.FirstOrDefault(r => r.Id == user.Id);
+
+                    var historial = new Recuperacion_Historial
+                    {
+                        Recuperacion = "Contraseña Cambiada",
+                        Id = user.Id
+                    };
+
+                    _context.Recuperacion_Historial.Add(historial);
+                    _context.Recuperacion_Contra.Remove(recu);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("ResetPasswordConfirmation");
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error);
+                }
+
+                ViewBag.Email = email;
+                return View();
+            }
+
+            ModelState.AddModelError("", "No se encontró un usuario con ese correo.");
+            return View();
+        }
+
+
         [AllowAnonymous]
         public async Task<ActionResult> ResetPasswordConfirmation()
         {
@@ -433,7 +503,7 @@ namespace ProyectoClinica.Controllers
             }
         }
 
-        private void AddErrors(IdentityResult result)
+        private void AddErrors(Microsoft.AspNet.Identity.IdentityResult result)
         {
             foreach (var error in result.Errors)
             {
