@@ -250,15 +250,25 @@ namespace ProyectoClinica.Controllers
 
                         if (result.Succeeded)
                         {
-                            // Guardamos los cambios en la base de datos
-                            await _context.SaveChangesAsync();
-
-                            // Pasar la información a la vista
-                            return View("ForgotPasswordConfirmation", new ShowNewPasswordViewModel
+                            try
                             {
-                                Email = user.Email,
-                                TemporaryPassword = tempPassword
-                            });
+                                // Enviar correo electrónico con la contraseña temporal
+                                await SendPasswordResetEmail(user.Email, user.Nombre, tempPassword);
+                                
+                                // Guardamos los cambios en la base de datos
+                                await _context.SaveChangesAsync();
+
+                                // Redirigir a la vista de confirmación sin mostrar la contraseña
+                                return RedirectToAction("ForgotPasswordConfirmation", new { email = user.Email });
+                            }
+                            catch (Exception ex)
+                            {
+                                // Si falla el envío del correo, revertimos el cambio de contraseña
+                                var resetResult = await UserManager.ResetPasswordAsync(user.Id, token, user.PasswordHash);
+                                ModelState.AddModelError("", "Error al enviar el correo electrónico. Por favor, intente nuevamente más tarde.");
+                                System.Diagnostics.Debug.WriteLine("Error al enviar correo: " + ex.Message);
+                                System.Diagnostics.Debug.WriteLine("StackTrace: " + ex.StackTrace);
+                            }
                         }
                         else
                         {
@@ -268,15 +278,99 @@ namespace ProyectoClinica.Controllers
                     catch (Exception ex)
                     {
                         ModelState.AddModelError("", "Error al actualizar la contraseña: " + ex.Message);
+                        System.Diagnostics.Debug.WriteLine("Error en ForgotPassword: " + ex.Message);
+                        System.Diagnostics.Debug.WriteLine("StackTrace: " + ex.StackTrace);
                     }
                 }
                 else
                 {
-                    ModelState.AddModelError("", "No se encontró un usuario con ese correo electrónico.");
+                    // No revelamos si el correo existe o no por seguridad
+                    return RedirectToAction("ForgotPasswordConfirmation", new { email = model.Email });
                 }
             }
            
             return View(model);
+        }
+
+        // Método para enviar el correo electrónico con la contraseña temporal
+        private async Task SendPasswordResetEmail(string email, string nombre, string tempPassword)
+        {
+            try
+            {
+                // Obtener configuración SMTP del web.config
+                string smtpServer = System.Configuration.ConfigurationManager.AppSettings["SmtpServer"];
+                int smtpPort = int.Parse(System.Configuration.ConfigurationManager.AppSettings["SmtpPort"]);
+                string smtpUser = System.Configuration.ConfigurationManager.AppSettings["SmtpUser"];
+                string smtpPassword = System.Configuration.ConfigurationManager.AppSettings["SmtpPassword"];
+
+                // Verificar que la configuración sea válida
+                if (string.IsNullOrEmpty(smtpServer) || string.IsNullOrEmpty(smtpUser) || string.IsNullOrEmpty(smtpPassword))
+                {
+                    throw new Exception("Configuración SMTP incompleta en web.config");
+                }
+
+                System.Diagnostics.Debug.WriteLine($"Configuración SMTP: Servidor={smtpServer}, Puerto={smtpPort}, Usuario={smtpUser}");
+
+                // Construir el contenido del correo con HTML
+                var body = new StringBuilder();
+                body.Append("<html><body style='font-family: Arial, sans-serif;'>");
+                body.Append("<img src='https://i.imgur.com/QZbCmhl.png'>");
+                body.Append("<h2>CentroIntegralSD</h2>");
+                body.Append("<h2 style='color:#4CAF50;'>Recuperación de Contraseña</h2>");
+                body.Append($"<p>Hola <strong>{nombre}</strong>,</p>");
+                body.Append("<p>Hemos recibido una solicitud para restablecer tu contraseña en el sistema del Centro Integral Santo Domingo.</p>");
+                body.Append("<p>Tu contraseña temporal es:</p>");
+                body.Append($"<div style='background-color: #f5f5f5; padding: 10px; border-radius: 5px; margin: 10px 0; font-size: 18px; text-align: center;'>");
+                body.Append($"<strong>{tempPassword}</strong>");
+                body.Append("</div>");
+                body.Append("<p>Por favor, inicia sesión con esta contraseña y cámbiala inmediatamente por una nueva.</p>");
+                body.Append("<p>Si no solicitaste este cambio, por favor ignora este correo o contacta con el administrador del sistema.</p>");
+                body.Append("<hr style='border: 1px solid #eee; margin: 20px 0;'>");
+                body.Append("<p style='font-size: 12px; color: #777;'>Este es un correo automático, por favor no responda a este mensaje.</p>");
+                body.Append("</body></html>");
+
+                // Crear el mensaje
+                using (var mensaje = new System.Net.Mail.MailMessage())
+                {
+                    mensaje.From = new System.Net.Mail.MailAddress(smtpUser, "Centro Integral Santo Domingo");
+                    mensaje.To.Add(new System.Net.Mail.MailAddress(email));
+                    mensaje.Subject = "Recuperación de Contraseña - Centro Integral Santo Domingo";
+                    mensaje.Body = body.ToString();
+                    mensaje.IsBodyHtml = true;
+
+                    System.Diagnostics.Debug.WriteLine($"Enviando correo a: {email}");
+
+                    // Configurar y enviar con SmtpClient
+                    using (var smtp = new System.Net.Mail.SmtpClient())
+                    {
+                        smtp.Host = smtpServer;
+                        smtp.Port = smtpPort;
+                        smtp.EnableSsl = true;
+                        smtp.Credentials = new System.Net.NetworkCredential(smtpUser, smtpPassword);
+                        
+                        System.Diagnostics.Debug.WriteLine("Iniciando envío de correo...");
+                        await smtp.SendMailAsync(mensaje);
+                        System.Diagnostics.Debug.WriteLine("Correo enviado exitosamente");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Registrar el error para depuración
+                System.Diagnostics.Debug.WriteLine("Error al enviar correo: " + ex.Message);
+                System.Diagnostics.Debug.WriteLine("StackTrace: " + ex.StackTrace);
+                
+                // Lanzar una excepción más descriptiva
+                throw new Exception("Error al enviar el correo de recuperación de contraseña. Por favor, contacte al administrador del sistema.", ex);
+            }
+        }
+
+        // GET: /Account/ForgotPasswordConfirmation
+        [AllowAnonymous]
+        public ActionResult ForgotPasswordConfirmation(string email)
+        {
+            ViewBag.Email = email;
+            return View();
         }
 
         // Método para generar una contraseña temporal aleatoria
