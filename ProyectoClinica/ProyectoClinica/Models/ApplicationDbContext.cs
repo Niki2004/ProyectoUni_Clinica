@@ -79,6 +79,8 @@ namespace ProyectoClinica.Models
         public DbSet<AsignacionRolesTemporales> AsignacionRolesTemporales { get; set; }
         public DbSet<UsuariosAdmin> UsuariosAdmin { get; set; }
         public DbSet<Historial_Aplicaciones> Historial_Aplicaciones { get; set; }
+        public DbSet<Recuperacion_Contra> Recuperacion_Contra { get; set; }
+        public DbSet<Recuperacion_Historial> Recuperacion_Historial { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

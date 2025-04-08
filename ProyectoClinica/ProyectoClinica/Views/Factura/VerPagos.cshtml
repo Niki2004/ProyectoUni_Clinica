@@ -7,7 +7,36 @@
     var servicios = ViewBag.Servicios as List<ProyectoClinica.Models.Servicio>;
     var cedulaCliente = ViewBag.CedulaCliente as string;
 }
+<style>
+    .btn-imprimir {
+        display: inline-block;
+        padding: 6px 12px;
+        margin-bottom: 0;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1.42857143;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        cursor: pointer;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        color: #fff;
+        background-color: #0B7B82;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
 
+        .btn-imprimir:hover {
+            background-color: #0f6369;
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .btn-imprimir i {
+            margin-right: 5px;
+        }
+</style>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -80,6 +109,7 @@
                             <th>Total Pagado</th>
                             <th>Métodos de Pago</th>
                             <th>Servicios Brindados</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -111,6 +141,11 @@
                                             <div>@nombreServicio</div>
                                         }
                                     }
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("OpcionesDespuesDePago", "Factura", new { idFactura = factura.Id_Factura })" class="btn-imprimir">
+                                        <i class="fas fa-print"></i> Imprimir Factura
+                                    </a>
                                 </td>
                             </tr>
                         }
