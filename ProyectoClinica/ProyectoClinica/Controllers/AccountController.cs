@@ -376,14 +376,16 @@ namespace ProyectoClinica.Controllers
         // Método para generar una contraseña temporal aleatoria
         public static string GenerateTemporaryPassword(string nombre, string apellido, string cedula)
         {
-            // Puedes tomar las primeras letras de nombre, apellido y cédula como base
-            string basePassword = $"{nombre.Substring(0, 3)}{apellido.Substring(0, 2)}{cedula.Substring(0, 4)}";
+            // Validar longitud mínima para evitar errores
+            string nombreParte = nombre.Length >= 3 ? nombre.Substring(0, 3) : nombre;
+            string apellidoParte = apellido.Length >= 2 ? apellido.Substring(0, 2) : apellido;
+            string cedulaParte = cedula.Length >= 4 ? cedula.Substring(0, 4) : cedula;
 
-            // Generar caracteres aleatorios
+            // Generar parte aleatoria
             string randomPart = GenerateRandomString(4);
 
             // Combinamos la base con la parte aleatoria y un símbolo al final
-            return $"{basePassword}{randomPart}!";
+            return $"{nombreParte}{apellidoParte}{cedulaParte}{randomPart}!";
         }
 
         // Método para generar una cadena aleatoria con letras y números

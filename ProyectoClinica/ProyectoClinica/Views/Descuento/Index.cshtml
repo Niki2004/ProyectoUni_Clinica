@@ -2,6 +2,8 @@
 
 @{
     ViewBag.Title = "Index";
+
+
 }
 
 <html lang="es">
@@ -15,9 +17,19 @@
 <body>
     <div class="header-container" style="display: flex; justify-content: center; align-items: center; width: 100%; margin: 0 auto; max-width: 1200px;">
         <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
-            <a href="@Url.Action("VistaCON", "Contabilidad")" class="btn-inicio">
-                <i class="fas fa-home"></i> Inicio
-            </a>
+            @if (User.IsInRole("Contador"))
+            {
+                <a href="@Url.Action("VistaCON", "Contabilidad")" class="btn-inicio">
+                    <i class="fas fa-home"></i> Inicio
+                </a>
+            }
+            @if (User.IsInRole("Secretaria"))
+            {
+                <a href="@Url.Action("Index", "Factura")" class="btn-inicio">
+                    <i class="fas fa-home"></i> Inicio
+                </a>
+            }
+
             <div class="page-title-container" style="position: absolute; left: 50%; transform: translateX(-50%);">
                 <h1 class="page-title">Gestión de Descuentos</h1>
             </div>
