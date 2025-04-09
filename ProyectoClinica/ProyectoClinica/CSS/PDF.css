@@ -58,6 +58,7 @@ body {
     .nav-btn:hover {
         background-color: var(--hover-turquoise);
         transform: translateY(-2px);
+        color: white;
     }
 
 .content-wrapper {
@@ -157,6 +158,16 @@ body {
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
+.view-btn:hover {
+    background-color: var(--hover-turquoise);
+    color: white;
+}
+
+.download-btn:hover {
+    background-color: #40C0C0;
+    color: white;
+}
+
 .empty-state {
     text-align: center;
     padding: 40px;
@@ -190,4 +201,3 @@ body {
     .pdf-container::-webkit-scrollbar-thumb:hover {
         background: var(--hover-turquoise);
     }
-
