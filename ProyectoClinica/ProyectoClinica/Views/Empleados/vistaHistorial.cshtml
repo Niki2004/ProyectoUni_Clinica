@@ -4,139 +4,140 @@
     ViewBag.Title = "Historial de Roles";
 }
 
-<style>
-    .container-form {
-        max-width: 1200px;
-        margin: 30px auto;
-        padding: 20px;
-        background-color: #f8f9fa;
-        border-radius: 10px;
-        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Historial de Roles</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link href="~/CSS/Administrativo.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="page-container">
+        <div class="header-container">
+            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                <a href="@Url.Action("Empleados", "Empleados")" class="btn-inicio">
+                    <i class="fas fa-home"></i> Inicio
+                </a>
+                <div class="page-title-container">
+                    <h1 class="page-title">Historial de Roles</h1>
+                </div>
+            </div>
+        </div>
+
+        <br />
+        <br />
+        <div class="results-panel mt-4">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h2 class="results-title" style="color: #392F5A;"><i class="fas fa-calendar-check"></i> Resultados de Roles</h2>
+            </div>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nombre Rol</th>
+                            <th>Empleado</th>
+                            <th>Cédula</th>
+                            <th>Correo</th>
+                            <th>Departamento</th>
+                            <th>Comentarios</th>
+                            <th>Jornada</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rolesBody">
+                        @if (Model.Any())
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.Nombre</td>
+                                    <td>@item.Empleado.Nombre</td>
+                                    <td>@item.Empleado.Cedula</td>
+                                    <td>@item.Empleado.Correo</td>
+                                    <td>@item.Empleado.Departamento</td>
+                                    <td>@item.Empleado.Comentarios</td>
+                                    <td>@item.Empleado.Jornada</td>
+                                    <td>
+                                        @Html.ActionLink("Detalles", "detallesHistorial", new { id = item.Id_Rol }, new { @class = "btn btn-secondary", style = "display: inline-block; padding: 8px 16px; background-color: #d3d3d3; color: #333; text-decoration: none; border: none; border-radius: 8px; font-size: 14px; transition: background-color 0.3s ease;" })
+                                    </td>
+
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="8" class="text-center py-4">
+                                    <div class="alert alert-info mb-0">
+                                        <i class="fas fa-info-circle me-2"></i> No se encontraron roles con los filtros seleccionados
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <!-- Paginación dinámica -->
+                <div id="paginationContainer" class="d-flex justify-content-center mt-3"></div>
+            </div>
+        </div>
+    </div>
+
+    @section Scripts {
+        <script>
+            $(document).ready(function () {
+                var rowsPerPage = 5;
+                var $rows = $("#rolesBody tr");
+                var totalPages = Math.ceil($rows.length / rowsPerPage);
+                var currentPage = 1;
+
+                function showPage(page) {
+                    var start = (page - 1) * rowsPerPage;
+                    var end = start + rowsPerPage;
+
+                    $rows.hide().slice(start, end).show();
+                    $("#paginationContainer").html(createPagination(page, totalPages));
+                }
+
+                function createPagination(page, total) {
+                    var pagination = `<nav><ul class="pagination">`;
+
+                    if (page > 1) {
+                        pagination += `<li class="page-item"><a href="#" class="page-link" data-page="${page - 1}">«</a></li>`;
+                    }
+
+                    for (var i = 1; i <= total; i++) {
+                        pagination += `<li class="page-item ${i === page ? 'active' : ''}">
+                                    <a href="#" class="page-link" data-page="${i}">${i}</a>
+                                </li>`;
+                    }
+
+                    if (page < total) {
+                        pagination += `<li class="page-item"><a href="#" class="page-link" data-page="${page + 1}">»</a></li>`;
+                    }
+
+                    pagination += `</ul></nav>`;
+                    return pagination;
+                }
+
+                $(document).on("click", ".page-link", function (e) {
+                    e.preventDefault();
+                    var page = $(this).data("page");
+                    showPage(page);
+                });
+
+                showPage(currentPage);
+            });
+            document.querySelectorAll('.btn').forEach(function (button) {
+                button.addEventListener('mouseover', function () {
+                    button.style.backgroundColor = '#bcbcbc'; // Gris más oscuro al pasar el mouse
+                });
+                button.addEventListener('mouseout', function () {
+                    button.style.backgroundColor = '#d3d3d3'; // Gris pastel cuando no está en hover
+                });
+            });
+        </script>
     }
-
-    .page-title {
-        color: #0b7b82;
-        text-align: center;
-        margin-bottom: 20px;
-        padding-bottom: 10px;
-        border-bottom: 2px solid #0b7b82;
-    }
-
-    .table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-bottom: 20px;
-    }
-
-        .table th,
-        .table td {
-            padding: 15px;
-            border: 1px solid #dee2e6;
-            text-align: center;
-            font-size: 14px;
-        }
-
-        .table th {
-            background-color: #0b7b82;
-            color: #fff;
-            font-weight: bold;
-        }
-
-        .table tr:nth-child(even) td {
-            background-color: #f2f2f2;
-        }
-
-    .action-link {
-        background-color: #0b7b82;
-        color: #fff;
-        padding: 8px 16px;
-        border-radius: 5px;
-        text-decoration: none;
-        transition: background 0.3s ease, transform 0.2s ease;
-        font-size: 14px;
-        display: inline-block;
-    }
-
-        .action-link:hover {
-            background-color: #096c72;
-            transform: translateY(-1px);
-        }
-
-        /* Evitar que el enlace cambie a azul en hover o focus */
-        .action-link,
-        .action-link:hover,
-        .action-link:focus {
-            color: #fff !important;
-            text-decoration: none;
-        }
-
-    .custom-btn {
-        background-color: #0b7b82 !important;
-        color: white !important;
-        border: none;
-        padding: 12px 24px;
-        border-radius: 8px;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 16px;
-        text-decoration: none;
-        transition: background 0.3s ease, transform 0.2s ease;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-        .custom-btn:hover {
-            background-color: #096c72 !important;
-            transform: translateY(-1px);
-        }
-
-        /* Evitar que el custom-btn cambie a azul en hover o focus */
-        .custom-btn,
-        .custom-btn:hover,
-        .custom-btn:focus {
-            color: white !important;
-            text-decoration: none;
-        }
-</style>
-
-<div style="text-align: center; margin-bottom: 20px;">
-    <a href="@Url.Action("Empleados", "Empleados")" class="custom-btn">
-        <i class="fas fa-home"></i> Inicio
-    </a>
-</div>
-<div class="container-form">
-    <h2 class="page-title">Historial</h2>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>@Html.DisplayNameFor(model => model.First().Nombre)</th>
-                <th>@Html.DisplayNameFor(model => model.First().Empleado.Nombre)</th>
-                <th>@Html.DisplayNameFor(model => model.First().Empleado.Apellido)</th>
-                <th>@Html.DisplayNameFor(model => model.First().Empleado.Cedula)</th>
-                <th>@Html.DisplayNameFor(model => model.First().Empleado.Correo)</th>
-                <th>@Html.DisplayNameFor(model => model.First().Empleado.Departamento)</th>
-                <th>@Html.DisplayNameFor(model => model.First().Empleado.Comentarios)</th>
-                <th>@Html.DisplayNameFor(model => model.First().Empleado.Jornada)</th>
-                <th>Acción</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>@Html.DisplayFor(modelItem => item.Nombre)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Empleado.Nombre)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Empleado.Apellido)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Empleado.Cedula)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Empleado.Correo)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Empleado.Departamento)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Empleado.Comentarios)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Empleado.Jornada)</td>
-                    <td>
-                        @Html.ActionLink("Detalles", "detallesHistorial", new { id = item.Id_Rol }, new { @class = "action-link" })
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
+</body>
+</html>

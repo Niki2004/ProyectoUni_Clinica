@@ -13,27 +13,37 @@
     <link rel="stylesheet" href="~/CSS/Content.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <style>
-    /* Estilos específicos para solucionar el problema de ancho */
-    .main-container {
-        margin-left: 220px;
-        display: flex;
-        justify-content: center;
-        width: calc(100% - 220px);
-        padding: 0;
-    }
+        /* Estilos específicos para solucionar el problema de ancho */
+        .main-container {
+            margin-left: 220px;
+            display: flex;
+            justify-content: center;
+            width: calc(100% - 220px);
+            padding: 0;
+        }
 
-    .content {
-        width: 100%;
-        max-width: 1200px;
-        padding: 20px;
-        box-sizing: border-box;
-    }
-
-    media (min-width: 1600px) {
         .content {
+            width: 100%;
+            max-width: 1200px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        media (min-width: 1600px) {
+            .content
+
+        {
             max-width: 1400px;
         }
-    }
+
+        }
+
+        /* Asegurar que todas las imágenes del carrusel tengan el mismo tamaño */
+        .carousel-item img {
+            width: 100%;
+            height: 400px; /* Puedes ajustar la altura según lo necesites */
+            object-fit: cover;
+        }
     </style>
 </head>
 <body>
@@ -89,33 +99,32 @@
                 </p>
 
                 <h2 class="text-center" style="color: #0b7b82; margin-top: 40px;">Nuestras Instalaciones</h2>
-                <div class="gallery-container">
-                    <div class="image-gallery">
-                        <div class="gallery-item">
-                            <img src="~/Imagenes/Exterior.jpeg" alt="Exterior de la clínica" class="gallery-image">
-                            <div class="image-caption">Exterior de la clínica</div>
+                <div id="instalacionesCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img src="~/Imagenes/Exterior.jpeg" alt="Exterior de la clínica">
                         </div>
-
-                        <div class="gallery-item">
-                            <img src="~/Imagenes/Sala_de_espera.jpeg" alt="Consultorio" class="gallery-image">
-                            <div class="image-caption">Sala de espera</div>
+                        <div class="carousel-item">
+                            <img src="~/Imagenes/Sala_de_espera.jpeg" alt="Consultorio">
                         </div>
-
-                        <div class="gallery-item">
-                            <img src="~/Imagenes/Consultorio1.jpeg" alt="Consultorio" class="gallery-image">
-                            <div class="image-caption">Consultorio</div>
+                        <div class="carousel-item">
+                            <img src="~/Imagenes/Consultorio1.jpeg" alt="Consultorio">
                         </div>
-
-                        <div class="gallery-item">
-                            <img src="~/Imagenes/Consultorio2.jpeg" alt="Consultorio" class="gallery-image">
-                            <div class="image-caption">Consultorio</div>
+                        <div class="carousel-item">
+                            <img src="~/Imagenes/Consultorio2.jpeg" alt="Consultorio">
                         </div>
-
-                        <div class="gallery-item">
-                            <img src="~/Imagenes/Consultorio4.jpeg" alt="Consultorio" class="gallery-image">
-                            <div class="image-caption">Consultorio</div>
+                        <div class="carousel-item">
+                            <img src="~/Imagenes/Consultorio4.jpeg" alt="Consultorio">
                         </div>
                     </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#instalacionesCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#instalacionesCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
                 </div>
 
                 <h2 class="text-center" style="color: #0b7b82; margin-top: 40px;">Nuestros Profesionales</h2>
@@ -125,43 +134,83 @@
                     atención personalizada y cuidada.
                 </p>
 
-                <div class="image-gallery">
-                    <div class="gallery-item">
-                        <img src="~/Imagenes/Profecional01.PNG" alt="Profesional" class="gallery-image">
+
+                <div class="image-gallery row justify-content-center">
+                    <div class="card m-3" style="width: 18rem;">
+                        <img src="~/Imagenes/Profecional01.PNG" alt="Profesional 01" class="gallery-image img-fluid p-2">
+                        <div class="card-body">
+                            <p class="card-text">“Cuidar la salud es un acto de amor propio.”</p>
+                        </div>
                     </div>
 
-                    <div class="gallery-item">
-                        <img src="~/Imagenes/Profecional02.PNG" alt="Profesional" class="gallery-image">
+                    <div class="card m-3" style="width: 18rem;">
+                        <img src="~/Imagenes/Profecional02.PNG" alt="Profesional 02" class="gallery-image img-fluid p-2">
+                        <div class="card-body">
+                            <p class="card-text">“Donde termina el dolor, comienza la esperanza.”</p>
+                        </div>
                     </div>
 
-                    <div class="gallery-item">
-                        <img src="~/Imagenes/Profecional03.PNG" alt="Profesional" class="gallery-image">
+                    <div class="card m-3" style="width: 18rem;">
+                        <img src="~/Imagenes/Profecional03.PNG" alt="Profesional 03" class="gallery-image img-fluid p-2">
+                        <div class="card-body">
+                            <p class="card-text">“Tu bienestar es nuestra prioridad.”</p>
+                        </div>
                     </div>
 
-                    <div class="gallery-item">
-                        <img src="~/Imagenes/Profecional04.PNG" alt="Profesional" class="gallery-image">
+                    <div class="card m-3" style="width: 18rem;">
+                        <img src="~/Imagenes/Profecional04.PNG" alt="Profesional 04" class="gallery-image img-fluid p-2">
+                        <div class="card-body">
+                            <p class="card-text">“Sanar no es solo tratar, es acompañar.”</p>
+                        </div>
                     </div>
 
-                    <div class="gallery-item">
-                        <img src="~/Imagenes/Profecional05.PNG" alt="Profesional" class="gallery-image">
+                    <div class="card m-3" style="width: 18rem;">
+                        <img src="~/Imagenes/Profecional05.PNG" alt="Profesional 05" class="gallery-image img-fluid p-2">
+                        <div class="card-body">
+                            <p class="card-text">
+                                “La medicina cura, pero el trato humano sana.”
+                            </p>
+                        </div>
                     </div>
 
-                    <div class="gallery-item">
-                        <img src="~/Imagenes/Profecional06.PNG" alt="Profesional" class="gallery-image">
+                    <div class="card m-3" style="width: 18rem;">
+                        <img src="~/Imagenes/Profecional06.PNG" alt="Profesional 06" class="gallery-image img-fluid p-2">
+                        <div class="card-body">
+                            <p class="card-text">
+                                “Cada consulta es una oportunidad para mejorar tu vida.”
+                            </p>
+                        </div>
                     </div>
 
-                    <div class="gallery-item">
-                        <img src="~/Imagenes/Profecional07.PNG" alt="Profesional" class="gallery-image">
+                    <div class="card m-3" style="width: 18rem;">
+                        <img src="~/Imagenes/Profecional07.PNG" alt="Profesional 07" class="gallery-image img-fluid p-2">
+                        <div class="card-body">
+                            <p class="card-text">
+                                “Prevenir hoy es vivir mejor mañana.”
+                            </p>
+                        </div>
                     </div>
 
-                    <div class="gallery-item">
-                        <img src="~/Imagenes/Profecional08.PNG" alt="Profesional" class="gallery-image">
+                    <div class="card m-3" style="width: 18rem;">
+                        <img src="~/Imagenes/Profecional08.PNG" alt="Profesional 08" class="gallery-image img-fluid p-2">
+                        <div class="card-body">
+                            <p class="card-text">
+                                “No solo vemos pacientes, vemos personas con historias.”
+                            </p>
+                        </div>
                     </div>
 
-                    <div class="gallery-item">
-                        <img src="~/Imagenes/Profecional09.PNG" alt="Profesional" class="gallery-image">
+                    <div class="card m-3" style="width: 18rem;">
+                        <img src="~/Imagenes/Profecional09.PNG" alt="Profesional 09" class="gallery-image img-fluid p-2">
+                        <div class="card-body">
+                            <p class="card-text">
+                                “Una mente positiva también es medicina.”
+                            </p>
+                        </div>
                     </div>
                 </div>
+
+
             </div>
         </div>
     </div>
