@@ -67,6 +67,17 @@ namespace ProyectoClinica.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id_Estado,Comentarios,Nombre,Apellido,Cedula,Correo,Jornada,Fecha_registro,Departamento")] Empleado empleado)
         {
+            if (empleado.Fecha_registro< DateTime.Today)
+            {
+                ModelState.AddModelError("Fecha_registro", "No se puede crear en una fecha pasada.");
+            }
+
+            var diaSemana = (int)empleado.Fecha_registro.DayOfWeek; // 0 = Domingo, 6 = Sábado
+            if (diaSemana == 0 || diaSemana == 6)
+            {
+                ModelState.AddModelError("Fecha_registro", "No se puede crear los sábados ni domingos.");
+            }
+
             if (ModelState.IsValid)
             {
                 BaseDatos.Empleado.Add(empleado);
@@ -133,6 +144,16 @@ namespace ProyectoClinica.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id_Empleado,Id_Estado,Comentarios,Nombre,Apellido,Cedula,Correo,Jornada,Fecha_registro,Departamento")] Empleado empleado)
         {
+            if (empleado.Fecha_registro < DateTime.Today)
+            {
+                ModelState.AddModelError("Fecha_registro", "No se puede crear en una fecha pasada.");
+            }
+
+            var diaSemana = (int)empleado.Fecha_registro.DayOfWeek; // 0 = Domingo, 6 = Sábado
+            if (diaSemana == 0 || diaSemana == 6)
+            {
+                ModelState.AddModelError("Fecha_registro", "No se puede crear los sábados ni domingos.");
+            }
             if (ModelState.IsValid)
             {
                 BaseDatos.Entry(empleado).State = EntityState.Modified;
@@ -355,6 +376,16 @@ namespace ProyectoClinica.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Evaluacion(Evaluacion evaluacion)//creacion de la evaluacion 
         {
+            if (evaluacion.Fecha_Evaluacion < DateTime.Today)
+            {
+                ModelState.AddModelError("Fecha_Evaluacion", "No se puede crear en una fecha pasada.");
+            }
+
+            var diaSemana = (int)evaluacion.Fecha_Evaluacion.DayOfWeek; // 0 = Domingo, 6 = Sábado
+            if (diaSemana == 0 || diaSemana == 6)
+            {
+                ModelState.AddModelError("Fecha_Evaluacion", "No se puede crear los sábados ni domingos.");
+            }
             if (ModelState.IsValid)
             {
                 
