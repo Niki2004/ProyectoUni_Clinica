@@ -75,7 +75,7 @@
             </div>
 
             <!-- Main Content -->
-            <div class="col-md-9 col-lg-10 button-container" style="padding-right: 0;">
+            <div class="button-container">
                 <div style="display: flex; align-items: center; margin-bottom: 10px;">
                     <a href="@Url.Action("VistaAdmin", "Empleados")" style="text-decoration: none; color: #000000; font-size: 18px; display: flex; align-items: center;">
                         <i class="fas fa-home" style="margin-right: 5px;"></i>
@@ -134,127 +134,128 @@
 
                 @if (ViewBag.TienePermisos || ViewBag.EsAdministrador)
                 {
-                    <div class="dashboard-cards">
-                        <!-- Tarjeta 1 -->
-                        <div class="simple-card">
-                            <div class="card-number">1</div>
-                            <div class="card-header">
-                                <h3 class="card-title">Registro de Usuarios</h3>
-                                <span class="card-subtitle"></span>
+                    <div class="gallery-container">
+                        <div class="dashboard-cards">
+                            <!-- Tarjeta 1 -->
+                            <div class="simple-card">
+                                <div class="card-number">1</div>
+                                <div class="card-header">
+                                    <h3 class="card-title">Registro de Usuarios</h3>
+                                    <span class="card-subtitle"></span>
+                                </div>
+                                <div class="card-body">
+                                    <p>Creación de nuevas cuentas de usuario</p>
+                                </div>
+                                <a href="@Url.Action("Create", "Administrativos")" class="detail-btn">
+                                    <i class="fas fa-arrow-right"></i> Ingresar
+                                </a>
                             </div>
-                            <div class="card-body">
-                                <p>Creación de nuevas cuentas de usuario</p>
-                            </div>
-                            <a href="@Url.Action("Create", "Administrativos")" class="detail-btn">
-                                <i class="fas fa-arrow-right"></i> Ingresar
-                            </a>
-                        </div>
 
-                        <!-- Tarjeta 2 -->
-                        <div class="simple-card">
-                            <div class="card-number">2</div>
-                            <div class="card-header">
-                                <h3 class="card-title">Asignación de Roles</h3>
-                                <span class="card-subtitle"></span>
+                            <!-- Tarjeta 2 -->
+                            <div class="simple-card">
+                                <div class="card-number">2</div>
+                                <div class="card-header">
+                                    <h3 class="card-title">Asignación de Roles</h3>
+                                    <span class="card-subtitle"></span>
+                                </div>
+                                <div class="card-body">
+                                    <p>Gestión de roles y permisos de usuarios</p>
+                                </div>
+                                <a href="@Url.Action("Index", "AsignacionRolesTemporales")" class="detail-btn">
+                                    <i class="fas fa-arrow-right"></i> Ingresar
+                                </a>
                             </div>
-                            <div class="card-body">
-                                <p>Gestión de roles y permisos de usuarios</p>
-                            </div>
-                            <a href="@Url.Action("Index", "AsignacionRolesTemporales")" class="detail-btn">
-                                <i class="fas fa-arrow-right"></i> Ingresar
-                            </a>
-                        </div>
 
-                        <!-- Tarjeta 3 -->
-                        <div class="simple-card">
-                            <div class="card-number">3</div>
-                            <div class="card-header">
-                                <h3 class="card-title">Editar Usuarios</h3>
-                                <span class="card-subtitle"></span>
+                            <!-- Tarjeta 3 -->
+                            <div class="simple-card">
+                                <div class="card-number">3</div>
+                                <div class="card-header">
+                                    <h3 class="card-title">Editar Usuarios</h3>
+                                    <span class="card-subtitle"></span>
+                                </div>
+                                <div class="card-body">
+                                    <p>Modificación de información de usuarios</p>
+                                </div>
+                                <a href="@Url.Action("VistaADM", "Administrativos")" class="detail-btn">
+                                    <i class="fas fa-arrow-right"></i> Ingresar
+                                </a>
                             </div>
-                            <div class="card-body">
-                                <p>Modificación de información de usuarios</p>
-                            </div>
-                            <a href="@Url.Action("VistaADM", "Administrativos")" class="detail-btn">
-                                <i class="fas fa-arrow-right"></i> Ingresar
-                            </a>
-                        </div>
 
-                        <!-- Tarjeta 4 -->
-                        <div class="simple-card">
-                            <div class="card-number">4</div>
-                            <div class="card-header">
-                                <h3 class="card-title">Deshabilitar Usuarios</h3>
-                                <span class="card-subtitle"></span>
+                            <!-- Tarjeta 4 -->
+                            <div class="simple-card">
+                                <div class="card-number">4</div>
+                                <div class="card-header">
+                                    <h3 class="card-title">Deshabilitar Usuarios</h3>
+                                    <span class="card-subtitle"></span>
+                                </div>
+                                <div class="card-body">
+                                    <p>Desactivación de cuentas de usuario</p>
+                                </div>
+                                <a href="@Url.Action("VistaEliminar", "Administrativos")" class="detail-btn">
+                                    <i class="fas fa-arrow-right"></i> Ingresar
+                                </a>
                             </div>
-                            <div class="card-body">
-                                <p>Desactivación de cuentas de usuario</p>
-                            </div>
-                            <a href="@Url.Action("VistaEliminar", "Administrativos")" class="detail-btn">
-                                <i class="fas fa-arrow-right"></i> Ingresar
-                            </a>
-                        </div>
 
-                        <!-- Tarjeta 5 -->
-                        <div class="simple-card">
-                            <div class="card-number">5</div>
-                            <div class="card-header">
-                                <h3 class="card-title">Buscar Usuarios</h3>
-                                <span class="card-subtitle"></span>
+                            <!-- Tarjeta 5 -->
+                            <div class="simple-card">
+                                <div class="card-number">5</div>
+                                <div class="card-header">
+                                    <h3 class="card-title">Buscar Usuarios</h3>
+                                    <span class="card-subtitle"></span>
+                                </div>
+                                <div class="card-body">
+                                    <p>Búsqueda en la base de datos de usuarios</p>
+                                </div>
+                                <a href="@Url.Action("Buscar", "Administrativos")" class="detail-btn">
+                                    <i class="fas fa-arrow-right"></i> Ingresar
+                                </a>
                             </div>
-                            <div class="card-body">
-                                <p>Búsqueda en la base de datos de usuarios</p>
-                            </div>
-                            <a href="@Url.Action("Buscar", "Administrativos")" class="detail-btn">
-                                <i class="fas fa-arrow-right"></i> Ingresar
-                            </a>
-                        </div>
 
-                        <!-- Tarjeta 6 -->
-                        <div class="simple-card">
-                            <div class="card-number">6</div>
-                            <div class="card-header">
-                                <h3 class="card-title">Auditoría Administrativa</h3>
-                                <span class="card-subtitle"></span>
+                            <!-- Tarjeta 6 -->
+                            <div class="simple-card">
+                                <div class="card-number">6</div>
+                                <div class="card-header">
+                                    <h3 class="card-title">Auditoría Administrativa</h3>
+                                    <span class="card-subtitle"></span>
+                                </div>
+                                <div class="card-body">
+                                    <p>Revisión de cambios y acciones realizadas</p>
+                                </div>
+                                <a href="@Url.Action("VistaAuditoría", "Administrativos")" class="detail-btn">
+                                    <i class="fas fa-arrow-right"></i> Ingresar
+                                </a>
                             </div>
-                            <div class="card-body">
-                                <p>Revisión de cambios y acciones realizadas</p>
-                            </div>
-                            <a href="@Url.Action("VistaAuditoría", "Administrativos")" class="detail-btn">
-                                <i class="fas fa-arrow-right"></i> Ingresar
-                            </a>
-                        </div>
 
-                        <!-- Tarjeta 7 -->
-                        <div class="simple-card">
-                            <div class="card-number">7</div>
-                            <div class="card-header">
-                                <h3 class="card-title">Ver Pagos</h3>
-                                <span class="card-subtitle"></span>
+                            <!-- Tarjeta 7 -->
+                            <div class="simple-card">
+                                <div class="card-number">7</div>
+                                <div class="card-header">
+                                    <h3 class="card-title">Ver Pagos</h3>
+                                    <span class="card-subtitle"></span>
+                                </div>
+                                <div class="card-body">
+                                    <p>Visualización de historial de pagos realizados</p>
+                                </div>
+                                <a href="@Url.Action("VerPagos", "Factura")" class="detail-btn">
+                                    <i class="fas fa-arrow-right"></i> Ingresar
+                                </a>
                             </div>
-                            <div class="card-body">
-                                <p>Visualización de historial de pagos realizados</p>
-                            </div>
-                            <a href="@Url.Action("VerPagos", "Factura")" class="detail-btn">
-                                <i class="fas fa-arrow-right"></i> Ingresar
-                            </a>
-                        </div>
 
-                        <!-- Tarjeta 8 -->
-                        <div class="simple-card">
-                            <div class="card-number">8</div>
-                            <div class="card-header">
-                                <h3 class="card-title">Historial de Actividades</h3>
-                                <span class="card-subtitle"></span>
+                            <!-- Tarjeta 8 -->
+                            <div class="simple-card">
+                                <div class="card-number">8</div>
+                                <div class="card-header">
+                                    <h3 class="card-title">Historial de Actividades</h3>
+                                    <span class="card-subtitle"></span>
+                                </div>
+                                <div class="card-body">
+                                    <p>Revisión del registro de actividades del sistema</p>
+                                </div>
+                                <a href="@Url.Action("ListarHistorial", "Administrativos")" class="detail-btn">
+                                    <i class="fas fa-arrow-right"></i> Ingresar
+                                </a>
                             </div>
-                            <div class="card-body">
-                                <p>Revisión del registro de actividades del sistema</p>
-                            </div>
-                            <a href="@Url.Action("ListarHistorial", "Administrativos")" class="detail-btn">
-                                <i class="fas fa-arrow-right"></i> Ingresar
-                            </a>
                         </div>
-
 
                     </div>
 
