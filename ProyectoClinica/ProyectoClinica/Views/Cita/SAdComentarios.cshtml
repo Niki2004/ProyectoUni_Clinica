@@ -5,6 +5,41 @@
 
 <link href="~/CSS/Comentarios.css" rel="stylesheet" />
 
+<style>
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+        .pagination button {
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            color: #007bff;
+            padding: 10px 15px;
+            margin: 0 5px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+            .pagination button.active {
+                background-color: #007bff;
+                color: white;
+            }
+
+            .pagination button:hover {
+                background-color: #e2e6ea;
+            }
+
+            .pagination button:disabled {
+                background-color: #ccc;
+                cursor: not-allowed;
+            }
+</style>
+
 <div style="text-align: center; margin-bottom: 20px;">
     <a href="@Url.Action("VistaCAdmin", "Cita")" class="custom-btn">
         <i class="fas fa-home"></i> Inicio
@@ -41,7 +76,7 @@
         </div>
     </div>
 
-    <div class="comentarios-grid">
+    <div class="comentarios-grid" id="comentariosList">
         @foreach (var item in Model)
         {
             <div class="comentario-card @(item.Estado_Comentario.Estado.ToLower())">
@@ -82,57 +117,109 @@
             <p>No hay comentarios para mostrar</p>
         </div>
     }
+
+    <!-- Paginado -->
+    <div id="paginationControls" class="pagination">
+        <!-- Aquí se agregarán los controles de paginación -->
+    </div>
 </div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        const comentariosList = document.getElementById('comentariosList');
+        const comments = Array.from(comentariosList.querySelectorAll('.comentario-card'));
+        const commentsPerPage = 5;  // Cantidad de comentarios por página
+        const totalPages = Math.ceil(comments.length / commentsPerPage);
+        let currentPage = 1;
+
+        function showPage(page) {
+            const startIndex = (page - 1) * commentsPerPage;
+            const endIndex = page * commentsPerPage;
+
+            // Ocultar todos los comentarios
+            comments.forEach((comment, index) => {
+                if (index >= startIndex && index < endIndex) {
+                    comment.style.display = '';
+                } else {
+                    comment.style.display = 'none';
+                }
+            });
+
+            // Actualizar controles de paginación
+            updatePaginationControls(page);
+        }
+
+        function updatePaginationControls(page) {
+            const paginationControls = document.getElementById('paginationControls');
+            paginationControls.innerHTML = '';
+
+            const prevButton = document.createElement('button');
+            prevButton.textContent = 'Anterior';
+            prevButton.disabled = page === 1;
+            prevButton.addEventListener('click', () => showPage(page - 1));
+
+            const nextButton = document.createElement('button');
+            nextButton.textContent = 'Siguiente';
+            nextButton.disabled = page === totalPages;
+            nextButton.addEventListener('click', () => showPage(page + 1));
+
+            paginationControls.appendChild(prevButton);
+
+            for (let i = 1; i <= totalPages; i++) {
+                const pageButton = document.createElement('button');
+                pageButton.textContent = i;
+                pageButton.classList.toggle('active', i === page);
+                pageButton.addEventListener('click', () => showPage(i));
+                paginationControls.appendChild(pageButton);
+            }
+
+            paginationControls.appendChild(nextButton);
+        }
+
+        // Inicializar la primera página
+        showPage(currentPage);
+
+        // Filtro de búsqueda
         const searchInput = document.getElementById('searchComentarios');
         if (searchInput) {
             searchInput.addEventListener('input', function () {
                 const searchTerm = this.value.toLowerCase();
-                const cards = document.querySelectorAll('.comentario-card');
-
-                cards.forEach(card => {
+                const filteredComments = comments.filter(card => {
                     const text = card.querySelector('.comentario-body p').textContent.toLowerCase();
                     const patient = card.querySelector('.patient-info span').textContent.toLowerCase();
-
-                    if (text.includes(searchTerm) || patient.includes(searchTerm)) {
-                        card.style.display = '';
-                    } else {
-                        card.style.display = 'none';
-                    }
+                    return text.includes(searchTerm) || patient.includes(searchTerm);
                 });
+
+                // Mostrar solo los comentarios filtrados
+                comments.forEach(comment => {
+                    comment.style.display = filteredComments.includes(comment) ? '' : 'none';
+                });
+
+                // Actualizar la paginación
+                totalPages = Math.ceil(filteredComments.length / commentsPerPage);
+                showPage(1);  // Volver a la primera página
             });
         }
 
+        // Filtro de estado
         const estadoFilter = document.getElementById('estadoFilter');
         if (estadoFilter) {
             estadoFilter.addEventListener('change', function () {
                 const selectedValue = this.value.toLowerCase();
-                const cards = document.querySelectorAll('.comentario-card');
-
-                cards.forEach(card => {
+                const filteredComments = comments.filter(card => {
                     const estado = card.querySelector('.badge').textContent.trim().toLowerCase();
-
-                    if (!selectedValue || estado === selectedValue) {
-                        card.style.display = '';
-                    } else {
-                        card.style.display = 'none';
-                    }
+                    return !selectedValue || estado === selectedValue;
                 });
-            });
-        }
 
-        const alertMessage = document.querySelector('.alert-success');
-        if (alertMessage) {
-            setTimeout(() => {
-                alertMessage.style.opacity = '0';
-                alertMessage.style.height = '0';
-                alertMessage.style.padding = '0';
-                alertMessage.style.margin = '0';
-                alertMessage.style.overflow = 'hidden';
-                alertMessage.style.transition = 'all 0.5s ease';
-            }, 5000);
+                // Mostrar solo los comentarios filtrados
+                comments.forEach(comment => {
+                    comment.style.display = filteredComments.includes(comment) ? '' : 'none';
+                });
+
+                // Actualizar la paginación
+                totalPages = Math.ceil(filteredComments.length / commentsPerPage);
+                showPage(1);  // Volver a la primera página
+            });
         }
     });
 </script>
