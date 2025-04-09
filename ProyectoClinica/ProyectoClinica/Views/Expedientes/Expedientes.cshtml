@@ -27,7 +27,7 @@
 
                         </a>
                         <ul class="submenu">
-                           
+
                             <br />
                             <a href="@Url.Action("Index", "Inventario")" class="nav-link">
                                 <i class="fas fa-boxes"></i> Inventario
@@ -95,49 +95,52 @@
                         @TempData["SuccessMessage"]
                     </div>
                 }
+                <div class="gallery-container">
 
-                <div class="dashboard-cards">
-                    <!-- Tarjeta 1 -->
-                    <div class="simple-card">
-                        <div class="card-number">1</div>
-                        <div class="card-header">
-                            <h3 class="card-title">Historial del paciente</h3>
+                    <div class="dashboard-cards">
+                        <!-- Tarjeta 1 -->
+                        <div class="simple-card">
+                            <div class="card-number">1</div>
+                            <div class="card-header">
+                                <h3 class="card-title">Historial del paciente</h3>
+                            </div>
+                            <div class="card-body">
+                                <p>Accede al historial clínico completo del paciente</p>
+                            </div>
+                            <a href="@Url.Action("VistaHistorial", "Expedientes")" class="detail-btn">
+                                <i class="fas fa-arrow-right"></i> Ingresar
+                            </a>
                         </div>
-                        <div class="card-body">
-                            <p>Accede al historial clínico completo del paciente</p>
+
+                        <!-- Tarjeta 2 -->
+                        <div class="simple-card">
+                            <div class="card-number">2</div>
+                            <div class="card-header">
+                                <h3 class="card-title">Asignación de Roles</h3>
+                            </div>
+                            <div class="card-body">
+                                <p>Administra los roles temporales del personal</p>
+                            </div>
+                            <a href="@Url.Action("Index", "AsignacionRolesTemporales")" class="detail-btn">
+                                <i class="fas fa-arrow-right"></i> Ingresar
+                            </a>
                         </div>
-                        <a href="@Url.Action("VistaHistorial", "Expedientes")" class="detail-btn">
-                            <i class="fas fa-arrow-right"></i> Ingresar
-                        </a>
+
+                        <!-- Tarjeta 3 -->
+                        <div class="simple-card">
+                            <div class="card-number">3</div>
+                            <div class="card-header">
+                                <h3 class="card-title">Respaldo</h3>
+                            </div>
+                            <div class="card-body">
+                                <p>Realiza el respaldo de la información de expedientes</p>
+                            </div>
+                            <a href="@Url.Action("Respaldo", "Expedientes")" class="detail-btn">
+                                <i class="fas fa-arrow-right"></i> Ingresar
+                            </a>
+                        </div>
                     </div>
 
-                    <!-- Tarjeta 2 -->
-                    <div class="simple-card">
-                        <div class="card-number">2</div>
-                        <div class="card-header">
-                            <h3 class="card-title">Asignación de Roles</h3>
-                        </div>
-                        <div class="card-body">
-                            <p>Administra los roles temporales del personal</p>
-                        </div>
-                        <a href="@Url.Action("Index", "AsignacionRolesTemporales")" class="detail-btn">
-                            <i class="fas fa-arrow-right"></i> Ingresar
-                        </a>
-                    </div>
-
-                    <!-- Tarjeta 3 -->
-                    <div class="simple-card">
-                        <div class="card-number">3</div>
-                        <div class="card-header">
-                            <h3 class="card-title">Respaldo</h3>
-                        </div>
-                        <div class="card-body">
-                            <p>Realiza el respaldo de la información de expedientes</p>
-                        </div>
-                        <a href="@Url.Action("Respaldo", "Expedientes")" class="detail-btn">
-                            <i class="fas fa-arrow-right"></i> Ingresar
-                        </a>
-                    </div>
                 </div>
 
             </div>

@@ -88,103 +88,105 @@
                     </span>
                 </div>
                 <br />
-                <div class="dashboard-cards">
-                    <!-- Tarjeta 1 -->
-                    <div class="simple-card">
-                        <div class="card-number">1</div>
-                        <div class="card-header">
-                            <h3 class="card-title">Gestión de horarios</h3>
+
+                <div class="gallery-container">
+                    <div class="dashboard-cards">
+                        <!-- Tarjeta 1 -->
+                        <div class="simple-card">
+                            <div class="card-number">1</div>
+                            <div class="card-header">
+                                <h3 class="card-title">Gestión de horarios</h3>
+                            </div>
+                            <div class="card-body">
+                                <p>Administra los horarios disponibles para citas médicas</p>
+                            </div>
+                            <a href="@Url.Action("GHorarios", "Cita")" class="detail-btn">
+                                <i class="fas fa-arrow-right"></i> Ingresar
+                            </a>
                         </div>
-                        <div class="card-body">
-                            <p>Administra los horarios disponibles para citas médicas</p>
+
+                        <!-- Tarjeta 2 -->
+                        <div class="simple-card">
+                            <div class="card-number">2</div>
+                            <div class="card-header">
+                                <h3 class="card-title">Programación de citas</h3>
+                            </div>
+                            <div class="card-body">
+                                <p>Programa nuevas citas de forma rápida y sencilla</p>
+                            </div>
+                            <a href="@Url.Action("PCitas", "Cita")" class="detail-btn">
+                                <i class="fas fa-arrow-right"></i> Ingresar
+                            </a>
                         </div>
-                        <a href="@Url.Action("GHorarios", "Cita")" class="detail-btn">
-                            <i class="fas fa-arrow-right"></i> Ingresar
-                        </a>
+
+                        <!-- Tarjeta 3 -->
+                        <div class="simple-card">
+                            <div class="card-number">3</div>
+                            <div class="card-header">
+                                <h3 class="card-title">Historial de citas</h3>
+                            </div>
+                            <div class="card-body">
+                                <p>Consulta el historial completo de citas realizadas</p>
+                            </div>
+                            <a href="@Url.Action("HCita", "Cita")" class="detail-btn">
+                                <i class="fas fa-arrow-right"></i> Ingresar
+                            </a>
+                        </div>
+
+                        <!-- Tarjeta 4 -->
+                        <div class="simple-card">
+                            <div class="card-number">4</div>
+                            <div class="card-header">
+                                <h3 class="card-title">Sección de comentarios</h3>
+                            </div>
+                            <div class="card-body">
+                                <p>Revisa los comentarios y opiniones de los clientes</p>
+                            </div>
+                            <a href="@Url.Action("SAdComentarios", "Cita")" class="detail-btn">
+                                <i class="fas fa-arrow-right"></i> Ingresar
+                            </a>
+                        </div>
+
+                        <!-- Tarjeta 5 -->
+                        <div class="simple-card">
+                            <div class="card-number">5</div>
+                            <div class="card-header">
+                                <h3 class="card-title">Cancelación de citas</h3>
+                            </div>
+                            <div class="card-body">
+                                <p>Gestiona las solicitudes de cancelación de citas</p>
+                            </div>
+                            <a href="@Url.Action("CCita", "Cita")" class="detail-btn">
+                                <i class="fas fa-arrow-right"></i> Ingresar
+                            </a>
+                        </div>
                     </div>
 
-                    <!-- Tarjeta 2 -->
-                    <div class="simple-card">
-                        <div class="card-number">2</div>
-                        <div class="card-header">
-                            <h3 class="card-title">Programación de citas</h3>
-                        </div>
-                        <div class="card-body">
-                            <p>Programa nuevas citas de forma rápida y sencilla</p>
-                        </div>
-                        <a href="@Url.Action("PCitas", "Cita")" class="detail-btn">
-                            <i class="fas fa-arrow-right"></i> Ingresar
-                        </a>
-                    </div>
+                </div>
 
-                    <!-- Tarjeta 3 -->
-                    <div class="simple-card">
-                        <div class="card-number">3</div>
-                        <div class="card-header">
-                            <h3 class="card-title">Historial de citas</h3>
-                        </div>
-                        <div class="card-body">
-                            <p>Consulta el historial completo de citas realizadas</p>
-                        </div>
-                        <a href="@Url.Action("HCita", "Cita")" class="detail-btn">
-                            <i class="fas fa-arrow-right"></i> Ingresar
-                        </a>
-                    </div>
-
-                    <!-- Tarjeta 4 -->
-                    <div class="simple-card">
-                        <div class="card-number">4</div>
-                        <div class="card-header">
-                            <h3 class="card-title">Sección de comentarios</h3>
-                        </div>
-                        <div class="card-body">
-                            <p>Revisa los comentarios y opiniones de los clientes</p>
-                        </div>
-                        <a href="@Url.Action("SAdComentarios", "Cita")" class="detail-btn">
-                            <i class="fas fa-arrow-right"></i> Ingresar
-                        </a>
-                    </div>
-
-                    <!-- Tarjeta 5 -->
-                    <div class="simple-card">
-                        <div class="card-number">5</div>
-                        <div class="card-header">
-                            <h3 class="card-title">Cancelación de citas</h3>
-                        </div>
-                        <div class="card-body">
-                            <p>Gestiona las solicitudes de cancelación de citas</p>
-                        </div>
-                        <a href="@Url.Action("CCita", "Cita")" class="detail-btn">
-                            <i class="fas fa-arrow-right"></i> Ingresar
-                        </a>
-                    </div>
                 </div>
 
 
+                <script src="~/lib/jquery/dist/jquery.min.js"></script>
+                <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
-            </div>
+                <script>
+                    // Toggle submenu functionality
+                    document.querySelectorAll('.nav-link').forEach(link => {
+                        link.addEventListener('click', function () {
+                            // Close all other open submenus
+                            document.querySelectorAll('.submenu').forEach(submenu => {
+                                if (submenu !== this.nextElementSibling) {
+                                    submenu.classList.remove('active');
+                                    this.classList.remove('active');
+                                }
+                            });
 
-
-            <script src="~/lib/jquery/dist/jquery.min.js"></script>
-            <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-
-            <script>
-                // Toggle submenu functionality
-                document.querySelectorAll('.nav-link').forEach(link => {
-                    link.addEventListener('click', function () {
-                        // Close all other open submenus
-                        document.querySelectorAll('.submenu').forEach(submenu => {
-                            if (submenu !== this.nextElementSibling) {
-                                submenu.classList.remove('active');
-                                this.classList.remove('active');
-                            }
+                            // Toggle the clicked submenu
+                            const submenu = this.nextElementSibling;
+                            submenu.classList.toggle('active');
+                            this.classList.toggle('active');
                         });
-
-                        // Toggle the clicked submenu
-                        const submenu = this.nextElementSibling;
-                        submenu.classList.toggle('active');
-                        this.classList.toggle('active');
                     });
-                });
-            </script>
+                </script>
 </body>
