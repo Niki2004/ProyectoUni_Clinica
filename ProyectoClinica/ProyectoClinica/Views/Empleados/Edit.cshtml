@@ -106,6 +106,18 @@
             @Html.ActionLink("Cancelar", "VistaEmpleados", null, new { @class = "btn-secondary" })
         </div>
 
-       
+
     }
 </div>
+<script>
+    document.getElementById('Fecha_registro').addEventListener('change', function () {
+        const fecha = new Date(this.value);
+        const dia = fecha.getUTCDay(); // 0 = domingo, 6 = sábado
+
+        if (dia === 0 || dia === 6) {
+            alert("No se pueden crear los sábados ni domingos.");
+            this.value = "";
+        }
+
+</script>
+
