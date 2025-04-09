@@ -4,6 +4,7 @@
     ViewBag.Title = "Administrador";
 }
 
+<head>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
 <link href="~/CSS/VistaGeneral.css" rel="stylesheet" />
@@ -98,186 +99,189 @@
                     </div>
                 }
 
-            <div class="gallery-container">
-                <div class="dashboard-cards">
-                    <!-- Tarjeta 1 -->
-                    <div class="simple-card">
-                        <div class="card-number">1</div>
-                        <div class="card-header">
-                            <h3 class="card-title">Asistencia a consultas</h3>
-                            <span class="card-subtitle"></span>
+                <div class="gallery-container">
+                    <div class="dashboard-cards">
+                        <!-- Tarjeta 1 -->
+                        <div class="simple-card">
+                            <div class="card-number">1</div>
+                            <div class="card-header">
+                                <h3 class="card-title">Asistencia a consultas</h3>
+                                <span class="card-subtitle"></span>
+                            </div>
+                            <div class="card-body">
+                                <p>Gestión y seguimiento de asistencias a consultas médicas</p>
+                            </div>
+                            <a href="@Url.Action("AsistenciaConsulta", "Reporte")" class="detail-btn">
+                                <i class="fas fa-arrow-right"></i> Ingresar
+                            </a>
                         </div>
-                        <div class="card-body">
-                            <p>Gestión y seguimiento de asistencias a consultas médicas</p>
-                        </div>
-                        <a href="@Url.Action("AsistenciaConsulta", "Reporte")" class="detail-btn">
-                            <i class="fas fa-arrow-right"></i> Ingresar
-                        </a>
-                    </div>
 
-                    <!-- Tarjeta 2 -->
-                    <div class="simple-card">
-                        <div class="card-number">2</div>
-                        <div class="card-header">
-                            <h3 class="card-title">Resultados de tratamiento</h3>
-                            <span class="card-subtitle"></span>
+                        <!-- Tarjeta 2 -->
+                        <div class="simple-card">
+                            <div class="card-number">2</div>
+                            <div class="card-header">
+                                <h3 class="card-title">Resultados de tratamiento</h3>
+                                <span class="card-subtitle"></span>
+                            </div>
+                            <div class="card-body">
+                                <p>Análisis de resultados y eficacia de tratamientos</p>
+                            </div>
+                            <a href="@Url.Action("ResultadoTratamiento", "Reporte")" class="detail-btn">
+                                <i class="fas fa-arrow-right"></i> Ingresar
+                            </a>
                         </div>
-                        <div class="card-body">
-                            <p>Análisis de resultados y eficacia de tratamientos</p>
-                        </div>
-                        <a href="@Url.Action("ResultadoTratamiento", "Reporte")" class="detail-btn">
-                            <i class="fas fa-arrow-right"></i> Ingresar
-                        </a>
-                    </div>
 
-                    <!-- Tarjeta 3 -->
-                    <div class="simple-card">
-                        <div class="card-number">3</div>
-                        <div class="card-header">
-                            <h3 class="card-title">Áreas de mejora</h3>
-                            <span class="card-subtitle"></span>
+                        <!-- Tarjeta 3 -->
+                        <div class="simple-card">
+                            <div class="card-number">3</div>
+                            <div class="card-header">
+                                <h3 class="card-title">Áreas de mejora</h3>
+                                <span class="card-subtitle"></span>
+                            </div>
+                            <div class="card-body">
+                                <p>Identificación de oportunidades para mejorar procesos</p>
+                            </div>
+                            <a href="@Url.Action("AreaMejora", "Reporte")" class="detail-btn">
+                                <i class="fas fa-arrow-right"></i> Ingresar
+                            </a>
                         </div>
-                        <div class="card-body">
-                            <p>Identificación de oportunidades para mejorar procesos</p>
-                        </div>
-                        <a href="@Url.Action("AreaMejora", "Reporte")" class="detail-btn">
-                            <i class="fas fa-arrow-right"></i> Ingresar
-                        </a>
-                    </div>
 
-                    <!-- Tarjeta 4 -->
-                    <div class="simple-card">
-                        <div class="card-number">4</div>
-                        <div class="card-header">
-                            <h3 class="card-title">Personalización de informe</h3>
-                            <span class="card-subtitle"></span>
+                        <!-- Tarjeta 4 -->
+                        <div class="simple-card">
+                            <div class="card-number">4</div>
+                            <div class="card-header">
+                                <h3 class="card-title">Personalización de informe</h3>
+                                <span class="card-subtitle"></span>
+                            </div>
+                            <div class="card-body">
+                                <p>Opciones para personalizar reportes según necesidades</p>
+                            </div>
+                            <a href="@Url.Action("Personalizacion", "Reporte")" class="detail-btn">
+                                <i class="fas fa-arrow-right"></i> Ingresar
+                            </a>
                         </div>
-                        <div class="card-body">
-                            <p>Opciones para personalizar reportes según necesidades</p>
-                        </div>
-                        <a href="@Url.Action("Personalizacion", "Reporte")" class="detail-btn">
-                            <i class="fas fa-arrow-right"></i> Ingresar
-                        </a>
-                    </div>
 
-                    <!-- Tarjeta 5 -->
-                    <div class="simple-card">
-                        <div class="card-number">5</div>
-                        <div class="card-header">
-                            <h3 class="card-title">Tratamiento y procedimiento</h3>
-                            <span class="card-subtitle"></span>
+                        <!-- Tarjeta 5 -->
+                        <div class="simple-card">
+                            <div class="card-number">5</div>
+                            <div class="card-header">
+                                <h3 class="card-title">Tratamiento y procedimiento</h3>
+                                <span class="card-subtitle"></span>
+                            </div>
+                            <div class="card-body">
+                                <p>Información de tratamientos y procedimientos realizados</p>
+                            </div>
+                            <a href="@Url.Action("CostosTratamiento", "Reporte")" class="detail-btn">
+                                <i class="fas fa-arrow-right"></i> Ingresar
+                            </a>
                         </div>
-                        <div class="card-body">
-                            <p>Información de tratamientos y procedimientos realizados</p>
-                        </div>
-                        <a href="@Url.Action("CostosTratamiento", "Reporte")" class="detail-btn">
-                            <i class="fas fa-arrow-right"></i> Ingresar
-                        </a>
-                    </div>
 
-                    <!-- Tarjeta 6 -->
-                    <div class="simple-card">
-                        <div class="card-number">6</div>
-                        <div class="card-header">
-                            <h3 class="card-title">Datos del paciente</h3>
-                            <span class="card-subtitle"></span>
+                        <!-- Tarjeta 6 -->
+                        <div class="simple-card">
+                            <div class="card-number">6</div>
+                            <div class="card-header">
+                                <h3 class="card-title">Datos del paciente</h3>
+                                <span class="card-subtitle"></span>
+                            </div>
+                            <div class="card-body">
+                                <p>Acceso a información detallada de pacientes</p>
+                            </div>
+                            <a href="@Url.Action("DatosPaciente", "Reporte")" class="detail-btn">
+                                <i class="fas fa-arrow-right"></i> Ingresar
+                            </a>
                         </div>
-                        <div class="card-body">
-                            <p>Acceso a información detallada de pacientes</p>
-                        </div>
-                        <a href="@Url.Action("DatosPaciente", "Reporte")" class="detail-btn">
-                            <i class="fas fa-arrow-right"></i> Ingresar
-                        </a>
-                    </div>
 
-                    <!-- Tarjeta 7 -->
-                    <div class="simple-card">
-                        <div class="card-number">7</div>
-                        <div class="card-header">
-                            <h3 class="card-title">Objetivos de salud</h3>
-                            <span class="card-subtitle"></span>
+                        <!-- Tarjeta 7 -->
+                        <div class="simple-card">
+                            <div class="card-number">7</div>
+                            <div class="card-header">
+                                <h3 class="card-title">Objetivos de salud</h3>
+                                <span class="card-subtitle"></span>
+                            </div>
+                            <div class="card-body">
+                                <p>Seguimiento de metas y objetivos de salud</p>
+                            </div>
+                            <a href="@Url.Action("AtencionCliente", "Reporte")" class="detail-btn">
+                                <i class="fas fa-arrow-right"></i> Ingresar
+                            </a>
                         </div>
-                        <div class="card-body">
-                            <p>Seguimiento de metas y objetivos de salud</p>
-                        </div>
-                        <a href="@Url.Action("AtencionCliente", "Reporte")" class="detail-btn">
-                            <i class="fas fa-arrow-right"></i> Ingresar
-                        </a>
-                    </div>
 
-                    <!-- Tarjeta 8 -->
-                    <div class="simple-card">
-                        <div class="card-number">8</div>
-                        <div class="card-header">
-                            <h3 class="card-title">Reporte financiero</h3>
-                            <span class="card-subtitle"></span>
+                        <!-- Tarjeta 8 -->
+                        <div class="simple-card">
+                            <div class="card-number">8</div>
+                            <div class="card-header">
+                                <h3 class="card-title">Reporte financiero</h3>
+                                <span class="card-subtitle"></span>
+                            </div>
+                            <div class="card-body">
+                                <p>Resumen de información financiera y contable</p>
+                            </div>
+                            <a href="@Url.Action("ReporteFinanciero", "ReporteContaduria")" class="detail-btn">
+                                <i class="fas fa-arrow-right"></i> Ingresar
+                            </a>
                         </div>
-                        <div class="card-body">
-                            <p>Resumen de información financiera y contable</p>
-                        </div>
-                        <a href="@Url.Action("ReporteFinanciero", "ReporteContaduria")" class="detail-btn">
-                            <i class="fas fa-arrow-right"></i> Ingresar
-                        </a>
-                    </div>
 
-                    <!-- Tarjeta 9 -->
-                    <div class="simple-card">
-                        <div class="card-number">9</div>
-                        <div class="card-header">
-                            <h3 class="card-title">Acceso al sistema</h3>
-                            <span class="card-subtitle"></span>
+                        <!-- Tarjeta 9 -->
+                        <div class="simple-card">
+                            <div class="card-number">9</div>
+                            <div class="card-header">
+                                <h3 class="card-title">Acceso al sistema</h3>
+                                <span class="card-subtitle"></span>
+                            </div>
+                            <div class="card-body">
+                                <p>Monitoreo de accesos y permisos del sistema</p>
+                            </div>
+                            <a href="@Url.Action("Monitoreo", "Reporte")" class="detail-btn">
+                                <i class="fas fa-arrow-right"></i> Ingresar
+                            </a>
                         </div>
-                        <div class="card-body">
-                            <p>Monitoreo de accesos y permisos del sistema</p>
-                        </div>
-                        <a href="@Url.Action("Monitoreo", "Reporte")" class="detail-btn">
-                            <i class="fas fa-arrow-right"></i> Ingresar
-                        </a>
-                    </div>
 
-                    <!-- Tarjeta 10 -->
-                    <div class="simple-card">
-                        <div class="card-number">10</div>
-                        <div class="card-header">
-                            <h3 class="card-title">Reporte de empleados</h3>
-                            <span class="card-subtitle"></span>
+                        <!-- Tarjeta 10 -->
+                        <div class="simple-card">
+                            <div class="card-number">10</div>
+                            <div class="card-header">
+                                <h3 class="card-title">Reporte de empleados</h3>
+                                <span class="card-subtitle"></span>
+                            </div>
+                            <div class="card-body">
+                                <p>Información y estadísticas del personal</p>
+                            </div>
+                            <a href="@Url.Action("Rempleados", "Reporte")" class="detail-btn">
+                                <i class="fas fa-arrow-right"></i> Ingresar
+                            </a>
                         </div>
-                        <div class="card-body">
-                            <p>Información y estadísticas del personal</p>
-                        </div>
-                        <a href="@Url.Action("Rempleados", "Reporte")" class="detail-btn">
-                            <i class="fas fa-arrow-right"></i> Ingresar
-                        </a>
                     </div>
                 </div>
             </div>
-                </div>
+        </div>
+    </div>
 
 
-            </div>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+    
 
-        <script src="~/lib/jquery/dist/jquery.min.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-        <script>
-            // Toggle submenu functionality
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.addEventListener('click', function () {
-                    // Close all other open submenus
-                    document.querySelectorAll('.submenu').forEach(submenu => {
-                        if (submenu !== this.nextElementSibling) {
-                            submenu.classList.remove('active');
-                            this.classList.remove('active');
-                        }
-                    });
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 
-                    // Toggle the clicked submenu
-                    const submenu = this.nextElementSibling;
-                    submenu.classList.toggle('active');
-                    this.classList.toggle('active');
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Toggle submenu functionality
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function () {
+                // Close all other open submenus
+                document.querySelectorAll('.submenu').forEach(submenu => {
+                    if (submenu !== this.nextElementSibling) {
+                        submenu.classList.remove('active');
+                        this.classList.remove('active');
+                    }
                 });
+
+                // Toggle the clicked submenu
+                const submenu = this.nextElementSibling;
+                submenu.classList.toggle('active');
+                this.classList.toggle('active');
             });
-        </script>
+        });
+    </script>
 </body>

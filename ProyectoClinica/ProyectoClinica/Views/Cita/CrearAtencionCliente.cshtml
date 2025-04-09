@@ -9,6 +9,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crear Nueva Opinión - Clínica</title>
+    <link href="~/CSS/VistaGeneral.css" rel="stylesheet" />
+
     <style>
         :root {
             --primary: #0b7b82;
@@ -280,124 +282,173 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="form-card">
-            <div class="form-header">
-                <h2>Comparte tu Experiencia</h2>
-                <p>Tus comentarios nos ayudan a mejorar nuestros servicios</p>
+    <div class="container-fluid">
+        <!-- Contenedor de notificaciones -->
+        <div id="notificationContainer" class="notification-container"></div>
+
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 sidebar">
+                <div class="sidebar">
+                    <div class="p-3 d-flex justify-content-center">
+                        <a href="@Url.Action("VistaCita", "Cita")" style="text-decoration: none; display: block;">
+                            <img src="~/Imagenes/Logo.png" alt="Centro Integral Santo Domingo Logo" class="img-fluid" style="max-width: 195px; height: auto;" />
+                        </a>
+                    </div>
+
+                    <center><div class="nav-header">Plataforma</div></center>
+                    <div class="nav flex-column">
+                        <a class="nav-link">
+                            <i class="fas fa-calendar-alt"></i> Cita
+                        </a>
+                        <a href="@Url.Action("AtencionCliente", "Cita")" class="nav-link">
+                            <i class="fas fa-comments"></i> Comentarios
+                        </a>
+                    </div>
+                    <hr />
+
+                    <center><div class="nav-header">Información</div></center>
+                    <div class="nav flex-column">
+                        <a href="@Url.Action("Especialidad", "Cita")" class="nav-link">
+                            <i class="fas fa-stethoscope"></i> Especialidad
+                        </a>
+                        <a href="@Url.Action("Contactanos", "Cita")" class="nav-link">
+                            <i class="fas fa-phone-alt"></i> Contáctanos
+                        </a>
+                        <a href="@Url.Action("Ubicacion", "Cita")" class="nav-link">
+                            <i class="fas fa-map-marker-alt"></i> Ubicación
+                        </a>
+                    </div>
+
+                </div>
             </div>
 
-            <div class="form-body">
-                @using (Html.BeginForm())
-                {
-                    @Html.AntiForgeryToken()
+            <!-- Main Content -->
+            <div class="col-md-9 col-lg-10 ms-auto button-container">
 
-                    @Html.ValidationSummary(true, "", new { @class = "validation-message" })
 
-                    <div class="form-group">
-                        <label class="form-label">Tipo de Servicio</label>
-                        <div class="select-wrapper">
-                            @Html.DropDownListFor(model => model.Tipo_Servicio,
-                                new SelectList(new[]
-                                {
-                                    "Consulta General",
-                                    "Especialidad",
-                                    "Laboratorio",
-                                    "Emergencias",
-                                    "Farmacia",
-                                    "Atención al cliente",
-                                    "Otros"
-                                }),
-                                "-- Seleccione un servicio --",
-                                new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.Tipo_Servicio, "", new { @class = "validation-message" })
+                <div class="container">
+                    <div class="form-card">
+                        <div class="form-header">
+                            <h2>Comparte tu Experiencia</h2>
+                            <p>Tus comentarios nos ayudan a mejorar nuestros servicios</p>
+                        </div>
+
+                        <div class="form-body">
+                            @using (Html.BeginForm())
+                            {
+                                @Html.AntiForgeryToken()
+
+                                @Html.ValidationSummary(true, "", new { @class = "validation-message" })
+
+                                <div class="form-group">
+                                    <label class="form-label">Tipo de Servicio</label>
+                                    <div class="select-wrapper">
+                                        @Html.DropDownListFor(model => model.Tipo_Servicio,
+                                            new SelectList(new[]
+                                            {
+                                                "Consulta General",
+                                                "Especialidad",
+                                                "Laboratorio",
+                                                "Emergencias",
+                                                "Farmacia",
+                                                "Atención al cliente",
+                                                "Otros"
+                                            }),
+                                            "-- Seleccione un servicio --",
+                                            new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.Tipo_Servicio, "", new { @class = "validation-message" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">¿Cómo calificarías tu salud tras la atención?</label>
+                                    <div class="star-rating">
+                                        <input type="radio" id="star5" name="Salud_Evaluada" value="5" />
+                                        <label for="star5"></label>
+                                        <input type="radio" id="star4" name="Salud_Evaluada" value="4" />
+                                        <label for="star4"></label>
+                                        <input type="radio" id="star3" name="Salud_Evaluada" value="3" />
+                                        <label for="star3"></label>
+                                        <input type="radio" id="star2" name="Salud_Evaluada" value="2" />
+                                        <label for="star2"></label>
+                                        <input type="radio" id="star1" name="Salud_Evaluada" value="1" />
+                                        <label for="star1"></label>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Salud_Evaluada, "", new { @class = "validation-message" })
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Tu Comentario</label>
+                                    @Html.TextAreaFor(model => model.Comentarios_Paciente, new { @class = "form-control", placeholder = "Comparte tu experiencia en detalle..." })
+                                    @Html.ValidationMessageFor(model => model.Comentarios_Paciente, "", new { @class = "validation-message" })
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Clasificación del Problema</label>
+                                    <div class="star-rating">
+                                        <input type="radio" id="problema5" name="Clasificacion_Problema" value="5" />
+                                        <label for="problema5"></label>
+                                        <input type="radio" id="problema4" name="Clasificacion_Problema" value="4" />
+                                        <label for="problema4"></label>
+                                        <input type="radio" id="problema3" name="Clasificacion_Problema" value="3" />
+                                        <label for="problema3"></label>
+                                        <input type="radio" id="problema2" name="Clasificacion_Problema" value="2" />
+                                        <label for="problema2"></label>
+                                        <input type="radio" id="problema1" name="Clasificacion_Problema" value="1" />
+                                        <label for="problema1"></label>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Clasificacion_Problema, "", new { @class = "validation-message" })
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Prioridad de Mejora</label>
+                                    <div class="radio-group">
+                                        <div class="radio-option alta">
+                                            <input type="radio" id="prioridadAlta" name="Prioridad_Mejora" value="Alta" />
+                                            <label for="prioridadAlta">
+                                                <i class="fas fa-exclamation-circle"></i>
+                                                Alta
+                                            </label>
+                                        </div>
+                                        <div class="radio-option media">
+                                            <input type="radio" id="prioridadMedia" name="Prioridad_Mejora" value="Media" />
+                                            <label for="prioridadMedia">
+                                                <i class="fas fa-clipboard-list"></i>
+                                                Media
+                                            </label>
+                                        </div>
+                                        <div class="radio-option baja">
+                                            <input type="radio" id="prioridadBaja" name="Prioridad_Mejora" value="Baja" />
+                                            <label for="prioridadBaja">
+                                                <i class="fas fa-check-circle"></i>
+                                                Baja
+                                            </label>
+                                        </div>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Prioridad_Mejora, "", new { @class = "validation-message" })
+                                </div>
+
+                                @Html.HiddenFor(model => model.Fechas_Comentario)
+
+                                <div class="btn-group">
+                                    <a href="@Url.Action("AtencionCliente", "Cita")" class="btn btn-secondary" style="background-color: #3bb4bc; color: white; border-color: #3bb4bc; ">
+                                        <i class="fas fa-arrow-left"></i> Volver
+                                    </a>
+
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-paper-plane"></i> Enviar Comentario
+                                    </button>
+                                </div>
+                            }
                         </div>
                     </div>
+                </div>
 
-                    <div class="form-group">
-                        <label class="form-label">¿Cómo calificarías tu salud tras la atención?</label>
-                        <div class="star-rating">
-                            <input type="radio" id="star5" name="Salud_Evaluada" value="5" />
-                            <label for="star5"></label>
-                            <input type="radio" id="star4" name="Salud_Evaluada" value="4" />
-                            <label for="star4"></label>
-                            <input type="radio" id="star3" name="Salud_Evaluada" value="3" />
-                            <label for="star3"></label>
-                            <input type="radio" id="star2" name="Salud_Evaluada" value="2" />
-                            <label for="star2"></label>
-                            <input type="radio" id="star1" name="Salud_Evaluada" value="1" />
-                            <label for="star1"></label>
-                        </div>
-                        @Html.ValidationMessageFor(model => model.Salud_Evaluada, "", new { @class = "validation-message" })
-                    </div>
 
-                    <div class="form-group">
-                        <label class="form-label">Tu Comentario</label>
-                        @Html.TextAreaFor(model => model.Comentarios_Paciente, new { @class = "form-control", placeholder = "Comparte tu experiencia en detalle..." })
-                        @Html.ValidationMessageFor(model => model.Comentarios_Paciente, "", new { @class = "validation-message" })
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Clasificación del Problema</label>
-                        <div class="star-rating">
-                            <input type="radio" id="problema5" name="Clasificacion_Problema" value="5" />
-                            <label for="problema5"></label>
-                            <input type="radio" id="problema4" name="Clasificacion_Problema" value="4" />
-                            <label for="problema4"></label>
-                            <input type="radio" id="problema3" name="Clasificacion_Problema" value="3" />
-                            <label for="problema3"></label>
-                            <input type="radio" id="problema2" name="Clasificacion_Problema" value="2" />
-                            <label for="problema2"></label>
-                            <input type="radio" id="problema1" name="Clasificacion_Problema" value="1" />
-                            <label for="problema1"></label>
-                        </div>
-                        @Html.ValidationMessageFor(model => model.Clasificacion_Problema, "", new { @class = "validation-message" })
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Prioridad de Mejora</label>
-                        <div class="radio-group">
-                            <div class="radio-option alta">
-                                <input type="radio" id="prioridadAlta" name="Prioridad_Mejora" value="Alta" />
-                                <label for="prioridadAlta">
-                                    <i class="fas fa-exclamation-circle"></i>
-                                    Alta
-                                </label>
-                            </div>
-                            <div class="radio-option media">
-                                <input type="radio" id="prioridadMedia" name="Prioridad_Mejora" value="Media" />
-                                <label for="prioridadMedia">
-                                    <i class="fas fa-clipboard-list"></i>
-                                    Media
-                                </label>
-                            </div>
-                            <div class="radio-option baja">
-                                <input type="radio" id="prioridadBaja" name="Prioridad_Mejora" value="Baja" />
-                                <label for="prioridadBaja">
-                                    <i class="fas fa-check-circle"></i>
-                                    Baja
-                                </label>
-                            </div>
-                        </div>
-                        @Html.ValidationMessageFor(model => model.Prioridad_Mejora, "", new { @class = "validation-message" })
-                    </div>
-
-                    @Html.HiddenFor(model => model.Fechas_Comentario)
-
-                    <div class="btn-group">
-                        <a href="@Url.Action("AtencionCliente", "Cita")" class="btn btn-secondary" style="background-color: #3bb4bc; color: white; border-color: #3bb4bc; ">
-                            <i class="fas fa-arrow-left"></i> Volver
-                        </a>
-
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-paper-plane"></i> Enviar Comentario
-                        </button>
-                    </div>
-                }
             </div>
         </div>
     </div>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
 
     <script>
