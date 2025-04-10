@@ -111,7 +111,7 @@
                             </div>
                         </div>
                     </div>
-                   
+
                 </div>
             </div>
         }
@@ -126,6 +126,7 @@
         </div>
     }
 </div>
+<div id="paginationCards" class="d-flex justify-content-center mt-3"></div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -135,3 +136,54 @@
         })
     });
 </script>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var rowsPerPage = 5;
+            var $cards = $(".medical-appointment-card"); // Cambié la clase para que sea la correcta
+            var totalPagesCards = Math.ceil($cards.length / rowsPerPage);
+            var currentPageCards = 1;
+
+            function showPage(page, items, totalPages, container) {
+                var start = (page - 1) * rowsPerPage;
+                var end = start + rowsPerPage;
+
+                items.hide().slice(start, end).show();
+                $(container).html(createPagination(page, totalPages, container));
+            }
+
+            function createPagination(page, total, container) {
+                var pagination = `<nav><ul class="pagination">`;
+
+                if (page > 1) {
+                    pagination += `<li class="page-item"><a href="#" class="page-link" data-page="${page - 1}" data-container="${container}">«</a></li>`;
+                }
+
+                for (var i = 1; i <= total; i++) {
+                    pagination += `<li class="page-item ${i === page ? 'active' : ''}">
+                                                                             <a href="#" class="page-link" data-page="${i}" data-container="${container}">${i}</a>
+                                                                           </li>`;
+                }
+
+                if (page < total) {
+                    pagination += `<li class="page-item"><a href="#" class="page-link" data-page="${page + 1}" data-container="${container}">»</a></li>`;
+                }
+
+                pagination += `</ul></nav>`;
+                return pagination;
+            }
+
+            $(document).on("click", ".page-link", function (e) {
+                e.preventDefault();
+                var page = $(this).data("page");
+                var container = $(this).data("container");
+
+                if (container === "#paginationCards") {
+                    showPage(page, $cards, totalPagesCards, "#paginationCards");
+                }
+            });
+
+            showPage(currentPageCards, $cards, totalPagesCards, "#paginationCards");
+        });
+    </script>
+}
