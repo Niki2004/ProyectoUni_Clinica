@@ -12,6 +12,8 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using System.Data.Entity;
+using System.Net;
 
 namespace ProyectoClinica.Controllers
 {
@@ -204,6 +206,203 @@ namespace ProyectoClinica.Controllers
 
             return RedirectToAction("SubirImagenes");
         }
+
+
+        //---------------------------------------------------------------- AsignacionRolesTemporales -------------------------------------------------------------------------------------
+
+        public ActionResult vistaRolExpedienteExp()
+        {
+            var asignacionRolesTemporales = BaseDatos.AsignacionRolesTemporales
+                .Include("ApplicationUser")
+                .Include("UsuarioAsignado")
+                .Include("Departamentos")
+                .ToList();
+            return View(asignacionRolesTemporales);
+        }
+
+
+        // GET: AsignacionRolesTemporales/Details/5
+
+        public ActionResult vistaRolDetallesExp(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            AsignacionRolesTemporales asignacionRolesTemporales = BaseDatos.AsignacionRolesTemporales.Find(id);
+            if (asignacionRolesTemporales == null)
+            {
+                return HttpNotFound();
+            }
+            return View(asignacionRolesTemporales);
+        }
+
+
+        // GET: AsignacionRolesTemporales/Create
+        public ActionResult vistaRolCrearExp()
+        {
+            // Cargamos la lista de usuarios para ambos campos
+            ViewBag.Id = new SelectList(BaseDatos.Users, "Id", "UserName");
+            ViewBag.Id_Usuario = new SelectList(BaseDatos.Users, "Id", "UserName");
+            ViewBag.Id_Departamento = new SelectList(BaseDatos.Departamentos, "Id_Departamento", "Nombre_Departamento");
+            return View();
+        }
+
+        // POST: AsignacionRolesTemporales/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateAsignacionRol(AsignacionRolesTemporales asignacionRolesTemporales)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    // Verificar que los campos requeridos no sean nulos
+                    if (asignacionRolesTemporales.Id == null || asignacionRolesTemporales.Id_Departamento == null)
+                    {
+                        ModelState.AddModelError("", "Debe seleccionar un usuario y un departamento");
+                        throw new Exception("Campos requeridos faltantes");
+                    }
+
+                    // Asignamos la fecha actual al crear el registro
+                    asignacionRolesTemporales.Fecha_Inicio = DateTime.Now;
+
+                    // Asignamos el estado por defecto
+                    asignacionRolesTemporales.Estado = "Activo";
+
+                    // Agregamos el registro al contexto
+                    BaseDatos.AsignacionRolesTemporales.Add(asignacionRolesTemporales);
+
+                    // Intentamos guardar los cambios
+                    BaseDatos.SaveChanges();
+
+                    TempData["SuccessMessage"] = "Registro creado exitosamente";
+                    return RedirectToAction("vistaRolEmpleado");
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", "Error al crear el registro: " + ex.Message);
+                System.Diagnostics.Debug.WriteLine("Error en Create: " + ex.Message);
+            }
+
+            // Si hay error, recargamos las listas desplegables
+            ViewBag.Id = new SelectList(BaseDatos.Users, "Id", "UserName", asignacionRolesTemporales.Id);
+            ViewBag.Id_Usuario = new SelectList(BaseDatos.Users, "Id", "UserName", asignacionRolesTemporales.Id_Usuario);
+            ViewBag.Id_Departamento = new SelectList(BaseDatos.Departamentos, "Id_Departamento", "Nombre_Departamento", asignacionRolesTemporales.Id_Departamento);
+            return View("vistaRolCrear", asignacionRolesTemporales);
+        }
+
+
+
+
+        // GET: AsignacionRolesTemporales/Edit/5
+        public ActionResult vistaRolEditarExp(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            AsignacionRolesTemporales asignacionRolesTemporales = BaseDatos.AsignacionRolesTemporales.Find(id);
+            if (asignacionRolesTemporales == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.Id = new SelectList(BaseDatos.Users, "Id", "UserName", asignacionRolesTemporales.Id);
+            ViewBag.Id_Usuario = new SelectList(BaseDatos.Users, "Id", "UserName", asignacionRolesTemporales.Id_Usuario);
+            ViewBag.Id_Departamento = new SelectList(BaseDatos.Departamentos, "Id_Departamento", "Nombre_Departamento", asignacionRolesTemporales.Id_Departamento);
+            return View(asignacionRolesTemporales);
+        }
+
+        // POST: AsignacionRolesTemporales/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditAsignacionRol([Bind(Include = "Id_AsignacionRoles,Id,Id_Usuario,Id_Departamento,Fecha_Inicio,Fecha_Fin,Estado,Motivo")] AsignacionRolesTemporales asignacionRolesTemporales)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    // Verificar que los campos requeridos no sean nulos
+                    if (asignacionRolesTemporales.Id == null || asignacionRolesTemporales.Id_Departamento == null)
+                    {
+                        ModelState.AddModelError("", "Debe seleccionar un usuario y un departamento");
+                        throw new Exception("Campos requeridos faltantes");
+                    }
+
+                    // Actualizamos el registro
+                    BaseDatos.Entry(asignacionRolesTemporales).State = EntityState.Modified;
+
+                    // Intentamos guardar los cambios
+                    BaseDatos.SaveChanges();
+
+                    TempData["SuccessMessage"] = "Registro actualizado exitosamente";
+                    return RedirectToAction("vistaRolEmpleado");
+                }
+                else
+                {
+                    // Si hay errores de validación, los mostramos
+                    foreach (var modelError in ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        ModelState.AddModelError("", modelError.ErrorMessage);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", "Error al actualizar el registro: " + ex.Message);
+                // Log del error
+                System.Diagnostics.Debug.WriteLine("Error en Edit: " + ex.Message);
+            }
+
+            // Si hay error, recargamos las listas desplegables
+            ViewBag.Id = new SelectList(BaseDatos.Users, "Id", "UserName", asignacionRolesTemporales.Id);
+            ViewBag.Id_Usuario = new SelectList(BaseDatos.Users, "Id", "UserName", asignacionRolesTemporales.Id_Usuario);
+            ViewBag.Id_Departamento = new SelectList(BaseDatos.Departamentos, "Id_Departamento", "Nombre_Departamento", asignacionRolesTemporales.Id_Departamento);
+            return View("vistaRolEditar", asignacionRolesTemporales);
+        }
+
+
+        public ActionResult vistaRolEliminarExp(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            AsignacionRolesTemporales asignacionRolesTemporales = BaseDatos.AsignacionRolesTemporales.Find(id);
+            if (asignacionRolesTemporales == null)
+            {
+                return HttpNotFound();
+            }
+            return View(asignacionRolesTemporales);
+        }
+
+        // POST: AsignacionRolesTemporales/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ConfirmarEliminacion(int id)
+        {
+            try
+            {
+                AsignacionRolesTemporales asignacionRolesTemporales = BaseDatos.AsignacionRolesTemporales.Find(id);
+                if (asignacionRolesTemporales != null)
+                {
+                    BaseDatos.AsignacionRolesTemporales.Remove(asignacionRolesTemporales);
+                    BaseDatos.SaveChanges();
+                    TempData["SuccessMessage"] = "Registro eliminado exitosamente";
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Error al eliminar el registro: " + ex.Message;
+            }
+            return RedirectToAction("vistaRolEmpleado");
+        }
+
+
+
+
+
 
     }
 
