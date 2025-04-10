@@ -171,81 +171,118 @@ namespace ProyectoClinica.Controllers
         {
             // Establecer el contexto de la licencia de EPPlus
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-
             var recetas = _context.Receta.AsQueryable();
-
             if (!string.IsNullOrEmpty(nombreReceta))
             {
                 recetas = recetas.Where(r => r.Nombre_Receta.Contains(nombreReceta));
             }
-
             var listaRecetas = recetas.ToList();
-
             using (var package = new ExcelPackage())
             {
                 var worksheet = package.Workbook.Worksheets.Add("Informe de recetas");
 
-                // Encabezados de tabla
-                worksheet.Cells["A1"].Value = "Fecha de creación";
-                worksheet.Cells["B1"].Value = "Nombre de la receta";
-                worksheet.Cells["C1"].Value = "Observaciones de pacientes";
-                worksheet.Cells["D1"].Value = "Duración del tratamiento";
-                worksheet.Cells["E1"].Value = "Cantidad requerida";
-                worksheet.Cells["F1"].Value = "Motivo de la solicitud";
+                // Título grande con fondo verde
+                using (var range = worksheet.Cells["A1:F1"])
+                {
+                    range.Merge = true;
+                    range.Value = "Lista de recetas";
+                    range.Style.Font.Bold = true;
+                    range.Style.Font.Size = 16;
+                    range.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    range.Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#B8E6B8")); // Verde claro similar a la imagen
+                    range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+                    range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                    range.Style.Font.Color.SetColor(System.Drawing.Color.Black);
+                }
+
+                // Se añade espacio para una fila donde irían los íconos
+                worksheet.Row(1).Height = 30;
+
+                // Encabezados de tabla (fila 3)
+                worksheet.Cells["A3"].Value = "ID";
+                worksheet.Cells["B3"].Value = "Nombre de la receta";
+                worksheet.Cells["C3"].Value = "Fecha de creación";
+                worksheet.Cells["D3"].Value = "Duración";
+                worksheet.Cells["E3"].Value = "Cantidad";
+                worksheet.Cells["F3"].Value = "Motivo";
 
                 // Estilo de encabezado
-                using (var range = worksheet.Cells["A1:F1"])
+                using (var range = worksheet.Cells["A3:F3"])
                 {
                     range.Style.Font.Bold = true;
                     range.Style.Fill.PatternType = ExcelFillStyle.Solid;
-                    range.Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#26a69a"));
+                    range.Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#6BB56B")); // Verde más oscuro para los encabezados
                     range.Style.Font.Color.SetColor(System.Drawing.Color.White);
                     range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                     range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                    range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
                 }
 
                 // Agregar datos
-                int row = 2;
+                int row = 4;
                 foreach (var receta in listaRecetas)
                 {
-                    worksheet.Cells[row, 1].Value = receta.Fecha_Creacion.ToString("dd/MM/yy");
+                    worksheet.Cells[row, 1].Value = receta.Id_receta; // Asumiendo que tienes una propiedad Id
                     worksheet.Cells[row, 2].Value = receta.Nombre_Receta;
-                    worksheet.Cells[row, 3].Value = receta.Observaciones_Pacientes;
+                    worksheet.Cells[row, 3].Value = receta.Fecha_Creacion.ToString("dd/MM/yy");
                     worksheet.Cells[row, 4].Value = receta.Duracion_Tratamiento;
                     worksheet.Cells[row, 5].Value = receta.Cantidad_Requerida;
                     worksheet.Cells[row, 6].Value = receta.Motivo_Solicitud;
 
+                    // Aplicar estilo alternado a las filas similares a la imagen
                     using (var range = worksheet.Cells[row, 1, row, 6])
                     {
                         range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                         range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-                    }
+                        range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                        range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                        range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                        range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
 
+                        // Colorear filas pares con verde claro (como en la imagen)
+                        if (row % 2 == 0)
+                        {
+                            range.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                            range.Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#E8F5E8")); // Verde muy claro para filas pares
+                        }
+                    }
                     row++;
                 }
 
                 // Configuración de ancho de columnas
-                worksheet.Column(1).Width = 20; // Fecha de creación
-                worksheet.Column(2).Width = 25; // Nombre de la receta
-                worksheet.Column(3).Width = 50; // Observaciones
-                worksheet.Column(4).Width = 25; // Duración del tratamiento
-                worksheet.Column(5).Width = 20; // Cantidad requerida
-                worksheet.Column(6).Width = 50; // Motivo de la solicitud
+                worksheet.Column(1).Width = 10; // ID
+                worksheet.Column(2).Width = 30; // Nombre de la receta
+                worksheet.Column(3).Width = 15; // Fecha de creación
+                worksheet.Column(4).Width = 15; // Duración del tratamiento
+                worksheet.Column(5).Width = 12; // Cantidad requerida
+                worksheet.Column(6).Width = 30; // Motivo de la solicitud
+
+                // Ajustar el alto de las filas
+                worksheet.Row(3).Height = 25; // Encabezados
+
+                // Crear bordes para toda la tabla
+                using (var range = worksheet.Cells[3, 1, row - 1, 6])
+                {
+                    range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                }
 
                 var stream = new MemoryStream(package.GetAsByteArray());
-                string fileName = "Informe_Recetas";
-
+                string fileName = "Lista_Recetas";
                 if (!string.IsNullOrEmpty(nombreReceta))
                 {
                     fileName += "_" + nombreReceta.Replace(" ", "_");
                 }
-
                 fileName += ".xlsx";
-
                 return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
             }
         }
-
+       
         //Historia de usuario 03 
         [Authorize(Roles = "Administrador")]
         public ActionResult AreaMejora(string comentarioNegativo, string comentarioSensible, string comentarioDestacado, string estadoComentario)
