@@ -46,17 +46,15 @@
                 <div style="display: flex; align-items: center; margin-bottom: 10px;">
                     <a href="@Url.Action("IndDOC", "Cita")" style="text-decoration: none; color: #000000; font-size: 18px; display: flex; align-items: center;">
                         <i class="fas fa-home" style="margin-right: 5px;"></i>
+                        <h4 style="margin: 0; font-weight: bold; color: #333;">Módulo de Expedientes</h4>
                     </a>
-                    <h4 style="margin-left: 10px; font-weight: bold; color: #333;">Módulo de Expedientes</h4>
                 </div>
-
                 <div style="text-align: left; margin-bottom: 5px;">
                     <span style="font-size: 14px; color: #555;">
                         Obtén una visión completa de la información clínica, administrativa y financiera de tu clínica de salud
                     </span>
                 </div>
                 <br />
-
                 @if (TempData["SuccessMessage"] != null)
                 {
                     <div class="alert alert-success" role="alert">
@@ -64,54 +62,56 @@
                     </div>
                 }
 
+                <div class="gallery-container">
+                    <div class="dashboard-cards">
+                        <!-- Tarjeta 1 -->
+                        <div class="simple-card">
+                            <div class="card-number">1</div>
+                            <div class="card-header">
+                                <h3 class="card-title">Historial del paciente</h3>
+                                <span class="card-subtitle"></span>
+                            </div>
+                            <div class="card-body">
+                                <p>Accede al historial médico del paciente.</p>
+                            </div>
+                            <a href="@Url.Action("VistaHistorialMd", "Expedientes")" class="detail-btn">
+                                <i class="fas fa-arrow-right"></i> Ingresar
+                            </a>
+                        </div>
 
-                <div class="dashboard-cards">
-                    <!-- Tarjeta 1 -->
-                    <div class="simple-card">
-                        <div class="card-number">1</div>
-                        <div class="card-header">
-                            <h3 class="card-title">Historial del paciente</h3>
-                            <span class="card-subtitle"></span>
+                        <!-- Tarjeta 2 -->
+                        <div class="simple-card">
+                            <div class="card-number">2</div>
+                            <div class="card-header">
+                                <h3 class="card-title">Agregar Notas</h3>
+                                <span class="card-subtitle"></span>
+                            </div>
+                            <div class="card-body">
+                                <p>Agregar notas para la consulta o expediente.</p>
+                            </div>
+                            <a href="@Url.Action("DOCHCita", "Perfil")" class="detail-btn">
+                                <i class="fas fa-arrow-right"></i> Ingresar
+                            </a>
                         </div>
-                        <div class="card-body">
-                            <p>Accede al historial médico del paciente.</p>
-                        </div>
-                        <a href="@Url.Action("VistaHistorialMd", "Expedientes")" class="detail-btn">
-                            <i class="fas fa-arrow-right"></i> Ingresar
-                        </a>
-                    </div>
 
-                    <!-- Tarjeta 2 -->
-                    <div class="simple-card">
-                        <div class="card-number">2</div>
-                        <div class="card-header">
-                            <h3 class="card-title">Agregar Notas</h3>
-                            <span class="card-subtitle"></span>
+                        <!-- Tarjeta 3 -->
+                        <div class="simple-card">
+                            <div class="card-number">3</div>
+                            <div class="card-header">
+                                <h3 class="card-title">Agregar Imágenes</h3>
+                                <span class="card-subtitle"></span>
+                            </div>
+                            <div class="card-body">
+                                <p>Sube imágenes para el expediente del paciente.</p>
+                            </div>
+                            <a href="@Url.Action("SubirImagenes", "Expedientes")" class="detail-btn">
+                                <i class="fas fa-arrow-right"></i> Ingresar
+                            </a>
                         </div>
-                        <div class="card-body">
-                            <p>Agregar notas para la consulta o expediente.</p>
-                        </div>
-                        <a href="@Url.Action("DOCHCita", "Perfil")" class="detail-btn">
-                            <i class="fas fa-arrow-right"></i> Ingresar
-                        </a>
-                    </div>
-
-                    <!-- Tarjeta 3 -->
-                    <div class="simple-card">
-                        <div class="card-number">3</div>
-                        <div class="card-header">
-                            <h3 class="card-title">Agregar Imágenes</h3>
-                            <span class="card-subtitle"></span>
-                        </div>
-                        <div class="card-body">
-                            <p>Sube imágenes para el expediente del paciente.</p>
-                        </div>
-                        <a href="@Url.Action("SubirImagenes", "Expedientes")" class="detail-btn">
-                            <i class="fas fa-arrow-right"></i> Ingresar
-                        </a>
                     </div>
                 </div>
             </div>
+
         </div>
 
 

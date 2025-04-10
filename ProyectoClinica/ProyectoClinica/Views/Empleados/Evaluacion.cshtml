@@ -4,66 +4,7 @@
     ViewBag.Title = "Evaluacion";
 }
 
-<div class="container mt-4">
-    <h2 class="text-center mb-4">Evaluación</h2>
-
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
-
-<div class="form-container">
-    <h4 class="text-center">Detalles de la Evaluación</h4>
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-    <!-- Fecha de Evaluación -->
-    <div class="form-group">
-        @Html.LabelFor(model => model.Fecha_Evaluacion, new { @class = "form-label" })
-        <input type="date" name="Fecha_Evaluacion" class="form-control"
-               value="@(Model != null ? Model.Fecha_Evaluacion.ToString("yyyy-MM-dd") : DateTime.Now.ToString("yyyy-MM-dd"))" />
-        @Html.ValidationMessageFor(model => model.Fecha_Evaluacion, "", new { @class = "text-danger" })
-    </div>
-    <br />
-
-    <!-- Empleado -->
-    <div class="form-group">
-        @Html.LabelFor(model => model.Id_Empleado, "Empleado", new { @class = "form-label" })
-        @Html.DropDownList("Id_Empleado", null, "-- Seleccione un empleado --", new { @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.Id_Empleado, "", new { @class = "text-danger" })
-    </div>
-    <br />
-    <!-- Calificación con Estrellas -->
-    <div class="form-group">
-        @Html.LabelFor(model => model.Calificacion, new { @class = "form-label" })
-        <div class="rating">
-            @for (int i = 5; i >= 1; i--)
-            {
-                <input type="radio" id="star-@i" name="Calificacion" value="@i"
-                       @(Model != null && Model.Calificacion == i ? "checked" : "") />
-                <label for="star-@i">&#9733;</label>
-            }
-        </div>
-        @Html.ValidationMessageFor(model => model.Calificacion, "", new { @class = "text-danger" })
-    </div>
-
-    <!-- Comentarios -->
-    <div class="form-group">
-        @Html.LabelFor(model => model.Comentarios, new { @class = "form-label" })
-        @Html.TextAreaFor(model => model.Comentarios, new { @class = "form-control", rows = 4 })
-        @Html.ValidationMessageFor(model => model.Comentarios, "", new { @class = "text-danger" })
-    </div>
-
-    <!-- Botón de envío -->
-    <div class="text-center mt-3">
-        <button type="submit" class="btn custom-btn">Crear Evaluación</button>
-    </div>
-</div>
-    }
-
-    <div class="text-center mt-3">
-        @Html.ActionLink("Volver a la lista", "VistaEvaluacion","Empleados", null, new { @class = "btn custom-btn" })
-    </div>
-</div>
+<link href="~/CSS/VistaGeneral.css" rel="stylesheet" />
 
 <!-- Estilos personalizados -->
 <style>
@@ -122,3 +63,352 @@
                 color: gold;
             }
 </style>
+
+<body>
+    <div class="container-fluid">
+        <!-- Contenedor de notificaciones -->
+        <div id="notificationContainer" class="notification-container"></div>
+
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 sidebar">
+                <div class="sidebar">
+                    <div class="p-3 d-flex justify-content-center">
+                        <img src="~/Imagenes/Logo.png" alt="Centro Integral Santo Domingo Logo" class="img-fluid" style="max-width: 195px; height: auto;" />
+                    </div>
+
+                    <center><div class="nav-header">Plataforma</div></center>
+                    <div class="nav-item">
+                        <a class="nav-link">
+                            <div>
+                                Navegación
+                            </div>
+
+                        </a>
+                        <ul class="submenu">
+                            <br />
+                            <a href="@Url.Action("Index", "Inventario")" class="nav-link">
+                                <i class="fas fa-boxes"></i> Inventario
+                            </a>
+                            <br />
+                            <a href="@Url.Action("VistaCON", "Contabilidad")" class="nav-link">
+                                <i class="fas fa-calculator"></i> Contabilidad
+                            </a>
+                            <br />
+                            <a href="@Url.Action("VistaAdmRep", "Reporte")" class="nav-link">
+                                <i class="fas fa-chart-line"></i> Reportes
+                            </a>
+                        </ul>
+                    </div>
+
+                    <hr />
+
+                    <div class="nav-item">
+                        <a class="nav-link">
+                            <div>
+                                Administración
+                            </div>
+
+                        </a>
+                        <ul class="submenu">
+                            <a href="@Url.Action("Administrativo", "Administrativos")" class="nav-link">
+                                <i class="fas fa-user-tie"></i> Administrativo
+                            </a>
+                            <br />
+                            <a href="@Url.Action("Empleados", "Empleados")" class="nav-link">
+                                <i class="fas fa-users"></i> Empleados
+                            </a>
+                            <br />
+                            <a href="@Url.Action("Expedientes", "Expedientes")" class="nav-link">
+                                <i class="fas fa-folder-open"></i> Expedientes
+                            </a>
+                            <br />
+                            <a href="@Url.Action("VistaCAdmin", "Cita")" class="nav-link">
+                                <i class="fas fa-calendar-check"></i> Citas
+                            </a>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-9 col-lg-10 ms-auto button-container">
+
+                <div class="container mt-4">
+                    <h2 class="text-center mb-4">Evaluación</h2>
+
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                <div class="form-container">
+                    <h4 class="text-center">Detalles de la Evaluación</h4>
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <!-- Fecha de Evaluación -->
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Fecha_Evaluacion, new { @class = "form-label" })
+                        <input type="date" name="Fecha_Evaluacion" class="form-control"
+                               value="@(Model != null ? Model.Fecha_Evaluacion.ToString("yyyy-MM-dd") : DateTime.Now.ToString("yyyy-MM-dd"))" />
+                        @Html.ValidationMessageFor(model => model.Fecha_Evaluacion, "", new { @class = "text-danger" })
+                    </div>
+                    <br />
+
+                    <!-- Empleado -->
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Id_Empleado, "Empleado", new { @class = "form-label" })
+                        @Html.DropDownList("Id_Empleado", null, "-- Seleccione un empleado --", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Id_Empleado, "", new { @class = "text-danger" })
+                    </div>
+                    <br />
+                    <!-- Calificación con Estrellas -->
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Calificacion, new { @class = "form-label" })
+                        <div class="rating">
+                            @for (int i = 5; i >= 1; i--)
+                            {
+                                <input type="radio" id="star-@i" name="Calificacion" value="@i"
+                                       @(Model != null && Model.Calificacion == i ? "checked" : "") />
+                                <label for="star-@i">&#9733;</label>
+                            }
+                        </div>
+                        @Html.ValidationMessageFor(model => model.Calificacion, "", new { @class = "text-danger" })
+                    </div>
+
+                    <!-- Comentarios -->
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Comentarios, new { @class = "form-label" })
+                        @Html.TextAreaFor(model => model.Comentarios, new { @class = "form-control", rows = 4 })
+                        @Html.ValidationMessageFor(model => model.Comentarios, "", new { @class = "text-danger" })
+                    </div>
+
+                    <!-- Botón de envío -->
+                    <div class="text-center mt-3">
+                        <button type="submit" class="btn custom-btn">Crear Evaluación</button>
+                   
+                        @Html.ActionLink("Volver a la lista", "VistaEvaluacion", "Empleados", null, new { @class = "btn custom-btn" })
+                    </div>
+                </div>
+                    }
+
+                   
+                </div>
+
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        var itemsOcultos = [];
+
+        // Función para ocultar un item
+        function ocultarItem(id) {
+            var card = document.querySelector('.payment-card[data-id="' + id + '"]');
+
+            if (card) {
+                // Guarda la información del item antes de ocultarlo
+                itemsOcultos.push({
+                    id: id,
+                    html: card.outerHTML
+                });
+
+                // Remover el elemento completamente del DOM para que no afecte la paginación
+                card.remove();
+
+                // Mostrar botón para mostrar inactivos si hay elementos ocultos
+                if (itemsOcultos.length > 0) {
+                    $('#btnMostrarInactivos').show();
+                }
+
+                // Recalcular paginación
+                actualizarPaginacion();
+            }
+        }
+
+        // Función para recalcular la paginación después de ocultar un producto
+        function actualizarPaginacion() {
+            const items = Array.from(document.querySelectorAll('.payment-card'));
+            const totalItems = items.length;
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
+            currentPage = 1;
+            showPage(currentPage);
+        }
+
+
+        // Función para crear y mostrar notificaciones
+        function showNotification(title, items, type) {
+            const notificationContainer = document.getElementById('notificationContainer');
+
+            // Crear el elemento de notificación
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+
+            // Crear el encabezado de la notificación
+            const header = document.createElement('div');
+            header.className = 'notification-header';
+
+            const titleEl = document.createElement('h5');
+            titleEl.className = 'notification-title';
+
+            // Añadir icono según el tipo
+            const icon = document.createElement('i');
+            if (type === 'danger') {
+                icon.className = 'fas fa-exclamation-triangle';
+            } else if (type === 'warning') {
+                icon.className = 'fas fa-clock';
+            }
+            titleEl.appendChild(icon);
+            titleEl.appendChild(document.createTextNode(title));
+
+            const closeBtn = document.createElement('button');
+            closeBtn.className = 'notification-close';
+            closeBtn.innerHTML = '&times;';
+            closeBtn.addEventListener('click', function () {
+                notification.remove();
+            });
+
+            header.appendChild(titleEl);
+            header.appendChild(closeBtn);
+
+            // Crear el cuerpo de la notificación
+            const body = document.createElement('div');
+            body.className = 'notification-body';
+
+            // Crear la lista de elementos
+            const list = document.createElement('ul');
+            list.className = 'notification-list';
+
+            items.forEach(item => {
+                const listItem = document.createElement('li');
+                listItem.className = 'notification-item';
+                listItem.textContent = item;
+                list.appendChild(listItem);
+            });
+
+            body.appendChild(list);
+
+            // Ensamblar la notificación
+            notification.appendChild(header);
+            notification.appendChild(body);
+
+            // Añadir la notificación al contenedor
+            notificationContainer.appendChild(notification);
+
+            // Eliminar la notificación después de un tiempo
+            setTimeout(() => {
+                notification.remove();
+            }, 10000); // 10 segundos
+        }
+
+        // Toggle submenu functionality
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function () {
+                // Close all other open submenus
+                document.querySelectorAll('.submenu').forEach(submenu => {
+                    if (submenu !== this.nextElementSibling) {
+                        submenu.classList.remove('active');
+                        this.classList.remove('active');
+                    }
+                });
+
+                // Toggle the clicked submenu
+                const submenu = this.nextElementSibling;
+                if (submenu) {
+                    submenu.classList.toggle('active');
+                    this.classList.toggle('active');
+                }
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Paginación
+            const itemsPerPage = 8;
+            const items = Array.from(document.querySelectorAll('.payment-card'));
+            const totalItems = items.length;
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
+            const paginationContainer = document.getElementById('paginationCards');
+
+            let currentPage = 1;
+
+            function showPage(pageNumber) {
+                const items = Array.from(document.querySelectorAll('.payment-card'));
+                const startIndex = (pageNumber - 1) * itemsPerPage;
+                const endIndex = startIndex + itemsPerPage;
+
+                items.forEach((item, index) => {
+                    item.style.display = (index >= startIndex && index < endIndex) ? 'block' : 'none';
+                });
+
+                updatePagination(pageNumber);
+            }
+
+            function updatePagination(pageNumber) {
+                paginationContainer.innerHTML = '';
+
+                for (let i = 1; i <= totalPages; i++) {
+                    const pageButton = document.createElement('button');
+                    pageButton.innerText = i;
+                    pageButton.className = 'page-link';
+                    if (i === pageNumber) {
+                        pageButton.classList.add('active');
+                    }
+
+                    pageButton.addEventListener('click', function () {
+                        currentPage = i;
+                        showPage(currentPage);
+                    });
+
+                    const listItem = document.createElement('li');
+                    listItem.className = 'page-item';
+                    listItem.appendChild(pageButton);
+                    paginationContainer.appendChild(listItem);
+                }
+            }
+
+            // Mostrar la primera página
+            showPage(currentPage);
+
+            // Verificar productos con bajo stock y próximos a vencer
+            const lowStockItems = Array.from(document.querySelectorAll('.payment-card[data-low-stock="True"]'));
+            const expiringItems = Array.from(document.querySelectorAll('.payment-card[data-expiring="True"]'));
+            const expiredItems = Array.from(document.querySelectorAll('.payment-card[data-expired="True"]'));
+
+            // Notificación de productos con bajo stock
+            if (lowStockItems.length > 0) {
+                const lowStockNames = lowStockItems.map(item => {
+                    const name = item.querySelector('.card-product-name').textContent;
+                    const quantity = item.querySelector('.info-value').textContent.trim().split('\n')[0].trim();
+                    return `${name} (${quantity})`;
+                });
+
+                showNotification(
+                    `¡Alerta! ${lowStockItems.length} productos con bajo stock`,
+                    lowStockNames,
+                    'danger'
+                );
+            }
+
+            // Notificación de productos próximos a vencer o vencidos
+            const allExpiringItems = [...expiringItems, ...expiredItems];
+            if (allExpiringItems.length > 0) {
+                const expiringNames = allExpiringItems.map(item => {
+                    const name = item.querySelector('.card-product-name').textContent;
+                    const expiryDate = item.querySelector('.card-user').textContent.split('Vence:')[1].trim();
+                    const status = item.getAttribute('data-expired') === 'True' ? 'VENCIDO' : 'Próximo a vencer';
+                    return `${name} (${status} - ${expiryDate})`;
+                });
+
+                showNotification(
+                    `¡Alerta! ${allExpiringItems.length} productos próximos a vencer o vencidos`,
+                    expiringNames,
+                    'warning'
+                );
+            }
+        });
+    </script>
+</body>

@@ -4,6 +4,8 @@
     ViewBag.Title = "Agendar una cita";
 }
 
+<link href="~/CSS/VistaGeneral.css" rel="stylesheet" />
+
 <style>
     .container-form {
         max-width: 900px;
@@ -72,141 +74,429 @@
         }
 </style>
 
-<div class="container-form">
-    <h2 class="page-title">Agenda la Cita</h2>
+<body>
+    <div class="container-fluid">
+        <!-- Contenedor de notificaciones -->
+        <div id="notificationContainer" class="notification-container"></div>
 
-
-    @using (Html.BeginForm("CrearADM", "Cita", FormMethod.Post))
-    {
-        @Html.AntiForgeryToken()
-
-        <legend>Información del Médico</legend>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Id_Medico, "Médico", new { @class = "control-label col-md-4" })
-            <div class="col-md-8">
-                @Html.DropDownListFor(model => model.Id_Medico, (SelectList)ViewBag.IdMedico, "Seleccione un Médico", new { @class = "form-control", id = "Id_Medico" })
-                @Html.ValidationMessageFor(model => model.Id_Medico, "", new { @class = "text-danger" })
-            </div>
-
-            <br />
-
-            <div class="form-group">
-                @Html.Label("Especialidad", "Especialidad")
-                <input type="text" id="Especialidad" class="form-control" readonly />
-            </div>
-        </div>
-
-        <br />
-
-        <legend>Información del Paciente</legend>
         <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Nombre_Paciente, new { @class = "control-label col-md-4" })
-                    <div class="col-md-8">
-                        @Html.EditorFor(model => model.Nombre_Paciente, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Nombre_Paciente, "", new { @class = "text-danger" })
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 sidebar">
+                <div class="sidebar">
+                    <div class="p-3 d-flex justify-content-center">
+                        <img src="~/Imagenes/Logo.png" alt="Centro Integral Santo Domingo Logo" class="img-fluid" style="max-width: 195px; height: auto;" />
+                    </div>
+
+                    <center><div class="nav-header">Plataforma</div></center>
+                    <div class="nav-item">
+                        <a class="nav-link">
+                            <div>
+                                Navegación
+                            </div>
+
+                        </a>
+                        <ul class="submenu">
+                            <br />
+                            <a href="@Url.Action("Index", "Inventario")" class="nav-link">
+                                <i class="fas fa-boxes"></i> Inventario
+                            </a>
+                            <br />
+                            <a href="@Url.Action("VistaCON", "Contabilidad")" class="nav-link">
+                                <i class="fas fa-calculator"></i> Contabilidad
+                            </a>
+                            <br />
+                            <a href="@Url.Action("VistaAdmRep", "Reporte")" class="nav-link">
+                                <i class="fas fa-chart-line"></i> Reportes
+                            </a>
+                        </ul>
+                    </div>
+
+                    <hr />
+
+                    <div class="nav-item">
+                        <a class="nav-link">
+                            <div>
+                                Administración
+                            </div>
+
+                        </a>
+                        <ul class="submenu">
+                            <a href="@Url.Action("Administrativo", "Administrativos")" class="nav-link">
+                                <i class="fas fa-user-tie"></i> Administrativo
+                            </a>
+                            <br />
+                            <a href="@Url.Action("Empleados", "Empleados")" class="nav-link">
+                                <i class="fas fa-users"></i> Empleados
+                            </a>
+                            <br />
+                            <a href="@Url.Action("Expedientes", "Expedientes")" class="nav-link">
+                                <i class="fas fa-folder-open"></i> Expedientes
+                            </a>
+                            <br />
+                            <a href="@Url.Action("VistaCAdmin", "Cita")" class="nav-link">
+                                <i class="fas fa-calendar-check"></i> Citas
+                            </a>
+                        </ul>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Descripcion_Complicaciones, new { @class = "control-label" })
-                    @Html.EditorFor(model => model.Descripcion_Complicaciones, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Descripcion_Complicaciones, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Sintomas, new { @class = "control-label" })
-                    @Html.EditorFor(model => model.Sintomas, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Sintomas, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
 
-        <legend>Datos de la Cita</legend>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Fecha_Cita, new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.Fecha_Cita, new
-                       {
-                           @class = "form-control",
-                           @type = "date",
-                           @min = DateTime.Today.ToString("yyyy-MM-dd"),
-                           @id = "Fecha_Cita"
-                       })
-                    @Html.ValidationMessageFor(model => model.Fecha_Cita, "", new { @class = "text-danger" })
-                </div>
-            </div>
+            <!-- Main Content -->
+            <div class="col-md-9 col-lg-10 ms-auto button-container">
 
-            <div class="col-md-6">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Hora_cita, new { @class = "control-label" })
-                      @Html.TextBoxFor(model => model.Hora_cita, new
-                      {@class = "form-control", @type = "time", @min = "07:00", @max = "20:00"})
-                    @Html.ValidationMessageFor(model => model.Hora_cita, "", new { @class = "text-danger" })
-                </div>
-            </div>
+                <div class="container-form">
+                    <h2 class="page-title">Agenda la Cita</h2>
 
-            <div class="col-md-6">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Modalidad, "Modalidad de la Cita")
-                    @Html.DropDownListFor(model => model.Modalidad, new SelectList(new[] { "Presencial", "Virtual" }, "Seleccione la modalidad"), new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Modalidad, "", new { @class = "text-danger" })
-                </div>
 
-            </div>
+                    @using (Html.BeginForm("CrearADM", "Cita", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
 
-            @Html.HiddenFor(model => model.Estado_Asistencia, new { @Value = "Asistida" })
+                        <legend>Información del Médico</legend>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Id_Medico, "Médico", new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DropDownListFor(model => model.Id_Medico, (SelectList)ViewBag.IdMedico, "Seleccione un Médico", new { @class = "form-control", id = "Id_Medico" })
+                                @Html.ValidationMessageFor(model => model.Id_Medico, "", new { @class = "text-danger" })
+                            </div>
 
-        </div>
+                            <br />
 
-        <div class="form-group text-center">
-            <input type="submit" value="Guardar" class="btn btn-primary" />
-            <a href="@Url.Action("PCitas", "Cita")" class="btn btn-secondary">Regresar</a>
-        </div>
+                            <div class="form-group">
+                                @Html.Label("Especialidad", "Especialidad")
+                                <input type="text" id="Especialidad" class="form-control" readonly />
+                            </div>
+                        </div>
 
-    }
+                        <br />
 
-    @section Scripts {
-        <script>
-            $(document).ready(function () {
-                $("#Id_Medico").change(function () {
-                    var idMedico = $(this).val();
+                        <legend>Información del Paciente</legend>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Nombre_Paciente, new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.EditorFor(model => model.Nombre_Paciente, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Nombre_Paciente, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Descripcion_Complicaciones, new { @class = "control-label" })
+                                    @Html.EditorFor(model => model.Descripcion_Complicaciones, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Descripcion_Complicaciones, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Sintomas, new { @class = "control-label" })
+                                    @Html.EditorFor(model => model.Sintomas, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Sintomas, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
 
-                    if (idMedico) {
-                        $.ajax({
-                            url: '/Cita/GetEspecialidadPorMedico',
-                            type: 'GET',
-                            data: { idMedico: idMedico },
-                            success: function (response) {
-                                if (response.success) {
-                                    $("#Especialidad").val(response.especialidad);
-                                } else {
-                                    $("#Especialidad").val(response.message || "Especialidad no encontrada");
+                        <legend>Datos de la Cita</legend>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Fecha_Cita, new { @class = "control-label" })
+                                    @Html.TextBoxFor(model => model.Fecha_Cita, new
+                                       {
+                                           @class = "form-control",
+                                           @type = "date",
+                                           @min = DateTime.Today.ToString("yyyy-MM-dd"),
+                                           @id = "Fecha_Cita"
+                                       })
+                                    @Html.ValidationMessageFor(model => model.Fecha_Cita, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Hora_cita, new { @class = "control-label" })
+                                    @Html.TextBoxFor(model => model.Hora_cita, new
+                                    { @class = "form-control", @type = "time", @min = "07:00", @max = "20:00" })
+                                    @Html.ValidationMessageFor(model => model.Hora_cita, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Modalidad, "Modalidad de la Cita")
+                                    @Html.DropDownListFor(model => model.Modalidad, new SelectList(new[] { "Presencial", "Virtual" }, "Seleccione la modalidad"), new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Modalidad, "", new { @class = "text-danger" })
+                                </div>
+
+                            </div>
+
+                            @Html.HiddenFor(model => model.Estado_Asistencia, new { @Value = "Asistida" })
+
+                        </div>
+
+                        <div class="form-group text-center">
+                            <input type="submit" value="Guardar" class="btn btn-primary" />
+                            <a href="@Url.Action("PCitas", "Cita")" class="btn btn-secondary">Regresar</a>
+                        </div>
+
+                    }
+
+                    @section Scripts {
+                        <script>
+                            $(document).ready(function () {
+                                $("#Id_Medico").change(function () {
+                                    var idMedico = $(this).val();
+
+                                    if (idMedico) {
+                                        $.ajax({
+                                            url: '/Cita/GetEspecialidadPorMedico',
+                                            type: 'GET',
+                                            data: { idMedico: idMedico },
+                                            success: function (response) {
+                                                if (response.success) {
+                                                    $("#Especialidad").val(response.especialidad);
+                                                } else {
+                                                    $("#Especialidad").val(response.message || "Especialidad no encontrada");
+                                                }
+                                            },
+                                            error: function () {
+                                                alert("Ocurrió un error al obtener la especialidad.");
+                                            }
+                                        });
+                                    } else {
+                                        $("#Especialidad").val("");
+                                    }
+                                });
+                            });;
+
+                            document.getElementById('Fecha_Cita').addEventListener('change', function () {
+                                const fecha = new Date(this.value);
+                                const dia = fecha.getUTCDay(); // 0 = domingo, 6 = sábado
+
+                                if (dia === 0 || dia === 6) {
+                                    alert("No se pueden agendar citas los sábados ni domingos.");
+                                    this.value = "";
                                 }
-                            },
-                            error: function () {
-                                alert("Ocurrió un error al obtener la especialidad.");
-                            }
-                        });
-                    } else {
-                        $("#Especialidad").val("");
+                            });
+                        </script>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        var itemsOcultos = [];
+
+        // Función para ocultar un item
+        function ocultarItem(id) {
+            var card = document.querySelector('.payment-card[data-id="' + id + '"]');
+
+            if (card) {
+                // Guarda la información del item antes de ocultarlo
+                itemsOcultos.push({
+                    id: id,
+                    html: card.outerHTML
+                });
+
+                // Remover el elemento completamente del DOM para que no afecte la paginación
+                card.remove();
+
+                // Mostrar botón para mostrar inactivos si hay elementos ocultos
+                if (itemsOcultos.length > 0) {
+                    $('#btnMostrarInactivos').show();
+                }
+
+                // Recalcular paginación
+                actualizarPaginacion();
+            }
+        }
+
+        // Función para recalcular la paginación después de ocultar un producto
+        function actualizarPaginacion() {
+            const items = Array.from(document.querySelectorAll('.payment-card'));
+            const totalItems = items.length;
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
+            currentPage = 1;
+            showPage(currentPage);
+        }
+
+
+        // Función para crear y mostrar notificaciones
+        function showNotification(title, items, type) {
+            const notificationContainer = document.getElementById('notificationContainer');
+
+            // Crear el elemento de notificación
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+
+            // Crear el encabezado de la notificación
+            const header = document.createElement('div');
+            header.className = 'notification-header';
+
+            const titleEl = document.createElement('h5');
+            titleEl.className = 'notification-title';
+
+            // Añadir icono según el tipo
+            const icon = document.createElement('i');
+            if (type === 'danger') {
+                icon.className = 'fas fa-exclamation-triangle';
+            } else if (type === 'warning') {
+                icon.className = 'fas fa-clock';
+            }
+            titleEl.appendChild(icon);
+            titleEl.appendChild(document.createTextNode(title));
+
+            const closeBtn = document.createElement('button');
+            closeBtn.className = 'notification-close';
+            closeBtn.innerHTML = '&times;';
+            closeBtn.addEventListener('click', function () {
+                notification.remove();
+            });
+
+            header.appendChild(titleEl);
+            header.appendChild(closeBtn);
+
+            // Crear el cuerpo de la notificación
+            const body = document.createElement('div');
+            body.className = 'notification-body';
+
+            // Crear la lista de elementos
+            const list = document.createElement('ul');
+            list.className = 'notification-list';
+
+            items.forEach(item => {
+                const listItem = document.createElement('li');
+                listItem.className = 'notification-item';
+                listItem.textContent = item;
+                list.appendChild(listItem);
+            });
+
+            body.appendChild(list);
+
+            // Ensamblar la notificación
+            notification.appendChild(header);
+            notification.appendChild(body);
+
+            // Añadir la notificación al contenedor
+            notificationContainer.appendChild(notification);
+
+            // Eliminar la notificación después de un tiempo
+            setTimeout(() => {
+                notification.remove();
+            }, 10000); // 10 segundos
+        }
+
+        // Toggle submenu functionality
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function () {
+                // Close all other open submenus
+                document.querySelectorAll('.submenu').forEach(submenu => {
+                    if (submenu !== this.nextElementSibling) {
+                        submenu.classList.remove('active');
+                        this.classList.remove('active');
                     }
                 });
-            });;
 
-            document.getElementById('Fecha_Cita').addEventListener('change', function () {
-                const fecha = new Date(this.value);
-                const dia = fecha.getUTCDay(); // 0 = domingo, 6 = sábado
-
-                if (dia === 0 || dia === 6) {
-                    alert("No se pueden agendar citas los sábados ni domingos.");
-                    this.value = "";
+                // Toggle the clicked submenu
+                const submenu = this.nextElementSibling;
+                if (submenu) {
+                    submenu.classList.toggle('active');
+                    this.classList.toggle('active');
                 }
             });
-        </script>
-    }
-</div>
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Paginación
+            const itemsPerPage = 8;
+            const items = Array.from(document.querySelectorAll('.payment-card'));
+            const totalItems = items.length;
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
+            const paginationContainer = document.getElementById('paginationCards');
+
+            let currentPage = 1;
+
+            function showPage(pageNumber) {
+                const items = Array.from(document.querySelectorAll('.payment-card'));
+                const startIndex = (pageNumber - 1) * itemsPerPage;
+                const endIndex = startIndex + itemsPerPage;
+
+                items.forEach((item, index) => {
+                    item.style.display = (index >= startIndex && index < endIndex) ? 'block' : 'none';
+                });
+
+                updatePagination(pageNumber);
+            }
+
+            function updatePagination(pageNumber) {
+                paginationContainer.innerHTML = '';
+
+                for (let i = 1; i <= totalPages; i++) {
+                    const pageButton = document.createElement('button');
+                    pageButton.innerText = i;
+                    pageButton.className = 'page-link';
+                    if (i === pageNumber) {
+                        pageButton.classList.add('active');
+                    }
+
+                    pageButton.addEventListener('click', function () {
+                        currentPage = i;
+                        showPage(currentPage);
+                    });
+
+                    const listItem = document.createElement('li');
+                    listItem.className = 'page-item';
+                    listItem.appendChild(pageButton);
+                    paginationContainer.appendChild(listItem);
+                }
+            }
+
+            // Mostrar la primera página
+            showPage(currentPage);
+
+            // Verificar productos con bajo stock y próximos a vencer
+            const lowStockItems = Array.from(document.querySelectorAll('.payment-card[data-low-stock="True"]'));
+            const expiringItems = Array.from(document.querySelectorAll('.payment-card[data-expiring="True"]'));
+            const expiredItems = Array.from(document.querySelectorAll('.payment-card[data-expired="True"]'));
+
+            // Notificación de productos con bajo stock
+            if (lowStockItems.length > 0) {
+                const lowStockNames = lowStockItems.map(item => {
+                    const name = item.querySelector('.card-product-name').textContent;
+                    const quantity = item.querySelector('.info-value').textContent.trim().split('\n')[0].trim();
+                    return `${name} (${quantity})`;
+                });
+
+                showNotification(
+                    `¡Alerta! ${lowStockItems.length} productos con bajo stock`,
+                    lowStockNames,
+                    'danger'
+                );
+            }
+
+            // Notificación de productos próximos a vencer o vencidos
+            const allExpiringItems = [...expiringItems, ...expiredItems];
+            if (allExpiringItems.length > 0) {
+                const expiringNames = allExpiringItems.map(item => {
+                    const name = item.querySelector('.card-product-name').textContent;
+                    const expiryDate = item.querySelector('.card-user').textContent.split('Vence:')[1].trim();
+                    const status = item.getAttribute('data-expired') === 'True' ? 'VENCIDO' : 'Próximo a vencer';
+                    return `${name} (${status} - ${expiryDate})`;
+                });
+
+                showNotification(
+                    `¡Alerta! ${allExpiringItems.length} productos próximos a vencer o vencidos`,
+                    expiringNames,
+                    'warning'
+                );
+            }
+        });
+    </script>
+</body>
+

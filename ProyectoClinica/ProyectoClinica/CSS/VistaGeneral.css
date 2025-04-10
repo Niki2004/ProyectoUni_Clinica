@@ -145,7 +145,7 @@ body {
 
 .gallery-container {
     padding: 20px;
-    max-width: 1200px;
+    max-width: 1300px;
     margin: 0 auto;
 }
 
@@ -173,6 +173,8 @@ body {
     .gallery-image:hover {
         transform: scale(1.05);
     }
+
+
 
 .image-caption {
     padding: 10px;
@@ -203,9 +205,8 @@ body {
 }
 
 #calendar {
-    width: 80% !important; 
-    height: 700px !important; 
-   
+    width: 80% !important;
+    height: 700px !important;
 }
 
 .row-cols-4 {
@@ -291,7 +292,7 @@ body {
 .dashboard-cards {
     display: grid;
     grid-template-columns: repeat(4, 0.20fr);
-    gap: 20px; 
+    gap: 20px;
 }
 
 .simple-card {
@@ -413,34 +414,34 @@ html {
         font-size: 1.8rem;
     }
 
-@media (max-width: 1200px) {
+    @media (max-width: 1200px) {
         .dashboard-cards {
             grid-template-columns: repeat(3, 1fr);
         }
     }
 
- /* 2 columnas para pantallas pequeñas */
- @media (max-width: 992px) {
+    /* 2 columnas para pantallas pequeñas */
+    @media (max-width: 992px) {
         .dashboard-cards {
             grid-template-columns: repeat(2, 1fr);
         }
     }
 
     /* 1 columna para pantallas muy pequeñas (celulares) */
- @media (max-width: 576px) {
-      .dashboard-cards {
+    @media (max-width: 576px) {
+        .dashboard-cards {
             grid-template-columns: repeat(1, 1fr);
-      }
-   }
+        }
+    }
 
-@media (max-width: 768px) {
-  html {
-    font-size: 14px;
-  }
-}
+    @media (max-width: 768px) {
+        html {
+            font-size: 14px;
+        }
+    }
 
-@media (max-width: 480px) {
-  html {
-    font-size: 12px;
-  }
-}
+    @media (max-width: 480px) {
+        html {
+            font-size: 12px;
+        }
+    }
