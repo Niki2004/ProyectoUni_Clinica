@@ -4,8 +4,9 @@
     ViewBag.Title = "Create";
 }
 
-<link href="~/CSS/Crear.css" rel="stylesheet" />
 <link href="~/CSS/VistaGeneral.css" rel="stylesheet" />
+<link rel="stylesheet" href="~/CSS/Crear.css" />
+
 
 <body>
     <div class="container-fluid">
@@ -122,11 +123,6 @@
 
                         <div class="form-section">
                             <legend>Detalles Adicionales</legend>
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.Id_Usuario, "Usuario", new { @class = "control-label" })
-                                @Html.EditorFor(model => model.Id_Usuario, new { htmlAttributes = new { @class = "form-control" } })
-                            </div>
-
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Estatus_producto, "Estado", new { @class = "control-label" })
                                 @Html.DropDownListFor(model => model.Estatus_producto,

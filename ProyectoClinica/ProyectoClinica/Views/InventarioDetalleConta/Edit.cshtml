@@ -4,8 +4,8 @@
     ViewBag.Title = "Edit";
 }
 
-<link href="~/CSS/Editar.css" rel="stylesheet" />
 <link href="~/CSS/VistaGeneral.css" rel="stylesheet" />
+<link href="~/CSS/Editar.css" rel="stylesheet" />
 
 <body>
     <div class="container-fluid">
@@ -92,17 +92,17 @@
                                 <div class="detail-item">
                                     <div class="detail-label">Encabezado</div>
                                     <div class="detail-value">
-                                        @Html.DropDownListFor(model => model.Id_Inventario_Encabezado,
-                                            new SelectList(ViewBag.Encabezados ?? new List<SelectListItem>(), "Value", "Text"),
-                                            "Seleccione un encabezado",
-                                            new { @class = "form-control" })
+                                        <div class="form-control" style="width: 280px; text-align: center;">
+                                            @Html.DisplayFor(model => model.Id_Inventario_Encabezado)
+                                            @Html.HiddenFor(model => model.Id_Inventario_Encabezado)
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="detail-item">
                                     <div class="detail-label">Departamento</div>
                                     <div class="detail-value">
                                         @Html.DropDownListFor(model => model.Id_Departamento,
-                                            new SelectList(ViewBag.Departamentos ?? new List<SelectListItem>(), "Value", "Text"),
+                                            new SelectList(ViewBag.Departamento ?? new List<SelectListItem>(), "Value", "Text"),
                                             "Seleccione un departamento",
                                             new { @class = "form-control" })
                                     </div>
@@ -111,7 +111,7 @@
                                     <div class="detail-label">Producto</div>
                                     <div class="detail-value">
                                         @Html.DropDownListFor(model => model.Id_Producto,
-                                            new SelectList(ViewBag.Productos ?? new List<SelectListItem>(), "Value", "Text"),
+                                            new SelectList(ViewBag.Producto ?? new List<SelectListItem>(), "Value", "Text"),
                                             "Seleccione un producto",
                                             new { @class = "form-control" })
                                     </div>
