@@ -1,12 +1,12 @@
-﻿@model ProyectoClinica.Models.PagosXNomina
+﻿@model ProyectoClinica.Models.AsignacionRolesTemporales
 
 @{
-    ViewBag.Title = "Crear Pago de Nómina";
+    ViewBag.Title = "vistaRolDetallesExp";
 }
 
+<link href="~/CSS/Detalles.css" rel="stylesheet" />
 <link href="~/CSS/VistaGeneral.css" rel="stylesheet" />
 <link rel="stylesheet" href="~/CSS/Crear.css" />
-
 
 <body>
     <div class="container-fluid">
@@ -79,99 +79,54 @@
             <div class="col-md-9 col-lg-10 ms-auto button-container">
 
                 <div class="container-form">
-                    <h2 class="page-title">Crear Pago de Nómina</h2>
+                    <h2 class="page-title">Detalles de los Roles Temporales</h2>
 
-                    @using (Html.BeginForm())
-                    {
-                        @Html.AntiForgeryToken()
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-                        <div class="form-section">
-                            <legend>Información de Identificación</legend>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.Id_Contabilidad, "Identificación de Contabilidad", htmlAttributes: new { @class = "control-label" })
-                                <div>
-                                    @Html.DropDownList("Id_Contabilidad", ViewBag.Contabilidad as SelectList, "Seleccione una opción", new { @class = "form-control" })
-                                </div>
+                    <div class="form-section">
+                        <legend>Detalles Generales</legend>
+                        <div class="detail-group">
+                            <div class="detail-item">
+                                <div class="detail-label">Nombre</div>
+                                <div class="detail-value">@Html.DisplayFor(model => model.ApplicationUser.Nombre)</div>
                             </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.Id_Pago, "Identificación del Pago", htmlAttributes: new { @class = "control-label" })
-                                <div>
-                                    @Html.DropDownList("Id_Pago", ViewBag.Pagos as SelectList, "Seleccione una opción", new { @class = "form-control" })
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.Id_Empleado, "Identificación del Empleado", htmlAttributes: new { @class = "control-label" })
-                                <div>
-                                    @Html.DropDownList("Id_Empleado", ViewBag.Empleado as SelectList, "Seleccione una opción", new { @class = "form-control" })
-                                </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Nombre del Departamento</div>
+                                <div class="detail-value">@Html.DisplayFor(model => model.Departamentos.Nombre_Departamento)</div>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="form-section">
-                            <legend>Detalles del Pago</legend>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.Fecha_Pago, "Fecha de Pago", htmlAttributes: new { @class = "control-label" })
-                                <div>
-                                    @Html.TextBoxFor(model => model.Fecha_Pago, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
-                                    @Html.ValidationMessageFor(model => model.Fecha_Pago, "", new { @class = "text-danger" })
-                                </div>
+                    <div class="form-section">
+                        <legend>Fechas</legend>
+                        <div class="detail-group">
+                            <div class="detail-item">
+                                <div class="detail-label">Fecha de Inicio</div>
+                                <div class="detail-value">@Html.Raw(Model.Fecha_Inicio.ToString("dd-MM-yyyy"))</div>
                             </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.Monto_Pago, "Monto de Pago", htmlAttributes: new { @class = "control-label" })
-                                <div>
-                                    @Html.EditorFor(model => model.Monto_Pago, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.Monto_Pago, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.Metodo_Pago, "Método de Pago", htmlAttributes: new { @class = "control-label" })
-                                <div>
-                                    @Html.EditorFor(model => model.Metodo_Pago, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.Metodo_Pago, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.Estado_Pago, "Estado del Pago", htmlAttributes: new { @class = "control-label" })
-                                <div>
-                                    @Html.EditorFor(model => model.Estado_Pago, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.Estado_Pago, "", new { @class = "text-danger" })
-                                </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Fecha Final</div>
+                                <div class="detail-value">@Html.Raw(Model.Fecha_Fin.ToString("dd-MM-yyyy"))</div>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="form-section">
-                            <legend>Información Adicional</legend>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.Observaciones, "Observaciones", htmlAttributes: new { @class = "control-label" })
-                                <div>
-                                    @Html.EditorFor(model => model.Observaciones, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.Observaciones, "", new { @class = "text-danger" })
-                                </div>
+                    <div class="form-section">
+                        <legend>Detalles Adicionales</legend>
+                        <div class="detail-group">
+                            <div class="detail-item">
+                                <div class="detail-label">Estado</div>
+                                <div class="detail-value">@Html.DisplayFor(model => model.Estado)</div>
                             </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.Fecha_Registro, "Fecha de Registro", htmlAttributes: new { @class = "control-label" })
-                                <div>
-                                    @Html.TextBoxFor(model => model.Fecha_Registro, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
-                                    @Html.ValidationMessageFor(model => model.Fecha_Registro, "", new { @class = "text-danger" })
-                                </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Motivo</div>
+                                <div class="detail-value">@Html.DisplayFor(model => model.Motivo)</div>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="text-center" style="margin-top: 20px;">
-                            <input type="submit" value="Crear Nómina" class="btn-primary" />
-                            @Html.ActionLink("Regresar a la Lista", "Index", null, new { @class = "btn-secondary" })
-                        </div>
-                    }
+                    <div class="text-center" style="margin-top: 20px;">
+                        @Html.ActionLink("Editar", "vistaRolEditarExp", new { id = Model.Id_AsignacionRoles }, new { @class = "btn-primary" })
+                        @Html.ActionLink("Regresar a la Lista", "vistaRolExpedienteExp", null, new { @class = "btn-secondary" })
+                    </div>
                 </div>
 
             </div>
@@ -391,9 +346,3 @@
         });
     </script>
 </body>
-
-
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
