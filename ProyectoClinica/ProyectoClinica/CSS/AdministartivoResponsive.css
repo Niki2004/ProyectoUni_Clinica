@@ -1,118 +1,139 @@
-﻿/* Aseguramos que el contenedor principal ocupe todo el ancho disponible */
-.container-fluid {
-    width: 100%;
-    padding-right: 0;
-    padding-left: 0;
+﻿/* Media query para pantallas grandes */
+@media screen and (min-width: 1201px) {
+    /* No hacemos cambios, mantenemos el diseño original */
 }
 
-/* Ajustes para la barra lateral en pantallas pequeñas */
-@media (max-width: 991px) {
+/* Media query para pantallas medianas */
+@media screen and (max-width: 1200px) {
+    /* Sidebar */
     .sidebar {
-        position: fixed;
-        width: 240px;
-        height: 100%;
-        z-index: 1050;
-        left: -240px;
-        transition: left 0.3s ease;
+        width: 240px !important;
     }
 
-        .sidebar.active {
-            left: 0;
+    /* Contenedor principal */
+    .button-container {
+        margin-left: 240px !important;
+        width: calc(100% - 240px) !important;
+        padding: 15px !important;
+    }
+
+    /* Card de información */
+    .simple-card[style*="margin-left: 305px"] {
+        margin-left: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    /* Cards en 3 columnas */
+    .dashboard-cards {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 15px !important;
+    }
+}
+
+/* Media query para tablets */
+@media screen and (max-width: 992px) {
+    /* Sidebar oculto por defecto */
+    .sidebar {
+        position: fixed !important;
+        left: -240px !important;
+        top: 0 !important;
+        height: 100% !important;
+        z-index: 1050 !important;
+        transition: left 0.3s ease !important;
+    }
+
+        .sidebar.visible {
+            left: 0 !important;
         }
 
-    /* Botón de hamburguesa para mostrar/ocultar el sidebar */
-    .toggle-sidebar {
-        display: block;
+    /* Overlay cuando sidebar está abierto */
+    .sidebar-overlay {
+        display: none;
         position: fixed;
-        top: 15px;
-        left: 15px;
-        z-index: 1060;
-        background-color: var(--primary-turquoise);
-        color: white;
-        border: none;
-        border-radius: 5px;
-        padding: 8px 12px;
-        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0,0,0,0.5);
+        z-index: 1040;
     }
 
-    /* Cuando el sidebar está visible, ajustamos el contenedor principal */
-    .sidebar.active + .button-container {
-        margin-left: 240px;
-    }
-}
+        .sidebar-overlay.visible {
+            display: block;
+        }
 
-/* Preservamos la posición del contenedor principal y los elementos en pantallas pequeñas */
-@media (max-width: 991px) {
+    /* Botón hamburguesa */
+    .menu-toggle {
+        display: block !important;
+        position: fixed !important;
+        top: 10px !important;
+        left: 10px !important;
+        z-index: 1060 !important;
+        padding: 10px !important;
+        font-size: 20px !important;
+        color: white !important;
+        background-color: var(--primary-turquoise) !important;
+        border: none !important;
+        border-radius: 5px !important;
+        cursor: pointer !important;
+    }
+
+    /* Contenedor principal a pantalla completa */
     .button-container {
         margin-left: 0 !important;
-        left: 0;
-        padding: 15px;
-        padding-top: 60px; /* Espacio para el botón de hamburguesa */
-    }
-
-    /* Ajustamos las tarjetas de información */
-    .simple-card[style*="margin-left: 305px"] {
-        margin-left: 0 !important;
+        left: 0 !important;
         width: 100% !important;
-        max-width: 100% !important;
+        padding-top: 60px !important; /* Espacio para hamburguesa */
+    }
+
+    /* Cards en 2 columnas */
+    .dashboard-cards {
+        grid-template-columns: repeat(2, 1fr) !important;
     }
 }
 
-/* Ajustamos el layout de las tarjetas */
-@media (max-width: 1200px) and (min-width: 992px) {
+/* Media query para móviles */
+@media screen and (max-width: 768px) {
+    /* Cards en 1 columna */
     .dashboard-cards {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-@media (max-width: 991px) and (min-width: 768px) {
-    .dashboard-cards {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 767px) {
-    .dashboard-cards {
-        grid-template-columns: repeat(1, 1fr);
+        grid-template-columns: repeat(1, 1fr) !important;
     }
 
+    /* Ajustes adicionales para cards */
     .simple-card {
-        width: 100%;
-        max-width: 100%;
-        height: auto;
-        min-height: 200px;
+        height: auto !important;
+        min-height: 200px !important;
     }
-}
 
-/* Ajuste para la tarjeta de Información de Permisos */
-@media (max-width: 991px) {
-    .simple-card[style*="margin-left: 305px"] {
-        margin-left: 0 !important;
-        width: 100% !important;
-        max-width: 100% !important;
-    }
-}
-
-/* Ajustamos el elemento gallery-container para mantener consistencia */
-@media (max-width: 991px) {
-    .gallery-container {
-        padding: 10px;
-        max-width: 100%;
-    }
-}
-
-/* Aseguramos que el texto y los botones sean legibles en pantallas pequeñas */
-@media (max-width: 576px) {
+    /* Ajustar textos */
     .card-title {
-        font-size: 1rem;
-    }
-
-    .detail-btn {
-        padding: 6px 15px;
-        font-size: 12px;
+        font-size: 1.1rem !important;
     }
 
     .card-body p {
-        font-size: 14px;
+        font-size: 0.9rem !important;
+    }
+
+    /* Información de permisos */
+    .simple-card[style*="margin-left: 305px"] {
+        margin: 0 0 20px 0 !important;
+        padding: 10px !important;
+    }
+}
+
+/* Media query para móviles pequeños */
+@media screen and (max-width: 480px) {
+    /* Ajustes adicionales para mayor legibilidad */
+    html {
+        font-size: 14px !important;
+    }
+
+    .button-container {
+        padding: 60px 10px 10px 10px !important;
+    }
+
+    .simple-card {
+        padding: 10px !important;
     }
 }
