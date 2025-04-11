@@ -21,9 +21,10 @@
 /* Para pantallas muy grandes */
 @media screen and (min-width: 1400px) {
     .contenedor-responsive {
-        max-width: 1400px; /* Aumentado para pantallas muy grandes */
-        width: 90%; /* Ancho relativo para adaptarse mejor */
-        margin-left: 2%; /* Margen izquierdo proporcional */
+        max-width: 1400px;
+        width: 90%;
+        margin-left: auto; /* Cambiado de 2% a auto */
+        margin-right: auto; /* Aseguramos que sea auto también */
         padding: 25px;
     }
 }
@@ -33,7 +34,8 @@
     .contenedor-responsive {
         max-width: 1600px;
         width: 85%;
-        margin-left: 3%;
+        margin-left: auto; /* Cambiado de 3% a auto */
+        margin-right: auto;
         padding: 30px;
     }
 }
