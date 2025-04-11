@@ -1,38 +1,43 @@
-﻿
-.contenedor-responsive {
+﻿.contenedor-responsive {
     margin-bottom: 20px;
     width: 95%;
     max-width: 1020px;
-    margin-left: auto;
+    margin-left: 20px; /* Cambiado de valor fijo a auto */
     margin-right: auto;
-    overflow-x: hidden;
     padding: 20px;
     box-sizing: border-box;
-    background-color: white; /* Fondo blanco */
-    border-radius: 8px; /* Opcional: bordes redondeados */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Opcional: sombra suave */
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow-x: hidden; /* Mantiene el overflow-x que tenías */
 }
 
-.contenedor-responsive:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    .contenedor-responsive:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+/* Para laptops y pantallas medias */
+@media screen and (max-width: 1200px) {
+    .contenedor-responsive {
+        width: 92%;
+        max-width: 900px;
+    }
 }
 
-/* Media query para pantallas pequeñas (celulares) */
-@media screen and (max-width: 600px) {
-    .contenedor-responsive
-
-{
-    padding: 15px;
+/* Para pantallas pequeñas */
+@media screen and (max-width: 768px) {
+    .contenedor-responsive {
+        width: 90%;
+        padding: 15px;
+    }
 }
 
-}
-
-/* Media query para pantallas muy grandes */
+/* Para pantallas muy grandes */
 @media screen and (min-width: 1400px) {
-    .contenedor-responsive
-
-{
-    max-width: 1200px;
-}
-
+    .contenedor-responsive {
+        max-width: 1200px;
+        width: 85%;
+    }
 }
