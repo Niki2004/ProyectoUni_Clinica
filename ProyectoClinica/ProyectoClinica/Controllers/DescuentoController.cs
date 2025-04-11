@@ -17,6 +17,8 @@ namespace ProyectoClinica.Controllers
         {
             _context = new ApplicationDbContext();
         }
+
+        [Authorize(Roles = "Contador,Secretaria")]
         // GET: Descuento
         public ActionResult Index()
         {
@@ -24,6 +26,7 @@ namespace ProyectoClinica.Controllers
             return View(listaRegistros);
         }
 
+        [Authorize(Roles = "Contador,Secretaria")]
         // GET: Descuento/Details/5
         public async Task<ActionResult> Details(int? id)
         {
@@ -42,6 +45,7 @@ namespace ProyectoClinica.Controllers
             return View(descuento);
         }
 
+        [Authorize(Roles = "Contador,Secretaria")]
         // GET: Descuento/Create
         public ActionResult Create()
         {
@@ -49,6 +53,7 @@ namespace ProyectoClinica.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Contador,Secretaria")]
         // POST: Descuento/Create
         [HttpPost]
         public ActionResult Create(Descuento model)
@@ -92,6 +97,7 @@ namespace ProyectoClinica.Controllers
             }
         }
 
+        [Authorize(Roles = "Contador,Secretaria")]
         // GET: Descuento/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
@@ -104,6 +110,7 @@ namespace ProyectoClinica.Controllers
             return View(descuento);
         }
 
+        [Authorize(Roles = "Contador,Secretaria")]
         // POST: Descuento/Edit/5
         [HttpPost]
         public async Task<ActionResult>Edit(Descuento descuento)
@@ -118,12 +125,14 @@ namespace ProyectoClinica.Controllers
             return View(descuento);
         }
 
+        [Authorize(Roles = "Contador,Secretaria")]
         // GET: Descuento/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
+        [Authorize(Roles = "Contador,Secretaria")]
         // POST: Descuento/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)

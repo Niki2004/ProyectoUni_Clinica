@@ -17,6 +17,7 @@ namespace ProyectoClinica.Controllers
             _context = new ApplicationDbContext();
         }
         // GET: Inventario
+        [Authorize(Roles = "Administrador,Secretaria")]
         public ActionResult Index(string searchString, string tipoArticulo, string marca)
         {
             var inventario = _context.Inventario.AsQueryable();
@@ -48,6 +49,7 @@ namespace ProyectoClinica.Controllers
             return View(inventario.ToList());
         }
 
+        [Authorize(Roles = "Administrador,Secretaria")]
         public ActionResult Detalles(int? id)
         {
             if (id == null)
@@ -65,6 +67,7 @@ namespace ProyectoClinica.Controllers
         }
 
 
+        [Authorize(Roles = "Administrador,Secretaria")]
         [HttpGet]
         public ActionResult Crear()
         {
@@ -72,6 +75,7 @@ namespace ProyectoClinica.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Administrador,Secretaria")]
         [HttpPost]
         public ActionResult Crear(Inventario inventario)
         {
@@ -86,6 +90,7 @@ namespace ProyectoClinica.Controllers
             return View(inventario);
         }
 
+        [Authorize(Roles = "Administrador,Secretaria")]
         [HttpGet]
 
         public ActionResult Editar(int? id)
@@ -100,6 +105,7 @@ namespace ProyectoClinica.Controllers
             return View(inventario);
         }
 
+        [Authorize(Roles = "Administrador,Secretaria")]
         [HttpPost]
         public ActionResult Editar(Inventario inventario)
         {
@@ -113,6 +119,7 @@ namespace ProyectoClinica.Controllers
             return View(inventario);
         }
 
+        [Authorize(Roles = "Administrador,Secretaria")]
         [HttpGet]
         public ActionResult Eliminar(int? id)
         {
@@ -124,6 +131,7 @@ namespace ProyectoClinica.Controllers
             return View(Inventario);
         }
 
+        [Authorize(Roles = "Administrador,Secretaria")]
         [HttpPost, ActionName("Eliminar")]
         public ActionResult ConfirmarEliminar(int? id)
         {

@@ -1,7 +1,7 @@
 ﻿@{
     ViewBag.Title = "Pago de Servicios";
 }
-
+<link href="~/CSS/VistaGeneral.css" rel="stylesheet" />
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const form = document.querySelector("form");
@@ -23,28 +23,29 @@
 
         <div class="row">
             <!-- Sidebar -->
-            <div class="col-md-3 col-lg-2 sidebar">
-                <div class="sidebar">
-                    <div class="p-3 d-flex justify-content-center">
-                        <img src="~/Imagenes/Logo.png" alt="Centro Integral Santo Domingo Logo" class="img-fluid" style="max-width: 195px; height: auto;" />
-                    </div>
+                <div class="col-md-3 col-lg-2 sidebar">
+                    <div class="sidebar">
+                        <div class="p-3 d-flex justify-content-center">
+                            <img src="~/Imagenes/Logo.png" alt="Centro Integral Santo Domingo Logo" class="img-fluid" style="max-width: 195px; height: auto;" />
+                        </div>
 
-                    <center><div class="nav-header">Plataforma</div></center>
-                    <div class="nav-item">
-                        <a class="nav-link">
-                            <div>
-                                Navegación
-                            </div>
+                        <center><div class="nav-header">Plataforma</div></center>
+                        <div class="nav-item">
+                            <a class="nav-link">
+                                <div>
+                                    Navegación
+                                </div>
 
-                        </a>
-                        <ul class="submenu">
-                            <a href="@Url.Action("Index", "Factura")" class="nav-link">
-                                <i class="fas fa-cash-register"></i> Punto de venta
                             </a>
-                        </ul>
+                            <ul class="submenu">
+                                <a href="@Url.Action("Index", "Factura")" class="nav-link">
+                                    <i class="fas fa-cash-register"></i> Punto de venta
+                                </a>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
+            
 
 
             <!-- Main Content -->

@@ -125,7 +125,7 @@
                             </div>
                             <div class="form-group">
                                 @Html.LabelFor(model => model.FechaCaducidad, "Fecha de Caducidad", htmlAttributes: new { @class = "form-label fw-bold" })
-                                @Html.TextBoxFor(model => model.FechaCaducidad, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                                @Html.TextBoxFor(model => model.FechaCaducidad, new { @class = "form-control", type = "date", min = DateTime.Now.ToString("yyyy-MM-dd") })
                                 @Html.ValidationMessageFor(model => model.FechaCaducidad, "", new { @class = "text-danger" })
                             </div>
                             <div class="form-group">
