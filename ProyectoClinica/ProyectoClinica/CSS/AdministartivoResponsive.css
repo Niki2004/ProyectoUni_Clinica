@@ -1,0 +1,118 @@
+﻿/* Aseguramos que el contenedor principal ocupe todo el ancho disponible */
+.container-fluid {
+    width: 100%;
+    padding-right: 0;
+    padding-left: 0;
+}
+
+/* Ajustes para la barra lateral en pantallas pequeñas */
+@media (max-width: 991px) {
+    .sidebar {
+        position: fixed;
+        width: 240px;
+        height: 100%;
+        z-index: 1050;
+        left: -240px;
+        transition: left 0.3s ease;
+    }
+
+        .sidebar.active {
+            left: 0;
+        }
+
+    /* Botón de hamburguesa para mostrar/ocultar el sidebar */
+    .toggle-sidebar {
+        display: block;
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        z-index: 1060;
+        background-color: var(--primary-turquoise);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 8px 12px;
+        cursor: pointer;
+    }
+
+    /* Cuando el sidebar está visible, ajustamos el contenedor principal */
+    .sidebar.active + .button-container {
+        margin-left: 240px;
+    }
+}
+
+/* Preservamos la posición del contenedor principal y los elementos en pantallas pequeñas */
+@media (max-width: 991px) {
+    .button-container {
+        margin-left: 0 !important;
+        left: 0;
+        padding: 15px;
+        padding-top: 60px; /* Espacio para el botón de hamburguesa */
+    }
+
+    /* Ajustamos las tarjetas de información */
+    .simple-card[style*="margin-left: 305px"] {
+        margin-left: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+}
+
+/* Ajustamos el layout de las tarjetas */
+@media (max-width: 1200px) and (min-width: 992px) {
+    .dashboard-cards {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 991px) and (min-width: 768px) {
+    .dashboard-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 767px) {
+    .dashboard-cards {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .simple-card {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        min-height: 200px;
+    }
+}
+
+/* Ajuste para la tarjeta de Información de Permisos */
+@media (max-width: 991px) {
+    .simple-card[style*="margin-left: 305px"] {
+        margin-left: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+}
+
+/* Ajustamos el elemento gallery-container para mantener consistencia */
+@media (max-width: 991px) {
+    .gallery-container {
+        padding: 10px;
+        max-width: 100%;
+    }
+}
+
+/* Aseguramos que el texto y los botones sean legibles en pantallas pequeñas */
+@media (max-width: 576px) {
+    .card-title {
+        font-size: 1rem;
+    }
+
+    .detail-btn {
+        padding: 6px 15px;
+        font-size: 12px;
+    }
+
+    .card-body p {
+        font-size: 14px;
+    }
+}
