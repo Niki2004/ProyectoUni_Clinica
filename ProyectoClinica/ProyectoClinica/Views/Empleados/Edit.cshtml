@@ -4,8 +4,9 @@
     ViewBag.Title = "Editar Empleado";
 }
 
-<link href="~/CSS/Editar.css" rel="stylesheet" />
+
 <link href="~/CSS/VistaGeneral.css" rel="stylesheet" />
+<link href="~/CSS/Editar.css" rel="stylesheet" />
 
 <body>
     <div class="container-fluid">
@@ -397,6 +398,9 @@
                 );
             }
         });
+
+    </script>
+    <script>
         document.getElementById('Fecha_registro').addEventListener('change', function () {
             const fecha = new Date(this.value);
             const dia = fecha.getUTCDay(); // 0 = domingo, 6 = sábado

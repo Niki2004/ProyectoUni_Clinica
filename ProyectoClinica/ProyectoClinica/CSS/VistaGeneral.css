@@ -188,7 +188,7 @@ body {
     margin-left: 19px; /*Hace que lo del centro se mueva */
     position: fixed;
     top: 90px; /*Agranda */
-    left: 120px;
+    left: 220px;
     right: 0;
     bottom: 0;
     overflow-y: auto;
