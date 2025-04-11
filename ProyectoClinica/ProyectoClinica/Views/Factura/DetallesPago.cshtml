@@ -3,7 +3,7 @@
 @{
     var serviciosSeleccionados = ViewBag.ServiciosSeleccionados as List<ProyectoClinica.Models.Servicio>;
 }
-
+<link href="~/CSS/VistaGeneral.css" rel="stylesheet" />
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const form = document.querySelector("form");
@@ -28,7 +28,29 @@
 </script>
 
 
+<!-- Sidebar -->
+<div class="col-md-3 col-lg-2 sidebar">
+    <div class="sidebar">
+        <div class="p-3 d-flex justify-content-center">
+            <img src="~/Imagenes/Logo.png" alt="Centro Integral Santo Domingo Logo" class="img-fluid" style="max-width: 195px; height: auto;" />
+        </div>
 
+        <center><div class="nav-header">Plataforma</div></center>
+        <div class="nav-item">
+            <a class="nav-link">
+                <div>
+                    Navegación
+                </div>
+
+            </a>
+            <ul class="submenu">
+                <a href="@Url.Action("Index", "Factura")" class="nav-link">
+                    <i class="fas fa-cash-register"></i> Punto de venta
+                </a>
+            </ul>
+        </div>
+    </div>
+</div>
 <div class="container mt-5">
     <h2 class="text-center">Detalles del Pago</h2>
 
@@ -131,6 +153,27 @@
 </div>
 
 <script>
+
+    // Toggle submenu functionality
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', function () {
+            // Close all other open submenus
+            document.querySelectorAll('.submenu').forEach(submenu => {
+                if (submenu !== this.nextElementSibling) {
+                    submenu.classList.remove('active');
+                    this.classList.remove('active');
+                }
+            });
+
+            // Toggle the clicked submenu
+            const submenu = this.nextElementSibling;
+            if (submenu) {
+                submenu.classList.toggle('active');
+                this.classList.toggle('active');
+            }
+        });
+    });
+
     function aplicarDescuento() {
         var codigo = document.getElementById("codigoDescuento").value.trim();
         if (!codigo) {
@@ -148,7 +191,7 @@
                     var totalDescuento = subtotal * (descuento / 100);
                     var nuevoTotal = subtotal - totalDescuento + impuesto;
 
-                    
+
                     document.getElementById("descuento").innerText = totalDescuento.toFixed(2);
                     document.getElementById("total").innerText = nuevoTotal.toFixed(2);
                     document.getElementById("codigoDescuentoHidden").value = codigo;
@@ -158,7 +201,7 @@
                     document.getElementById("mensajeDescuento").classList.remove("text-danger");
                     document.getElementById("mensajeDescuento").classList.add("text-success");
 
-                    
+
                     document.getElementById("btnQuitarDescuento").style.display = "inline-block";
                 } else {
                     document.getElementById("mensajeDescuento").innerText = data.message;

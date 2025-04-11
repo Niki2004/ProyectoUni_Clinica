@@ -7,7 +7,7 @@
 <link href="~/CSS/Perfil.css" rel="stylesheet" />
 
 <div style="text-align: center; margin-bottom: 20px;">
-    <a href="@Url.Action("VistaSEC", "Factura")" class="custom-btn">
+    <a href="@Url.Action("Redirect", "Redirect",new { email = Model.Email })" class="custom-btn">
         <i class="fas fa-home"></i> Inicio
     </a>
 </div>

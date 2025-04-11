@@ -26,6 +26,8 @@ namespace ProyectoClinica.Controllers
         }
         // GET: Descuento
 
+
+        [Authorize(Roles = "Secretaria")]
         [HttpGet]
         public ActionResult VistaSEC()
         {
@@ -34,12 +36,15 @@ namespace ProyectoClinica.Controllers
         }
 
 
+        [Authorize(Roles = "Secretaria")]
         public ActionResult Index()
         {
             
             return View();
         }
 
+
+        [Authorize(Roles = "Secretaria")]
         public JsonResult ValidarDescuento(string codigo)
         {
             var descuento = _context.Descuento
@@ -56,6 +61,8 @@ namespace ProyectoClinica.Controllers
 
 
         // GET: Cargar servicios y métodos de pago
+
+        [Authorize(Roles = "Secretaria")]
         [HttpGet]
         public ActionResult RealizarPago()
         {
@@ -70,6 +77,8 @@ namespace ProyectoClinica.Controllers
         }
 
         // POST: Procesar servicios seleccionados y mostrar detalle
+
+        [Authorize(Roles = "Secretaria")]
         [HttpPost]
         public ActionResult RealizarPago(int[] serviciosSeleccionados)
         {
@@ -97,6 +106,7 @@ namespace ProyectoClinica.Controllers
             return View("DetallesPago");
         }
 
+        [Authorize(Roles = "Administrador,Secretaria")]
         [HttpPost]
      
         public ActionResult GenerarFactura(int[] serviciosSeleccionados, int[] metodosPagoSeleccionados, string cedulaCliente, string nombreCliente, string codigoDescuento, decimal descuentoAplicado)
@@ -172,7 +182,7 @@ namespace ProyectoClinica.Controllers
         }
 
 
-
+        [Authorize(Roles = "Administrador,Secretaria")]
         [HttpPost]
         public ActionResult ConfirmarPago(Factura factura, int[] metodosPagoSeleccionados, int[] serviciosSeleccionados)
         {
@@ -227,7 +237,7 @@ namespace ProyectoClinica.Controllers
             return RedirectToAction("OpcionesDespuesDePago", new { idFactura = factura.Id_Factura });
         }
 
-
+        [Authorize(Roles = "Administrador,Secretaria")]
         public ActionResult OpcionesDespuesDePago(int idFactura)
         {
             var factura = _context.Factura.Find(idFactura);
@@ -256,7 +266,7 @@ namespace ProyectoClinica.Controllers
         }
 
 
-
+        [Authorize(Roles = "Administrador,Secretaria")]
         [HttpPost]
         public JsonResult EnviarFacturaCorreo(int idFactura, string correo)
         {
@@ -365,7 +375,7 @@ namespace ProyectoClinica.Controllers
         }
 
 
-
+        [Authorize(Roles = "Administrador,Secretaria")]
         public ActionResult ImprimirFactura(int idFactura)
         {
             var factura = _context.Factura.Find(idFactura);
@@ -394,7 +404,7 @@ namespace ProyectoClinica.Controllers
         }
 
 
-
+        [Authorize(Roles = "Administrador,Secretaria")]
         public ActionResult FacturaAseguradora(string cedulaCliente, string nombreCliente, int[] serviciosSeleccionados)
         {
             if (serviciosSeleccionados == null || !serviciosSeleccionados.Any())
@@ -435,6 +445,7 @@ namespace ProyectoClinica.Controllers
             return View("FacturaAseguradora", factura);
         }
 
+        [Authorize(Roles = "Administrador,Secretaria")]
         [HttpGet]
         public ActionResult VerPagos(string cedulaCliente = "")
         {
@@ -463,6 +474,7 @@ namespace ProyectoClinica.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Administrador,Secretaria")]
         [HttpGet]
         public JsonResult ValidarCopago(string cedula, string nombre, int[] serviciosSeleccionados)
         {
@@ -496,6 +508,7 @@ namespace ProyectoClinica.Controllers
         }
 
 
+        [Authorize(Roles = "Administrador,Secretaria")]
         [HttpGet]
         public ActionResult VistaPreviaCopago(string cedula, string nombre, string serviciosSeleccionados)
         {
