@@ -292,6 +292,7 @@
             });
         });
 
+
         document.addEventListener('DOMContentLoaded', function () {
             // Paginación
             const itemsPerPage = 8;
@@ -377,6 +378,11 @@
                 );
             }
         });
+
+    </script>
+
+
+    <script>
         document.getElementById('Fecha_registro').addEventListener('change', function () {
             const fecha = new Date(this.value);
             const dia = fecha.getUTCDay(); // 0 = domingo, 6 = sábado
@@ -386,7 +392,9 @@
                 this.value = "";
             }
     </script>
+
 </body>
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
