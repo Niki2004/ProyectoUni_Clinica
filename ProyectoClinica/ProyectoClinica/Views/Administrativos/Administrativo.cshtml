@@ -307,46 +307,65 @@
             });
         });
 
-
         document.addEventListener('DOMContentLoaded', function () {
-            // Crear el botón de hamburguesa si no existe
-            if (!document.querySelector('.toggle-sidebar')) {
-                const toggleButton = document.createElement('button');
-                toggleButton.className = 'toggle-sidebar';
-                toggleButton.innerHTML = '<i class="fas fa-bars"></i>';
-                document.body.appendChild(toggleButton);
+            // 1. Crear botón hamburguesa
+            const menuBtn = document.createElement('button');
+            menuBtn.className = 'menu-toggle';
+            menuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            menuBtn.style.display = 'none'; // Inicialmente oculto
 
-                // Esconder inicialmente en pantallas grandes
-                if (window.innerWidth > 991) {
-                    toggleButton.style.display = 'none';
+            // 2. Crear overlay para cuando sidebar está abierto
+            const overlay = document.createElement('div');
+            overlay.className = 'sidebar-overlay';
+
+            // 3. Agregar elementos al DOM
+            document.body.appendChild(menuBtn);
+            document.body.appendChild(overlay);
+
+            // 4. Funcionalidad del botón
+            menuBtn.addEventListener('click', function () {
+                const sidebar = document.querySelector('.sidebar');
+                sidebar.classList.toggle('visible');
+                overlay.classList.toggle('visible');
+            });
+
+            // 5. Cerrar sidebar al hacer clic en overlay
+            overlay.addEventListener('click', function () {
+                document.querySelector('.sidebar').classList.remove('visible');
+                overlay.classList.remove('visible');
+            });
+
+            // 6. Manejar responsive
+            function handleResponsive() {
+                // Mostrar u ocultar botón según tamaño
+                menuBtn.style.display = window.innerWidth <= 992 ? 'block' : 'none';
+
+                // En pantallas grandes, reset sidebar
+                if (window.innerWidth > 992) {
+                    document.querySelector('.sidebar').classList.remove('visible');
+                    overlay.classList.remove('visible');
                 }
 
-                // Agregar listener para mostrar/ocultar el sidebar
-                toggleButton.addEventListener('click', function () {
-                    const sidebar = document.querySelector('.sidebar');
-                    sidebar.classList.toggle('active');
-                });
-
-                // Cerrar sidebar cuando se hace clic fuera de él
-                document.addEventListener('click', function (event) {
-                    const sidebar = document.querySelector('.sidebar');
-                    const toggleButton = document.querySelector('.toggle-sidebar');
-
-                    if (!sidebar.contains(event.target) && event.target !== toggleButton && !toggleButton.contains(event.target)) {
-                        sidebar.classList.remove('active');
-                    }
-                });
-
-                // Actualizar visibilidad del botón en resize
-                window.addEventListener('resize', function () {
-                    if (window.innerWidth > 991) {
-                        toggleButton.style.display = 'none';
+                // Corregir margen de tarjeta de información
+                const infoCard = document.querySelector('.simple-card[style*="margin-left: 305px"]');
+                if (infoCard) {
+                    if (window.innerWidth <= 992) {
+                        // Sobrescribir estilo inline
+                        infoCard.style.marginLeft = '0';
+                        infoCard.style.width = '100%';
+                        infoCard.style.maxWidth = '100%';
                     } else {
-                        toggleButton.style.display = 'block';
+                        // Restaurar estilo original
+                        infoCard.style.marginLeft = '305px';
+                        infoCard.style.width = '95%';
+                        infoCard.style.maxWidth = '1020px';
                     }
-                });
+                }
             }
-        });
 
+            // 7. Inicializar y configurar event listener
+            handleResponsive();
+            window.addEventListener('resize', handleResponsive);
+        });
     </script>
 </body>
