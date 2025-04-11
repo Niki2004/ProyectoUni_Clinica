@@ -3,6 +3,32 @@
     var servicios = ViewBag.ServiciosSeleccionados as List<ProyectoClinica.Models.Servicio>;
 }
 
+<link href="~/CSS/VistaGeneral.css" rel="stylesheet" />
+
+<!-- Sidebar -->
+<div class="col-md-3 col-lg-2 sidebar">
+    <div class="sidebar">
+        <div class="p-3 d-flex justify-content-center">
+            <img src="~/Imagenes/Logo.png" alt="Centro Integral Santo Domingo Logo" class="img-fluid" style="max-width: 195px; height: auto;" />
+        </div>
+
+        <center><div class="nav-header">Plataforma</div></center>
+        <div class="nav-item">
+            <a class="nav-link">
+                <div>
+                    Navegación
+                </div>
+
+            </a>
+            <ul class="submenu">
+                <a href="@Url.Action("Index", "Factura")" class="nav-link">
+                    <i class="fas fa-cash-register"></i> Punto de venta
+                </a>
+            </ul>
+        </div>
+    </div>
+</div>
+
 <div class="container mt-5">
     <h2 class="text-center">Vista Previa del Pago con Copago</h2>
     <form action="@Url.Action("ConfirmarPago", "Factura")" method="post">
@@ -52,15 +78,37 @@
         <button type="submit" class="btn btn-success w-100 mt-4">Confirmar Pago</button>
     </form>
 
-        
-        <form action="/Factura/RealizarPago" method="post">
 
-            @foreach (var servicio in servicios)
-            {
-                <input type="hidden" name="serviciosSeleccionados" value="@servicio.Id_Servicio" />
-            }
-            <button type="submit" class="btn btn-danger w-100 mt-3">Cancelar</button>
-        </form>
+    <form action="/Factura/RealizarPago" method="post">
+
+        @foreach (var servicio in servicios)
+        {
+            <input type="hidden" name="serviciosSeleccionados" value="@servicio.Id_Servicio" />
+        }
+        <button type="submit" class="btn btn-danger w-100 mt-3">Cancelar</button>
+    </form>
 
 
 </div>
+
+<script>
+    // Toggle submenu functionality
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', function () {
+            // Close all other open submenus
+            document.querySelectorAll('.submenu').forEach(submenu => {
+                if (submenu !== this.nextElementSibling) {
+                    submenu.classList.remove('active');
+                    this.classList.remove('active');
+                }
+            });
+
+            // Toggle the clicked submenu
+            const submenu = this.nextElementSibling;
+            if (submenu) {
+                submenu.classList.toggle('active');
+                this.classList.toggle('active');
+            }
+        });
+    });
+</script>

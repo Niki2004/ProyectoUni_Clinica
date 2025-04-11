@@ -235,10 +235,11 @@ namespace ProyectoClinica.Controllers
             {
                 var user = await UserManager.FindByEmailAsync(model.Email);
 
-                //if (_context.Recuperacion_Contra.Any(r => r.Id == user.Id));
-                //{
-                //    return View(model);
-                //}
+                if (_context.Recuperacion_Contra.Any(r => r.Id == user.Id)) 
+                {
+                    ModelState.AddModelError("", "Ya se ha enviado un enlace de recuperación anteriormente. Por favor, revisa tu correo.");
+                    return View(model);
+                }
 
                 if (user != null)
                 {
