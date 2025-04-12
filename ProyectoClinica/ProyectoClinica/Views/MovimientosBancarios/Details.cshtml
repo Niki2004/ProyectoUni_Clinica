@@ -15,65 +15,90 @@
 
         <div class="row">
             <!-- Sidebar -->
-            <div class="col-md-3 col-lg-2 sidebar">
-                <div class="sidebar">
-                    <div class="p-3 d-flex justify-content-center">
-                        <img src="~/Imagenes/Logo.png" alt="Centro Integral Santo Domingo Logo" class="img-fluid" style="max-width: 195px; height: auto;" />
-                    </div>
+            @if (User.IsInRole("Administrador"))
+            {
+                <div class="col-md-3 col-lg-2 sidebar">
+                    <div class="sidebar">
+                        <div class="p-3 d-flex justify-content-center">
+                            <img src="~/Imagenes/Logo.png" alt="Centro Integral Santo Domingo Logo" class="img-fluid" style="max-width: 195px; height: auto;" />
+                        </div>
 
-                    <center><div class="nav-header">Plataforma</div></center>
-                    <div class="nav-item">
-                        <a class="nav-link">
-                            <div>
-                                Navegación
-                            </div>
+                        <center><div class="nav-header">Plataforma</div></center>
+                        <div class="nav-item">
+                            <a class="nav-link">
+                                <div>
+                                    Navegación
+                                </div>
+                            </a>
+                            <ul class="submenu">
+                                <br />
+                                <a href="@Url.Action("Index", "Inventario")" class="nav-link">
+                                    <i class="fas fa-boxes"></i> Inventario
+                                </a>
+                                <br />
+                                <a href="@Url.Action("VistaCON", "Contabilidad")" class="nav-link">
+                                    <i class="fas fa-calculator"></i> Contabilidad
+                                </a>
+                                <br />
+                                <a href="@Url.Action("VistaAdmRep", "Reporte")" class="nav-link">
+                                    <i class="fas fa-chart-line"></i> Reportes
+                                </a>
+                            </ul>
+                        </div>
 
-                        </a>
-                        <ul class="submenu">
-                            <br />
-                            <a href="@Url.Action("Index", "Inventario")" class="nav-link">
-                                <i class="fas fa-boxes"></i> Inventario
-                            </a>
-                            <br />
-                            <a href="@Url.Action("VistaCON", "Contabilidad")" class="nav-link">
-                                <i class="fas fa-calculator"></i> Contabilidad
-                            </a>
-                            <br />
-                            <a href="@Url.Action("VistaAdmRep", "Reporte")" class="nav-link">
-                                <i class="fas fa-chart-line"></i> Reportes
-                            </a>
-                        </ul>
-                    </div>
+                        <hr />
 
-                    <hr />
-
-                    <div class="nav-item">
-                        <a class="nav-link">
-                            <div>
-                                Administración
-                            </div>
-
-                        </a>
-                        <ul class="submenu">
-                            <a href="@Url.Action("Administrativo", "Administrativos")" class="nav-link">
-                                <i class="fas fa-user-tie"></i> Administrativo
+                        <div class="nav-item">
+                            <a class="nav-link">
+                                <div>
+                                    Administración
+                                </div>
                             </a>
-                            <br />
-                            <a href="@Url.Action("Empleados", "Empleados")" class="nav-link">
-                                <i class="fas fa-users"></i> Empleados
-                            </a>
-                            <br />
-                            <a href="@Url.Action("Expedientes", "Expedientes")" class="nav-link">
-                                <i class="fas fa-folder-open"></i> Expedientes
-                            </a>
-                            <br />
-                            <a href="@Url.Action("VistaCAdmin", "Cita")" class="nav-link">
-                                <i class="fas fa-calendar-check"></i> Citas
-                            </a>
-                        </ul>
+                            <ul class="submenu">
+                                <a href="@Url.Action("Administrativo", "Administrativos")" class="nav-link">
+                                    <i class="fas fa-user-tie"></i> Administrativo
+                                </a>
+                                <br />
+                                <a href="@Url.Action("Empleados", "Empleados")" class="nav-link">
+                                    <i class="fas fa-users"></i> Empleados
+                                </a>
+                                <br />
+                                <a href="@Url.Action("Expedientes", "Expedientes")" class="nav-link">
+                                    <i class="fas fa-folder-open"></i> Expedientes
+                                </a>
+                                <br />
+                                <a href="@Url.Action("VistaCAdmin", "Cita")" class="nav-link">
+                                    <i class="fas fa-calendar-check"></i> Citas
+                                </a>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
+            }
+            else if (User.IsInRole("Auditor"))
+            {
+                <div class="col-md-3 col-lg-2 sidebar">
+                    <div class="sidebar">
+                        <div class="p-3 d-flex justify-content-center">
+                            <img src="~/Imagenes/Logo.png" alt="Centro Integral Santo Domingo Logo" class="img-fluid" style="max-width: 195px; height: auto;" />
+                        </div>
+
+                        <center><div class="nav-header">Plataforma</div></center>
+                        <div class="nav-item">
+                            <a class="nav-link">
+                                <div>
+                                    Navegación
+                                </div>
+                            </a>
+                            <ul class="submenu">
+                                <a href="@Url.Action("IndexAUD", "Contabilidad")" class="nav-link">
+                                    <i class="fas fa-calculator"></i> Contabilidad
+                                </a>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            }
 
             <!-- Main Content -->
             <div class="col-md-9 col-lg-10 ms-auto button-container">
