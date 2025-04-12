@@ -18,24 +18,25 @@
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
     }
 
-/* Para pantallas muy grandes */
+
+
 @media screen and (min-width: 1400px) {
     .contenedor-responsive {
-        max-width: 1400px;
-        width: 90%;
-        margin-left: auto; /* Cambiado de 2% a auto */
-        margin-right: auto; /* Aseguramos que sea auto también */
+        max-width: 1020px;
+        width: 95%;
+        margin-left: 0,80px;
+        margin-right: 0,80px;
         padding: 25px;
     }
 }
 
-/* Para pantallas gigantes */
+
 @media screen and (min-width: 1800px) {
     .contenedor-responsive {
-        max-width: 1600px;
-        width: 85%;
-        margin-left: auto; /* Cambiado de 3% a auto */
-        margin-right: auto;
+        max-width: 1200px;
+        width: 90%;
+        margin-left: 0,40px;
+        margin-right: 0,40px;
         padding: 30px;
     }
 }
