@@ -19,6 +19,8 @@ namespace ProyectoClinica.Controllers
         {
             _context = new ApplicationDbContext();
         }
+
+        [Authorize(Roles = "Administrador,Contador")]
         // GET: Pagos
         public ActionResult Index()
         {
@@ -27,6 +29,7 @@ namespace ProyectoClinica.Controllers
 
         }
 
+        [Authorize(Roles = "Administrador,Contador")]
         // GET: Pagos/Details/5
         public async Task<ActionResult> Details(int? id)
         {
@@ -58,6 +61,7 @@ namespace ProyectoClinica.Controllers
             return View(pago);
         }
 
+        [Authorize(Roles = "Administrador,Contador")]
         // GET: Pagos/Create
         public ActionResult Create()
         {
@@ -109,6 +113,7 @@ namespace ProyectoClinica.Controllers
             }
         }
 
+        [Authorize(Roles = "Administrador,Contador")]
         // GET: Pagos/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
@@ -172,26 +177,5 @@ namespace ProyectoClinica.Controllers
             return View(pago);
         }
 
-        // GET: Pagos/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Pagos/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }

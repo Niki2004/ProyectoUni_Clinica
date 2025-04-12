@@ -18,6 +18,8 @@ namespace ProyectoClinica.Controllers
         {
             _context = new ApplicationDbContext();
         }
+
+        [Authorize(Roles = "Administrador,Contador")]
         // GET: ProductosConta
         public ActionResult Index()
         {
@@ -25,6 +27,7 @@ namespace ProyectoClinica.Controllers
             return View(listaRegistros);
         }
 
+        [Authorize(Roles = "Administrador,Contador")]
         // GET: InventarioDetalleConta/Details/5
         public async Task<ActionResult> Details(int? id)
         {
@@ -41,6 +44,8 @@ namespace ProyectoClinica.Controllers
             return View(detalles);
         }
 
+
+        [Authorize(Roles = "Administrador,Contador")]
         // GET: InventarioDetalleConta/Create
         public ActionResult Create()
         {
@@ -95,6 +100,8 @@ namespace ProyectoClinica.Controllers
             return View(inventario_Detalle_Conta);
         }
 
+
+        [Authorize(Roles = "Administrador,Contador")]
         // GET: InventarioDetalleConta/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -145,26 +152,5 @@ namespace ProyectoClinica.Controllers
             return View(inventario_Detalle_Conta);
         }
 
-        // GET: InventarioDetalleConta/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: InventarioDetalleConta/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }

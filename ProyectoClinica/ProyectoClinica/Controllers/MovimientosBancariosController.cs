@@ -18,6 +18,8 @@ namespace ProyectoClinica.Controllers
         {
             _context = new ApplicationDbContext();
         }
+
+        [Authorize(Roles = "Administrador,Auditor")]
         // GET: MovimientosBancarios
         public ActionResult Index()
         {
@@ -26,6 +28,7 @@ namespace ProyectoClinica.Controllers
         }
 
 
+        [Authorize(Roles = "Administrador,Auditor")]
         public ActionResult AjustesBancarios(int id)
         {
             var movimiento = _context.Movimientos_Bancarios.Find(id);
@@ -73,9 +76,9 @@ namespace ProyectoClinica.Controllers
 
             return RedirectToAction("Index");
         }
-     
 
 
+        [Authorize(Roles = "Administrador,Auditor")]
         // GET: MovimientosBancarios/Details/5
         public async Task<ActionResult> Details(int? id)
         {
@@ -135,6 +138,7 @@ namespace ProyectoClinica.Controllers
            
         }
 
+        [Authorize(Roles = "Administrador,Auditor")]
         // GET: MovimientosBancarios/Create
         public ActionResult Create()
         {
@@ -185,6 +189,8 @@ namespace ProyectoClinica.Controllers
             }
         }
 
+
+        [Authorize(Roles = "Administrador,Auditor")]
         // GET: MovimientosBancarios/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
@@ -263,28 +269,6 @@ namespace ProyectoClinica.Controllers
             }
 
             return View(movimientos_bancarios);
-        }
-
-        // GET: MovimientosBancarios/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: MovimientosBancarios/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
         }
     }
 }
