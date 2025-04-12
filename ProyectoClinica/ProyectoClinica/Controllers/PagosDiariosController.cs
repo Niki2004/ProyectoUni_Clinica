@@ -19,6 +19,8 @@ namespace ProyectoClinica.Controllers
         {
             _context = new ApplicationDbContext();
         }
+
+        [Authorize(Roles = "Administrador")]
         // GET: PagosDiarios
         public ActionResult Index()
         {
@@ -26,6 +28,7 @@ namespace ProyectoClinica.Controllers
             return View(listaRegistros);
         }
 
+        [Authorize(Roles = "Administrador")]
         // GET: PagosDiarios/Details/5
         public async Task<ActionResult> Details(int? id)
         {
@@ -64,6 +67,7 @@ namespace ProyectoClinica.Controllers
             return View(pagos_diarios);
         }
 
+        [Authorize(Roles = "Administrador")]
         // GET: PagosDiarios/Create
         public ActionResult Create()
         {
@@ -116,6 +120,7 @@ namespace ProyectoClinica.Controllers
             }
         }
 
+        [Authorize(Roles = "Administrador")]
         // GET: PagosDiarios/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
@@ -170,26 +175,5 @@ namespace ProyectoClinica.Controllers
             return View(pago);
         }
 
-        // GET: PagosDiarios/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: PagosDiarios/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }

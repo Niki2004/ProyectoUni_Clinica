@@ -18,6 +18,8 @@ namespace ProyectoClinica.Controllers
         {
             _context = new ApplicationDbContext();
         }
+
+        [Authorize(Roles = "Administrador,Contador")]
         // GET: CajaChica
         public ActionResult Index()
         {
@@ -25,6 +27,7 @@ namespace ProyectoClinica.Controllers
             return View(listaRegistros);
         }
 
+        [Authorize(Roles = "Administrador,Contador")]
         // GET: CajaChica/Details/5
         public async Task<ActionResult> Details(int? id)
         {
@@ -46,6 +49,7 @@ namespace ProyectoClinica.Controllers
             return View(caja);
         }
 
+        [Authorize(Roles = "Administrador,Contador")]
         // GET: CajaChica/Create
         public ActionResult Create()
         {
@@ -96,6 +100,7 @@ namespace ProyectoClinica.Controllers
             }
         }
 
+        [Authorize(Roles = "Administrador,Contador")]
         // GET: CajaChica/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
@@ -124,26 +129,5 @@ namespace ProyectoClinica.Controllers
             return View(caja);
         }
 
-        // GET: CajaChica/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: CajaChica/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }

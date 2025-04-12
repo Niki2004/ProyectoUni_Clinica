@@ -20,7 +20,8 @@ namespace ProyectoClinica.Controllers
             _context = new ApplicationDbContext();
         }
 
-        //Vista para poder verlo más ordenado 
+
+        [Authorize(Roles = "Administrador")]
         [HttpGet]
         public ActionResult VistaCON()
         {
@@ -28,7 +29,7 @@ namespace ProyectoClinica.Controllers
 
         }
 
-        //Vista para poder verlo más ordenado
+        [Authorize(Roles = "Contador")]
         [HttpGet]
         public ActionResult VistaCONTA()
         {
@@ -36,7 +37,7 @@ namespace ProyectoClinica.Controllers
 
         }
 
-        //Vista para poder verlo más ordenado
+        [Authorize(Roles = "Auditor")]
         [HttpGet]
         public ActionResult VistaAUD()
         {
@@ -44,7 +45,7 @@ namespace ProyectoClinica.Controllers
 
         }
 
-        //BTN PARA LOS ROLES DEL ANDRÉS 
+        [Authorize(Roles = "Auditor")]
         [HttpGet]
         public ActionResult IndexAUD()
         {
@@ -52,6 +53,7 @@ namespace ProyectoClinica.Controllers
 
         }
 
+        [Authorize(Roles = "Contador")]
         [HttpGet]
         public ActionResult IndexContador()
         {
@@ -59,6 +61,7 @@ namespace ProyectoClinica.Controllers
 
         }
 
+        [Authorize(Roles = "Administrador,Auditor,Contador")]
         public ActionResult CierreMensual()
         {
             try
@@ -90,7 +93,7 @@ namespace ProyectoClinica.Controllers
             return RedirectToAction("Index"); // Redirige de vuelta al listado
         }
 
-
+        [Authorize(Roles = "Administrador,Auditor,Contador")]
         public ActionResult CierreAnual()
         {
             try
@@ -123,7 +126,7 @@ namespace ProyectoClinica.Controllers
         }
 
 
-
+        [Authorize(Roles = "Administrador")]
         public ActionResult VistaGastos()
         {
             var idSuministrosMedicos = _context.Tipo_Registro
@@ -140,17 +143,17 @@ namespace ProyectoClinica.Controllers
             return View(suministrosconta);
 
         }
-        #region Index
-        // GET: Contabilidad
-        //[Authorize(Roles = "Contador")]
+        
+        
         public ActionResult Index()
         {
             var listaRegistros = _context.Contabilidad.ToList();
             return View(listaRegistros);
 
         }
-        #endregion    
 
+
+        [Authorize(Roles = "Administrador")]
         public ActionResult Pagos(int id)
         {
             var pago = _context.PagosXNomina.Find(id); // Buscar el pago en la tabla de Pagos
@@ -163,7 +166,8 @@ namespace ProyectoClinica.Controllers
             return View("Index", pago); // Redirige a la vista "Pagos.cshtml" con el modelo
         }
 
-        #region Detalles de contabilidad
+
+        [Authorize(Roles = "Administrador,Auditor,Contador")]
         // GET: Contabilidad/Details/5
         public async Task<ActionResult> Details(int? id)
         {
@@ -181,10 +185,9 @@ namespace ProyectoClinica.Controllers
 
             return View(contabilidad);
         }
-        #endregion
 
+        [Authorize(Roles = "Administrador,Auditor,Contador")]
         // GET: Contabilidad/Create
-        #region Creacion Contabilidad
         public ActionResult Create()
         {
             //tipo de Registro
@@ -240,8 +243,8 @@ namespace ProyectoClinica.Controllers
                 return View();
             }
         }
-        #endregion
 
+        [Authorize(Roles = "Administrador,Auditor,Contador")]
         // GET: Contabilidad/Edit/5
         public async Task<ActionResult>Edit(int? id)
         {
@@ -285,27 +288,5 @@ namespace ProyectoClinica.Controllers
             return _context.Contabilidad.Any(e => e.Id_Contabilidad == id);
         }
 
-
-        // GET: Contabilidad/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Contabilidad/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }
