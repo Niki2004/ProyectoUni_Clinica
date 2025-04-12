@@ -14,7 +14,8 @@
     <link rel="stylesheet" href="~/CSS/menu.css" />
     <link rel="stylesheet" href="~/CSS/Calendario.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
+    <link href="~/CSS/VistaGeneral.css" rel="stylesheet" />
+
 </head>
 <body>
     <div class="container-fluid">
@@ -53,32 +54,44 @@
 
                 </div>
             </div>
-            <div class="main-container">
-                <div class="content">
 
-                    <h2 class="text-center">Calendario</h2>
 
-                    @if (TempData["SuccessMessage"] != null)
-                    {
-                        <div class="alert alert-success" role="alert">
-                            @TempData["SuccessMessage"]
-                        </div>
-                    }
+            <div class="button-container">
 
-                    <br />
+                <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                    <a href="@Url.Action("VistaCita", "Cita")" style="text-decoration: none; color: #000000; font-size: 18px; display: flex; align-items: center;">
+                        <i class="fas fa-home" style="margin-right: 5px;"></i>
+                        <h4 style="margin: 0; font-weight: bold; color: #333;">Calendario</h4>
+                    </a>
+                </div>
 
-                    <div id="calendar"></div>
-                    <br />
+                <div style="text-align: left; margin-bottom: 5px;">
+                    <span style="font-size: 14px; color: #555;">
+                        Agenda tu cita y obtén una atención integral en nuestra clínica.
+                    </span>
+                </div>
 
-                    <div id="cita-detalle" class="card" style="display:none; margin-top: 20px; padding: 15px; border: 1px solid #ccc; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                        <center><h4 class="card-title" style="color: #333; border-bottom: 1px solid #eee; padding-bottom: 10px;">Detalles de la Cita</h4></center>
-                        <div class="card-body">
-                            <p><strong style="color: #666;">Médico:</strong> <span id="doctor-cita"></span></p>
-                            <p><strong style="color: #666;">Fecha:</strong> <span id="fecha-cita"></span></p>
-                            <p><strong style="color: #666;">Hora:</strong> <span id="hora-cita"></span></p>
-                            <p>
-                                <strong style="color: #666;">Si deseas agregar una nota para saber sobre sintomas que te pasaron durante la semana, puedea darle click al botón:</strong>
-                                <button onclick="window.location.href='@Url.Action("CrearNota", "Cita")'" class="btn" style="
+                @if (TempData["SuccessMessage"] != null)
+                {
+                    <div class="alert alert-success" role="alert">
+                        @TempData["SuccessMessage"]
+                    </div>
+                }
+
+                <br />
+
+                <div id="calendar"></div>
+                <br />
+
+                <div id="cita-detalle" class="card" style="display:none; margin-top: 20px; padding: 15px; border: 1px solid #ccc; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                    <center><h4 class="card-title" style="color: #333; border-bottom: 1px solid #eee; padding-bottom: 10px;">Detalles de la Cita</h4></center>
+                    <div class="card-body">
+                        <p><strong style="color: #666;">Médico:</strong> <span id="doctor-cita"></span></p>
+                        <p><strong style="color: #666;">Fecha:</strong> <span id="fecha-cita"></span></p>
+                        <p><strong style="color: #666;">Hora:</strong> <span id="hora-cita"></span></p>
+                        <p>
+                            <strong style="color: #666;">Si deseas agregar una nota para saber sobre sintomas que te pasaron durante la semana, puedea darle click al botón:</strong>
+                            <button onclick="window.location.href='@Url.Action("CrearNota", "Cita")'" class="btn" style="
                                      background-color: #00a3cc;
                                      color: white;
                                      border: none;
@@ -89,18 +102,18 @@
                                      margin-left: 10px;
                                      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
                                      transition: background-color 0.3s ease;">
-                                    <i class="fas fa-plus" style="margin-right: 5px;"></i>Agregar
-                                </button>
-                            </p>
-                        </div>
+                                <i class="fas fa-plus" style="margin-right: 5px;"></i>Agregar
+                            </button>
+                        </p>
                     </div>
+                </div>
 
 
-                    @section Scripts {
-                        <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
-                        <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/locales/es.js"></script>
-                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css" />
-                        <script>
+                @section Scripts {
+                    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
+                    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/locales/es.js"></script>
+                    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css" />
+                    <script>
                         document.addEventListener('DOMContentLoaded', function () {
                             var calendarEl = document.getElementById('calendar');
                             var selectedEvent = null;
@@ -155,10 +168,10 @@
                             });
                             calendar.render();
                         });
-                        </script>
-                    }
+                    </script>
+                }
 
-                </div>
+            </div>
             </div>
 
             <script src="~/lib/jquery/dist/jquery.min.js"></script>
