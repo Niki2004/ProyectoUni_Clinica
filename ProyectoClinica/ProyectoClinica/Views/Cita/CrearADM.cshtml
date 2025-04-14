@@ -5,79 +5,18 @@
 }
 
 <link href="~/CSS/VistaGeneral.css" rel="stylesheet" />
-
-<style>
-    .container-form {
-        max-width: 900px;
-        margin: 0 auto;
-        padding: 20px;
-        background-color: #f8f9fa;
-        border-radius: 10px;
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    }
-
-    .page-title {
-        color: #0b7b82;
-        text-align: center;
-        margin-bottom: 30px;
-        padding-bottom: 10px;
-        border-bottom: 2px solid #0b7b82;
-    }
-
-    fieldset {
-        border: 2px solid #0b7b82;
-        padding: 15px;
-        border-radius: 10px;
-        margin-bottom: 20px;
-        background: white;
-    }
-
-    legend {
-        font-size: 1.2em;
-        font-weight: bold;
-        color: #0b7b82;
-        padding: 0 10px;
-        width: auto;
-    }
-
-    .form-group {
-        margin-bottom: 15px;
-    }
-
-    .btn-primary {
-        background-color: #0b7b82;
-        border-color: #0b7b82;
-        padding: 10px 20px;
-        border-radius: 5px;
-        font-weight: bold;
-        transition: all 0.3s ease;
-    }
-
-        .btn-primary:hover {
-            background-color: #096c72;
-            transform: translateY(-1px);
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            color: white;
-        }
-
-    .btn-secondary {
-        background-color: #6c757d;
-        color: white;
-        padding: 10px 15px;
-        border-radius: 5px;
-        transition: all 0.3s ease;
-        display: inline-block;
-    }
-
-        .btn-secondary:hover {
-            background-color: #5a6268;
-        }
-</style>
+<link href="~/CSS/Crear.css" rel="stylesheet" />
 
 <body>
     <div class="container-fluid">
         <!-- Contenedor de notificaciones -->
         <div id="notificationContainer" class="notification-container"></div>
+
+        <!-- Contenedor de mensajes de validación -->
+        <div id="validationMessages" class="alert alert-danger" style="display: none;">
+            <strong>Error:</strong> Por favor complete todos los campos obligatorios.
+            <ul id="validationList"></ul>
+        </div>
 
         <div class="row">
             <!-- Sidebar -->
@@ -93,7 +32,6 @@
                             <div>
                                 Navegación
                             </div>
-
                         </a>
                         <ul class="submenu">
                             <br />
@@ -118,7 +56,6 @@
                             <div>
                                 Administración
                             </div>
-
                         </a>
                         <ul class="submenu">
                             <a href="@Url.Action("Administrativo", "Administrativos")" class="nav-link">
@@ -143,103 +80,111 @@
 
             <!-- Main Content -->
             <div class="col-md-9 col-lg-10 ms-auto button-container">
-
                 <div class="container-form">
                     <h2 class="page-title">Agenda la Cita</h2>
 
-
-                    @using (Html.BeginForm("CrearADM", "Cita", FormMethod.Post))
+                    @using (Html.BeginForm("CrearADM", "Cita", FormMethod.Post, new { id = "formCita", onsubmit = "return validarFormulario()" }))
                     {
                         @Html.AntiForgeryToken()
 
-                        <legend>Información del Médico</legend>
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.Id_Medico, "Médico", new { @class = "control-label col-md-4" })
-                            <div class="col-md-8">
-                                @Html.DropDownListFor(model => model.Id_Medico, (SelectList)ViewBag.IdMedico, "Seleccione un Médico", new { @class = "form-control", id = "Id_Medico" })
-                                @Html.ValidationMessageFor(model => model.Id_Medico, "", new { @class = "text-danger" })
-                            </div>
-
-                            <br />
-
+                        <div class="form-section">
+                            <legend>Información del Médico</legend>
                             <div class="form-group">
-                                @Html.Label("Especialidad", "Especialidad")
-                                <input type="text" id="Especialidad" class="form-control" readonly />
+                                @Html.LabelFor(model => model.Id_Medico, "Médico", new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    @Html.DropDownListFor(model => model.Id_Medico, (SelectList)ViewBag.IdMedico, "Seleccione un Médico", new { @class = "form-control required", id = "Id_Medico" })
+                                    @Html.ValidationMessageFor(model => model.Id_Medico, "", new { @class = "text-danger" })
+                                    <span class="field-validation-error" style="display: none;" id="error-Id_Medico">Por favor seleccione un médico</span>
+                                </div>
+
+                                <br />
+
+                                <div class="form-group">
+                                    @Html.Label("Especialidad", "Especialidad")
+                                    <input type="text" id="Especialidad" class="form-control" readonly />
+                                </div>
                             </div>
                         </div>
 
                         <br />
 
-                        <legend>Información del Paciente</legend>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Nombre_Paciente, new { @class = "control-label col-md-4" })
-                                    <div class="col-md-8">
-                                        @Html.EditorFor(model => model.Nombre_Paciente, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.Nombre_Paciente, "", new { @class = "text-danger" })
+                        <div class="form-section">
+                            <legend>Información del Paciente</legend>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Nombre_Paciente, new { @class = "control-label col-md-4" })
+                                        <div class="col-md-8">
+                                            @Html.EditorFor(model => model.Nombre_Paciente, new { htmlAttributes = new { @class = "form-control required" } })
+                                            @Html.ValidationMessageFor(model => model.Nombre_Paciente, "", new { @class = "text-danger" })
+                                            <span class="field-validation-error" style="display: none;" id="error-Nombre_Paciente">Por favor ingrese el nombre del paciente</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Descripcion_Complicaciones, new { @class = "control-label" })
-                                    @Html.EditorFor(model => model.Descripcion_Complicaciones, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.Descripcion_Complicaciones, "", new { @class = "text-danger" })
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Descripcion_Complicaciones, new { @class = "control-label" })
+                                        @Html.EditorFor(model => model.Descripcion_Complicaciones, new { htmlAttributes = new { @class = "form-control required" } })
+                                        @Html.ValidationMessageFor(model => model.Descripcion_Complicaciones, "", new { @class = "text-danger" })
+                                        <span class="field-validation-error" style="display: none;" id="error-Descripcion_Complicaciones">Por favor describa las complicaciones</span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Sintomas, new { @class = "control-label" })
-                                    @Html.EditorFor(model => model.Sintomas, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.Sintomas, "", new { @class = "text-danger" })
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Sintomas, new { @class = "control-label" })
+                                        @Html.EditorFor(model => model.Sintomas, new { htmlAttributes = new { @class = "form-control required" } })
+                                        @Html.ValidationMessageFor(model => model.Sintomas, "", new { @class = "text-danger" })
+                                        <span class="field-validation-error" style="display: none;" id="error-Sintomas">Por favor describa los síntomas</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <legend>Datos de la Cita</legend>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Fecha_Cita, new { @class = "control-label" })
-                                    @Html.TextBoxFor(model => model.Fecha_Cita, new
-                                       {
-                                           @class = "form-control",
-                                           @type = "date",
-                                           @min = DateTime.Today.ToString("yyyy-MM-dd"),
-                                           @id = "Fecha_Cita"
-                                       })
-                                    @Html.ValidationMessageFor(model => model.Fecha_Cita, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Hora_cita, new { @class = "control-label" })
-                                    @Html.TextBoxFor(model => model.Hora_cita, new
-                                    { @class = "form-control", @type = "time", @min = "07:00", @max = "20:00" })
-                                    @Html.ValidationMessageFor(model => model.Hora_cita, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Modalidad, "Modalidad de la Cita")
-                                    @Html.DropDownListFor(model => model.Modalidad, new SelectList(new[] { "Presencial", "Virtual" }, "Seleccione la modalidad"), new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.Modalidad, "", new { @class = "text-danger" })
+                        <div class="form-section">
+                            <legend>Datos de la Cita</legend>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Fecha_Cita, new { @class = "control-label" })
+                                        @Html.TextBoxFor(model => model.Fecha_Cita, new
+                                           {
+                                               @class = "form-control required",
+                                               @type = "date",
+                                               @min = DateTime.Today.ToString("yyyy-MM-dd"),
+                                               @id = "Fecha_Cita"
+                                           })
+                                        @Html.ValidationMessageFor(model => model.Fecha_Cita, "", new { @class = "text-danger" })
+                                        <span class="field-validation-error" style="display: none;" id="error-Fecha_Cita">Por favor seleccione una fecha para la cita</span>
+                                    </div>
                                 </div>
 
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Hora_cita, new { @class = "control-label" })
+                                        @Html.TextBoxFor(model => model.Hora_cita, new
+                                        { @class = "form-control required", @type = "time", @min = "07:00", @max = "20:00" })
+                                        @Html.ValidationMessageFor(model => model.Hora_cita, "", new { @class = "text-danger" })
+                                        <span class="field-validation-error" style="display: none;" id="error-Hora_cita">Por favor seleccione una hora para la cita</span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Modalidad, "Modalidad de la Cita")
+                                        @Html.DropDownListFor(model => model.Modalidad, new SelectList(new[] { "Presencial", "Virtual" }, "Seleccione la modalidad"), new { @class = "form-control required" })
+                                        @Html.ValidationMessageFor(model => model.Modalidad, "", new { @class = "text-danger" })
+                                        <span class="field-validation-error" style="display: none;" id="error-Modalidad">Por favor seleccione la modalidad de la cita</span>
+                                    </div>
+                                </div>
+
+                                @Html.HiddenFor(model => model.Estado_Asistencia, new { @Value = "Asistida" })
                             </div>
-
-                            @Html.HiddenFor(model => model.Estado_Asistencia, new { @Value = "Asistida" })
-
                         </div>
 
                         <div class="form-group text-center">
                             <input type="submit" value="Guardar" class="btn btn-primary" />
                             <a href="@Url.Action("PCitas", "Cita")" class="btn btn-secondary">Regresar</a>
                         </div>
-
                     }
 
                     @section Scripts {
@@ -268,7 +213,7 @@
                                         $("#Especialidad").val("");
                                     }
                                 });
-                            });;
+                            });
 
                             document.getElementById('Fecha_Cita').addEventListener('change', function () {
                                 const fecha = new Date(this.value);
@@ -285,12 +230,57 @@
             </div>
         </div>
     </div>
-    </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
+    <!-- Script para validación de formulario -->
     <script>
+        function validarFormulario() {
+            var isValid = true;
+            var mensajesError = [];
+
+            // Ocultar todos los mensajes de error previos
+            $('.field-validation-error').hide();
+            $('#validationMessages').hide();
+            $('#validationList').empty();
+
+            // Validar cada campo requerido
+            $('.required').each(function () {
+                var fieldId = $(this).attr('id');
+                var fieldLabel = $('label[for="' + fieldId + '"]').text() || fieldId;
+
+                // Para los dropdown, verificar si se seleccionó una opción válida
+                if ($(this).is('select') && ($(this).val() === "" || $(this).val() === null || $(this).val() === "Seleccione la modalidad" || $(this).val() === "Seleccione un Médico")) {
+                    isValid = false;
+                    $('#error-' + fieldId).show();
+                    mensajesError.push('Debe seleccionar un valor para ' + fieldLabel);
+                }
+                // Para campos de texto, verificar si están vacíos
+                else if ($(this).val() === "") {
+                    isValid = false;
+                    $('#error-' + fieldId).show();
+                    mensajesError.push('El campo ' + fieldLabel + ' es obligatorio');
+                }
+            });
+
+            // Si hay errores, mostrar el panel de mensajes de error
+            if (!isValid) {
+                mensajesError.forEach(function (mensaje) {
+                    $('#validationList').append('<li>' + mensaje + '</li>');
+                });
+                $('#validationMessages').show();
+
+                // Desplazarse al inicio del formulario para ver los errores
+                $('html, body').animate({
+                    scrollTop: $('#validationMessages').offset().top - 100
+                }, 200);
+            }
+
+            return isValid;
+        }
+
+        // Resto del código JavaScript existente
         var itemsOcultos = [];
 
         // Función para ocultar un item
@@ -325,7 +315,6 @@
             currentPage = 1;
             showPage(currentPage);
         }
-
 
         // Función para crear y mostrar notificaciones
         function showNotification(title, items, type) {
@@ -413,6 +402,26 @@
         });
 
         document.addEventListener('DOMContentLoaded', function () {
+            // Configurar validación en los campos requeridos
+            $('.required').on('blur', function () {
+                var fieldId = $(this).attr('id');
+
+                if ($(this).is('select')) {
+                    if ($(this).val() === "" || $(this).val() === null || $(this).val() === "Seleccione la modalidad" || $(this).val() === "Seleccione un Médico") {
+                        $('#error-' + fieldId).show();
+                    } else {
+                        $('#error-' + fieldId).hide();
+                    }
+                } else {
+                    if ($(this).val() === "") {
+                        $('#error-' + fieldId).show();
+                    } else {
+                        $('#error-' + fieldId).hide();
+                    }
+                }
+            });
+
+            // Resto del código existente
             // Paginación
             const itemsPerPage = 8;
             const items = Array.from(document.querySelectorAll('.payment-card'));
@@ -435,30 +444,34 @@
             }
 
             function updatePagination(pageNumber) {
-                paginationContainer.innerHTML = '';
+                if (paginationContainer) {
+                    paginationContainer.innerHTML = '';
 
-                for (let i = 1; i <= totalPages; i++) {
-                    const pageButton = document.createElement('button');
-                    pageButton.innerText = i;
-                    pageButton.className = 'page-link';
-                    if (i === pageNumber) {
-                        pageButton.classList.add('active');
+                    for (let i = 1; i <= totalPages; i++) {
+                        const pageButton = document.createElement('button');
+                        pageButton.innerText = i;
+                        pageButton.className = 'page-link';
+                        if (i === pageNumber) {
+                            pageButton.classList.add('active');
+                        }
+
+                        pageButton.addEventListener('click', function () {
+                            currentPage = i;
+                            showPage(currentPage);
+                        });
+
+                        const listItem = document.createElement('li');
+                        listItem.className = 'page-item';
+                        listItem.appendChild(pageButton);
+                        paginationContainer.appendChild(listItem);
                     }
-
-                    pageButton.addEventListener('click', function () {
-                        currentPage = i;
-                        showPage(currentPage);
-                    });
-
-                    const listItem = document.createElement('li');
-                    listItem.className = 'page-item';
-                    listItem.appendChild(pageButton);
-                    paginationContainer.appendChild(listItem);
                 }
             }
 
-            // Mostrar la primera página
-            showPage(currentPage);
+            // Mostrar la primera página si hay paginación
+            if (paginationContainer) {
+                showPage(currentPage);
+            }
 
             // Verificar productos con bajo stock y próximos a vencer
             const lowStockItems = Array.from(document.querySelectorAll('.payment-card[data-low-stock="True"]'));
@@ -499,4 +512,3 @@
         });
     </script>
 </body>
-

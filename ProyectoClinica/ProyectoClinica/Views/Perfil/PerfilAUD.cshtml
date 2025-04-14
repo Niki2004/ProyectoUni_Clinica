@@ -7,7 +7,7 @@
 <link href="~/CSS/Perfil.css" rel="stylesheet" />
 
 <div style="text-align: center; margin-bottom: 20px;">
-    <a href="@Url.Action("VistaAUD", "Contabilidad")" class="custom-btn">
+    <a href="@Url.Action("Redirect", "Redirect",new { email = Model.Email })" class="custom-btn">
         <i class="fas fa-home"></i> Inicio
     </a>
 </div>
@@ -15,9 +15,6 @@
 <main aria-labelledby="title" class="profile-container">
     <!-- Enlace a Font Awesome para los íconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
-    <h2 id="title">@ViewBag.Title</h2>
-    <p class="text-success">@ViewBag.StatusMessage</p>
 
     @if (!string.IsNullOrEmpty(Model.Imagen))
     {

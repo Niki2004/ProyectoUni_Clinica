@@ -151,7 +151,8 @@
                                         @Html.LabelFor(model => model.FechaCaducidad)
                                     </div>
                                     <div>
-                                        @Html.EditorFor(model => model.FechaCaducidad, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.TextBox("FechaCaducidad",Model.FechaCaducidad.ToString("yyyy-MM-dd"),new{@class = "form-control",type = "date",min = DateTime.Now.ToString("yyyy-MM-dd")})
+
                                         @Html.ValidationMessageFor(model => model.FechaCaducidad, "", new { @class = "text-danger" })
                                     </div>
                                 </div>

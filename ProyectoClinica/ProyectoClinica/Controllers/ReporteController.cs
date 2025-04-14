@@ -57,7 +57,6 @@ namespace ProyectoClinica.Controllers
 
         public ActionResult ExportarExcel(DateTime? fechaCita, string especialidad)
         {
-            // Establecer el contexto de la licencia de EPPlus
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
             var citas = _context.Cita.Include("Medico").AsQueryable();
@@ -80,25 +79,45 @@ namespace ProyectoClinica.Controllers
             {
                 var worksheet = package.Workbook.Worksheets.Add("Informe de asistencia");
 
-                // Encabezados de tabla (en la fila 1 como en la imagen)
-                worksheet.Cells["A1"].Value = "Fecha";
-                worksheet.Cells["B1"].Value = "Nombre del paciente";
-                worksheet.Cells["C1"].Value = "Motivo de la consulta";
-                worksheet.Cells["D1"].Value = "Estado";
-                worksheet.Cells["E1"].Value = "Especialidad";
-
-                // Estilo para la cabecera de la tabla - color azul-verde como en la imagen
+                // Título grande con fondo verde claro
                 using (var range = worksheet.Cells["A1:E1"])
                 {
+                    range.Merge = true;
+                    range.Value = "Informe de Asistencia de Citas Médicas";
                     range.Style.Font.Bold = true;
+                    range.Style.Font.Size = 16;
                     range.Style.Fill.PatternType = ExcelFillStyle.Solid;
-                    range.Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#26a69a")); // Color teal como en la imagen
-                    range.Style.Font.Color.SetColor(System.Drawing.Color.White);
-                    range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    range.Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#B8E6B8")); // Verde claro
+                    range.Style.Font.Color.SetColor(System.Drawing.Color.Black);
+                    range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
                     range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
                 }
 
-                int row = 2;
+                worksheet.Row(1).Height = 30; // Altura del título
+
+                // Encabezados en fila 3
+                worksheet.Cells["A3"].Value = "Fecha";
+                worksheet.Cells["B3"].Value = "Nombre del paciente";
+                worksheet.Cells["C3"].Value = "Motivo de la consulta";
+                worksheet.Cells["D3"].Value = "Estado";
+                worksheet.Cells["E3"].Value = "Especialidad";
+
+                // Estilo de encabezado
+                using (var range = worksheet.Cells["A3:E3"])
+                {
+                    range.Style.Font.Bold = true;
+                    range.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    range.Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#6BB56B")); // Verde más oscuro
+                    range.Style.Font.Color.SetColor(System.Drawing.Color.White);
+                    range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                    range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                }
+
+                int row = 4;
                 foreach (var cita in listaCitas)
                 {
                     worksheet.Cells[row, 1].Value = cita.Fecha_Cita.ToString("dd/MM/yy");
@@ -107,32 +126,43 @@ namespace ProyectoClinica.Controllers
                     worksheet.Cells[row, 4].Value = cita.Estado_Asistencia;
                     worksheet.Cells[row, 5].Value = cita.Medico.Especialidad;
 
-                    // Alinear el texto al centro
+                    // Estilo de las filas alternas
                     using (var range = worksheet.Cells[row, 1, row, 5])
                     {
                         range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                         range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-                    }
+                        range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                        range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                        range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                        range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
 
+                        // Colorear filas pares con verde claro
+                        if (row % 2 == 0)
+                        {
+                            range.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                            range.Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#E8F5E8")); // Verde claro
+                        }
+                    }
                     row++;
                 }
 
+                // Configuración de ancho de columnas
                 worksheet.Column(1).Width = 15; // Fecha
                 worksheet.Column(2).Width = 30; // Nombre del paciente
                 worksheet.Column(3).Width = 35; // Motivo
                 worksheet.Column(4).Width = 15; // Estado
-                worksheet.Column(5).Width = 15; // Especialidad
+                worksheet.Column(5).Width = 25; // Especialidad
 
-                using (var range = worksheet.Cells["C9:C10"])
+                // Ajustar el alto de las filas
+                worksheet.Row(3).Height = 25; // Encabezados
+
+                // Crear bordes para toda la tabla
+                using (var range = worksheet.Cells[3, 1, row - 1, 5])
                 {
                     range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
                     range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
                     range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
                     range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
-                    range.Style.Border.Top.Color.SetColor(System.Drawing.ColorTranslator.FromHtml("#26a69a"));
-                    range.Style.Border.Bottom.Color.SetColor(System.Drawing.ColorTranslator.FromHtml("#26a69a"));
-                    range.Style.Border.Left.Color.SetColor(System.Drawing.ColorTranslator.FromHtml("#26a69a"));
-                    range.Style.Border.Right.Color.SetColor(System.Drawing.ColorTranslator.FromHtml("#26a69a"));
                 }
 
                 var stream = new MemoryStream(package.GetAsByteArray());
@@ -255,7 +285,7 @@ namespace ProyectoClinica.Controllers
                 // Configuración de ancho de columnas
                 worksheet.Column(1).Width = 10; // ID
                 worksheet.Column(2).Width = 30; // Nombre de la receta
-                worksheet.Column(3).Width = 15; // Fecha de creación
+                worksheet.Column(3).Width = 20; // Fecha de creación
                 worksheet.Column(4).Width = 15; // Duración del tratamiento
                 worksheet.Column(5).Width = 12; // Cantidad requerida
                 worksheet.Column(6).Width = 30; // Motivo de la solicitud
@@ -346,7 +376,7 @@ namespace ProyectoClinica.Controllers
             // Retornamos la vista con los resultados filtrados
             return View(costos.ToList());
         }
-        
+
         public ActionResult ExportarExcelAreaMejora(string areaMejora, bool? esNegativo, bool? esSensible, bool? esDestacado, int? estadoComentario)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
@@ -385,25 +415,46 @@ namespace ProyectoClinica.Controllers
             {
                 var worksheet = package.Workbook.Worksheets.Add("Informe de Comentarios");
 
-                worksheet.Cells["A1"].Value = "Estado Sensible";
-                worksheet.Cells["B1"].Value = "Comentario";
-                worksheet.Cells["C1"].Value = "Calificación";
-                worksheet.Cells["D1"].Value = "Fecha";
-                worksheet.Cells["E1"].Value = "Estado";
-                worksheet.Cells["F1"].Value = "Estado Destacado";
-                worksheet.Cells["G1"].Value = "Comentario del cliente";
-
+                // Título grande con fondo verde
                 using (var range = worksheet.Cells["A1:G1"])
+                {
+                    range.Merge = true;
+                    range.Value = "Informe de comentarios de clientes";
+                    range.Style.Font.Bold = true;
+                    range.Style.Font.Size = 16;
+                    range.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    range.Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#B8E6B8")); // Verde claro
+                    range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+                    range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                    range.Style.Font.Color.SetColor(System.Drawing.Color.Black);
+                }
+
+                worksheet.Row(1).Height = 30;
+
+                // Encabezados (fila 3)
+                worksheet.Cells["A3"].Value = "Estado Sensible";
+                worksheet.Cells["B3"].Value = "Comentario";
+                worksheet.Cells["C3"].Value = "Calificación";
+                worksheet.Cells["D3"].Value = "Fecha";
+                worksheet.Cells["E3"].Value = "Estado";
+                worksheet.Cells["F3"].Value = "Estado Destacado";
+                worksheet.Cells["G3"].Value = "Comentario del cliente";
+
+                using (var range = worksheet.Cells["A3:G3"])
                 {
                     range.Style.Font.Bold = true;
                     range.Style.Fill.PatternType = ExcelFillStyle.Solid;
-                    range.Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#26a69a"));
+                    range.Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#6BB56B")); // Verde oscuro
                     range.Style.Font.Color.SetColor(System.Drawing.Color.White);
                     range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                     range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                    range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
                 }
 
-                int row = 2;
+                int row = 4;
                 foreach (var comentario in listaComentarios)
                 {
                     worksheet.Cells[row, 1].Value = comentario.Sensible_Comentario.Sensible;
@@ -414,23 +465,46 @@ namespace ProyectoClinica.Controllers
                     worksheet.Cells[row, 6].Value = comentario.Destacado_Comentario.Destacado;
                     worksheet.Cells[row, 7].Value = comentario.Atencion_Cliente.Comentarios_Paciente;
 
-
                     using (var range = worksheet.Cells[row, 1, row, 7])
                     {
                         range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                         range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                        range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                        range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                        range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                        range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+
+                        // Alternar colores en filas pares
+                        if (row % 2 == 0)
+                        {
+                            range.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                            range.Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#E8F5E8")); // Verde claro
+                        }
                     }
 
                     row++;
                 }
 
-                worksheet.Column(1).Width = 15;
-                worksheet.Column(2).Width = 80;
-                worksheet.Column(3).Width = 15;
-                worksheet.Column(4).Width = 20;
-                worksheet.Column(5).Width = 25;
-                worksheet.Column(6).Width = 25;
-                worksheet.Column(7).Width = 80;
+                // Configuración de columnas
+                worksheet.Column(1).Width = 20; // Estado Sensible
+                worksheet.Column(2).Width = 60; // Comentario
+                worksheet.Column(3).Width = 15; // Calificación
+                worksheet.Column(4).Width = 20; // Fecha
+                worksheet.Column(5).Width = 25; // Estado
+                worksheet.Column(6).Width = 25; // Estado Destacado
+                worksheet.Column(7).Width = 60; // Comentario del cliente
+
+                // Ajuste del alto del encabezado
+                worksheet.Row(3).Height = 25;
+
+                // Bordes generales de la tabla
+                using (var range = worksheet.Cells[3, 1, row - 1, 7])
+                {
+                    range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                }
 
                 string fileName = "Informe_Comentarios";
 
@@ -442,7 +516,6 @@ namespace ProyectoClinica.Controllers
                 fileName += ".xlsx";
 
                 var stream = new MemoryStream(package.GetAsByteArray());
-
                 return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
             }
         }
@@ -489,7 +562,6 @@ namespace ProyectoClinica.Controllers
                 Procedimiento = Procedimiento.Where(r => r.Nombre_Servicio.Contains(Procedimientocostos)
                                                        || r.Nombre_Servicio.Contains(servicio2));
             }
-
             else if (!string.IsNullOrEmpty(Procedimientocostos))
             {
                 Procedimiento = Procedimiento.Where(r => r.Nombre_Servicio.Contains(Procedimientocostos));
@@ -505,59 +577,99 @@ namespace ProyectoClinica.Controllers
             {
                 var worksheet = package.Workbook.Worksheets.Add("Informe de procedimientos");
 
-                worksheet.Cells["A1"].Value = "Nombre de servicio";
-                worksheet.Cells["B1"].Value = "Precio del servicio";
-                worksheet.Cells["C1"].Value = "Especialidad";
-
+                // Título grande con fondo verde
                 using (var range = worksheet.Cells["A1:C1"])
                 {
+                    range.Merge = true;
+                    range.Value = "Lista de procedimientos";
                     range.Style.Font.Bold = true;
+                    range.Style.Font.Size = 16;
                     range.Style.Fill.PatternType = ExcelFillStyle.Solid;
-                    range.Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#26a69a"));
-                    range.Style.Font.Color.SetColor(System.Drawing.Color.White);
-                    range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    range.Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#B8E6B8")); // Verde claro
+                    range.Style.Font.Color.SetColor(System.Drawing.Color.Black);
+                    range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
                     range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
                 }
 
-                int row = 2;
+                worksheet.Row(1).Height = 30;
+
+                // Encabezados
+                worksheet.Cells["A3"].Value = "Nombre de servicio";
+                worksheet.Cells["B3"].Value = "Precio del servicio";
+                worksheet.Cells["C3"].Value = "Especialidad";
+
+                using (var range = worksheet.Cells["A3:C3"])
+                {
+                    range.Style.Font.Bold = true;
+                    range.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    range.Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#6BB56B")); // Verde más oscuro
+                    range.Style.Font.Color.SetColor(System.Drawing.Color.White);
+                    range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                    range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                }
+
+                int row = 4;
                 foreach (var ProcedimientoS in listaProcedimiento)
                 {
                     worksheet.Cells[row, 1].Value = ProcedimientoS.Nombre_Servicio;
                     worksheet.Cells[row, 2].Value = ProcedimientoS.Precio_Servicio;
                     worksheet.Cells[row, 3].Value = ProcedimientoS.Especialidad;
 
-                    worksheet.Cells[row, 2].Style.Numberformat.Format = "\"₡\" #,##0.00"; 
-
+                    worksheet.Cells[row, 2].Style.Numberformat.Format = "\"₡\" #,##0.00";
 
                     using (var range = worksheet.Cells[row, 1, row, 3])
                     {
                         range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                         range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                        range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                        range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                        range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                        range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+
+                        // Filas pares con color verde muy claro
+                        if (row % 2 == 0)
+                        {
+                            range.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                            range.Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#E8F5E8"));
+                        }
                     }
 
                     row++;
                 }
 
+                // Ajustes de columna
                 worksheet.Column(1).Width = 30;
                 worksheet.Column(2).Width = 25;
                 worksheet.Column(3).Width = 30;
 
-                string fileName = "Informe_Procedimientos";
+                worksheet.Row(3).Height = 25;
 
+                // Bordes de toda la tabla
+                using (var range = worksheet.Cells[3, 1, row - 1, 3])
+                {
+                    range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                }
+
+                // Nombre del archivo
+                string fileName = "Informe_Procedimientos";
                 if (!string.IsNullOrEmpty(Procedimientocostos))
                 {
                     fileName += "_" + Procedimientocostos.Replace(" ", "_");
                 }
-
                 if (!string.IsNullOrEmpty(servicio2))
                 {
                     fileName += "_" + servicio2.Replace(" ", "_");
                 }
-
                 fileName += ".xlsx";
 
                 var stream = new MemoryStream(package.GetAsByteArray());
-
                 return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
             }
         }
@@ -579,7 +691,6 @@ namespace ProyectoClinica.Controllers
 
         public ActionResult ExportarExcelPersonalizacion(string nombreUser)
         {
-            // Establecer el contexto de la licencia de EPPlus
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
             var user = _context.Users.AsQueryable();
@@ -593,29 +704,49 @@ namespace ProyectoClinica.Controllers
 
             using (var package = new ExcelPackage())
             {
-                var worksheet = package.Workbook.Worksheets.Add("Informe de recetas");
+                var worksheet = package.Workbook.Worksheets.Add("Informe de usuarios");
 
-                worksheet.Cells["A1"].Value = "Nombre";
-                worksheet.Cells["B1"].Value = "Apellido";
-                worksheet.Cells["C1"].Value = "Edad del paciente";
-                worksheet.Cells["D1"].Value = "Direccion";
-                worksheet.Cells["E1"].Value = "Cedula";
-                worksheet.Cells["F1"].Value = "Email";
-                worksheet.Cells["G1"].Value = "Número de teléfono";
-                worksheet.Cells["H1"].Value = "Género";
-
+                // Título grande con fondo verde
                 using (var range = worksheet.Cells["A1:H1"])
                 {
+                    range.Merge = true;
+                    range.Value = "Lista de usuarios";
                     range.Style.Font.Bold = true;
+                    range.Style.Font.Size = 16;
                     range.Style.Fill.PatternType = ExcelFillStyle.Solid;
-                    range.Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#26a69a"));
-                    range.Style.Font.Color.SetColor(System.Drawing.Color.White);
-                    range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    range.Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#B8E6B8")); // Verde claro
+                    range.Style.Font.Color.SetColor(System.Drawing.Color.Black);
+                    range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
                     range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
                 }
 
-                // Agregar datos
-                int row = 2;
+                worksheet.Row(1).Height = 30;
+
+                // Encabezados
+                worksheet.Cells["A3"].Value = "Nombre";
+                worksheet.Cells["B3"].Value = "Apellido";
+                worksheet.Cells["C3"].Value = "Edad del paciente";
+                worksheet.Cells["D3"].Value = "Dirección";
+                worksheet.Cells["E3"].Value = "Cédula";
+                worksheet.Cells["F3"].Value = "Email";
+                worksheet.Cells["G3"].Value = "Número de teléfono";
+                worksheet.Cells["H3"].Value = "Género";
+
+                using (var range = worksheet.Cells["A3:H3"])
+                {
+                    range.Style.Font.Bold = true;
+                    range.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    range.Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#6BB56B")); // Verde más oscuro
+                    range.Style.Font.Color.SetColor(System.Drawing.Color.White);
+                    range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                    range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                }
+
+                int row = 4;
                 foreach (var users in listauser)
                 {
                     worksheet.Cells[row, 1].Value = users.Nombre;
@@ -623,7 +754,7 @@ namespace ProyectoClinica.Controllers
                     worksheet.Cells[row, 3].Value = users.Edad_Paciente;
                     worksheet.Cells[row, 4].Value = users.Direccion;
                     worksheet.Cells[row, 5].Value = users.Cedula;
-                    worksheet.Cells[row, 6].Value = users.Email; 
+                    worksheet.Cells[row, 6].Value = users.Email;
                     worksheet.Cells[row, 7].Value = users.PhoneNumber;
                     worksheet.Cells[row, 8].Value = users.Genero_Paciente;
 
@@ -631,21 +762,43 @@ namespace ProyectoClinica.Controllers
                     {
                         range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                         range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                        range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                        range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                        range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                        range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+
+                        if (row % 2 == 0)
+                        {
+                            range.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                            range.Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#E8F5E8")); // Verde muy claro
+                        }
                     }
 
                     row++;
                 }
 
-                worksheet.Column(1).Width = 25; 
+                // Ajustes de columnas
+                worksheet.Column(1).Width = 25;
                 worksheet.Column(2).Width = 25;
-                worksheet.Column(3).Width = 10; 
-                worksheet.Column(4).Width = 50; 
-                worksheet.Column(5).Width = 20; 
-                worksheet.Column(6).Width = 50;
-                worksheet.Column(7).Width = 15;
+                worksheet.Column(3).Width = 15;
+                worksheet.Column(4).Width = 50;
+                worksheet.Column(5).Width = 20;
+                worksheet.Column(6).Width = 40;
+                worksheet.Column(7).Width = 20;
                 worksheet.Column(8).Width = 15;
 
+                worksheet.Row(3).Height = 25;
 
+                // Bordes de toda la tabla
+                using (var range = worksheet.Cells[3, 1, row - 1, 8])
+                {
+                    range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                }
+
+                // Generar archivo
                 var stream = new MemoryStream(package.GetAsByteArray());
                 string fileName = "Informe_Usuario";
 
@@ -728,19 +881,16 @@ namespace ProyectoClinica.Controllers
 
             var pacientes = _context.Users.AsQueryable();
 
-            // Filtro para Direccion
             if (!string.IsNullOrEmpty(direccion))
             {
                 pacientes = pacientes.Where(r => r.Direccion.Contains(direccion));
             }
 
-            // Filtro para Genero
             if (!string.IsNullOrEmpty(genero))
             {
                 pacientes = pacientes.Where(r => r.Genero_Paciente.ToString() == genero);
             }
 
-            // Filtro para Edad
             if (edad.HasValue)
             {
                 pacientes = pacientes.Where(r => r.Edad_Paciente == edad);
@@ -752,24 +902,45 @@ namespace ProyectoClinica.Controllers
             {
                 var worksheet = package.Workbook.Worksheets.Add("Informe de Pacientes");
 
-                worksheet.Cells["A1"].Value = "Dirección";
-                worksheet.Cells["B1"].Value = "Género";
-                worksheet.Cells["C1"].Value = "Edad";
-                worksheet.Cells["D1"].Value = "Nombre ";
-                worksheet.Cells["E1"].Value = "Apellido";
-                worksheet.Cells["F1"].Value = "Correo Electónico";
-
+                // Título grande con fondo verde
                 using (var range = worksheet.Cells["A1:F1"])
                 {
+                    range.Merge = true;
+                    range.Value = "Informe de Pacientes";
                     range.Style.Font.Bold = true;
+                    range.Style.Font.Size = 16;
                     range.Style.Fill.PatternType = ExcelFillStyle.Solid;
-                    range.Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#26a69a"));
-                    range.Style.Font.Color.SetColor(System.Drawing.Color.White);
-                    range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    range.Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#B8E6B8")); // Verde claro
+                    range.Style.Font.Color.SetColor(System.Drawing.Color.Black);
+                    range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
                     range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
                 }
 
-                int row = 2;
+                worksheet.Row(1).Height = 30;
+
+                // Encabezados
+                worksheet.Cells["A3"].Value = "Dirección";
+                worksheet.Cells["B3"].Value = "Género";
+                worksheet.Cells["C3"].Value = "Edad";
+                worksheet.Cells["D3"].Value = "Nombre";
+                worksheet.Cells["E3"].Value = "Apellido";
+                worksheet.Cells["F3"].Value = "Correo Electrónico";
+
+                using (var range = worksheet.Cells["A3:F3"])
+                {
+                    range.Style.Font.Bold = true;
+                    range.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    range.Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#6BB56B")); // Verde más oscuro
+                    range.Style.Font.Color.SetColor(System.Drawing.Color.White);
+                    range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                    range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                }
+
+                int row = 4;
                 foreach (var paciente in listaPacientes)
                 {
                     worksheet.Cells[row, 1].Value = paciente.Direccion;
@@ -783,18 +954,41 @@ namespace ProyectoClinica.Controllers
                     {
                         range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                         range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                        range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                        range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                        range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                        range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+
+                        if (row % 2 == 0)
+                        {
+                            range.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                            range.Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#E8F5E8")); // Verde muy claro
+                        }
                     }
 
                     row++;
                 }
 
+                // Ajustes de columnas
                 worksheet.Column(1).Width = 50;
-                worksheet.Column(2).Width = 10;
+                worksheet.Column(2).Width = 15;
                 worksheet.Column(3).Width = 10;
-                worksheet.Column(4).Width = 30;
-                worksheet.Column(5).Width = 30;
-                worksheet.Column(6).Width = 50;
+                worksheet.Column(4).Width = 25;
+                worksheet.Column(5).Width = 25;
+                worksheet.Column(6).Width = 40;
 
+                worksheet.Row(3).Height = 25;
+
+                // Bordes de toda la tabla
+                using (var range = worksheet.Cells[3, 1, row - 1, 6])
+                {
+                    range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                }
+
+                // Nombre del archivo
                 string fileName = "Informe_Pacientes";
 
                 if (!string.IsNullOrEmpty(direccion))
@@ -815,7 +1009,6 @@ namespace ProyectoClinica.Controllers
                 fileName += ".xlsx";
 
                 var stream = new MemoryStream(package.GetAsByteArray());
-
                 return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
             }
         }
@@ -849,58 +1042,96 @@ namespace ProyectoClinica.Controllers
 
             using (var package = new ExcelPackage())
             {
-                var worksheet = package.Workbook.Worksheets.Add("Informe de Areas de Salud Evaluadas");
+                var worksheet = package.Workbook.Worksheets.Add("Informe Atención Cliente");
 
-                // Encabezados de tabla
-                worksheet.Cells["A1"].Value = "Fecha de la evaluación";
-                worksheet.Cells["B1"].Value = "Área de salud";
-                worksheet.Cells["C1"].Value = "Comentario del paciente";
-                worksheet.Cells["D1"].Value = "Prioridad de mejora";
-                worksheet.Cells["E1"].Value = "Tipo de servicio";
-                worksheet.Cells["F1"].Value = "Clasificación del problema";
-
-
-
-                // Estilo de encabezado
+                // Título grande con fondo verde
                 using (var range = worksheet.Cells["A1:F1"])
                 {
+                    range.Merge = true;
+                    range.Value = "Informe de Áreas de Salud Evaluadas";
                     range.Style.Font.Bold = true;
+                    range.Style.Font.Size = 16;
                     range.Style.Fill.PatternType = ExcelFillStyle.Solid;
-                    range.Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#26a69a"));
-                    range.Style.Font.Color.SetColor(System.Drawing.Color.White);
-                    range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    range.Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#B8E6B8")); // Verde claro
+                    range.Style.Font.Color.SetColor(System.Drawing.Color.Black);
+                    range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
                     range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
                 }
 
-                // Agregar datos
-                int row = 2;
-                foreach (var Area in listaAreaS)
+                worksheet.Row(1).Height = 30;
+
+                // Encabezados
+                worksheet.Cells["A3"].Value = "Fecha de la evaluación";
+                worksheet.Cells["B3"].Value = "Área de salud";
+                worksheet.Cells["C3"].Value = "Comentario del paciente";
+                worksheet.Cells["D3"].Value = "Prioridad de mejora";
+                worksheet.Cells["E3"].Value = "Tipo de servicio";
+                worksheet.Cells["F3"].Value = "Clasificación del problema";
+
+                using (var range = worksheet.Cells["A3:F3"])
                 {
-                    worksheet.Cells[row, 1].Value = Area.Fechas_Comentario.ToString("dd/MM/yy");
-                    worksheet.Cells[row, 2].Value = Area.Salud_Evaluada;
-                    worksheet.Cells[row, 3].Value = Area.Comentarios_Paciente;
-                    worksheet.Cells[row, 4].Value = Area.Prioridad_Mejora;
-                    worksheet.Cells[row, 5].Value = Area.Tipo_Servicio;
-                    worksheet.Cells[row, 6].Value = Area.Clasificacion_Problema;
+                    range.Style.Font.Bold = true;
+                    range.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    range.Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#6BB56B")); // Verde más oscuro
+                    range.Style.Font.Color.SetColor(System.Drawing.Color.White);
+                    range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                    range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                }
+
+                int row = 4;
+                foreach (var area in listaAreaS)
+                {
+                    worksheet.Cells[row, 1].Value = area.Fechas_Comentario.ToString("dd/MM/yy");
+                    worksheet.Cells[row, 2].Value = area.Salud_Evaluada;
+                    worksheet.Cells[row, 3].Value = area.Comentarios_Paciente;
+                    worksheet.Cells[row, 4].Value = area.Prioridad_Mejora;
+                    worksheet.Cells[row, 5].Value = area.Tipo_Servicio;
+                    worksheet.Cells[row, 6].Value = area.Clasificacion_Problema;
 
                     using (var range = worksheet.Cells[row, 1, row, 6])
                     {
                         range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                         range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                        range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                        range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                        range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                        range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+
+                        // Fila alternada con fondo
+                        if (row % 2 == 0)
+                        {
+                            range.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                            range.Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#E8F5E8")); // Verde muy claro
+                        }
                     }
 
                     row++;
                 }
 
-                // Configuración de ancho de columnas
-                worksheet.Column(1).Width = 20; 
-                worksheet.Column(2).Width = 20; 
-                worksheet.Column(3).Width = 50; 
-                worksheet.Column(4).Width = 20; 
-                worksheet.Column(5).Width = 20;
-                worksheet.Column(6).Width = 20; 
+                // Anchos de columnas
+                worksheet.Column(1).Width = 20;
+                worksheet.Column(2).Width = 25;
+                worksheet.Column(3).Width = 50;
+                worksheet.Column(4).Width = 20;
+                worksheet.Column(5).Width = 25;
+                worksheet.Column(6).Width = 30;
 
-                var stream = new MemoryStream(package.GetAsByteArray());
+                worksheet.Row(3).Height = 25;
+
+                // Bordes de toda la tabla
+                using (var range = worksheet.Cells[3, 1, row - 1, 6])
+                {
+                    range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                }
+
+                // Nombre del archivo
                 string fileName = "Informe_Atencion_Cliente";
 
                 if (!string.IsNullOrEmpty(SaludEvaluada))
@@ -910,6 +1141,7 @@ namespace ProyectoClinica.Controllers
 
                 fileName += ".xlsx";
 
+                var stream = new MemoryStream(package.GetAsByteArray());
                 return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
             }
         }
@@ -943,31 +1175,48 @@ namespace ProyectoClinica.Controllers
 
             using (var package = new ExcelPackage())
             {
-                var worksheet = package.Workbook.Worksheets.Add("Informe de Areas de Salud Evaluadas");
+                var worksheet = package.Workbook.Worksheets.Add("Informe de Usuarios");
 
-                // Encabezados de tabla
-                worksheet.Cells["A1"].Value = "Nombre";
-                worksheet.Cells["B1"].Value = "Apellidos";
-                worksheet.Cells["C1"].Value = "Dirección";
-                worksheet.Cells["D1"].Value = "Genero";
-                worksheet.Cells["E1"].Value = "Edad";
-                worksheet.Cells["F1"].Value = "Correo";
-
-
-
-                // Estilo de encabezado
+                // Título grande con fondo verde claro
                 using (var range = worksheet.Cells["A1:F1"])
                 {
+                    range.Merge = true;
+                    range.Value = "Informe de Usuarios Registrados";
                     range.Style.Font.Bold = true;
+                    range.Style.Font.Size = 16;
                     range.Style.Fill.PatternType = ExcelFillStyle.Solid;
-                    range.Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#26a69a"));
-                    range.Style.Font.Color.SetColor(System.Drawing.Color.White);
-                    range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    range.Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#B8E6B8"));
+                    range.Style.Font.Color.SetColor(System.Drawing.Color.Black);
+                    range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
                     range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
                 }
 
-                // Agregar datos
-                int row = 2;
+                worksheet.Row(1).Height = 30;
+
+                // Encabezados de columna
+                worksheet.Cells["A3"].Value = "Nombre";
+                worksheet.Cells["B3"].Value = "Apellidos";
+                worksheet.Cells["C3"].Value = "Dirección";
+                worksheet.Cells["D3"].Value = "Género";
+                worksheet.Cells["E3"].Value = "Edad";
+                worksheet.Cells["F3"].Value = "Correo";
+
+                using (var range = worksheet.Cells["A3:F3"])
+                {
+                    range.Style.Font.Bold = true;
+                    range.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    range.Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#6BB56B")); // Verde oscuro
+                    range.Style.Font.Color.SetColor(System.Drawing.Color.White);
+                    range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                    range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                }
+
+                // Datos
+                int row = 4;
                 foreach (var Area in listaAreaS)
                 {
                     worksheet.Cells[row, 1].Value = Area.Nombre;
@@ -981,19 +1230,41 @@ namespace ProyectoClinica.Controllers
                     {
                         range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                         range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                        range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                        range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                        range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                        range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+
+                        if (row % 2 == 0)
+                        {
+                            range.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                            range.Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#E8F5E8")); // Verde claro alterno
+                        }
                     }
 
                     row++;
                 }
 
-                // Configuración de ancho de columnas
+                // Anchos de columnas
                 worksheet.Column(1).Width = 25;
                 worksheet.Column(2).Width = 25;
                 worksheet.Column(3).Width = 50;
-                worksheet.Column(4).Width = 10;
+                worksheet.Column(4).Width = 15;
                 worksheet.Column(5).Width = 10;
-                worksheet.Column(6).Width = 50;
+                worksheet.Column(6).Width = 40;
 
+                worksheet.Row(3).Height = 25;
+
+                // Bordes generales de la tabla
+                using (var range = worksheet.Cells[3, 1, row - 1, 6])
+                {
+                    range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                }
+
+                // Nombre del archivo
                 var stream = new MemoryStream(package.GetAsByteArray());
                 string fileName = "Informe_Usuarios";
 
@@ -1023,7 +1294,6 @@ namespace ProyectoClinica.Controllers
 
         public ActionResult ExportarExcelRempleados(string nombreEmpleado)
         {
-            // Establecer el contexto de la licencia de EPPlus
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
             var empleado = _context.Empleado.AsQueryable();
@@ -1037,33 +1307,51 @@ namespace ProyectoClinica.Controllers
 
             using (var package = new ExcelPackage())
             {
-                var worksheet = package.Workbook.Worksheets.Add("Informe de empleados");
+                var worksheet = package.Workbook.Worksheets.Add("Informe de Empleados");
 
-                // Encabezados de tabla
-                worksheet.Cells["A1"].Value = "Fecha de creación";
-                worksheet.Cells["B1"].Value = "Estado";
-                worksheet.Cells["C1"].Value = "Comentarios del administrador";
-                worksheet.Cells["D1"].Value = "Nombre";
-                worksheet.Cells["E1"].Value = "Apellidos";
-                worksheet.Cells["F1"].Value = "Cédula";
-                worksheet.Cells["G1"].Value = "Correo";
-                worksheet.Cells["H1"].Value = "Jornada";
-                worksheet.Cells["I1"].Value = "Departamento";
-
-
-                // Estilo de encabezado
+                // Título grande con fondo verde claro
                 using (var range = worksheet.Cells["A1:I1"])
                 {
+                    range.Merge = true;
+                    range.Value = "Informe de Empleados Registrados";
                     range.Style.Font.Bold = true;
+                    range.Style.Font.Size = 16;
                     range.Style.Fill.PatternType = ExcelFillStyle.Solid;
-                    range.Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#26a69a"));
-                    range.Style.Font.Color.SetColor(System.Drawing.Color.White);
-                    range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    range.Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#B8E6B8"));
+                    range.Style.Font.Color.SetColor(System.Drawing.Color.Black);
+                    range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
                     range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
                 }
 
-                // Agregar datos
-                int row = 2;
+                worksheet.Row(1).Height = 30;
+
+                // Encabezados
+                worksheet.Cells["A3"].Value = "Fecha de creación";
+                worksheet.Cells["B3"].Value = "Estado";
+                worksheet.Cells["C3"].Value = "Comentarios del administrador";
+                worksheet.Cells["D3"].Value = "Nombre";
+                worksheet.Cells["E3"].Value = "Apellidos";
+                worksheet.Cells["F3"].Value = "Cédula";
+                worksheet.Cells["G3"].Value = "Correo";
+                worksheet.Cells["H3"].Value = "Jornada";
+                worksheet.Cells["I3"].Value = "Departamento";
+
+                using (var range = worksheet.Cells["A3:I3"])
+                {
+                    range.Style.Font.Bold = true;
+                    range.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    range.Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#6BB56B")); // Verde oscuro
+                    range.Style.Font.Color.SetColor(System.Drawing.Color.White);
+                    range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                    range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                }
+
+                // Datos
+                int row = 4;
                 foreach (var empleadox in listaempleado)
                 {
                     worksheet.Cells[row, 1].Value = empleadox.Fecha_registro.ToString("dd/MM/yy");
@@ -1076,28 +1364,49 @@ namespace ProyectoClinica.Controllers
                     worksheet.Cells[row, 8].Value = empleadox.Jornada;
                     worksheet.Cells[row, 9].Value = empleadox.Departamento;
 
-
                     using (var range = worksheet.Cells[row, 1, row, 9])
                     {
                         range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                         range.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                        range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                        range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                        range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                        range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+
+                        // Fila alterna con fondo verde claro
+                        if (row % 2 == 0)
+                        {
+                            range.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                            range.Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#E8F5E8"));
+                        }
                     }
 
                     row++;
                 }
 
-                // Configuración de ancho de columnas
+                // Ancho de columnas
                 worksheet.Column(1).Width = 20;
-                worksheet.Column(2).Width = 25; 
-                worksheet.Column(3).Width = 50; 
+                worksheet.Column(2).Width = 25;
+                worksheet.Column(3).Width = 50;
                 worksheet.Column(4).Width = 25;
-                worksheet.Column(5).Width = 20; 
+                worksheet.Column(5).Width = 25;
                 worksheet.Column(6).Width = 25;
-                worksheet.Column(7).Width = 50;
-                worksheet.Column(8).Width = 25;
+                worksheet.Column(7).Width = 40;
+                worksheet.Column(8).Width = 20;
                 worksheet.Column(9).Width = 25;
 
+                worksheet.Row(3).Height = 25;
 
+                // Bordes generales
+                using (var range = worksheet.Cells[3, 1, row - 1, 9])
+                {
+                    range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                    range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                }
+
+                // Nombre del archivo
                 var stream = new MemoryStream(package.GetAsByteArray());
                 string fileName = "Informe_Empleado";
 
@@ -1111,8 +1420,6 @@ namespace ProyectoClinica.Controllers
                 return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
             }
         }
-
-
     }
 }
    

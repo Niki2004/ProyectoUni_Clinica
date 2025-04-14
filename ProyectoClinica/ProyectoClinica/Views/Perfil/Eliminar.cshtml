@@ -4,8 +4,9 @@
     ViewBag.Title = "Eliminar";
 }
 
+<link href="~/CSS/EliminarAdmin.css" rel="stylesheet" />
 <link href="~/CSS/VistaGeneral.css" rel="stylesheet" />
-
+<link rel="stylesheet" href="~/CSS/Crear.css" />
 
 <body>
     <div class="container-fluid">
@@ -52,176 +53,80 @@
             <!-- Main Content -->
             <div class="col-md-9 col-lg-10 ms-auto button-container">
 
-
-
                 <div class="container-form">
                     <h2 class="page-title">Eliminación de la cita</h2>
 
-                    <style>
-                        .container-form {
-                            max-width: 900px;
-                            margin: 0 auto;
-                            padding: 20px;
-                            background-color: #f8f9fa;
-                            border-radius: 10px;
-                            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-                        }
+                    <div class="warning-message">
+                        <i class="fas fa-exclamation-triangle"></i> ¿Estás seguro que deseas eliminar este historial? Esta acción no se puede deshacer.
+                    </div>
 
-                        .page-title {
-                            color: #0b7b82;
-                            text-align: center;
-                            margin-bottom: 30px;
-                            padding-bottom: 10px;
-                            border-bottom: 2px solid #0b7b82;
-                        }
+                    @Html.HiddenFor(model => model.Id_Cita)
 
-                        fieldset {
-                            border: 2px solid #0b7b82;
-                            padding: 15px;
-                            border-radius: 10px;
-                            margin-bottom: 20px;
-                            background: white;
-                        }
-
-                        legend {
-                            font-size: 1.2em;
-                            font-weight: bold;
-                            color: #0b7b82;
-                            padding: 0 10px;
-                            width: auto;
-                        }
-
-                        .form-group {
-                            margin-bottom: 15px;
-                        }
-
-                        .btn-primary {
-                            background-color: #0b7b82;
-                            border-color: #0b7b82;
-                            padding: 10px 20px;
-                            border-radius: 5px;
-                            font-weight: bold;
-                            transition: all 0.3s ease;
-                        }
-
-                            .btn-primary:hover {
-                                background-color: #096c72;
-                                transform: translateY(-1px);
-                                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-                                color: white;
-                            }
-
-                        .btn-secondary {
-                            background-color: #6c757d;
-                            color: white;
-                            padding: 10px 15px;
-                            border-radius: 5px;
-                            transition: all 0.3s ease;
-                            display: inline-block;
-                        }
-
-                            .btn-secondary:hover {
-                                background-color: #5a6268;
-                            }
-
-                        .confirm-message {
-                            color: #CC6B71;
-                            text-align: center;
-                            margin-bottom: 20px;
-                        }
-                    </style>
-
-                    @using (Html.BeginForm())
-                    {
-                        @Html.AntiForgeryToken()
-
-                        <div class="form-horizontal">
-                            <p class="confirm-message">¿Estás seguro que deseas eliminar esta cita?</p>
-
-                            @Html.HiddenFor(model => model.Id_Cita)
-
-                            <!-- Información del médico -->
+                    <div class="form-horizontal">
+                        <div class="form-section">
                             <legend>Información del Médico</legend>
-                            <div class="form-group">
-                                <label class="control-label col-md-4">Médico:</label>
-                                <div class="col-md-8">
-                                    @Html.DisplayFor(model => model.Medico.Nombre)
-                                </div>
-                            </div>
 
-                            <!-- Información del paciente -->
-                            <legend>Información del Paciente</legend>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="control-label col-md-4">Paciente:</label>
-                                        <div class="col-md-8">
-                                            @Html.DisplayFor(model => model.Nombre_Paciente)
-                                        </div>
-                                    </div>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Medico.Nombre, new { @class = "control-label" })
+                                    <div class="info-value">@Html.DisplayFor(model => model.Medico.Nombre)</div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="control-label">Complicaciones:</label>
-                                        @Html.DisplayFor(model => model.Descripcion_Complicaciones)
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="control-label">Síntomas:</label>
-                                        @Html.DisplayFor(model => model.Sintomas)
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Datos de la Cita -->
-                            <legend>Datos de la Cita</legend>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="control-label">Fecha de Cita:</label>
-                                        @Html.DisplayFor(model => model.Fecha_Cita)
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="control-label">Hora de Cita:</label>
-                                        @Html.DisplayFor(model => model.Hora_cita)
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="control-label">Modalidad:</label>
-                                        @Html.DisplayFor(model => model.Modalidad)
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="control-label">Estado de Asistencia:</label>
-                                        @Html.DisplayFor(model => model.Estado_Asistencia)
-                                    </div>
-                                </div>
-                            </div>
-
-                            <br />
-
-                            <!-- Botones -->
-                            <div class="form-group text-center">
-                                <input type="submit" value="Eliminar" class="btn btn-primary" />
-                                <a href="@Url.Action("VistaCita")" class="btn btn-secondary">Regresar</a>
                             </div>
                         </div>
-                    }
-                </div>
+                        <div class="form-section">
+                            <legend>Información del Paciente</legend>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Nombre_Paciente, new { @class = "control-label" })
+                                    <div class="info-value">@Html.DisplayFor(model => model.Nombre_Paciente)</div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Descripcion_Complicaciones, "Complicaciones", new { @class = "control-label" })
+                                    <div class="info-value">@Html.DisplayFor(model => model.Descripcion_Complicaciones)</div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Sintomas, new { @class = "control-label" })
+                                    <div class="info-value">@Html.DisplayFor(model => model.Sintomas)</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-section">
+                            <legend>Datos de la Cita</legend>
 
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Fecha_Cita, "Fecha de la Cita", new { @class = "control-label" })
+                                <div class="info-value">@Html.DisplayFor(model => model.Fecha_Cita)</div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Hora_cita, "Hora la Cita", new { @class = "control-label" })
+                                <div class="info-value">@Html.DisplayFor(model => model.Hora_cita)</div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Modalidad, new { @class = "control-label" })
+                                <div class="info-value">@Html.DisplayFor(model => model.Modalidad)</div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Estado_Asistencia, "Estado de Asistencia", new { @class = "control-label" })
+                                <div class="info-value">@Html.DisplayFor(model => model.Estado_Asistencia)</div>
+                            </div>
+                        </div>
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="form-group text-center">
+                                <input type="submit" value="Eliminar" class="btn-primary" />
+                                @Html.ActionLink("Regresar", "VistaCita", null, new { @class = "btn-secondary" })
+                            </div>
+                        }
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    </div>
-
+   
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 

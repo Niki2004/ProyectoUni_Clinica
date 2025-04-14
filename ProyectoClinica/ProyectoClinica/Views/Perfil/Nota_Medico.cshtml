@@ -4,8 +4,8 @@
     ViewBag.Title = "Médico";
 }
 
-<link rel="stylesheet" href="~/CSS/Crear.css" /> @*Link de los estilos*@
 <link href="~/CSS/VistaGeneral.css" rel="stylesheet" />
+<link rel="stylesheet" href="~/CSS/Crear.css" /> @*Link de los estilos*@
 
 <body>
     <div class="container-fluid">
@@ -55,25 +55,25 @@
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
                             <div class="form-section">
-                                <legend>Observación y Recomendación</legend>
+                                <legend>Información de la nota</legend>
                                 <div class="form-grid">
                                     <div class="form-group">
                                         @Html.LabelFor(model => model.Observacion, new { @class = "control-label" })
-                                        @Html.TextAreaFor(model => model.Observacion, new { @class = "form-control", rows = "3" })
+                                        @Html.EditorFor(model => model.Observacion, new { htmlAttributes = new { @class = "form-control" } })
                                         @Html.ValidationMessageFor(model => model.Observacion, "", new { @class = "text-danger" })
                                     </div>
 
                                     <div class="form-group">
                                         @Html.LabelFor(model => model.Recomendacion, new { @class = "control-label" })
-                                        @Html.TextAreaFor(model => model.Recomendacion, new { @class = "form-control", rows = "3" })
+                                        @Html.EditorFor(model => model.Recomendacion, new { htmlAttributes = new { @class = "form-control" } })
                                         @Html.ValidationMessageFor(model => model.Recomendacion, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
 
                             <div class="form-group text-center">
-                                <button type="submit" class="btn-primary">Guardar</button>
-                                <a href="@Url.Action("DOCHCita")" class="btn-secondary">Regresar</a>
+                                <input type="submit" value="Crear Nota" class="btn-primary" />
+                                @Html.ActionLink("Regresar", "DOCHCita", "Perfil", null, new { @class = "btn-secondary" })
                             </div>
                         </div>
                     }
@@ -82,7 +82,7 @@
 
 
         </div>
-        </div>
+    </div>
     </div>
     </div>
 

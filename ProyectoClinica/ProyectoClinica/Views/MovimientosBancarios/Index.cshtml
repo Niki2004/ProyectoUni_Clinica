@@ -19,9 +19,18 @@
     <div class="header-container" style="display: flex; justify-content: center; align-items: center; width: 100%; margin: 0 auto; max-width: 1200px;">
         <div class="header-container" style="display: flex; justify-content: center; align-items: center; width: 100%; margin: 0 auto; max-width: 1200px;">
             <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
-                <a href="@Url.Action("VistaCON", "Contabilidad")" class="btn-inicio">
-                    <i class="fas fa-home"></i> Inicio
-                </a>
+                @if (User.IsInRole("Administrador"))
+                {
+                    <a href="@Url.Action("VistaCON", "Contabilidad")" class="btn-inicio" style="margin-bottom: 20px; margin-top: 10px; display: inline-block;">
+                        <i class="fas fa-home"></i> Inicio
+                    </a>
+                }
+                @if (User.IsInRole("Auditor"))
+                {
+                    <a href="@Url.Action("IndexAUD", "Contabilidad")" class="btn-inicio" style="margin-bottom: 20px; margin-top: 10px; display: inline-block;">
+                        <i class="fas fa-home"></i> Inicio
+                    </a>
+                }
                 <div class="page-title-container" style="position: absolute; left: 50%; transform: translateX(-50%);">
                     <h1 class="page-title">Movimientos Bancarios</h1>
                 </div>

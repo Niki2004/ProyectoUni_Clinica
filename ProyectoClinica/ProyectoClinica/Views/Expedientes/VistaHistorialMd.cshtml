@@ -128,228 +128,145 @@
             });
         });
 
-
         function descargarPDF() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF('l', 'mm', 'a4'); // Formato horizontal para más espacio
+            try {
+                const { jsPDF } = window.jspdf;
 
-            // Colores personalizados que coinciden mejor con el tema de la clínica
-            // (Ajusta estos colores según el esquema real de tu sitio web)
-            const primaryColor = [0, 123, 255]; // Azul principal
-            const secondaryColor = [23, 162, 184]; // Azul secundario
-            const textColor = [33, 37, 41]; // Negro/gris oscuro para texto
-            const lightGray = [248, 249, 250]; // Gris muy claro para fondos alternos
-            const borderColor = [222, 226, 230]; // Color de borde sutil
+                if (!jsPDF) {
+                    throw new Error("La biblioteca jsPDF no está cargada correctamente");
+                }
 
-            // Dimensiones y márgenes
-            const margin = 10;
-            const pageWidth = doc.internal.pageSize.width;
-            const pageHeight = doc.internal.pageSize.height;
-            const contentWidth = pageWidth - (margin * 2);
+                const doc = new jsPDF('l', 'mm', 'a4'); 
 
-            // Función para dibujar el encabezado en cada página
-            function drawHeader() {
-                // Fondo de encabezado
-                doc.setFillColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-                doc.roundedRect(margin, margin, contentWidth, 20, 2, 2, 'F');
+                // Configuración de colores
+                const headerColor = [108, 166, 96]; // Verde para encabezados
+                const textColor = [0, 0, 0]; // Negro para texto
 
-                // Logo (simulado con un círculo)
+                // Dimensiones y márgenes
+                const margin = 10;
+                const pageWidth = doc.internal.pageSize.width;
+                const pageHeight = doc.internal.pageSize.height;
+                const contentWidth = pageWidth - (margin * 2);
+
+                // Obtener los datos de la tabla
+                const tableData = [];
+                const headers = [
+                    'Médico', 'Nombre del Paciente', 'Estado de Asistencia', 'Hora de la Cita',
+                    'Complicaciones', 'Sintomas', 'Fecha de la Cita', 'Modalidad'
+                ];
+
+                // Extraer datos de la tabla
+                const $rows = $("#expedientesTable tbody tr");
+                if ($rows.length === 0) {
+                    console.warn("No se encontraron datos en la tabla");
+                    // Si no hay datos, usa datos de ejemplo
+                    tableData.push([
+                        'Dr. Ejemplo', 'Paciente Ejemplo', 'Atendido', '10:00',
+                        'Ninguna', 'Fiebre', '2025-04-10', 'Presencial'
+                    ]);
+                } else {
+                    $rows.each(function () {
+                        const rowData = [];
+                        $(this).find('td').each(function () {
+                            rowData.push($(this).text().trim());
+                        });
+                        tableData.push(rowData);
+                    });
+                }
+
+                // Definir anchos de columna proporcionalmente
+                const totalTableWidth = contentWidth;
+                const columnWidths = {
+                    0: totalTableWidth * 0.12, // Médico (12%)
+                    1: totalTableWidth * 0.15, // Nombre del Paciente (15%)
+                    2: totalTableWidth * 0.12, // Estado de Asistencia (12%)
+                    3: totalTableWidth * 0.10, // Hora de la Cita (10%)
+                    4: totalTableWidth * 0.15, // Complicaciones (15%)
+                    5: totalTableWidth * 0.15, // Síntomas (15%)
+                    6: totalTableWidth * 0.11, // Fecha de la Cita (11%)
+                    7: totalTableWidth * 0.10  // Modalidad (10%)
+                };
+
+                // Dibujar la imagen de encabezado con el color verde - MISMO ANCHO QUE LA TABLA
+                doc.setFillColor(headerColor[0], headerColor[1], headerColor[2]);
+                doc.rect(margin, margin, contentWidth, 20, 'F');
+
+                // Fallback para cuando la imagen no puede cargarse
+                // Dibujar un círculo blanco como logo temporal
                 doc.setFillColor(255, 255, 255);
-                doc.circle(margin + 10, margin + 10, 6, 'F');
+                doc.circle(margin + 13, margin + 10, 8, 'F');
 
-                // Título principal
+                // Título principal del centro
                 doc.setFont("helvetica", "bold");
                 doc.setFontSize(16);
                 doc.setTextColor(255, 255, 255);
-                doc.text("Centro Integral Santo Domingo", margin + 25, margin + 12);
+                doc.text("Centro Integral Santo Domingo", margin + 30, margin + 11);
 
                 // Subtítulo
-                doc.setFont("helvetica", "normal");
-                doc.setFontSize(12);
-                doc.setTextColor(255, 255, 255);
-                doc.text("Historial de Expedientes Médicos", pageWidth - margin - 60, margin + 12);
+                doc.setFontSize(14);
+                doc.text("Historias de expedientes", margin + 30, margin + 18);
 
-                // Fecha y hora actuales
-                const fecha = new Date().toLocaleDateString('es-ES', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                });
-                const hora = new Date().toLocaleTimeString('es-ES', {
-                    hour: '2-digit',
-                    minute: '2-digit'
+                // Configuración de la tabla
+                doc.autoTable({
+                    startY: margin + 25,
+                    head: [headers],
+                    body: tableData,
+                    theme: 'grid',
+                    styles: {
+                        fontSize: 10,
+                        cellPadding: 3,
+                        textColor: textColor,
+                        lineColor: [150, 195, 145], // Verde para bordes
+                        lineWidth: 0.1,
+                        font: 'helvetica',
+                        fillColor: [255, 255, 255] // Fondo blanco para las celdas
+                    },
+                    headStyles: {
+                        fillColor: headerColor,
+                        textColor: [255, 255, 255],
+                        fontSize: 10,
+                        fontStyle: 'bold',
+                        cellPadding: 4,
+                        halign: 'center',
+                        valign: 'middle'
+                    },
+                    alternateRowStyles: {
+                        fillColor: [240, 250, 240] // Verde muy claro casi blanco para filas alternas
+                    },
+                    margin: {
+                        top: margin + 25,
+                        left: margin,
+                        right: margin,
+                        bottom: margin + 10
+                    },
+                    // Ajustar anchos de columna
+                    columnStyles: {
+                        0: { cellWidth: columnWidths[0] },
+                        1: { cellWidth: columnWidths[1] },
+                        2: { cellWidth: columnWidths[2] },
+                        3: { cellWidth: columnWidths[3] },
+                        4: { cellWidth: columnWidths[4] },
+                        5: { cellWidth: columnWidths[5] },
+                        6: { cellWidth: columnWidths[6] },
+                        7: { cellWidth: columnWidths[7] }
+                    },
+                    tableWidth: 'auto'
                 });
 
-                doc.setFontSize(9);
+                // Pie de página
                 doc.setFont("helvetica", "italic");
-                doc.setTextColor(textColor[0], textColor[1], textColor[2]);
-                doc.text(`Generado: ${fecha} a las ${hora}`, pageWidth - margin, pageHeight - margin, { align: 'right' });
-            }
-
-            // Función para dibujar el pie de página en cada página
-            function drawFooter(pageNumber, totalPages) {
-                // Línea decorativa
-                doc.setDrawColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-                doc.setLineWidth(0.5);
-                doc.line(margin, pageHeight - margin - 8, pageWidth - margin, pageHeight - margin - 8);
-
-                // Información de página
                 doc.setFontSize(8);
-                doc.setFont("helvetica", "normal");
-                doc.setTextColor(textColor[0], textColor[1], textColor[2]);
-                doc.text(`Página ${pageNumber} de ${totalPages}`, margin, pageHeight - margin - 3);
+                doc.setTextColor(100, 100, 100);
+                doc.text("© Centro Integral Santo Domingo - Todos los derechos reservados", pageWidth / 2, pageHeight - 10, { align: 'center' });
 
-                // Texto de derechos
-                doc.text("© Centro Integral Santo Domingo - Todos los derechos reservados", pageWidth / 2, pageHeight - margin - 3, { align: 'center' });
+                // Guardar el PDF
+                doc.save("Historias_Expedientes.pdf");
+                console.log("PDF generado correctamente");
+
+            } catch (error) {
+                console.error("Error al generar el PDF:", error);
+                alert("Hubo un problema al generar el PDF: " + error.message);
             }
-
-            // Obtener los datos de la tabla
-            const tableData = [];
-            const headers = [];
-
-            // Extraer encabezados
-            $('#expedientesTable thead th').each(function () {
-                headers.push($(this).text().trim());
-            });
-
-            // Extraer datos
-            $('#expedientesTable tbody tr').each(function () {
-                const rowData = [];
-                $(this).find('td').each(function () {
-                    rowData.push($(this).text().trim());
-                });
-                tableData.push(rowData);
-            });
-
-            // Dibuja el encabezado de la primera página
-            drawHeader();
-
-            // Configuración de la tabla con autoTable
-            doc.autoTable({
-                startY: margin + 25,
-                head: [headers],
-                body: tableData,
-                theme: 'grid',
-                styles: {
-                    fontSize: 9,
-                    cellPadding: 3,
-                    textColor: textColor,
-                    lineColor: borderColor,
-                    lineWidth: 0.1,
-                    font: 'helvetica',
-                },
-                headStyles: {
-                    fillColor: primaryColor,
-                    textColor: [255, 255, 255],
-                    fontSize: 10,
-                    fontStyle: 'bold',
-                    cellPadding: 4,
-                    halign: 'center',
-                    valign: 'middle'
-                },
-                alternateRowStyles: {
-                    fillColor: lightGray
-                },
-                margin: {
-                    top: margin + 25,
-                    left: margin,
-                    right: margin,
-                    bottom: margin + 10
-                },
-                columnStyles: {
-                    0: { cellWidth: 30 }, // Médico
-                    1: { cellWidth: 30 }, // Paciente
-                    2: { cellWidth: 20 }, // Estado
-                    3: { cellWidth: 15 }, // Hora
-                    4: { cellWidth: 45 }, // Complicaciones (más ancho para textos largos)
-                    5: { cellWidth: 40 }, // Síntomas (más ancho para textos largos)
-                    6: { cellWidth: 20 }, // Fecha
-                    7: { cellWidth: 20 }  // Modalidad
-                },
-                didDrawPage: function (data) {
-                    // Dibujar encabezado y pie de página en cada página
-                    if (data.pageNumber > 1) {
-                        drawHeader();
-                    }
-                    drawFooter(data.pageNumber, data.pageCount);
-                },
-                // Personalización para celdas con valores específicos
-                willDrawCell: function (data) {
-                    // Destacar estados específicos
-                    if (data.row.section === 'body' && data.column.index === 2) {
-                        const estado = data.cell.text[0];
-                        if (estado === 'Atendido') {
-                            data.cell.styles.fillColor = [209, 231, 221]; // Verde claro
-                            data.cell.styles.textColor = [15, 81, 50]; // Verde oscuro
-                        } else if (estado === 'Cancelado') {
-                            data.cell.styles.fillColor = [248, 215, 218]; // Rojo claro
-                            data.cell.styles.textColor = [132, 32, 41]; // Rojo oscuro
-                        } else if (estado === 'Pendiente') {
-                            data.cell.styles.fillColor = [255, 243, 205]; // Amarillo claro
-                            data.cell.styles.textColor = [102, 77, 3]; // Marrón oscuro
-                        }
-                    }
-
-                    // Mejorar la visualización del contenido de las celdas
-                    if (data.column.index === 4 || data.column.index === 5) {
-                        // Complicaciones y Síntomas: texto justificado para mejor lectura
-                        data.cell.styles.halign = 'left';
-                    }
-                }
-            });
-
-            // Añadir un resumen al final del documento
-            const finalY = doc.lastAutoTable.finalY || 150;
-
-            if (finalY + 40 > pageHeight - margin) {
-                doc.addPage();
-                drawHeader();
-                drawFooter(doc.internal.getNumberOfPages(), doc.internal.getNumberOfPages());
-            }
-
-            // Añadir caja de resumen
-            doc.setFillColor(primaryColor[0], primaryColor[1], primaryColor[2], 0.1);
-            doc.roundedRect(margin, finalY + 10, contentWidth / 2 - 5, 35, 2, 2, 'F');
-
-            doc.setFont("helvetica", "bold");
-            doc.setFontSize(12);
-            doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-            doc.text("Resumen del Informe", margin + 5, finalY + 20);
-
-            doc.setFont("helvetica", "normal");
-            doc.setFontSize(10);
-            doc.setTextColor(textColor[0], textColor[1], textColor[2]);
-
-            // Calcular estadísticas básicas
-            const totalExpedientes = tableData.length;
-            const expedientesAtendidos = tableData.filter(row => row[2] === 'Atendido').length;
-            const expedientesPendientes = tableData.filter(row => row[2] === 'Pendiente').length;
-            const expedientesCancelados = tableData.filter(row => row[2] === 'Cancelado').length;
-
-            doc.text(`Total de expedientes: ${totalExpedientes}`, margin + 5, finalY + 28);
-            doc.text(`Atendidos: ${expedientesAtendidos}`, margin + 5, finalY + 34);
-            doc.text(`Pendientes: ${expedientesPendientes}`, margin + 80, finalY + 34);
-            doc.text(`Cancelados: ${expedientesCancelados}`, margin + 150, finalY + 34);
-
-            // Añadir información de contacto
-            doc.setFillColor(secondaryColor[0], secondaryColor[1], secondaryColor[2], 0.1);
-            doc.roundedRect(pageWidth - margin - contentWidth / 2 + 5, finalY + 10, contentWidth / 2 - 5, 35, 2, 2, 'F');
-
-            doc.setFont("helvetica", "bold");
-            doc.setFontSize(12);
-            doc.setTextColor(secondaryColor[0], secondaryColor[1], secondaryColor[2]);
-            doc.text("Información de Contacto", pageWidth - margin - contentWidth / 2 + 10, finalY + 20);
-
-            doc.setFont("helvetica", "normal");
-            doc.setFontSize(10);
-            doc.setTextColor(textColor[0], textColor[1], textColor[2]);
-            doc.text("Centro Integral Santo Domingo", pageWidth - margin - contentWidth / 2 + 10, finalY + 28);
-            doc.text("Tel: (XXX) XXX-XXXX", pageWidth - margin - contentWidth / 2 + 10, finalY + 34);
-            doc.text("Email: info@centrosd.com", pageWidth - margin - contentWidth / 2 + 10, finalY + 40);
-
-            // Guardar el PDF
-            doc.save("Historial_Expedientes.pdf");
-        }
-    </script>
+        }    </script>
 </body>
 </html>

@@ -4,22 +4,36 @@
     ViewBag.Title = "Notas Personales";
 }
 
-<link href="~/CSS/VistaCIta.css" rel="stylesheet" />
-
-<div class="container-fluid">
-    <div class="row mb-4">
-        <div class="col-12 d-flex justify-content-between align-items-center">
-            <h2 class="text-center flex-grow-1 mb-0 medical-title">Notas Personales</h2>
-            <a href="@Url.Action("Index", "Perfil")" class="btn custom-medical-btn">
-                <i class="fas fa-home me-2"></i>Inicio
-            </a>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notas Personales</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="~/CSS/Tablas.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="header-container" style="display: flex; justify-content: center; align-items: center; width: 100%; margin: 0 auto; max-width: 1200px;">
+        <div class="header-container" style="display: flex; justify-content: center; align-items: center; width: 100%; margin: 0 auto; max-width: 1200px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                <a href="@Url.Action("Index", "Perfil")" class="btn-inicio" style="margin-bottom: 20px; margin-top: 10px;">
+                    <i class="fas fa-home"></i> Inicio
+                </a>
+                <div class="page-title-container" style="position: absolute; left: 50%; transform: translateX(-50%);">
+                    <h1 class="page-title">Notas Personales</h1>
+                </div>
+            </div>
         </div>
     </div>
+
+    <br>
+    <br>
 
     @* Mensajes de notificación *@
     @if (TempData["ErrorMessage"] != null)
     {
-        <div class="alert alert-medical-danger alert-dismissible fade show" role="alert">
+        <div class="alert alert-danger" role="alert">
             <i class="fas fa-exclamation-circle me-2"></i>
             @TempData["ErrorMessage"]
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -28,62 +42,58 @@
 
     @if (TempData["SuccessMessage"] != null)
     {
-        <div class="alert alert-medical-success alert-dismissible fade show" role="alert">
+        <div class="alert alert-success" role="alert">
             <i class="fas fa-check-circle me-2"></i>
             @TempData["SuccessMessage"]
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     }
 
-    <div class="row g-4">
+    <!-- Tarjetas de Notas -->
+    <div class="cards-container">
         @foreach (var item in Model)
         {
-            <div class="col-12 col-md-6 col-lg-4">
-                <div class="card medical-appointment-card">
-                    <div class="card-header medical-card-header">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="appointment-header-title">
-                                <i class="fas fa-calendar-alt me-2"></i>Nota Personal
-                            </div>
-                        </div>
+            <div class="payment-card nota-item">
+                <div class="card-status-chip estado-contabilidad-pendiente">
+                    Nota Personal
+                </div>
+                <div class="card-header">
+                    <div class="card-id">Nota #@item.Id_Nota_Paciente</div>
+                    <div class="card-date"><i class="fas fa-calendar-alt"></i> Nota</div>
+                </div>
+                <div class="card-body">
+                    <div class="card-info">
+                        <div class="info-label">Descripción:</div>
+                        <div class="info-value">@item.Nota_Del_Paciente</div>
                     </div>
-                    <div class="card-body">
-                        <div class="row g-3">
-                            <div class="col-12">
-                                <div class="medical-info-row">
-                                 <div class="medical-info-content">
-                                     <i class="fas fa-file-alt" style="color: #ACC196; margin-right: 5px;"></i> <span class="medical-info-label">Descripción:</span>
-                                      @item.Nota_Del_Paciente
-                                 </div>
-                                </div>
-                               
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-footer medical-card-footer">
+                </div>
+                <div class="card-footer">
+                    <div class="card-actions" style="display: flex; justify-content: space-between; width: 100%;">
                         <a href="@Url.Action("EditarNota", "Perfil", new { id = item.Id_Nota_Paciente })"
-                           class="btn btn-medical-edit me-2"
+                           class="btn btn-sm"
+                           style="background-color: #B5EAD7; color: #2d6d5c; border: none;"
                            data-bs-toggle="tooltip"
                            title="Editar Nota">
-                            <i class="fas fa-edit me-2"></i>Editar
+                            <i class="fas fa-edit"></i> Editar
                         </a>
 
-                        @using (Html.BeginForm("EliminarNota", "Perfil", FormMethod.Post))
+                        @using (Html.BeginForm("EliminarNota", "Perfil", FormMethod.Post, new { style = "display: inline;" }))
                         {
                             @Html.AntiForgeryToken()
                             @Html.Hidden("id", item.Id_Nota_Paciente)
 
-                            <button type="submit" class="btn btn-medical-delete" data-bs-toggle="tooltip" title="Eliminar Nota">
+                            <button type="submit"
+                                    class="btn btn-sm"
+                                    style="background-color: #FFDAC1; color: #b05c3e; border: none;"
+                                    data-bs-toggle="tooltip"
+                                    title="Eliminar Nota">
                                 <i class="fas fa-trash-alt"></i> Eliminar
                             </button>
                         }
                     </div>
-
                 </div>
             </div>
         }
-
-        @* No hay notas *@
         @if (!Model.Any())
         {
             <div class="text-center mt-5 medical-empty-state">
@@ -92,13 +102,65 @@
             </div>
         }
     </div>
-</div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl)
-        })
-    });
-</script>
+    <div id="paginationNotas" class="d-flex justify-content-center mt-3"></div>
+</body>
+</html>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var rowsPerPage = 5;
+            var $cards = $(".payment-card");
+            var totalPagesCards = Math.ceil($cards.length / rowsPerPage);
+            var currentPageCards = 1;
+
+            function showPage(page, items, totalPages, container) {
+                var start = (page - 1) * rowsPerPage;
+                var end = start + rowsPerPage;
+
+                items.hide().slice(start, end).show();
+                $(container).html(createPagination(page, totalPages, container));
+            }
+
+            function createPagination(page, total, container) {
+                var pagination = `<nav><ul class="pagination">`;
+
+                if (page > 1) {
+                    pagination += `<li class="page-item"><a href="#" class="page-link" data-page="${page - 1}" data-container="${container}">«</a></li>`;
+                }
+
+                for (var i = 1; i <= total; i++) {
+                    pagination += `<li class="page-item ${i === page ? 'active' : ''}">
+                                     <a href="#" class="page-link" data-page="${i}" data-container="${container}">${i}</a>
+                                   </li>`;
+                }
+
+                if (page < total) {
+                    pagination += `<li class="page-item"><a href="#" class="page-link" data-page="${page + 1}" data-container="${container}">»</a></li>`;
+                }
+
+                pagination += `</ul></nav>`;
+                return pagination;
+            }
+
+            $(document).on("click", ".page-link", function (e) {
+                e.preventDefault();
+                var page = $(this).data("page");
+                var container = $(this).data("container");
+
+                if (container === "#paginationNotas") {
+                    showPage(page, $cards, totalPagesCards, "#paginationNotas");
+                }
+            });
+
+            showPage(currentPageCards, $cards, totalPagesCards, "#paginationNotas");
+
+            // Inicializar tooltips
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl)
+            });
+        });
+    </script>
+}

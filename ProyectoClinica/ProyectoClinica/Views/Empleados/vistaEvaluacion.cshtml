@@ -28,6 +28,14 @@
             </div>
         </div>
 
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success" role="alert">
+                @TempData["SuccessMessage"]
+            </div>
+        }
+
         <br />
         <div class="results-panel mt-4">
             <div class="table-responsive">

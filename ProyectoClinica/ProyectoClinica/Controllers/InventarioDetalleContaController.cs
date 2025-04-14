@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Net;
 
 namespace ProyectoClinica.Controllers
 {
@@ -17,6 +18,8 @@ namespace ProyectoClinica.Controllers
         {
             _context = new ApplicationDbContext();
         }
+
+        [Authorize(Roles = "Administrador,Contador")]
         // GET: ProductosConta
         public ActionResult Index()
         {
@@ -24,6 +27,7 @@ namespace ProyectoClinica.Controllers
             return View(listaRegistros);
         }
 
+        [Authorize(Roles = "Administrador,Contador")]
         // GET: InventarioDetalleConta/Details/5
         public async Task<ActionResult> Details(int? id)
         {
@@ -40,136 +44,113 @@ namespace ProyectoClinica.Controllers
             return View(detalles);
         }
 
+
+        [Authorize(Roles = "Administrador,Contador")]
         // GET: InventarioDetalleConta/Create
         public ActionResult Create()
         {
+            ViewBag.Departamento = new SelectList(_context.Departamentos, "Id_Departamento", "Nombre_Departamento");
+            ViewBag.Producto = new SelectList(_context.Productos_Conta, "Id_Producto", "Nombre_producto");
             return View();
         }
 
         // POST: InventarioDetalleConta/Create
         [HttpPost]
-        public ActionResult Create(Inventario_Detalle_Conta model)
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "Id_Inventario_Detalle,Id_Inventario_Encabezado,Id_Departamento,Id_Producto,Fecha_Entrada,Fecha_Salida,Cantidad_Stock,Cantidad_Salida,Precio")] Inventario_Detalle_Conta inventario_Detalle_Conta)
         {
-            try
+            if (ModelState.IsValid)
             {
-
-                if (ModelState.IsValid)
+                try
                 {
-                    try
+                    // Verificar si el producto existe
+                    var producto = _context.Productos_Conta.Find(inventario_Detalle_Conta.Id_Producto);
+                    if (producto == null)
                     {
-                        //Guardar en la base de datos
-                        _context.Inventario_Detalle_Conta.Add(model);
-                        _context.SaveChanges();
-
-                        return RedirectToAction("Index");
-                    }
-                    catch (Exception ex)
-                    {
-                        // Si hay un error, muestra el mensaje en el log o en el modelo para que el usuario lo vea
-                        ModelState.AddModelError("", "Ocurrió un error al guardar los datos: " + ex.Message);
+                        ModelState.AddModelError("Id_Producto", "El producto seleccionado no existe.");
+                        ViewBag.Departamento = new SelectList(_context.Departamentos, "Id_Departamento", "Nombre_Departamento");
+                        ViewBag.Producto = new SelectList(_context.Productos_Conta, "Id_Producto", "Nombre_producto");
+                        return View(inventario_Detalle_Conta);
                     }
 
+                    // Verificar si el departamento existe
+                    var departamento = _context.Departamentos.Find(inventario_Detalle_Conta.Id_Departamento);
+                    if (departamento == null)
+                    {
+                        ModelState.AddModelError("Id_Departamento", "El departamento seleccionado no existe.");
+                        ViewBag.Departamento = new SelectList(_context.Departamentos, "Id_Departamento", "Nombre_Departamento");
+                        ViewBag.Producto = new SelectList(_context.Productos_Conta, "Id_Producto", "Nombre_producto");
+                        return View(inventario_Detalle_Conta);
+                    }
 
-
+                    _context.Inventario_Detalle_Conta.Add(inventario_Detalle_Conta);
+                    _context.SaveChanges();
+                    TempData["SuccessMessage"] = "Inventario creado exitosamente.";
+                    return RedirectToAction("Index", "InventarioDetalleConta");
                 }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "Error al guardar el registro: " + ex.Message);
+                }
+            }
 
-                // Si el modelo no es válido o hubo un error, repite el proceso y pasa la vista con el modelo
-                // Esto permitirá que los datos enviados por el usuario se mantengan en el formulario
-                ViewBag.Inventario_Detalle_Conta = new SelectList(_context.Inventario_Detalle_Conta, "Id_Inventario_Detalle");
-                return View(model);
-            }
-            catch
-            {
-                return View();
-            }
+            // Si el modelo no es válido, recargar los ViewBag
+            ViewBag.Departamento = new SelectList(_context.Departamentos, "Id_Departamento", "Nombre_Departamento");
+            ViewBag.Producto = new SelectList(_context.Productos_Conta, "Id_Producto", "Nombre_producto");
+            return View(inventario_Detalle_Conta);
         }
 
-        // GET: InventarioDetalleConta/Edit/5
-        public ActionResult Edit(int id)
-        {
-            var detalles = _context.Inventario_Detalle_Conta.Find(id);
 
-            if (detalles == null)
+        [Authorize(Roles = "Administrador,Contador")]
+        // GET: InventarioDetalleConta/Edit/5
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
             {
-                return new HttpStatusCodeResult(System.Net.HttpStatusCode.NotFound);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            // Cargar las listas para los dropdowns
-            ViewBag.Encabezados = new SelectList(_context.Inventario_Encabezado_Conta, "Id_Inventario_Encabezado", "Id_Inventario_Encabezado");
-            ViewBag.Departamentos = new SelectList(_context.Departamentos, "Id_Departamento", "Nombre_Departamento");
-            ViewBag.Productos = new SelectList(_context.Productos_Conta, "Id_Producto", "Nombre_producto");
+            // Obtener el registro específico con sus relaciones
+            var inventario_Detalle_Conta = _context.Inventario_Detalle_Conta
+                .Include(i => i.Departamento)
+                .Include(i => i.Producto)
+                .FirstOrDefault(i => i.Id_Inventario_Detalle == id);
 
-            return View(detalles);
+            if (inventario_Detalle_Conta == null)
+            {
+                return HttpNotFound();
+            }
+
+            // Solo inicializar los dropdowns necesarios
+            ViewBag.Departamento = new SelectList(_context.Departamentos, "Id_Departamento", "Nombre_Departamento", inventario_Detalle_Conta.Id_Departamento);
+            ViewBag.Producto = new SelectList(_context.Productos_Conta, "Id_Producto", "Nombre_producto", inventario_Detalle_Conta.Id_Producto);
+
+            return View(inventario_Detalle_Conta);
         }
 
         // POST: InventarioDetalleConta/Edit/5
         [HttpPost]
-        public async Task<ActionResult> Edit(Inventario_Detalle_Conta detalles)
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "Id_Inventario_Detalle,Id_Inventario_Encabezado,Id_Departamento,Id_Producto,Fecha_Entrada,Fecha_Salida,Cantidad_Stock,Cantidad_Salida,Precio")] Inventario_Detalle_Conta inventario_Detalle_Conta)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                try
                 {
-                    var existingDetalles = await _context.Inventario_Detalle_Conta.FindAsync(detalles.Id_Inventario_Detalle);
-                    if (existingDetalles == null)
-                    {
-                        return HttpNotFound();
-                    }
-
-                    // Marcar la entidad como modificada
-                    _context.Entry(existingDetalles).State = EntityState.Modified;
-
-                    // Actualizar las propiedades del objeto existente
-                    existingDetalles.Id_Inventario_Encabezado = detalles.Id_Inventario_Encabezado;
-                    existingDetalles.Id_Departamento = detalles.Id_Departamento;
-                    existingDetalles.Id_Producto = detalles.Id_Producto;
-                    existingDetalles.Fecha_Entrada = detalles.Fecha_Entrada;
-                    existingDetalles.Fecha_Salida = detalles.Fecha_Salida;
-                    existingDetalles.Cantidad_Stock = detalles.Cantidad_Stock;
-                    existingDetalles.Cantidad_Salida = detalles.Cantidad_Salida;
-                    existingDetalles.Precio = detalles.Precio;
-
-                    try
-                    {
-                        await _context.SaveChangesAsync();
-                        return RedirectToAction("Index");
-                    }
-                    catch (System.Data.Entity.Core.OptimisticConcurrencyException)
-                    {
-                        // Si hay un conflicto de concurrencia, recargar los datos y mostrar un mensaje
-                        ModelState.AddModelError("", "El registro ha sido modificado por otro usuario. Por favor, actualice la página y vuelva a intentarlo.");
-                        return View(detalles);
-                    }
+                    _context.Entry(inventario_Detalle_Conta).State = EntityState.Modified;
+                    _context.SaveChanges();
+                    return RedirectToAction("Index");
                 }
-                return View(detalles);
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "Error al actualizar el registro: " + ex.Message);
+                }
             }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", "Ocurrió un error al guardar los cambios: " + ex.Message);
-                return View(detalles);
-            }
+
+            ViewBag.Departamento = new SelectList(_context.Departamentos, "Id_Departamento", "Nombre_Departamento", inventario_Detalle_Conta.Id_Departamento);
+            ViewBag.Producto = new SelectList(_context.Productos_Conta, "Id_Producto", "Nombre_producto", inventario_Detalle_Conta.Id_Producto);
+            return View(inventario_Detalle_Conta);
         }
 
-        // GET: InventarioDetalleConta/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: InventarioDetalleConta/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }

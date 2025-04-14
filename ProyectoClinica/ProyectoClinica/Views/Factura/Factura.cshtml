@@ -5,9 +5,31 @@
     var MetodosPagoSeleccionados = ViewBag.MetodosPagoSeleccionados as List<ProyectoClinica.Models.Metodo_Pago>;
 }
 
+<link href="~/CSS/VistaGeneral.css" rel="stylesheet" />
 
+<!-- Sidebar -->
+<div class="col-md-3 col-lg-2 sidebar">
+    <div class="sidebar">
+        <div class="p-3 d-flex justify-content-center">
+            <img src="~/Imagenes/Logo.png" alt="Centro Integral Santo Domingo Logo" class="img-fluid" style="max-width: 195px; height: auto;" />
+        </div>
 
+        <center><div class="nav-header">Plataforma</div></center>
+        <div class="nav-item">
+            <a class="nav-link">
+                <div>
+                    Navegación
+                </div>
 
+            </a>
+            <ul class="submenu">
+                <a href="@Url.Action("Index", "Factura")" class="nav-link">
+                    <i class="fas fa-cash-register"></i> Punto de venta
+                </a>
+            </ul>
+        </div>
+    </div>
+</div>
 
 <div class="container mt-5">
     <div class="card shadow-sm p-4 mb-3">
@@ -116,3 +138,25 @@
         </form>
     </div>
 </div>
+
+<script>
+    // Toggle submenu functionality
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', function () {
+            // Close all other open submenus
+            document.querySelectorAll('.submenu').forEach(submenu => {
+                if (submenu !== this.nextElementSibling) {
+                    submenu.classList.remove('active');
+                    this.classList.remove('active');
+                }
+            });
+
+            // Toggle the clicked submenu
+            const submenu = this.nextElementSibling;
+            if (submenu) {
+                submenu.classList.toggle('active');
+                this.classList.toggle('active');
+            }
+        });
+    });
+</script>
