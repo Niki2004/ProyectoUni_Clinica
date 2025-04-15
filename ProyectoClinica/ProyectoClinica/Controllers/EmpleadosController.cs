@@ -26,18 +26,21 @@ namespace ProyectoClinica.Controllers
 
         [HttpGet]
         //Información de la clinica
+
+        [Authorize(Roles = "Administrador")]
         public ActionResult VistaAdmin()
         {
             return View();
 
         }
-
+        [Authorize(Roles = "Administrador")]
         public ActionResult Empleados()
         {
             var empleados = BaseDatos.Empleado.ToList(); // Obtiene la lista de empleados
             return View(empleados);
         }
 
+        [Authorize(Roles = "Administrador")]
         [HttpGet]
         public ActionResult VistaEmpleados()
         {
@@ -55,7 +58,7 @@ namespace ProyectoClinica.Controllers
 
         //-----------------------------------------------------------------controller creacion de empleados----------------------------------------------------------------------
 
-        
+        [Authorize(Roles = "Administrador")]
         public ActionResult Create()
         {
             ViewBag.Id_Estado = new SelectList(BaseDatos.Estado, "Id_Estado", "Descripcion");
@@ -95,7 +98,7 @@ namespace ProyectoClinica.Controllers
 
         //    //-----------------------------------------------------------------Controller Asignacion de roles-------------------------------------------------------------------------------------
 
-      
+        [Authorize(Roles = "Administrador")]
         public ActionResult Rol()
         {
             ViewBag.Id_Empleado = new SelectList(BaseDatos.Empleado, "Id_Empleado", "Nombre");
@@ -123,7 +126,7 @@ namespace ProyectoClinica.Controllers
 
         //-----------------------------------------------------------------Controller Editar -------------------------------------------------------------------------------------
 
-
+        [Authorize(Roles = "Administrador")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -139,7 +142,7 @@ namespace ProyectoClinica.Controllers
             return View(empleado);
         }
 
-        
+        [Authorize(Roles = "Administrador")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id_Empleado,Id_Estado,Comentarios,Nombre,Apellido,Cedula,Correo,Jornada,Fecha_registro,Departamento")] Empleado empleado)
@@ -168,6 +171,7 @@ namespace ProyectoClinica.Controllers
 
         //-----------------------------------------------------------------Controller Desactivar -------------------------------------------------------------------------------------
 
+        [Authorize(Roles = "Administrador")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -198,6 +202,7 @@ namespace ProyectoClinica.Controllers
 
         //-----------------------------------------------------------------Controller Buscar -------------------------------------------------------------------------------------
 
+        [Authorize(Roles = "Administrador")]
         public ActionResult Buscar(string nombre, string cedula)
         {
             var empleados = BaseDatos.Empleado.AsQueryable();
@@ -218,8 +223,8 @@ namespace ProyectoClinica.Controllers
         //-----------------------------------------------------------------Controller Agregar archivos  -------------------------------------------------------------------------------------
 
 
-
-         // aun no descarga el pdf solo lo sube a la base de datos
+        [Authorize(Roles = "Administrador")]
+        // aun no descarga el pdf solo lo sube a la base de datos
         public ActionResult file()
         {
             return View();
@@ -282,7 +287,7 @@ namespace ProyectoClinica.Controllers
 
         //-----------------------------------------------------------------Controller ver los pdfs -------------------------------------------------------------------------------------
 
-
+        [Authorize(Roles = "Administrador")]
         public ActionResult vistaPDF()
         {
             // Mapea la ruta ~/Uploads en el servidor
@@ -299,7 +304,7 @@ namespace ProyectoClinica.Controllers
 
             return View(pdfFiles);
         }
-
+        [Authorize(Roles = "Administrador")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult EliminarPDF(string fileName)
@@ -340,7 +345,7 @@ namespace ProyectoClinica.Controllers
         }
 
         //-----------------------------------------------------------------Controller Historial -------------------------------------------------------------------------------------
-
+        [Authorize(Roles = "Administrador")]
         public ActionResult vistaHistorial()
         {
             var RolAsignacion = BaseDatos.RolAsignacion.Include("Empleado").ToList();
@@ -364,7 +369,7 @@ namespace ProyectoClinica.Controllers
         //-----------------------------------------------------------------Controller Evaluacion -------------------------------------------------------------------------------------
 
 
-
+        [Authorize(Roles = "Administrador")]
         public ActionResult Evaluacion()
         {
             
@@ -400,7 +405,7 @@ namespace ProyectoClinica.Controllers
             return View(evaluacion);
         }
 
-       
+        [Authorize(Roles = "Administrador")]
         public ActionResult vistaEvaluacion()
         {
             
@@ -422,7 +427,7 @@ namespace ProyectoClinica.Controllers
 
 
         //---------------------------------------------------------------- AsignacionRolesTemporales -------------------------------------------------------------------------------------
-
+        [Authorize(Roles = "Administrador")]
         public ActionResult vistaRolEmpleado()
         {
             var asignacionRolesTemporales = BaseDatos.AsignacionRolesTemporales.Include(a => a.ApplicationUser);
@@ -501,7 +506,7 @@ namespace ProyectoClinica.Controllers
                 return View("vistaRolCrear", asignacionRolesTemporales);
         }
 
-
+        [Authorize(Roles = "Administrador")]
 
         // GET: AsignacionRolesTemporales/Edit/5
         public ActionResult vistaRolEditar(int? id)
@@ -520,7 +525,7 @@ namespace ProyectoClinica.Controllers
             ViewBag.Id_Departamento = new SelectList(BaseDatos.Departamentos, "Id_Departamento", "Nombre_Departamento", asignacionRolesTemporales.Id_Departamento);
             return View(asignacionRolesTemporales);
         }
-
+        [Authorize(Roles = "Administrador")]
         // POST: AsignacionRolesTemporales/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
