@@ -1,109 +1,162 @@
 ﻿@model IEnumerable<ProyectoClinica.Models.Comentario>
+
 @{
     ViewBag.Title = "Gestión de Comentarios";
 }
 
-<link href="~/CSS/Comentarios.css" rel="stylesheet" />
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Comentarios</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="~/CSS/Tablas.css" rel="stylesheet" />
+    <link href="~/CSS/Administrativo.css" rel="stylesheet" />
 
-<style>
-    .pagination {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-top: 20px;
-    }
-
-        .pagination button {
-            background-color: #f8f9fa;
-            border: 1px solid #ddd;
-            color: #007bff;
-            padding: 10px 15px;
-            margin: 0 5px;
-            cursor: pointer;
-            font-size: 16px;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
+    <style>
+        #paginationControls {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
         }
 
-            .pagination button.active {
-                background-color: #007bff;
-                color: white;
+            #paginationControls button {
+                background-color: #D6E5FF;
+                color: #333;
+                border: none;
+                padding: 8px 16px;
+                border-radius: 12px;
+                cursor: pointer;
+                font-size: 14px;
+                transition: background-color 0.3s, transform 0.2s;
+                min-width: 40px;
             }
 
-            .pagination button:hover {
-                background-color: #e2e6ea;
-            }
+                #paginationControls button:hover {
+                    background-color: #AFCBFF;
+                    transform: translateY(-1px);
+                }
 
-            .pagination button:disabled {
-                background-color: #ccc;
-                cursor: not-allowed;
-            }
-</style>
+                #paginationControls button.active {
+                    background-color: #392F5A;
+                    color: #fff;
+                    font-weight: bold;
+                }
 
-<div style="text-align: center; margin-bottom: 20px;">
-    <a href="@Url.Action("VistaCAdmin", "Cita")" class="custom-btn">
-        <i class="fas fa-home"></i> Inicio
-    </a>
-</div>
+                #paginationControls button:disabled {
+                    background-color: #ccc;
+                    cursor: not-allowed;
+                    color: #666;
+                }
+        .card-header {
+            display: flex;
+            flex-direction: column;
+        }
 
-<div class="comentarios-container">
-    <div class="header-section">
-        <h2>Gestión de Comentarios</h2>
-        <a href="@Url.Action("SComentarios", "Cita")" class="btn-create">
-            <i class="fas fa-plus-circle"></i> Crear Nuevo
-        </a>
+        .card-id {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            max-width: 100%;
+        }
+
+        .text-wrap {
+            white-space: normal;
+        }
+        .card-amount .fas.fa-star.active {
+            color: #FDEE87; 
+        }
+        .card-amount .fas.fa-star {
+            color: #E0E0E0;
+        }
+    </style>
+
+</head>
+<body>
+
+    <div class="header-container" style="display: flex; justify-content: center; align-items: center; width: 100%; margin: 0 auto; max-width: 1200px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+            <a href="@Url.Action("VistaCAdmin", "Cita")" class="btn-inicio" style="margin-bottom: 20px; margin-top: 10px;">
+                <i class="fas fa-home"></i> Inicio
+            </a>
+            <div class="page-title-container" style="position: absolute; left: 50%; transform: translateX(-50%);">
+                <h1 class="page-title">Gestión de Comentarios</h1>
+            </div>
+            <a href="@Url.Action("SComentarios", "Cita")" class="btn-crear-pago">
+                <i class="fas fa-plus-circle"></i> Crear Nuevo
+            </a>
+        </div>
     </div>
+
+    <br><br>
 
     @if (TempData["Mensaje"] != null)
     {
-        <div class="alert-success fade-in" role="alert">
+        <div class="alert alert-success" role="alert" >
             <i class="fas fa-check-circle"></i> @TempData["Mensaje"]
         </div>
     }
 
-    <div class="filtros-section">
-        <div class="search-box">
-            <i class="fas fa-search"></i>
-            <input type="text" id="searchComentarios" placeholder="Buscar comentario...">
-        </div>
-        <div class="dropdown-filter">
-            <select id="estadoFilter">
-                <option value="">Todos los estados</option>
-                <option value="Aprobado">Aprobados</option>
-                <option value="Pendiente">Pendientes</option>
-                <option value="Rechazado">Rechazados</option>
-            </select>
-        </div>
+    <br />
+    <div class="search-panel">
+        <h2 class="search-title" style="color: #392F5A;"><i class="fas fa-search"></i> Buscar Comentarios</h2>
+        <form method="get" action="#" class="mb-4">
+            <div class="row g-3 align-items-end">
+                <div class="col-md-4">
+                    <div class="form-group mb-0">
+                        <label class="form-label">Comentario o Paciente:</label>
+                        <input type="text" id="searchComentarios" class="form-control"
+                               placeholder="Buscar por comentario o paciente"
+                               style="border-color: #ced4da; box-shadow: none;" />
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group mb-0">
+                        <label class="form-label">Estado:</label>
+                        <select id="estadoFilter" class="form-control" style="border-color: #ced4da; box-shadow: none;">
+                            <option value="">Todos los estados</option>
+                            <option value="Aprobado">Aprobados</option>
+                            <option value="Pendiente">Pendientes</option>
+                            <option value="Rechazado">Rechazados</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3 d-flex align-items-end">
+                    <button type="button" id="btnFiltrar" class="btn-search w-100"
+                            style="background-color: #D6E5FF; color: #333; border: none;">
+                        <i class="fas fa-search me-2"></i>Aplicar Filtros
+                    </button>
+                </div>
+            </div>
+        </form>
     </div>
 
-    <div class="comentarios-grid" id="comentariosList">
+    <br>
+
+    <div class="cards-container">
         @foreach (var item in Model)
         {
-            <div class="comentario-card @(item.Estado_Comentario.Estado.ToLower())">
-                <div class="comentario-header">
-                    <div class="patient-info">
-                        <i class="fas fa-user-circle"></i>
-                        <span>@item.Atencion_Cliente.Comentarios_Paciente</span>
-                    </div>
-                    <div class="rating">
+            <div class="payment-card">
+                <div class="card-status-chip @(item.Estado_Comentario.Estado == "Pendiente" ? "estado-contabilidad-pendiente" :
+                                            item.Estado_Comentario.Estado == "Aprobado" ? "estado-contabilidad-pagado" :
+                                            "estado-contabilidad-otro")">
+                    @item.Estado_Comentario.Estado
+                </div>
+                <div class="card-header">
+                    <div class="card-id">@item.Atencion_Cliente.Comentarios_Paciente</div>
+                    <div class="card-date">@item.Fecha.ToString("dd/MM/yyyy")</div>
+                </div>
+                <div class="card-body">
+                    <div class="card-amount">
                         @for (int i = 1; i <= 5; i++)
                         {
                             <i class="fas fa-star @(i <= item.Calificacion ? "active" : "")"></i>
                         }
                     </div>
-                </div>
-                <div class="comentario-body">
-                    <p>@item.Comentario_Texto</p>
-                </div>
-                <div class="comentario-footer">
-                    <div class="date">
-                        <i class="far fa-calendar-alt"></i>
-                        <span>@item.Fecha.ToString("dd/MM/yyyy")</span>
-                    </div>
-                    <div class="badges">
-                        <span class="badge badge-@(item.Estado_Comentario.Estado.ToLower())">
-                            @item.Estado_Comentario.Estado
-                        </span>
+                    <div class="card-info">
+                        <div class="info-label">Comentario:</div>
+                        <p>@item.Comentario_Texto</p>
                     </div>
                 </div>
             </div>
@@ -112,114 +165,86 @@
 
     @if (!Model.Any())
     {
-        <div class="no-records">
+        <div class="no-records" style="text-align: center;">
             <i class="fas fa-comment-slash"></i>
             <p>No hay comentarios para mostrar</p>
         </div>
     }
 
-    <!-- Paginado -->
-    <div id="paginationControls" class="pagination">
-        <!-- Aquí se agregarán los controles de paginación -->
-    </div>
-</div>
+    <!-- Paginación -->
+    <div id="paginationControls" class="d-flex justify-content-center mt-3"></div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const comentariosList = document.getElementById('comentariosList');
-        const comments = Array.from(comentariosList.querySelectorAll('.comentario-card'));
-        const commentsPerPage = 5;  // Cantidad de comentarios por página
-        const totalPages = Math.ceil(comments.length / commentsPerPage);
-        let currentPage = 1;
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const comentariosList = document.querySelectorAll('.payment-card');
+            const commentsPerPage = 5;
+            let totalPages = Math.ceil(comentariosList.length / commentsPerPage);
+            let currentPage = 1;
 
-        function showPage(page) {
-            const startIndex = (page - 1) * commentsPerPage;
-            const endIndex = page * commentsPerPage;
+            function showPage(page, filtered = comentariosList) {
+                const startIndex = (page - 1) * commentsPerPage;
+                const endIndex = page * commentsPerPage;
 
-            // Ocultar todos los comentarios
-            comments.forEach((comment, index) => {
-                if (index >= startIndex && index < endIndex) {
-                    comment.style.display = '';
-                } else {
-                    comment.style.display = 'none';
-                }
-            });
+                comentariosList.forEach(card => card.style.display = 'none');
+                filtered.forEach((card, index) => {
+                    if (index >= startIndex && index < endIndex) {
+                        card.style.display = '';
+                    }
+                });
 
-            // Actualizar controles de paginación
-            updatePaginationControls(page);
-        }
-
-        function updatePaginationControls(page) {
-            const paginationControls = document.getElementById('paginationControls');
-            paginationControls.innerHTML = '';
-
-            const prevButton = document.createElement('button');
-            prevButton.textContent = 'Anterior';
-            prevButton.disabled = page === 1;
-            prevButton.addEventListener('click', () => showPage(page - 1));
-
-            const nextButton = document.createElement('button');
-            nextButton.textContent = 'Siguiente';
-            nextButton.disabled = page === totalPages;
-            nextButton.addEventListener('click', () => showPage(page + 1));
-
-            paginationControls.appendChild(prevButton);
-
-            for (let i = 1; i <= totalPages; i++) {
-                const pageButton = document.createElement('button');
-                pageButton.textContent = i;
-                pageButton.classList.toggle('active', i === page);
-                pageButton.addEventListener('click', () => showPage(i));
-                paginationControls.appendChild(pageButton);
+                updatePaginationControls(page, filtered);
             }
 
-            paginationControls.appendChild(nextButton);
-        }
+            function updatePaginationControls(page, filtered) {
+                const paginationControls = document.getElementById('paginationControls');
+                paginationControls.innerHTML = '';
+                totalPages = Math.ceil(filtered.length / commentsPerPage);
 
-        // Inicializar la primera página
-        showPage(currentPage);
+                const prevButton = document.createElement('button');
+                prevButton.textContent = 'Anterior';
+                prevButton.disabled = page === 1;
+                prevButton.addEventListener('click', () => showPage(page - 1, filtered));
+                paginationControls.appendChild(prevButton);
 
-        // Filtro de búsqueda
-        const searchInput = document.getElementById('searchComentarios');
-        if (searchInput) {
-            searchInput.addEventListener('input', function () {
-                const searchTerm = this.value.toLowerCase();
-                const filteredComments = comments.filter(card => {
-                    const text = card.querySelector('.comentario-body p').textContent.toLowerCase();
-                    const patient = card.querySelector('.patient-info span').textContent.toLowerCase();
-                    return text.includes(searchTerm) || patient.includes(searchTerm);
+                for (let i = 1; i <= totalPages; i++) {
+                    const pageButton = document.createElement('button');
+                    pageButton.textContent = i;
+                    pageButton.classList.toggle('active', i === page);
+                    pageButton.addEventListener('click', () => showPage(i, filtered));
+                    paginationControls.appendChild(pageButton);
+                }
+
+                const nextButton = document.createElement('button');
+                nextButton.textContent = 'Siguiente';
+                nextButton.disabled = page === totalPages;
+                nextButton.addEventListener('click', () => showPage(page + 1, filtered));
+                paginationControls.appendChild(nextButton);
+            }
+
+            function filtrarComentarios() {
+                const searchTerm = document.getElementById('searchComentarios').value.toLowerCase();
+                const estadoSeleccionado = document.getElementById('estadoFilter').value.toLowerCase();
+
+                const filtered = Array.from(comentariosList).filter(card => {
+                    const texto = card.querySelector('.card-info p').textContent.toLowerCase();
+                    const paciente = card.querySelector('.card-id').textContent.toLowerCase();
+                    const estado = card.querySelector('.card-status-chip').textContent.trim().toLowerCase();
+
+                    const coincideTexto = texto.includes(searchTerm) || paciente.includes(searchTerm);
+                    const coincideEstado = !estadoSeleccionado || estado === estadoSeleccionado;
+
+                    return coincideTexto && coincideEstado;
                 });
 
-                // Mostrar solo los comentarios filtrados
-                comments.forEach(comment => {
-                    comment.style.display = filteredComments.includes(comment) ? '' : 'none';
-                });
+                showPage(1, filtered);
+            }
 
-                // Actualizar la paginación
-                totalPages = Math.ceil(filteredComments.length / commentsPerPage);
-                showPage(1);  // Volver a la primera página
-            });
-        }
+            document.getElementById('btnFiltrar').addEventListener('click', filtrarComentarios);
 
-        // Filtro de estado
-        const estadoFilter = document.getElementById('estadoFilter');
-        if (estadoFilter) {
-            estadoFilter.addEventListener('change', function () {
-                const selectedValue = this.value.toLowerCase();
-                const filteredComments = comments.filter(card => {
-                    const estado = card.querySelector('.badge').textContent.trim().toLowerCase();
-                    return !selectedValue || estado === selectedValue;
-                });
+            showPage(currentPage);
+        });
 
-                // Mostrar solo los comentarios filtrados
-                comments.forEach(comment => {
-                    comment.style.display = filteredComments.includes(comment) ? '' : 'none';
-                });
+    </script>
 
-                // Actualizar la paginación
-                totalPages = Math.ceil(filteredComments.length / commentsPerPage);
-                showPage(1);  // Volver a la primera página
-            });
-        }
-    });
-</script>
+</body>
+</html>

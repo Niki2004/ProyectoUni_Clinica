@@ -165,6 +165,7 @@ namespace ProyectoClinica.Controllers
             return View(cita);
         }
 
+        [Authorize(Roles = "Usuario")]
         [HttpPost]
         public ActionResult Editar(Cita cita)
         {
@@ -243,7 +244,8 @@ namespace ProyectoClinica.Controllers
 
             return View(cita);
         }
-        
+
+        [Authorize(Roles = "Usuario")]
         [HttpPost, ActionName("Eliminar")]
         public ActionResult EliminarCitaUsuario(int? id)
         {
@@ -277,6 +279,7 @@ namespace ProyectoClinica.Controllers
             return View(notaPaciente);
         }
 
+        [Authorize(Roles = "Usuario")]
         [HttpPost]
         public ActionResult EditarNota(Nota_Paciente notaPaciente)
         {
@@ -315,6 +318,7 @@ namespace ProyectoClinica.Controllers
             return View(notaPaciente);
         }
 
+        [Authorize(Roles = "Usuario")]
         [HttpPost, ActionName("EliminarNota")]
         public ActionResult ConfirmarEliminarNota(int id)
         {
@@ -464,7 +468,8 @@ namespace ProyectoClinica.Controllers
         {
             return View();
         }
-       
+
+        [Authorize(Roles = "Usuario")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CrearReceta(Receta receta)
@@ -506,6 +511,7 @@ namespace ProyectoClinica.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Medico")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Nota_Medico(Nota_Medico nota_medico)
@@ -536,6 +542,7 @@ namespace ProyectoClinica.Controllers
             return View(NotaMedico);
         }
 
+        [Authorize(Roles = "Medico")]
         [HttpPost]
         public ActionResult EditarNotaMedico(Nota_Medico nota_medico)
         {

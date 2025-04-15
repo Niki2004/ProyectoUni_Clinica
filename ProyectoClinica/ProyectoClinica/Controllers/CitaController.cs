@@ -120,6 +120,7 @@ namespace ProyectoClinica.Controllers
 
         }
 
+        [Authorize(Roles = "Usuario")]
         [HttpPost]
         public ActionResult Crear(Cita Cita)
         {
@@ -203,6 +204,7 @@ namespace ProyectoClinica.Controllers
             return View(notaPaciente);
         }
 
+        [Authorize(Roles = "Usuario")]
         [HttpPost]
         public ActionResult CrearNota(Nota_Paciente notaPaciente)
         {
@@ -480,7 +482,8 @@ namespace ProyectoClinica.Controllers
 
             return View(crearAtencionCliente);
         }
-
+      
+        [Authorize(Roles = "Usuario")]
         [HttpPost]
         public ActionResult CrearAtencionCliente(Atencion_Cliente atencionCliente)
         {
@@ -523,8 +526,14 @@ namespace ProyectoClinica.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Administrador")]
         public ActionResult SComentarios(Comentario comentario)
         {
+            if (comentario.Fecha < DateTime.Today)
+            {
+                ModelState.AddModelError("Fecha", "No se puede agendar una cita en una fecha pasada.");
+            }
+
             if (ModelState.IsValid)
             {
                 var comentarioExistente = BaseDatos.Comentario.FirstOrDefault(r =>

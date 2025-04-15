@@ -5,6 +5,8 @@
 }
 <link rel="stylesheet" href="~/CSS/Crear.css" />
 <link href="~/CSS/VistaGeneral.css" rel="stylesheet" />
+<link rel="stylesheet" href="~/CSS/Crear.css" /> @*Link de los estilos*@
+
 
 <body>
     <div class="container-fluid">
@@ -23,7 +25,7 @@
 
                     <center><div class="nav-header">Plataforma</div></center>
                     <div class="nav flex-column">
-                        <a class="nav-link">
+                        <a href="@Url.Action("Index", "Cita")" class="nav-link">
                             <i class="fas fa-calendar-alt"></i> Cita
                         </a>
                         <a href="@Url.Action("AtencionCliente", "Cita")" class="nav-link">
@@ -50,80 +52,32 @@
 
             <!-- Main Content -->
             <div class="col-md-9 col-lg-10 ms-auto button-container">
-
-
                 <div class="container-form">
-                    <h2 class="page-title">Agendar una cita</h2>
-
-
+                    <h2 class="page-title">Crear Nota</h2>
 
                     @using (Html.BeginForm())
                     {
                         @Html.AntiForgeryToken()
 
-                        <div class="container mt-4">
-                            <div class="card shadow-lg p-4">
-                                <h3 class="text-center mb-3" style="color:#3bb4bc; font-weight: bold;">Nota Personal</h3>
-                                <hr />
+                        <div class="form-horizontal">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-                                <div class="mb-3">
-                                    @Html.LabelFor(model => model.Nota_Del_Paciente, htmlAttributes: new { @class = "form-label fw-bold" })
-                                    @Html.TextAreaFor(model => model.Nota_Del_Paciente, new { @class = "form-control", rows = "8", placeholder = "Escribe tu nota aquí..." })
-                                    @Html.ValidationMessageFor(model => model.Nota_Del_Paciente, "", new { @class = "text-danger" })
-                                </div>
-
-                                <div class="d-flex justify-content-between">
-                                    <a href="@Url.Action("Index")" class="btn btn-secondary">
-                                        <i class="bi bi-arrow-left"></i> Regresar
-                                    </a>
-                                    <button type="submit" class="btn btn-primary">
-                                        <i class="bi bi-save"></i> Guardar
-                                    </button>
+                            <div class="form-section">
+                                <legend>Información de la Nota</legend>
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Nota_Del_Paciente, new { @class = "control-label" })
+                                        @Html.EditorFor(model => model.Nota_Del_Paciente, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Nota_Del_Paciente, "", new { @class = "text-danger" })
+                                    </div>
                                 </div>
                             </div>
+
+                            <div class="form-group text-center">
+                                <input type="submit" value="Guardar" class="btn-primary" />
+                                @Html.ActionLink("Regresar", "Index", "Cita", null, new { @class = "btn-secondary" })
+                            </div>
                         </div>
-                    }
-
-                    @section Scripts {
-                        <script>
-                            $(document).ready(function () {
-                                $("#Id_Medico").change(function () {
-                                    var idMedico = $(this).val();
-
-                                    if (idMedico) {
-                                        $.ajax({
-                                            url: '/Cita/GetEspecialidadPorMedico',
-                                            type: 'GET',
-                                            data: { idMedico: idMedico },
-                                            success: function (response) {
-                                                if (response.success) {
-                                                    $("#Especialidad").val(response.especialidad);
-                                                } else {
-                                                    $("#Especialidad").val(response.message || "Especialidad no encontrada");
-                                                }
-                                            },
-                                            error: function () {
-                                                alert("Ocurrió un error al obtener la especialidad.");
-                                            }
-                                        });
-                                    } else {
-                                        $("#Especialidad").val("");
-                                    }
-                                });
-                            });;
-
-                            document.getElementById('Fecha_Cita').addEventListener('change', function () {
-                                const fecha = new Date(this.value);
-                                const dia = fecha.getUTCDay(); // 0 = domingo, 6 = sábado
-
-                                if (dia === 0 || dia === 6) {
-                                    alert("No se pueden agendar citas los sábados ni domingos.");
-                                    this.value = "";
-                                }
-                            });
-                        </script>
                     }
                 </div>
 
