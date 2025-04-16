@@ -4,215 +4,7 @@
 }
 
 <link href="~/CSS/VistaGeneral.css" rel="stylesheet" />
-
-<style>
-    .comentario-form-container {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        max-width: 900px;
-        margin: 0 auto;
-        padding: 20px;
-        color: #333;
-    }
-
-    .form-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 25px;
-        border-bottom: 3px solid #0b7b82;
-        padding-bottom: 15px;
-    }
-
-        .form-header h2 {
-            color: #0b7b82;
-            font-size: 28px;
-            margin: 0;
-        }
-
-    .btn-back {
-        display: inline-flex;
-        align-items: center;
-        color: #0b7b82;
-        text-decoration: none;
-        font-weight: 600;
-        transition: all 0.2s;
-    }
-
-        .btn-back:hover {
-            color: #3bb4bc;
-        }
-
-        .btn-back i {
-            margin-right: 8px;
-        }
-
-    .form-card {
-        background-color: white;
-        border-radius: 8px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-        padding: 30px;
-        margin-bottom: 30px;
-    }
-
-    .form-section {
-        margin-bottom: 30px;
-        padding-bottom: 25px;
-        border-bottom: 1px solid #eee;
-    }
-
-        .form-section:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-            padding-bottom: 0;
-        }
-
-        .form-section h3 {
-            color: #0b7b82;
-            font-size: 20px;
-            margin: 0 0 20px 0;
-            font-weight: 600;
-        }
-
-    .form-group {
-        margin-bottom: 20px;
-    }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #444;
-        }
-
-    .form-control {
-        width: 100%;
-        padding: 12px 15px;
-        border: 1px solid #ddd;
-        border-radius: 6px;
-        font-size: 15px;
-        transition: all 0.3s;
-    }
-
-        .form-control:focus {
-            border-color: #3bb4bc;
-            box-shadow: 0 0 0 3px rgba(59, 180, 188, 0.2);
-            outline: none;
-        }
-
-    textarea.form-control {
-        resize: vertical;
-        min-height: 100px;
-    }
-
-    .form-row {
-        display: flex;
-        gap: 20px;
-    }
-
-    .form-group.half {
-        flex: 1;
-    }
-
-    .star-rating-container {
-        display: flex;
-        align-items: center;
-        margin-top: 10px;
-    }
-
-    .stars {
-        display: flex;
-        flex-direction: row-reverse;
-        gap: 5px;
-    }
-
-        .stars input[type="radio"] {
-            display: none;
-        }
-
-        .stars label {
-            cursor: pointer;
-            font-size: 30px;
-            transition: all 0.2s;
-            color: #e0e0e0;
-        }
-
-            .stars label:hover,
-            .stars label:hover ~ label,
-            .stars input[type="radio"]:checked ~ label {
-                color: #ffc107;
-            }
-
-    .rating-value {
-        margin-left: 15px;
-        font-weight: bold;
-        font-size: 18px;
-        color: #666;
-    }
-
-    .text-danger {
-        color: #dc3545;
-        font-size: 13px;
-        margin-top: 5px;
-        display: block;
-    }
-
-    .validation-summary {
-        background-color: #f8d7da;
-        border-left: 4px solid #dc3545;
-        padding: 15px;
-        margin-bottom: 20px;
-        border-radius: 4px;
-    }
-
-    .form-actions {
-        display: flex;
-        gap: 15px;
-        margin-top: 30px;
-    }
-
-    .btn-submit {
-        background-color: #0b7b82;
-        color: white;
-        border: none;
-        padding: 12px 25px;
-        border-radius: 6px;
-        font-weight: 600;
-        font-size: 16px;
-        cursor: pointer;
-        transition: all 0.3s;
-        display: flex;
-        align-items: center;
-    }
-
-        .btn-submit:hover {
-            background-color: #3bb4bc;
-            box-shadow: 0 5px 12px rgba(59, 180, 188, 0.3);
-        }
-
-        .btn-submit i {
-            margin-right: 8px;
-        }
-
-    .btn-cancel {
-        background-color: #f0f0f0;
-        color: #666;
-        border: none;
-        padding: 12px 25px;
-        border-radius: 6px;
-        font-weight: 600;
-        font-size: 16px;
-        cursor: pointer;
-        text-decoration: none;
-        transition: all 0.3s;
-        text-align: center;
-    }
-
-        .btn-cancel:hover {
-            background-color: #e0e0e0;
-        }
-</style>
-
-
+<link rel="stylesheet" href="~/CSS/Crear.css" /> @*Link de los estilos*@
 
 <body>
     <div class="container-fluid">
@@ -284,86 +76,85 @@
             <!-- Main Content -->
             <div class="col-md-9 col-lg-10 ms-auto button-container">
 
-                <div class="comentario-form-container">
-                    <div class="form-header">
-                        <h2>Nuevo Comentario</h2>
-                    </div>
+                <div class="container-form">
+                    <h2 class="page-title">Nuevo Comentario</h2>
 
                     @using (Html.BeginForm())
                     {
                         @Html.AntiForgeryToken()
 
-                        <div class="form-card">
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger validation-summary" })
+                        <div class="form-horizontal">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
                             <div class="form-section">
-                                <h3>Información del Comentario</h3>
+                                <legend>Información del Comentario</legend>
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label>Comentario del Paciente</label>
+                                        @Html.DropDownList("Id_Atencion_Cliente", ViewBag.Id_Atencion_Cliente as SelectList, "Seleccione un comentario", new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.Id_Atencion_Cliente, "", new { @class = "text-danger" })
+                                    </div>
 
-                                <div class="form-group">
-                                    <label>Comentario del Paciente</label>
-                                    @Html.DropDownList("Id_Atencion_Cliente", ViewBag.Id_Atencion_Cliente as SelectList, "Seleccione un comentario", new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.Id_Atencion_Cliente, "", new { @class = "text-danger" })
+                                    <div class="form-group">
+                                        <label>Fecha</label>
+                                        <input type="date" name="Fecha" class="form-control"
+                                               min="@DateTime.Now.ToString("yyyy-MM-dd")"
+                                               value="@(Model != null && Model.Fecha != null ? Model.Fecha.ToString("yyyy-MM-dd") : DateTime.Now.ToString("yyyy-MM-dd"))" />
+                                        @Html.ValidationMessageFor(model => model.Fecha, "", new { @class = "text-danger" })
+                                    </div>
                                 </div>
+                            </div>
 
+                            <div class="form-section">
+                                <legend>Detalles del Comentario</legend>
                                 <div class="form-group">
                                     <label>Texto del Comentario</label>
                                     @Html.TextAreaFor(model => model.Comentario_Texto, new { @class = "form-control", rows = 4, placeholder = "Escriba el comentario aquí..." })
                                     @Html.ValidationMessageFor(model => model.Comentario_Texto, "", new { @class = "text-danger" })
                                 </div>
 
-                                <div class="form-group">
-                                    <label>Fecha</label>
-                                    <input type="date" name="Fecha" class="form-control"
-                                           value="@(Model != null && Model.Fecha != null ? Model.Fecha.ToString("yyyy-MM-dd") : DateTime.Now.ToString("yyyy-MM-dd"))" />
-                                    @Html.ValidationMessageFor(model => model.Fecha, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-section">
-                                <h3>Calificación</h3>
-
-                                <div class="star-rating-container">
-                                    <div class="stars">
-                                        @for (int i = 5; i >= 1; i--)
-                                        {
-                                            <input type="radio" id="star@(i)" name="Calificacion" value="@i" @(Model != null && Model.Calificacion == i ? "checked" : "") />
-                                            <label for="star@(i)" title="@i estrellas"><i class="fas fa-star"></i></label>
-                                        }
-                                    </div>
-                                    <span class="rating-value">0</span>
-                                    @Html.ValidationMessageFor(model => model.Calificacion, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-section">
-                                <h3>Estado y Categorización</h3>
-
-                                <div class="form-row">
-                                    <div class="form-group half">
+                                <div class="form-grid">
+                                    <div class="form-group">
                                         <label>Estado del Comentario</label>
                                         @Html.DropDownList("Id_Estado_Comentario", ViewBag.Id_Estado_Comentario as SelectList, "Seleccione un estado", new { @class = "form-control" })
                                         @Html.ValidationMessageFor(model => model.Id_Estado_Comentario, "", new { @class = "text-danger" })
                                     </div>
 
-                                    <div class="form-group half">
+                                    <div class="form-group">
                                         <label>¿Comentario Destacado?</label>
                                         @Html.DropDownList("Id_Destacado_Comentario", ViewBag.Id_Destacado_Comentario as SelectList, "Seleccione una opción", new { @class = "form-control" })
                                         @Html.ValidationMessageFor(model => model.Id_Destacado_Comentario, "", new { @class = "text-danger" })
                                     </div>
-                                </div>
 
-                                <div class="form-group">
-                                    <label>¿Comentario Sensible?</label>
-                                    @Html.DropDownList("Id_Sensible_Comentario", ViewBag.Id_Sensible_Comentario as SelectList, "Seleccione una opción", new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.Id_Sensible_Comentario, "", new { @class = "text-danger" })
+                                    <div class="form-group">
+                                        <label>¿Comentario Sensible?</label>
+                                        @Html.DropDownList("Id_Sensible_Comentario", ViewBag.Id_Sensible_Comentario as SelectList, "Seleccione una opción", new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.Id_Sensible_Comentario, "", new { @class = "text-danger" })
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="form-actions">
-                                <button type="submit" class="btn-submit">
-                                    <i class="fas fa-save"></i> Guardar Comentario
-                                </button>
-                                <a href="@Url.Action("SAdComentarios")" class="btn-cancel">Cancelar</a>
+                            <div class="form-section">
+                                <legend>Calificación</legend>
+                                <div class="form-group">
+                                    <label>Valoración</label>
+                                    <div class="star-rating-container">
+                                        <div class="stars">
+                                            @for (int i = 5; i >= 1; i--)
+                                            {
+                                                <input type="radio" id="star@(i)" name="Calificacion" value="@i" @(Model != null && Model.Calificacion == i ? "checked" : "") />
+                                                <label for="star@(i)" title="@i estrellas"><i class="fas fa-star"></i></label>
+                                            }
+                                        </div>
+                                        <span class="rating-value">0</span>
+                                        @Html.ValidationMessageFor(model => model.Calificacion, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group text-center">
+                                <input type="submit" value="Guardar Comentario" class="btn-primary" />
+                                @Html.ActionLink("Cancelar", "SAdComentarios", null, new { @class = "btn-secondary" })
                             </div>
                         </div>
                     }
@@ -583,27 +374,86 @@
                     'warning'
                 );
             }
+
+            // Sistema de calificación por estrellas
+            const stars = document.querySelectorAll('.stars input[type="radio"]');
+            const ratingValue = document.querySelector('.rating-value');
+
+            // Verificar si hay una calificación inicial
+            const checkedStar = document.querySelector('.stars input[type="radio"]:checked');
+            if (checkedStar) {
+                ratingValue.textContent = checkedStar.value;
+            }
+
+            // Manejar eventos de click en estrellas
+            stars.forEach(star => {
+                star.addEventListener('change', function () {
+                    ratingValue.textContent = this.value;
+                });
+            });
+        });
+        document.addEventListener('DOMContentLoaded', function () {
+            // Establece la fecha mínima para el campo de fecha
+            const fechaInput = document.querySelector('input[name="Fecha"]');
+            if (fechaInput) {
+                const hoy = new Date().toISOString().split('T')[0];
+                fechaInput.setAttribute('min', hoy);
+
+                // Validación adicional por si el navegador no soporta el atributo min
+                fechaInput.addEventListener('change', function () {
+                    const fechaSeleccionada = new Date(this.value);
+                    const fechaHoy = new Date();
+                    fechaHoy.setHours(0, 0, 0, 0); // Resetea la hora para comparar solo fechas
+
+                    if (fechaSeleccionada < fechaHoy) {
+                        alert("No se puede seleccionar una fecha pasada.");
+                        this.value = new Date().toISOString().split('T')[0];
+                    }
+                });
+            }
         });
     </script>
 </body>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Sistema de calificación por estrellas
-        const stars = document.querySelectorAll('.stars input[type="radio"]');
-        const ratingValue = document.querySelector('.rating-value');
+<style>
+    /* Estilos específicos para la calificación por estrellas */
+    .star-rating-container {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+    }
 
-        // Verificar si hay una calificación inicial
-        const checkedStar = document.querySelector('.stars input[type="radio"]:checked');
-        if (checkedStar) {
-            ratingValue.textContent = checkedStar.value;
+    .stars {
+        display: flex;
+        flex-direction: row-reverse;
+        gap: 5px;
+    }
+
+        .stars input[type="radio"] {
+            display: none;
         }
 
-        // Manejar eventos de click en estrellas
-        stars.forEach(star => {
-            star.addEventListener('change', function () {
-                ratingValue.textContent = this.value;
-            });
-        });
-    });
-</script>
+        .stars label {
+            cursor: pointer;
+            font-size: 25px;
+            transition: all 0.2s;
+            color: #e0e0e0;
+        }
+
+            .stars label:hover,
+            .stars label:hover ~ label,
+            .stars input[type="radio"]:checked ~ label {
+                color: #ffc107;
+            }
+
+    .rating-value {
+        margin-left: 15px;
+        font-weight: bold;
+        font-size: 16px;
+        color: #666;
+    }
+</style>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -46,31 +46,29 @@
 
             <!-- Main Content -->
             <div class="content">
-                <div class="text-center p-3">
-                    <img src="~/Imagenes/Logo.png" alt="Centro Integral Santo Domingo Logo" class="img-fluid"
-                         style="max-width: 600px; height: auto; opacity: 0.10;" />
+                <div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+                    <img src="~/Imagenes/Logo.png" alt="Centro Integral Santo Domingo Logo"
+                         style="max-width: 800px; height: auto; opacity: 0.15; margin-right: 150px;  margin-bottom: 100px;"/>
                 </div>
+
             </div>
+            
 
+                <script src="~/lib/jquery/dist/jquery.min.js"></script>
+                <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+                <script>
+                    document.querySelectorAll('.nav-link').forEach(link => {
+                        link.addEventListener('click', function () {
+                            document.querySelectorAll('.submenu').forEach(submenu => {
+                                if (submenu !== this.nextElementSibling) {
+                                    submenu.classList.remove('active');
+                                    this.classList.remove('active');
+                                }
+                            });
 
-            <script src="~/lib/jquery/dist/jquery.min.js"></script>
-            <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-            <script>
-                // Toggle submenu functionality
-                document.querySelectorAll('.nav-link').forEach(link => {
-                    link.addEventListener('click', function () {
-                        // Close all other open submenus
-                        document.querySelectorAll('.submenu').forEach(submenu => {
-                            if (submenu !== this.nextElementSibling) {
-                                submenu.classList.remove('active');
-                                this.classList.remove('active');
-                            }
+                            const submenu = this.nextElementSibling;
+                            submenu.classList.toggle('active');
+                            this.classList.toggle('active');
                         });
-
-                        // Toggle the clicked submenu
-                        const submenu = this.nextElementSibling;
-                        submenu.classList.toggle('active');
-                        this.classList.toggle('active');
                     });
-                });
-            </script>
+                </script>

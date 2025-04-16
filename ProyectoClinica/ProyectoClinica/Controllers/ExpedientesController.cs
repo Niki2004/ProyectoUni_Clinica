@@ -23,19 +23,19 @@ namespace ProyectoClinica.Controllers
         private ApplicationDbContext BaseDatos = new ApplicationDbContext();
         // GET: Expedientes
 
-        //[Authorize(Roles = "Administrador")]
+        [Authorize(Roles = "Administrador")]
         public ActionResult Expedientes()
         {
             return View();
         }
 
-        //[Authorize(Roles = "Medico")]
+        [Authorize(Roles = "Medico")]
         public ActionResult MdExpedientes()
         {
             return View();
         }
 
-        //[Authorize(Roles = "Medico")]
+        [Authorize(Roles = "Administrador")]
         public ActionResult VistaHistorial()
         {
             var citas = BaseDatos.Cita.ToList();
@@ -43,23 +43,22 @@ namespace ProyectoClinica.Controllers
         }
 
 
-        //[Authorize(Roles = "Administrador")]
+        [Authorize(Roles = "Medico")]
         public ActionResult VistaHistorialMd()
         {
             var citas = BaseDatos.Cita.ToList();
             return View(citas);
         }
 
-        //[Authorize(Roles = "Administrador")]
+        [Authorize(Roles = "Administrador")]
         public ActionResult RolExpe()
         {
             ViewBag.Id_Empleado = new SelectList(BaseDatos.Empleado, "Id_Empleado", "Nombre");
             return View();
         }
 
-
+       [Authorize(Roles = "Administrador")]
         [HttpPost]
-        //[Authorize(Roles = "Administrador")]
         [ValidateAntiForgeryToken]
         public ActionResult RolExpe([Bind(Include = "Id_Empleado,Nombre")] RolAsignacion rolAsignacion)
         {
@@ -77,7 +76,7 @@ namespace ProyectoClinica.Controllers
 
 
 
-
+        [Authorize(Roles = "Administrador")]
         public ActionResult drive()
         {
             return View();
@@ -121,6 +120,7 @@ namespace ProyectoClinica.Controllers
             } 
         }
 
+        [Authorize(Roles = "Administrador")]
         public ActionResult Respaldo()
         {
             return View();
@@ -161,11 +161,13 @@ namespace ProyectoClinica.Controllers
             return RedirectToAction("Respaldo");
         }
 
+        [Authorize(Roles = "Medico")]
         public ActionResult SubirImagenes()
         {
             return View();
         }
 
+        [Authorize(Roles = "Medico")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult SubirImagenes(IEnumerable<HttpPostedFileBase> imagenes)
@@ -241,7 +243,7 @@ namespace ProyectoClinica.Controllers
         // GET: AsignacionRolesTemporales/Create
         public ActionResult vistaRolCrearExp()
         {
-            // Cargamos la lista de usuarios para ambos campos
+            
             ViewBag.Id = new SelectList(BaseDatos.Users, "Id", "UserName");
             ViewBag.Id_Usuario = new SelectList(BaseDatos.Users, "Id", "UserName");
             ViewBag.Id_Departamento = new SelectList(BaseDatos.Departamentos, "Id_Departamento", "Nombre_Departamento");
@@ -264,16 +266,16 @@ namespace ProyectoClinica.Controllers
                         throw new Exception("Campos requeridos faltantes");
                     }
 
-                    // Asignamos la fecha actual al crear el registro
+                   
                     asignacionRolesTemporales.Fecha_Inicio = DateTime.Now;
 
-                    // Asignamos el estado por defecto
+                   
                     asignacionRolesTemporales.Estado = "Activo";
 
-                    // Agregamos el registro al contexto
+                    
                     BaseDatos.AsignacionRolesTemporales.Add(asignacionRolesTemporales);
 
-                    // Intentamos guardar los cambios
+                    
                     BaseDatos.SaveChanges();
 
                     TempData["SuccessMessage"] = "Registro creado exitosamente";
@@ -286,7 +288,7 @@ namespace ProyectoClinica.Controllers
                 System.Diagnostics.Debug.WriteLine("Error en Create: " + ex.Message);
             }
 
-            // Si hay error, recargamos las listas desplegables
+            
             ViewBag.Id = new SelectList(BaseDatos.Users, "Id", "UserName", asignacionRolesTemporales.Id);
             ViewBag.Id_Usuario = new SelectList(BaseDatos.Users, "Id", "UserName", asignacionRolesTemporales.Id_Usuario);
             ViewBag.Id_Departamento = new SelectList(BaseDatos.Departamentos, "Id_Departamento", "Nombre_Departamento", asignacionRolesTemporales.Id_Departamento);
@@ -330,10 +332,10 @@ namespace ProyectoClinica.Controllers
                         throw new Exception("Campos requeridos faltantes");
                     }
 
-                    // Actualizamos el registro
+                    
                     BaseDatos.Entry(asignacionRolesTemporales).State = EntityState.Modified;
 
-                    // Intentamos guardar los cambios
+                    
                     BaseDatos.SaveChanges();
 
                     TempData["SuccessMessage"] = "Registro actualizado exitosamente";
@@ -355,7 +357,7 @@ namespace ProyectoClinica.Controllers
                 System.Diagnostics.Debug.WriteLine("Error en Edit: " + ex.Message);
             }
 
-            // Si hay error, recargamos las listas desplegables
+            
             ViewBag.Id = new SelectList(BaseDatos.Users, "Id", "UserName", asignacionRolesTemporales.Id);
             ViewBag.Id_Usuario = new SelectList(BaseDatos.Users, "Id", "UserName", asignacionRolesTemporales.Id_Usuario);
             ViewBag.Id_Departamento = new SelectList(BaseDatos.Departamentos, "Id_Departamento", "Nombre_Departamento", asignacionRolesTemporales.Id_Departamento);
