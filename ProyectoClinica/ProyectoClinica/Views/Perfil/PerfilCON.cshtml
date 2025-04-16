@@ -15,18 +15,22 @@
 <main aria-labelledby="title" class="profile-container">
     <!-- Enlace a Font Awesome para los íconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    @if (!string.IsNullOrEmpty(Model.Imagen))
-    {
-        <img src="@Model.Imagen" alt="Perfil" class="profile-pic" />
-    }
-    else
-    {
-        <img src="~/Imagenes/PerfilPorDefecto.jpg" alt="Perfil" class="profile-pic" />
-    }
 
-    <div class="profile-details">
-        <h2 class="profile-name">@Model.Nombre @Model.Apellido</h2>
-        <p class="profile-email">@Model.Email</p>
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; margin: 0 auto; max-width: 600px; padding: 5px; border-radius: 10px;">
+        <div style="position: relative; margin-bottom: 20px;">
+            @if (!string.IsNullOrEmpty(Model.Imagen))
+            {
+                <img src="@Model.Imagen" alt="Perfil" style="width: 130px; height: 130px; border-radius: 50%; object-fit: cover; border: 3px solid #0b7b82; " />
+            }
+            else
+            {
+                <img src="~/Imagenes/PerfilPorDefecto.jpg" alt="Perfil" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 3px solid #3498db;" />
+            }
+        </div>
+        <div style="width: 100%;">
+            <h2 style="margin: 0; color: #2c3e50; font-size: 24px; font-weight: 600;">@Model.Nombre @Model.Apellido</h2>
+            <p style="margin: 5px 0 15px; color: #7f8c8d; font-size: 16px;">@Model.Email</p>
+        </div>
     </div>
 
     <div class="profile-sections">
