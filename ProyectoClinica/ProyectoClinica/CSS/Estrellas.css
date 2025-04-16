@@ -1,0 +1,149 @@
+﻿/* Estilos para el sistema de calificación con estrellas amarillas */
+.star-rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}
+
+    .star-rating input {
+        display: none;
+    }
+
+    .star-rating label {
+        cursor: pointer;
+        width: 30px;
+        height: 30px;
+        margin-right: 5px;
+        position: relative;
+        background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="%23d4d4d4"/></svg>') no-repeat;
+        background-size: contain;
+        transition: all 0.2s ease;
+    }
+
+        .star-rating label:hover,
+        .star-rating label:hover ~ label,
+        .star-rating input:checked ~ label {
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="%23FFD700"/></svg>') no-repeat;
+            background-size: contain;
+        }
+
+/* Estilo para la descripción de la calificación */
+.rating-description {
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: #6c757d;
+    height: 20px;
+    transition: all 0.3s ease;
+}
+
+/* Estilos para selector de prioridad */
+.priority-selector {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.priority-card {
+    flex: 1;
+    position: relative;
+}
+
+    .priority-card input {
+        display: none;
+    }
+
+    .priority-card label {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 15px 10px;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        height: 100%;
+        border: 2px solid transparent;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .priority-card.alta label {
+        background: linear-gradient(to bottom, #fff, #ffebee);
+    }
+
+    .priority-card.media label {
+        background: linear-gradient(to bottom, #fff, #fff8e1);
+    }
+
+    .priority-card.baja label {
+        background: linear-gradient(to bottom, #fff, #e8f5e9);
+    }
+
+    .priority-card .icon-container {
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        margin-bottom: 10px;
+        transition: all 0.3s ease;
+    }
+
+    .priority-card.alta .icon-container {
+        background-color: rgba(244, 67, 54, 0.1);
+        color: #f44336;
+    }
+
+    .priority-card.media .icon-container {
+        background-color: rgba(255, 193, 7, 0.1);
+        color: #ffc107;
+    }
+
+    .priority-card.baja .icon-container {
+        background-color: rgba(76, 175, 80, 0.1);
+        color: #4caf50;
+    }
+
+    .priority-card i {
+        font-size: 24px;
+    }
+
+.priority-text {
+    font-weight: 600;
+    margin-top: 5px;
+}
+
+/* Estilos para cuando está seleccionado */
+.priority-card input:checked + label {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.priority-card.alta input:checked + label {
+    border-color: #f44336;
+}
+
+.priority-card.media input:checked + label {
+    border-color: #ffc107;
+}
+
+.priority-card.baja input:checked + label {
+    border-color: #4caf50;
+}
+
+.priority-card input:checked + label .icon-container {
+    transform: scale(1.1);
+}
+
+.priority-card.alta input:checked + label .icon-container {
+    background-color: rgba(244, 67, 54, 0.2);
+}
+
+.priority-card.media input:checked + label .icon-container {
+    background-color: rgba(255, 193, 7, 0.2);
+}
+
+.priority-card.baja input:checked + label .icon-container {
+    background-color: rgba(76, 175, 80, 0.2);
+}

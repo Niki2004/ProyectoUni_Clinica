@@ -582,6 +582,7 @@
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="CSS\Estrellas.css" />
     <Content Include="CSS\Busqueda.css" />
     <Content Include="CSS\Notifi.css" />
     <Content Include="CSS\AdministartivoResponsive.css" />
