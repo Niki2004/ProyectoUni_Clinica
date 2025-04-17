@@ -7,7 +7,6 @@
     var servicios = ViewBag.Servicios as List<ProyectoClinica.Models.Servicio>;
     var cedulaCliente = ViewBag.CedulaCliente as string;
 }
-<link href="~/CSS/VistaGeneral.css" rel="stylesheet" />
 <style>
     .btn-imprimir {
         display: inline-block;
@@ -69,200 +68,91 @@
         </div>
 
         <br />
-        <div class="row">
-            @if (User.IsInRole("Administrador"))
-            {
-                <!-- Sidebar -->
-                <div class="col-md-3 col-lg-2 sidebar">
-                    <div class="sidebar">
-                        <div class="p-3 d-flex justify-content-center">
-                            <img src="~/Imagenes/Logo.png" alt="Centro Integral Santo Domingo Logo" class="img-fluid" style="max-width: 195px; height: auto;" />
-                        </div>
 
-                        <center><div class="nav-header">Plataforma</div></center>
-                        <div class="nav-item">
-                            <a class="nav-link">
-                                <div>
-                                    Navegación
-                                </div>
-
-                            </a>
-                            <ul class="submenu">
-                                <br />
-                                <a href="@Url.Action("Index", "Inventario")" class="nav-link">
-                                    <i class="fas fa-boxes"></i> Inventario
-                                </a>
-                                <br />
-                                <a href="@Url.Action("VistaCON", "Contabilidad")" class="nav-link">
-                                    <i class="fas fa-calculator"></i> Contabilidad
-                                </a>
-                                <br />
-                                <a href="@Url.Action("VistaAdmRep", "Reporte")" class="nav-link">
-                                    <i class="fas fa-chart-line"></i> Reportes
-                                </a>
-                            </ul>
-                        </div>
-
-                        <hr />
-
-                        <div class="nav-item">
-                            <a class="nav-link">
-                                <div>
-                                    Administración
-                                </div>
-
-                            </a>
-                            <ul class="submenu">
-                                <a href="@Url.Action("Administrativo", "Administrativos")" class="nav-link">
-                                    <i class="fas fa-user-tie"></i> Administrativo
-                                </a>
-                                <br />
-                                <a href="@Url.Action("Empleados", "Empleados")" class="nav-link">
-                                    <i class="fas fa-users"></i> Empleados
-                                </a>
-                                <br />
-                                <a href="@Url.Action("Expedientes", "Expedientes")" class="nav-link">
-                                    <i class="fas fa-folder-open"></i> Expedientes
-                                </a>
-                                <br />
-                                <a href="@Url.Action("VistaCAdmin", "Cita")" class="nav-link">
-                                    <i class="fas fa-calendar-check"></i> Citas
-                                </a>
-                            </ul>
-                        </div>
+        <!-- 🔍 Panel de Búsqueda -->
+        <div class="search-panel">
+            <h2 class="search-title" style="color: #392F5A;"><i class="fas fa-search"></i> Filtro de Cédula</h2>
+            <form method="get" action="@Url.Action("VerPagos", "Factura")">
+                <div class="row g-3 mb-4">
+                    <div class="col-md-4">
+                        <input type="text" name="cedulaCliente" class="form-control" placeholder="Buscar por Cédula" value="@cedulaCliente" />
                     </div>
+                    <div class="col-md-4">
+                        <button type="submit" class="btn-search w-100" style="background-color: #D6E5FF; color: #333; border: none;">
+                            <i class="fas fa-search me-2"></i>Buscar
+                        </button>
+                    </div>
+                    @if (!string.IsNullOrEmpty(cedulaCliente))
+                    {
+                        <div class="col-md-2">
+                            <a href="@Url.Action("VerPagos", "Factura")" class="btn btn-danger w-100">
+                                <i class="fas fa-times"></i> Quitar Filtro
+                            </a>
+                        </div>
+                    }
                 </div>
-            }
-            else if (User.IsInRole("Secretaria")){ 
-            
-            <div class="col-md-3 col-lg-2 sidebar">
-                <div class="sidebar">
-                    <div class="p-3 d-flex justify-content-center">
-                        <img src="~/Imagenes/Logo.png" alt="Centro Integral Santo Domingo Logo" class="img-fluid" style="max-width: 195px; height: auto;" />
-                    </div>
+            </form>
+        </div>
 
-                    <center><div class="nav-header">Plataforma</div></center>
-                    <div class="nav-item">
-                        <a class="nav-link">
-                            <div>
-                                Navegación
-                            </div>
-
-                        </a>
-                        <ul class="submenu">
-                            <a href="@Url.Action("Index", "Factura")" class="nav-link">
-                                <i class="fas fa-cash-register"></i> Punto de venta
-                            </a>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            }
-            <!-- 🔍 Panel de Búsqueda -->
-            <div class="search-panel">
-                <h2 class="search-title" style="color: #392F5A;"><i class="fas fa-search"></i> Filtro de Cédula</h2>
-                <form method="get" action="@Url.Action("VerPagos", "Factura")">
-                    <div class="row g-3 mb-4">
-                        <div class="col-md-4">
-                            <input type="text" name="cedulaCliente" class="form-control" placeholder="Buscar por Cédula" value="@cedulaCliente" />
-                        </div>
-                        <div class="col-md-4">
-                            <button type="submit" class="btn-search w-100" style="background-color: #D6E5FF; color: #333; border: none;">
-                                <i class="fas fa-search me-2"></i>Buscar
-                            </button>
-                        </div>
-                        @if (!string.IsNullOrEmpty(cedulaCliente))
+        <!-- 📊 Tabla de Facturas -->
+        <div class="results-panel">
+            <h2 class="result-title"><i class="fas fa-table"></i> Resultados</h2>
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered text-center">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Cédula Cliente</th>
+                            <th>Nombre Cliente</th>
+                            <th>Subtotal</th>
+                            <th>Descuento</th>
+                            <th>Impuesto</th>
+                            <th>Total Pagado</th>
+                            <th>Métodos de Pago</th>
+                            <th>Servicios Brindados</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var factura in facturas)
                         {
-                            <div class="col-md-2">
-                                <a href="@Url.Action("VerPagos", "Factura")" class="btn btn-danger w-100">
-                                    <i class="fas fa-times"></i> Quitar Filtro
-                                </a>
-                            </div>
-                        }
-                    </div>
-                </form>
-            </div>
-
-            <!-- 📊 Tabla de Facturas -->
-            <div class="results-panel">
-                <h2 class="result-title"><i class="fas fa-table"></i> Resultados</h2>
-                <div class="table-responsive">
-                    <table class="table table-striped table-bordered text-center">
-                        <thead class="table-dark">
                             <tr>
-                                <th>Cédula Cliente</th>
-                                <th>Nombre Cliente</th>
-                                <th>Subtotal</th>
-                                <th>Descuento</th>
-                                <th>Impuesto</th>
-                                <th>Total Pagado</th>
-                                <th>Métodos de Pago</th>
-                                <th>Servicios Brindados</th>
-                                <th>Acciones</th>
+                                <td>@factura.CedulaCliente</td>
+                                <td>@factura.NombreCliente</td>
+                                <td>₡@factura.Subtotal.ToString("N2")</td>
+                                <td class="text-danger">-₡@factura.Descuento.ToString("N2")</td>
+                                <td>₡@factura.Impuesto.ToString("N2")</td>
+                                <td class="fw-bold text-primary">₡@factura.TotalPagado.ToString("N2")</td>
+                                <td class="multi-line">
+                                    @foreach (var metodo in metodosPago.Where(m => m.Id_Factura == factura.Id_Factura))
+                                    {
+                                        var nombreMetodo = metodos.FirstOrDefault(mp => mp.Id_MetodoPago == metodo.Id_MetodoPago)?.Nombre;
+                                        if (!string.IsNullOrEmpty(nombreMetodo))
+                                        {
+                                            <div>@nombreMetodo</div>
+                                        }
+                                    }
+                                </td>
+                                <td class="multi-line">
+                                    @foreach (var servicio in serviciosBrindados.Where(s => s.Id_Factura == factura.Id_Factura))
+                                    {
+                                        var nombreServicio = servicios.FirstOrDefault(ser => ser.Id_Servicio == servicio.Id_Servicio)?.Nombre_Servicio;
+                                        if (!string.IsNullOrEmpty(nombreServicio))
+                                        {
+                                            <div>@nombreServicio</div>
+                                        }
+                                    }
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("OpcionesDespuesDePago", "Factura", new { idFactura = factura.Id_Factura })" class="btn-imprimir">
+                                        <i class="fas fa-print"></i> Imprimir Factura
+                                    </a>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var factura in facturas)
-                            {
-                                <tr>
-                                    <td>@factura.CedulaCliente</td>
-                                    <td>@factura.NombreCliente</td>
-                                    <td>₡@factura.Subtotal.ToString("N2")</td>
-                                    <td class="text-danger">-₡@factura.Descuento.ToString("N2")</td>
-                                    <td>₡@factura.Impuesto.ToString("N2")</td>
-                                    <td class="fw-bold text-primary">₡@factura.TotalPagado.ToString("N2")</td>
-                                    <td class="multi-line">
-                                        @foreach (var metodo in metodosPago.Where(m => m.Id_Factura == factura.Id_Factura))
-                                        {
-                                            var nombreMetodo = metodos.FirstOrDefault(mp => mp.Id_MetodoPago == metodo.Id_MetodoPago)?.Nombre;
-                                            if (!string.IsNullOrEmpty(nombreMetodo))
-                                            {
-                                                <div>@nombreMetodo</div>
-                                            }
-                                        }
-                                    </td>
-                                    <td class="multi-line">
-                                        @foreach (var servicio in serviciosBrindados.Where(s => s.Id_Factura == factura.Id_Factura))
-                                        {
-                                            var nombreServicio = servicios.FirstOrDefault(ser => ser.Id_Servicio == servicio.Id_Servicio)?.Nombre_Servicio;
-                                            if (!string.IsNullOrEmpty(nombreServicio))
-                                            {
-                                                <div>@nombreServicio</div>
-                                            }
-                                        }
-                                    </td>
-                                    <td>
-                                        <a href="@Url.Action("OpcionesDespuesDePago", "Factura", new { idFactura = factura.Id_Factura })" class="btn-imprimir">
-                                            <i class="fas fa-print"></i> Imprimir Factura
-                                        </a>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
+                        }
+                    </tbody>
+                </table>
             </div>
         </div>
+    </div>
 </body>
 </html>
-<script>
-    // Toggle submenu functionality
-    document.querySelectorAll('.nav-link').forEach(link => {
-        link.addEventListener('click', function () {
-            // Close all other open submenus
-            document.querySelectorAll('.submenu').forEach(submenu => {
-                if (submenu !== this.nextElementSibling) {
-                    submenu.classList.remove('active');
-                    this.classList.remove('active');
-                }
-            });
-
-            // Toggle the clicked submenu
-            const submenu = this.nextElementSibling;
-            if (submenu) {
-                submenu.classList.toggle('active');
-                this.classList.toggle('active');
-            }
-        });
-    });
-</script>
