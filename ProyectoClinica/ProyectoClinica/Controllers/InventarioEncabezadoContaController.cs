@@ -18,6 +18,8 @@ namespace ProyectoClinica.Controllers
         {
             _context = new ApplicationDbContext();
         }
+
+        [Authorize(Roles = "Administrador,Contador")]
         // GET: Departamentos
         public ActionResult Index()
         {
@@ -28,6 +30,7 @@ namespace ProyectoClinica.Controllers
 
         }
 
+        [Authorize(Roles = "Administrador,Contador")]
         // GET: InventarioContaEncabezado/Details/5
         public async Task<ActionResult> Details(int? id)
         {
@@ -44,6 +47,7 @@ namespace ProyectoClinica.Controllers
             return View(inventario);
         }
 
+        [Authorize(Roles = "Administrador,Contador")]
         // GET: InventarioContaEncabezado/Create
         public ActionResult Create()
         {
@@ -88,6 +92,7 @@ namespace ProyectoClinica.Controllers
             }
         }
 
+        [Authorize(Roles = "Administrador,Contador")]
         // GET: InventarioContaEncabezado/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -115,6 +120,7 @@ namespace ProyectoClinica.Controllers
             return View(inventario);
         }
 
+        [Authorize(Roles = "Administrador,Contador")]
         // GET: InventarioContaEncabezado/Delete/5
         public ActionResult Delete(int id)
         {
