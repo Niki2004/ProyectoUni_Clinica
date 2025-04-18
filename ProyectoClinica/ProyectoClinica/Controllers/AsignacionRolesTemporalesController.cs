@@ -19,6 +19,7 @@ namespace ProyectoClinica.Controllers
             _context = new ApplicationDbContext();
         }
 
+        [Authorize(Roles = "Administrador")]
         // GET: AsignacionRolesTemporales
         public ActionResult Index()
         {
@@ -26,6 +27,7 @@ namespace ProyectoClinica.Controllers
             return View(asignacionRolesTemporales.ToList());
         }
 
+        [Authorize(Roles = "Administrador")]
         // GET: AsignacionRolesTemporales/Details/5
         public ActionResult Details(int? id)
         {
@@ -41,6 +43,7 @@ namespace ProyectoClinica.Controllers
             return View(asignacionRolesTemporales);
         }
 
+        [Authorize(Roles = "Administrador")]
         // GET: AsignacionRolesTemporales/Create
         public ActionResult Create()
         {
@@ -105,6 +108,7 @@ namespace ProyectoClinica.Controllers
             return View(asignacionRolesTemporales);
         }
 
+        [Authorize(Roles = "Administrador")]
         // GET: AsignacionRolesTemporales/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -171,6 +175,7 @@ namespace ProyectoClinica.Controllers
             return View(asignacionRolesTemporales);
         }
 
+        [Authorize(Roles = "Administrador")]
         // GET: AsignacionRolesTemporales/Delete/5
         public ActionResult Delete(int? id)
         {

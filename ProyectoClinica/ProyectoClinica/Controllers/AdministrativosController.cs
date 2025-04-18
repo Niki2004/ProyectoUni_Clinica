@@ -19,8 +19,9 @@ namespace ProyectoClinica.Controllers
         {
             _context = new ApplicationDbContext();
         }
-        // GET: Administrativo
-      
+
+
+        [Authorize(Roles = "Administrador")]
         public ActionResult Administrativo()
         {
             // Obtener el ID del usuario actual
@@ -53,6 +54,7 @@ namespace ProyectoClinica.Controllers
 
             return View();
         }
+        [Authorize(Roles = "Administrador")]
         [HttpGet]
         public ActionResult VistaADM()
         {
@@ -60,6 +62,7 @@ namespace ProyectoClinica.Controllers
             return View(listaRegistros);
 
         }
+        [Authorize(Roles = "Administrador")]
 
         [HttpGet]
         public ActionResult VistaEliminar()
@@ -68,6 +71,7 @@ namespace ProyectoClinica.Controllers
             return View(empleados);
         }
 
+        [Authorize(Roles = "Administrador")]
         public ActionResult Create()
         {
             ViewBag.Id_Estado = new SelectList(_context.Estado, "Id_Estado", "Descripcion");
@@ -91,7 +95,7 @@ namespace ProyectoClinica.Controllers
         }
 
 
-
+        [Authorize(Roles = "Administrador")]
         public ActionResult Rol()
         {
             ViewBag.Id_Empleado = new SelectList(_context.Empleado, "Id_Empleado", "Nombre");
@@ -116,7 +120,7 @@ namespace ProyectoClinica.Controllers
         }
 
 
-
+        [Authorize(Roles = "Administrador")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -149,7 +153,7 @@ namespace ProyectoClinica.Controllers
         }
 
 
-
+        [Authorize(Roles = "Administrador")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -178,11 +182,13 @@ namespace ProyectoClinica.Controllers
             return RedirectToAction("VistaEliminar");
         }
 
+        [Authorize(Roles = "Administrador")]
         public ActionResult VistaListar()
         {
             var RolAsignacion = _context.RolAsignacion.Include("Empleado").ToList();
             return View(RolAsignacion);
         }
+        [Authorize(Roles = "Administrador")]
         public ActionResult DetallesHistorial(int id)
         {
             var rolAsignacion = _context.RolAsignacion
@@ -197,7 +203,7 @@ namespace ProyectoClinica.Controllers
             return View(rolAsignacion);
         }
 
-
+        [Authorize(Roles = "Administrador")]
         public ActionResult VistaAuditoría()
         {
             var auditoria = _context.Cita.ToList();
@@ -205,6 +211,7 @@ namespace ProyectoClinica.Controllers
         }
 
 
+        [Authorize(Roles = "Administrador")]
         public ActionResult Buscar(string nombre, string cedula)
         {
             var administrativo = _context.Users.AsQueryable();
@@ -222,6 +229,7 @@ namespace ProyectoClinica.Controllers
             return View(administrativo.ToList());
         }
 
+        [Authorize(Roles = "Administrador")]
         public ActionResult ListarHistorial()
         {
             var historial = _context.Historial_Aplicaciones
@@ -231,6 +239,7 @@ namespace ProyectoClinica.Controllers
             return View(historial);
         }
 
+        [Authorize(Roles = "Administrador")]
         public ActionResult CrearHistorial()
         {
             var usuarios = _context.Users.Select(u => new SelectListItem
@@ -266,6 +275,7 @@ namespace ProyectoClinica.Controllers
             return View(historial);
         }
 
+        [Authorize(Roles = "Administrador")]
         public ActionResult EditarHistorial(int? id)
         {
             if (id == null)
@@ -299,6 +309,7 @@ namespace ProyectoClinica.Controllers
             return View(historial);
         }
 
+        [Authorize(Roles = "Administrador")]
         public ActionResult EliminarHistorial(int? id)
         {
             if (id == null)

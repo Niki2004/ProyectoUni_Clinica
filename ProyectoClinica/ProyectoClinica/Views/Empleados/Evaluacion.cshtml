@@ -117,7 +117,7 @@
                                 <h4>Información del la evaluación</h4>
                                 <div class="form-grid">
                                     <div class="form-group">
-                                        @Html.LabelFor(model => model.Fecha_Evaluacion, new { @class = "form-label" })
+                                        @Html.LabelFor(model => model.Fecha_Evaluacion, "Fecha de Evaluación", new { @class = "control-label" })
                                         <input type="date" name="Fecha_Evaluacion" class="form-control" value="@(Model != null ? Model.Fecha_Evaluacion.ToString("yyyy-MM-dd") : DateTime.Now.ToString("yyyy-MM-dd"))" />
                                         @Html.ValidationMessageFor(model => model.Fecha_Evaluacion, "", new { @class = "text-danger" })
                                     </div>
@@ -156,7 +156,7 @@
                             </div>
 
                             <div class="form-section">
-                                <h4>Comentarios</h4>
+                                <h4>Observaciones</h4>
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.Comentarios, new { @class = "control-label" })
                                     @Html.TextAreaFor(model => model.Comentarios, new { @class = "form-control", rows = "3" })
@@ -165,7 +165,7 @@
 
                             <div class="text-center" style="margin-top: 20px;">
                                 <input type="submit" value="Guardar" class="btn-primary" />
-                                @Html.ActionLink("Regresar a la Lista", "Empleados", null, new { @class = "btn-secondary" })
+                                @Html.ActionLink("Regresar a la Lista", "vistaEvaluacion", null, new { @class = "btn-secondary" })
                             </div>
 
                         </div>
