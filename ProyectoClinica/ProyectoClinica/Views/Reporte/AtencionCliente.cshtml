@@ -72,7 +72,7 @@
                             <th>Clasificación</th>
                         </tr>
                     </thead>
-                    <tbody id="comentariosBody">
+                    <tbody id="usuariosBody">
                         @if (Model.Any())
                         {
                             foreach (var receta in Model)
@@ -103,11 +103,14 @@
             <div id="paginationContainer" class="d-flex justify-content-center mt-3"></div>
         </div>
     </div>
+</body>
+</html>
 
+@section Scripts {
     <script>
         $(document).ready(function () {
             var rowsPerPage = 5;
-            var $rows = $("#comentariosBody tr");
+            var $rows = $("#usuariosBody tr");
             var totalPages = Math.ceil($rows.length / rowsPerPage);
             var currentPage = 1;
 
@@ -128,8 +131,8 @@
 
                 for (var i = 1; i <= total; i++) {
                     pagination += `<li class="page-item ${i === page ? 'active' : ''}">
-                                         <a href="#" class="page-link" data-page="${i}">${i}</a>
-                                       </li>`;
+                                                       <a href="#" class="page-link" data-page="${i}">${i}</a>
+                                                     </li>`;
                 }
 
                 if (page < total) {
@@ -149,5 +152,5 @@
             showPage(currentPage);
         });
     </script>
-</body>
-</html>
+}
+
