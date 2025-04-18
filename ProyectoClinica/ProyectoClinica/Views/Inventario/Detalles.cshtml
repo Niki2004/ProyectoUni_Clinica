@@ -3,8 +3,9 @@
     ViewBag.Title = "Detalles del Producto";
 }
 
-
+<link href="~/CSS/Editar.css" rel="stylesheet" />
 <link href="~/CSS/VistaGeneral.css" rel="stylesheet" />
+<link href="~/CSS/Detalles.css" rel="stylesheet" />
 
 <body>
     <div class="container-fluid">
@@ -76,63 +77,103 @@
             <!-- Main Content -->
             <div class="col-md-9 col-lg-10 ms-auto button-container">
 
-                <div class="container">
-                   
+                <div class="container-form">
+                    <h2 class="page-title">Detalles Artículo de Inventario</h2>
 
-                    <div class="card">
-                        <div class="product-info">
-                            <div class="info-group">
-                                <div class="label">NOMBRE</div>
-                                <div class="value">@Html.DisplayFor(model => model.NombreArticulo)</div>
-                            </div>
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
 
-                            <div class="info-group">
-                                <div class="label">ESTADO</div>
-                                <div class="value">
-                                    <span class="status">@Html.DisplayFor(model => model.Estado.Descripcion)</span>
+                        <div class="form-section">
+                            <h4>Detalles del Artículo</h4>
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(model => model.Id_Articulo)
+                            @Html.HiddenFor(model => model.FechaIngreso)
+
+                            <div class="detail-group">
+                                <div class="detail-item">
+                                    <div class="detail-label">
+                                        @Html.LabelFor(model => model.NombreArticulo)
+                                    </div>
+                                    <div>
+                                        @Html.EditorFor(model => model.NombreArticulo, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.NombreArticulo, "", new { @class = "text-danger" })
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="info-group">
-                                <div class="label">MARCA</div>
-                                <div class="value">@Html.DisplayFor(model => model.Marca)</div>
-                            </div>
+                            <div class="detail-group">
+                                <div class="detail-item">
+                                    <div class="detail-label">
+                                        @Html.LabelFor(model => model.Marca)
+                                    </div>
+                                    <div>
+                                        @Html.EditorFor(model => model.Marca, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Marca, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
 
-                            <div class="info-group">
-                                <div class="label">CANTIDAD</div>
-                                <div class="value">
-                                    <span class="quantity-badge">@Html.DisplayFor(model => model.Cantidad)</span>
+                                <div class="detail-item">
+                                    <div class="detail-label">
+                                        @Html.LabelFor(model => model.Cantidad)
+                                    </div>
+                                    <div>
+                                        @Html.EditorFor(model => model.Cantidad, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Cantidad, "", new { @class = "text-danger" })
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="info-group">
-                                <div class="label">PRECIO UNITARIO</div>
-                                <div class="value price-value">@Html.DisplayFor(model => model.PrecioUnitario)</div>
+                            <div class="detail-group">
+                                <div class="detail-item">
+                                    <div class="detail-label">
+                                        @Html.LabelFor(model => model.PrecioUnitario)
+                                    </div>
+                                    <div>
+                                        @Html.EditorFor(model => model.PrecioUnitario, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.PrecioUnitario, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="detail-item">
+                                    <div class="detail-label">
+                                        @Html.LabelFor(model => model.FechaCaducidad)
+                                    </div>
+                                    <div>
+                                        @Html.TextBox("FechaCaducidad", Model.FechaCaducidad.ToString("yyyy-MM-dd"), new { @class = "form-control", type = "date", min = DateTime.Now.ToString("yyyy-MM-dd") })
+
+                                        @Html.ValidationMessageFor(model => model.FechaCaducidad, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
                             </div>
 
-                            <div class="info-group">
-                                <div class="label">TIPO DE ARTÍCULO</div>
-                                <div class="value">@Html.DisplayFor(model => model.TipoArticulo)</div>
+                            <div class="detail-group">
+                                <div class="detail-item">
+                                    <div class="detail-label">
+                                        @Html.LabelFor(model => model.TipoArticulo)
+                                    </div>
+                                    <div>
+                                        @Html.DropDownListFor(model => model.TipoArticulo,
+                                             new List<SelectListItem>
+                                             {
+                                                new SelectListItem { Text = "Equipo Médico", Value = "Equipo Médico" },
+                                                new SelectListItem { Text = "Medicamento", Value = "Medicamento" },
+                                                new SelectListItem { Text = "Suministro", Value = "Suministro" }
+                                             },
+                                             "Seleccione una opción",
+                                             new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.TipoArticulo, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
                             </div>
 
-                            <div class="info-group">
-                                <div class="label">FECHA DE INGRESO</div>
-                                <div class="value">@Html.DisplayFor(model => model.FechaIngreso)</div>
-                            </div>
-
-                            <div class="info-group">
-                                <div class="label">FECHA DE CADUCIDAD</div>
-                                <div class="value">@Html.DisplayFor(model => model.FechaCaducidad)</div>
+                            <div class="text-center" style="margin-top: 30px;">
+                                @Html.ActionLink("Editar", "Editar", new { id = Model.Id_Articulo }, new { @class = "btn-primary" })
+                                @Html.ActionLink("Volver a la Lista", "Index", null, new { @class = "btn-secondary" })
                             </div>
                         </div>
-
-                        <div class="actions">
-                            @Html.ActionLink("Volver a la Lista", "Index", null, new { @class = "btn btn-back" })
-                            @Html.ActionLink("Editar", "Editar", new { id = Model.Id_Articulo }, new { @class = "btn btn-edit" })
-                        </div>
-                    </div>
+                    }
                 </div>
-
 
             </div>
         </div>
@@ -352,120 +393,3 @@
     </script>
 </body>
 
-<style>
-    .container {
-        max-width: 1000px;
-        margin: 0 auto;
-        padding: 20px;
-    }
-
-    .header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 30px;
-        padding-bottom: 15px;
-        border-bottom: 1px solid #e3ebf6;
-    }
-
-        .header h1 {
-            font-size: 28px;
-            color: #12263f;
-            margin: 0;
-            font-weight: 600;
-        }
-
-    .card {
-        background-color: #ffffff;
-        border-radius: 12px;
-        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-        padding: 25px;
-        margin-bottom: 30px;
-    }
-
-    .product-info {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-        gap: 20px;
-    }
-
-    .info-group {
-        margin-bottom: 20px;
-    }
-
-    .label {
-        font-size: 14px;
-        color: #6c757d;
-        margin-bottom: 5px;
-        letter-spacing: 0.5px;
-        font-weight: 500;
-    }
-
-    .value {
-        font-size: 18px;
-        font-weight: 500;
-        color: #12263f;
-    }
-
-    .status {
-        display: inline-block;
-        padding: 5px 12px;
-        border-radius: 20px;
-        font-size: 14px;
-        font-weight: 600;
-        background-color: #00d97e;
-        color: white;
-    }
-
-    .actions {
-        display: flex;
-        gap: 15px;
-        margin-top: 30px;
-    }
-
-    .btn {
-        padding: 10px 20px;
-        border-radius: 6px;
-        font-weight: 600;
-        text-decoration: none;
-        transition: all 0.2s ease;
-        cursor: pointer;
-        border: none;
-    }
-
-    .btn-back {
-        background-color: #6c757d;
-        color: white;
-    }
-
-    .btn-edit {
-        background-color: #2c7be5;
-        color: white;
-    }
-
-    .btn:hover {
-        opacity: 0.9;
-        transform: translateY(-2px);
-    }
-
-    .price-value {
-        font-size: 20px;
-        font-weight: 700;
-        color: #2c7be5;
-    }
-
-    .quantity-badge {
-        background-color: #e3ebf6;
-        padding: 4px 10px;
-        border-radius: 4px;
-        font-weight: 600;
-    }
-
-    media (max-width: 768px) {
-        .product-info
-
-    {
-        grid-template-columns: 1fr;
-    }
-    }
-</style>
