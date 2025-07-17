@@ -13,6 +13,10 @@ namespace ProyectoClinica.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id_Nota_Paciente { get; set; }
 
+        [ForeignKey("ApplicationUser")]
+        public string Id { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
+
         [StringLength(255)]
         [Display(Name = "Nota del paciente")]
         public string Nota_Del_Paciente { get; set; }

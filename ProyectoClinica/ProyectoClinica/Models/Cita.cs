@@ -16,6 +16,10 @@ namespace ProyectoClinica.Models
         [Required]
         public int Id_Medico { get; set; }
 
+        [ForeignKey("ApplicationUser")]
+        public string Id { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
+
         [StringLength(255)]
         [Display(Name = "Paciente")]
         public string Nombre_Paciente { get; set; }

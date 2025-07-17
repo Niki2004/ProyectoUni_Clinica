@@ -92,8 +92,12 @@ namespace ProyectoClinica.Controllers
         [HttpGet]
         public ActionResult GetEvents()
         {
+            var userId = User.Identity.GetUserId(); // ID del usuario logueado
+
             var citas = BaseDatos.Cita
                 .Include("Medico")
+                .Include("ApplicationUser") // Asegúrate de incluir esto
+                .Where(c => c.ApplicationUser.Id == userId)
                 .AsEnumerable()
                 .Select(pc => new
                 {
@@ -102,10 +106,10 @@ namespace ProyectoClinica.Controllers
                     start = pc.Fecha_Cita.ToString("yyyy-MM-dd") + "T" + pc.Hora_cita.ToString(@"hh\:mm\:ss"),
                     end = pc.Fecha_Cita.ToString("yyyy-MM-dd") + "T" + pc.Hora_cita.ToString(@"hh\:mm\:ss"),
                     color = pc.Estado_Asistencia == "No Asistida" ? "red" : (pc.Estado_Asistencia == "Asistida" ? "green" : "orange"),
-                    doctor = pc.Medico.Nombre,  // Añadido
-                   
+                    doctor = pc.Medico.Nombre,
                 })
                 .ToList();
+
             return Json(citas, JsonRequestBehavior.AllowGet);
         }
 
@@ -129,7 +133,7 @@ namespace ProyectoClinica.Controllers
                 ModelState.AddModelError("Fecha_Cita", "No se puede agendar una cita en una fecha pasada.");
             }
 
-            var diaSemana = (int)Cita.Fecha_Cita.DayOfWeek; // 0 = Domingo, 6 = Sábado
+            var diaSemana = (int)Cita.Fecha_Cita.DayOfWeek;
             if (diaSemana == 0 || diaSemana == 6)
             {
                 ModelState.AddModelError("Fecha_Cita", "No se pueden agendar citas los sábados ni domingos.");
@@ -145,17 +149,16 @@ namespace ProyectoClinica.Controllers
                 ModelState.AddModelError("Hora_cita", "La hora debe estar entre las 07:00 y las 20:00.");
             }
 
-
             if (ModelState.IsValid)
             {
                 var CitaExistente = BaseDatos.Cita
-                .FirstOrDefault(r =>
-                    r.Fecha_Cita == Cita.Fecha_Cita &&
-                    r.Id_Medico == Cita.Id_Medico &&
-                    (
-                        (Cita.Hora_cita >= r.Hora_cita && Cita.Hora_cita < DbFunctions.AddMinutes(r.Hora_cita, 30)) ||
-                        (Cita.Hora_cita <= r.Hora_cita && DbFunctions.AddMinutes(Cita.Hora_cita, 30) > r.Hora_cita)
-                    ));
+                    .FirstOrDefault(r =>
+                        r.Fecha_Cita == Cita.Fecha_Cita &&
+                        r.Id_Medico == Cita.Id_Medico &&
+                        (
+                            (Cita.Hora_cita >= r.Hora_cita && Cita.Hora_cita < DbFunctions.AddMinutes(r.Hora_cita, 30)) ||
+                            (Cita.Hora_cita <= r.Hora_cita && DbFunctions.AddMinutes(Cita.Hora_cita, 30) > r.Hora_cita)
+                        ));
 
                 string mensajeNotificacion;
 
@@ -170,11 +173,11 @@ namespace ProyectoClinica.Controllers
                     mensajeNotificacion = "Tu cita ha sido creada exitosamente";
                 }
 
-                // Guardar la Cita
+                Cita.Id = User.Identity.GetUserId();
+
                 BaseDatos.Cita.Add(Cita);
                 BaseDatos.SaveChanges();
 
-                // Manejo de la sesión de notificaciones
                 if (Session["Notificaciones"] == null)
                 {
                     Session["Notificaciones"] = new List<string>();
@@ -183,14 +186,11 @@ namespace ProyectoClinica.Controllers
                 var listaNotificaciones = (List<string>)Session["Notificaciones"];
                 listaNotificaciones.Add(mensajeNotificacion);
 
-                // Guardar el número total de notificaciones en la sesión
                 Session["ContadorNotificaciones"] = listaNotificaciones.Count;
 
-                // Redirigir a la vista de índice
                 return RedirectToAction("Index");
             }
 
-            // Si el modelo no es válido, regresar la vista con los errores
             return View(Cita);
         }
 
@@ -212,6 +212,8 @@ namespace ProyectoClinica.Controllers
             {
                 try
                 {
+                    notaPaciente.Id = User.Identity.GetUserId();
+
                     BaseDatos.Nota_Paciente.Add(notaPaciente);
                     BaseDatos.SaveChanges();
 
