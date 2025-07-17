@@ -489,6 +489,14 @@
     <Compile Include="Migrations\202504082019266_Tablas_recuperacion.Designer.cs">
       <DependentUpon>202504082019266_Tablas_recuperacion.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202507171919598_CitaModificacion.cs" />
+    <Compile Include="Migrations\202507171919598_CitaModificacion.designer.cs">
+      <DependentUpon>202507171919598_CitaModificacion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202507172039461_NotasPacienteModificacion.cs" />
+    <Compile Include="Migrations\202507172039461_NotasPacienteModificacion.designer.cs">
+      <DependentUpon>202507172039461_NotasPacienteModificacion.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Administrativa.cs" />
@@ -918,6 +926,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202504082019266_Tablas_recuperacion.resx">
       <DependentUpon>202504082019266_Tablas_recuperacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202507171919598_CitaModificacion.resx">
+      <DependentUpon>202507171919598_CitaModificacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202507172039461_NotasPacienteModificacion.resx">
+      <DependentUpon>202507172039461_NotasPacienteModificacion.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

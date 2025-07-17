@@ -35,11 +35,11 @@ namespace ProyectoClinica.Models
         public ICollection<Copago> Copago { get; set; } = new List<Copago>();
         public ICollection<Reporte> Reporte { get; set; } = new List<Reporte>();
         public ICollection<AsignacionRolesTemporales> AsignacionRolesTemporales { get; set; } = new List<AsignacionRolesTemporales>();
-
         public ICollection<UsuariosAdmin> UsuariosAdmin { get; set; } = new List<UsuariosAdmin>();
-
-
         public ICollection<Historial_Aplicaciones> Historial_Aplicaciones { get; set; } = new List<Historial_Aplicaciones>();
+        public ICollection<Cita> Cita { get; set; } = new List<Cita>();
+        public ICollection<Nota_Paciente> Nota_Paciente { get; set; } = new List<Nota_Paciente>();
+
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
