@@ -59,6 +59,26 @@ namespace ProyectoClinica.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id_Inventario_Detalle,Id_Inventario_Encabezado,Id_Departamento,Id_Producto,Fecha_Entrada,Fecha_Salida,Cantidad_Stock,Cantidad_Salida,Precio")] Inventario_Detalle_Conta inventario_Detalle_Conta)
         {
+            // Validación de fechas
+            DateTime hoy = DateTime.Today;
+            var fechas = new[] { inventario_Detalle_Conta.Fecha_Entrada, inventario_Detalle_Conta.Fecha_Salida };
+            foreach (var fecha in fechas)
+            {
+                if (fecha.HasValue && fecha.Value < hoy)
+                {
+                    ModelState.AddModelError("", "No se permiten fechas pasadas.");
+                    ViewBag.Departamento = new SelectList(_context.Departamentos, "Id_Departamento", "Nombre_Departamento");
+                    ViewBag.Producto = new SelectList(_context.Productos_Conta, "Id_Producto", "Nombre_producto");
+                    return View(inventario_Detalle_Conta);
+                }
+                if (fecha.HasValue && (fecha.Value.DayOfWeek == DayOfWeek.Saturday || fecha.Value.DayOfWeek == DayOfWeek.Sunday))
+                {
+                    ModelState.AddModelError("", "No se permiten fechas en sábado ni domingo.");
+                    ViewBag.Departamento = new SelectList(_context.Departamentos, "Id_Departamento", "Nombre_Departamento");
+                    ViewBag.Producto = new SelectList(_context.Productos_Conta, "Id_Producto", "Nombre_producto");
+                    return View(inventario_Detalle_Conta);
+                }
+            }
             if (ModelState.IsValid)
             {
                 try
@@ -133,6 +153,26 @@ namespace ProyectoClinica.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id_Inventario_Detalle,Id_Inventario_Encabezado,Id_Departamento,Id_Producto,Fecha_Entrada,Fecha_Salida,Cantidad_Stock,Cantidad_Salida,Precio")] Inventario_Detalle_Conta inventario_Detalle_Conta)
         {
+            // Validación de fechas
+            DateTime hoy = DateTime.Today;
+            var fechas = new[] { inventario_Detalle_Conta.Fecha_Entrada, inventario_Detalle_Conta.Fecha_Salida };
+            foreach (var fecha in fechas)
+            {
+                if (fecha.HasValue && fecha.Value < hoy)
+                {
+                    ModelState.AddModelError("", "No se permiten fechas pasadas.");
+                    ViewBag.Departamento = new SelectList(_context.Departamentos, "Id_Departamento", "Nombre_Departamento", inventario_Detalle_Conta.Id_Departamento);
+                    ViewBag.Producto = new SelectList(_context.Productos_Conta, "Id_Producto", "Nombre_producto", inventario_Detalle_Conta.Id_Producto);
+                    return View(inventario_Detalle_Conta);
+                }
+                if (fecha.HasValue && (fecha.Value.DayOfWeek == DayOfWeek.Saturday || fecha.Value.DayOfWeek == DayOfWeek.Sunday))
+                {
+                    ModelState.AddModelError("", "No se permiten fechas en sábado ni domingo.");
+                    ViewBag.Departamento = new SelectList(_context.Departamentos, "Id_Departamento", "Nombre_Departamento", inventario_Detalle_Conta.Id_Departamento);
+                    ViewBag.Producto = new SelectList(_context.Productos_Conta, "Id_Producto", "Nombre_producto", inventario_Detalle_Conta.Id_Producto);
+                    return View(inventario_Detalle_Conta);
+                }
+            }
             if (ModelState.IsValid)
             {
                 try
