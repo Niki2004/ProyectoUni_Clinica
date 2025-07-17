@@ -113,21 +113,21 @@
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Fecha_Creacion, "Fecha de Creación")</div>
                                     <div class="detail-value">
-                                        @Html.TextBoxFor(model => model.Fecha_Creacion, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                                        @Html.TextBoxFor(model => model.Fecha_Creacion, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", min = DateTime.Now.ToString("yyyy-MM-dd") })
                                         @Html.ValidationMessageFor(model => model.Fecha_Creacion, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Fecha_Actualizacion, "Fecha de Actualización")</div>
                                     <div class="detail-value">
-                                        @Html.TextBoxFor(model => model.Fecha_Actualizacion, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                                        @Html.TextBoxFor(model => model.Fecha_Actualizacion, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", min = DateTime.Now.ToString("yyyy-MM-dd") })
                                         @Html.ValidationMessageFor(model => model.Fecha_Actualizacion, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Fecha_Eliminacion, "Fecha de Eliminación")</div>
                                     <div class="detail-value">
-                                        @Html.TextBoxFor(model => model.Fecha_Eliminacion, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                                        @Html.TextBoxFor(model => model.Fecha_Eliminacion, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", min = DateTime.Now.ToString("yyyy-MM-dd") })
                                         @Html.ValidationMessageFor(model => model.Fecha_Eliminacion, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -379,6 +379,32 @@
                     expiringNames,
                     'warning'
                 );
+            }
+        });
+
+        // Validación de fechas antes de enviar el formulario
+        document.querySelector('form').addEventListener('submit', function(e) {
+            let errorMsg = '';
+            const fechaCreacion = document.getElementById('Fecha_Creacion').value;
+            const fechaActualizacion = document.getElementById('Fecha_Actualizacion').value;
+            const fechaEliminacion = document.getElementById('Fecha_Eliminacion').value;
+            const fechas = [fechaCreacion, fechaActualizacion, fechaEliminacion];
+            fechas.forEach(function(fecha) {
+                if (fecha) {
+                    const d = new Date(fecha);
+                    const hoy = new Date();
+                    hoy.setHours(0,0,0,0);
+                    if (d < hoy) {
+                        errorMsg = 'No se permiten fechas pasadas.';
+                    }
+                    if (d.getDay() === 0 || d.getDay() === 6) {
+                        errorMsg = 'No se permiten fechas en sábado ni domingo.';
+                    }
+                }
+            });
+            if (errorMsg) {
+                e.preventDefault();
+                alert(errorMsg);
             }
         });
     </script>

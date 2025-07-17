@@ -84,6 +84,26 @@ namespace ProyectoClinica.Controllers
         [HttpPost]
         public ActionResult Create(Pagos_Diarios model)
         {
+            // Validación de fechas
+            DateTime hoy = DateTime.Today;
+            var fechas = new[] { model.Fecha_Pago, model.Fecha_Registro };
+            foreach (var fecha in fechas)
+            {
+                if (fecha < hoy)
+                {
+                    ModelState.AddModelError("", "No se permiten fechas pasadas.");
+                    ViewBag.Contabilidad = new SelectList(_context.Contabilidad, "Id_Contabilidad", "ClienteProveedor", model.Id_Contabilidad);
+                    ViewBag.Empleado = new SelectList(_context.Empleado, "Id_Empleado", "Nombre", model.Id_Empleado);
+                    return View(model);
+                }
+                if (fecha.DayOfWeek == DayOfWeek.Saturday || fecha.DayOfWeek == DayOfWeek.Sunday)
+                {
+                    ModelState.AddModelError("", "No se permiten fechas en sábado ni domingo.");
+                    ViewBag.Contabilidad = new SelectList(_context.Contabilidad, "Id_Contabilidad", "ClienteProveedor", model.Id_Contabilidad);
+                    ViewBag.Empleado = new SelectList(_context.Empleado, "Id_Empleado", "Nombre", model.Id_Empleado);
+                    return View(model);
+                }
+            }
             try
             {
 
@@ -165,6 +185,26 @@ namespace ProyectoClinica.Controllers
         [HttpPost]
         public ActionResult Edit(Pagos_Diarios pago)
         {
+            // Validación de fechas
+            DateTime hoy = DateTime.Today;
+            var fechas = new[] { pago.Fecha_Pago, pago.Fecha_Registro };
+            foreach (var fecha in fechas)
+            {
+                if (fecha < hoy)
+                {
+                    ModelState.AddModelError("", "No se permiten fechas pasadas.");
+                    ViewBag.Contabilidad = new SelectList(_context.Contabilidad, "Id_Contabilidad", "ClienteProveedor", pago.Id_Contabilidad);
+                    ViewBag.Empleado = new SelectList(_context.Empleado, "Id_Empleado", "Nombre", pago.Id_Empleado);
+                    return View(pago);
+                }
+                if (fecha.DayOfWeek == DayOfWeek.Saturday || fecha.DayOfWeek == DayOfWeek.Sunday)
+                {
+                    ModelState.AddModelError("", "No se permiten fechas en sábado ni domingo.");
+                    ViewBag.Contabilidad = new SelectList(_context.Contabilidad, "Id_Contabilidad", "ClienteProveedor", pago.Id_Contabilidad);
+                    ViewBag.Empleado = new SelectList(_context.Empleado, "Id_Empleado", "Nombre", pago.Id_Empleado);
+                    return View(pago);
+                }
+            }
             if (ModelState.IsValid)
             {
                 _context.Entry(pago).State = EntityState.Modified;
