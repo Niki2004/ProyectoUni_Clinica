@@ -56,6 +56,24 @@ namespace ProyectoClinica.Controllers
         [HttpPost]
         public ActionResult Create(Productos_Conta model)
         {
+            // Validación de fechas
+            DateTime hoy = DateTime.Today;
+            var fechas = new[] { model.Creacion_producto, model.Actualizacion_producto, model.Eliminacion_producto };
+            foreach (var fecha in fechas)
+            {
+                if (fecha.HasValue && fecha.Value < hoy)
+                {
+                    ModelState.AddModelError("", "No se permiten fechas pasadas.");
+                    ViewBag.Productos_Conta = new SelectList(_context.Productos_Conta, "Id_Producto");
+                    return View(model);
+                }
+                if (fecha.HasValue && (fecha.Value.DayOfWeek == DayOfWeek.Saturday || fecha.Value.DayOfWeek == DayOfWeek.Sunday))
+                {
+                    ModelState.AddModelError("", "No se permiten fechas en sábado ni domingo.");
+                    ViewBag.Productos_Conta = new SelectList(_context.Productos_Conta, "Id_Producto");
+                    return View(model);
+                }
+            }
             try
             {
 
@@ -108,6 +126,22 @@ namespace ProyectoClinica.Controllers
         [HttpPost]
         public async Task<ActionResult> Edit(Productos_Conta productos)
         {
+            // Validación de fechas
+            DateTime hoy = DateTime.Today;
+            var fechas = new[] { productos.Creacion_producto, productos.Actualizacion_producto, productos.Eliminacion_producto };
+            foreach (var fecha in fechas)
+            {
+                if (fecha.HasValue && fecha.Value < hoy)
+                {
+                    ModelState.AddModelError("", "No se permiten fechas pasadas.");
+                    return View(productos);
+                }
+                if (fecha.HasValue && (fecha.Value.DayOfWeek == DayOfWeek.Saturday || fecha.Value.DayOfWeek == DayOfWeek.Sunday))
+                {
+                    ModelState.AddModelError("", "No se permiten fechas en sábado ni domingo.");
+                    return View(productos);
+                }
+            }
             if (ModelState.IsValid)
             {
                 _context.Entry(productos).State = EntityState.Modified;

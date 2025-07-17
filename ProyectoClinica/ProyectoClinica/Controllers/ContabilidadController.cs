@@ -202,6 +202,30 @@ namespace ProyectoClinica.Controllers
         [HttpPost]
         public ActionResult Create(Contabilidad model)
         {
+            // Validación de fechas
+            DateTime hoy = DateTime.Today;
+            var fechas = new[] { model.Fecha_Registro, model.Fecha_Vencimiento, model.Fecha_Cierre };
+            foreach (var fecha in fechas)
+            {
+                if (fecha < hoy)
+                {
+                    ModelState.AddModelError("", "No se permiten fechas pasadas.");
+                    ViewBag.TipoRegistro = new SelectList(_context.Tipo_Registro, "Id_Tipo_Registro", "Nombre");
+                    ViewBag.Estado_Contabilidad = new SelectList(_context.Estado_Contabilidad, "Id_Estado_Contabilidad", "Nombre");
+                    ViewBag.TipoTransaccion = new SelectList(_context.Tipo_Transaccion, "Id_Tipo_Transaccion", "Nombre");
+                    ViewBag.Usuarios = new SelectList(_context.Users, "Id", "UserName");
+                    return View(model);
+                }
+                if (fecha.DayOfWeek == DayOfWeek.Saturday || fecha.DayOfWeek == DayOfWeek.Sunday)
+                {
+                    ModelState.AddModelError("", "No se permiten fechas en sábado ni domingo.");
+                    ViewBag.TipoRegistro = new SelectList(_context.Tipo_Registro, "Id_Tipo_Registro", "Nombre");
+                    ViewBag.Estado_Contabilidad = new SelectList(_context.Estado_Contabilidad, "Id_Estado_Contabilidad", "Nombre");
+                    ViewBag.TipoTransaccion = new SelectList(_context.Tipo_Transaccion, "Id_Tipo_Transaccion", "Nombre");
+                    ViewBag.Usuarios = new SelectList(_context.Users, "Id", "UserName");
+                    return View(model);
+                }
+            }
 
             try
             {
@@ -267,6 +291,30 @@ namespace ProyectoClinica.Controllers
         [HttpPost]
         public async Task<ActionResult>Edit(Contabilidad contabilidad)
         {
+            // Validación de fechas
+            DateTime hoy = DateTime.Today;
+            var fechas = new[] { contabilidad.Fecha_Registro, contabilidad.Fecha_Vencimiento, contabilidad.Fecha_Cierre };
+            foreach (var fecha in fechas)
+            {
+                if (fecha < hoy)
+                {
+                    ModelState.AddModelError("", "No se permiten fechas pasadas.");
+                    ViewBag.Id_Tipo_Registro = new SelectList(_context.Tipo_Registro, "Id_Tipo_Registro", "Nombre", contabilidad.Id_Tipo_Registro);
+                    ViewBag.Id_Estado_Contabilidad = new SelectList(_context.Estado_Contabilidad, "Id_Estado_Contabilidad", "Nombre", contabilidad.Id_Estado_Contabilidad);
+                    ViewBag.Id_Tipo_Transaccion = new SelectList(_context.Tipo_Transaccion, "Id_Tipo_Transaccion", "Nombre", contabilidad.Id_Tipo_Transaccion);
+                    ViewBag.Usuarios = new SelectList(_context.Users, "Id", "UserName");
+                    return View(contabilidad);
+                }
+                if (fecha.DayOfWeek == DayOfWeek.Saturday || fecha.DayOfWeek == DayOfWeek.Sunday)
+                {
+                    ModelState.AddModelError("", "No se permiten fechas en sábado ni domingo.");
+                    ViewBag.Id_Tipo_Registro = new SelectList(_context.Tipo_Registro, "Id_Tipo_Registro", "Nombre", contabilidad.Id_Tipo_Registro);
+                    ViewBag.Id_Estado_Contabilidad = new SelectList(_context.Estado_Contabilidad, "Id_Estado_Contabilidad", "Nombre", contabilidad.Id_Estado_Contabilidad);
+                    ViewBag.Id_Tipo_Transaccion = new SelectList(_context.Tipo_Transaccion, "Id_Tipo_Transaccion", "Nombre", contabilidad.Id_Tipo_Transaccion);
+                    ViewBag.Usuarios = new SelectList(_context.Users, "Id", "UserName");
+                    return View(contabilidad);
+                }
+            }
 
             if (ModelState.IsValid)
             {

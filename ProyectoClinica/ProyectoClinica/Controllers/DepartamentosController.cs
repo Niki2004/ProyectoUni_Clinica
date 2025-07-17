@@ -55,9 +55,27 @@ namespace ProyectoClinica.Controllers
         [HttpPost]
         public ActionResult Create(Departamentos model)
         {
+            // Validación de fechas
+            DateTime hoy = DateTime.Today;
+            var fechas = new[] { model.Fecha_Creacion, model.Fecha_Actualizacion, model.Fecha_Eliminacion };
+            foreach (var fecha in fechas)
+            {
+                if (fecha.HasValue && fecha.Value < hoy)
+                {
+                    ModelState.AddModelError("", "No se permiten fechas pasadas.");
+                    ViewBag.Inventario_Detalle_Conta = new SelectList(_context.Inventario_Detalle_Conta, "Id_Inventario_Detalle", "Cantidad_Stock");
+                    return View(model);
+                }
+                if (fecha.HasValue && (fecha.Value.DayOfWeek == DayOfWeek.Saturday || fecha.Value.DayOfWeek == DayOfWeek.Sunday))
+                {
+                    ModelState.AddModelError("", "No se permiten fechas en sábado ni domingo.");
+                    ViewBag.Inventario_Detalle_Conta = new SelectList(_context.Inventario_Detalle_Conta, "Id_Inventario_Detalle", "Cantidad_Stock");
+                    return View(model);
+                }
+            }
+
             try
             {
-
                 if (ModelState.IsValid)
                 {
                     try
@@ -73,13 +91,9 @@ namespace ProyectoClinica.Controllers
                         // Si hay un error, muestra el mensaje en el log o en el modelo para que el usuario lo vea
                         ModelState.AddModelError("", "Ocurrió un error al guardar los datos: " + ex.Message);
                     }
-
-
-
                 }
 
                 // Si el modelo no es válido o hubo un error, repite el proceso y pasa la vista con el modelo
-                // Esto permitirá que los datos enviados por el usuario se mantengan en el formulario
                 ViewBag.Departamentos = new SelectList(_context.Departamentos, "Id_");
                 return View(model);
             }
@@ -107,6 +121,23 @@ namespace ProyectoClinica.Controllers
         [HttpPost]
         public async Task<ActionResult> Edit(Departamentos departamentos)
         {
+            // Validación de fechas
+            DateTime hoy = DateTime.Today;
+            var fechas = new[] { departamentos.Fecha_Creacion, departamentos.Fecha_Actualizacion, departamentos.Fecha_Eliminacion };
+            foreach (var fecha in fechas)
+            {
+                if (fecha.HasValue && fecha.Value < hoy)
+                {
+                    ModelState.AddModelError("", "No se permiten fechas pasadas.");
+                    return View(departamentos);
+                }
+                if (fecha.HasValue && (fecha.Value.DayOfWeek == DayOfWeek.Saturday || fecha.Value.DayOfWeek == DayOfWeek.Sunday))
+                {
+                    ModelState.AddModelError("", "No se permiten fechas en sábado ni domingo.");
+                    return View(departamentos);
+                }
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Entry(departamentos).State = EntityState.Modified;

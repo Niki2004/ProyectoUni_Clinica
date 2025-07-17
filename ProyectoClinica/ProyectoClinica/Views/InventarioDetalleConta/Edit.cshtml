@@ -154,13 +154,13 @@
                                 <div class="detail-item">
                                     <div class="detail-label">Fecha de Entrada</div>
                                     <div class="detail-value">
-                                        @Html.TextBoxFor(model => model.Fecha_Entrada, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                                        @Html.TextBoxFor(model => model.Fecha_Entrada, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", min = DateTime.Now.ToString("yyyy-MM-dd") })
                                     </div>
                                 </div>
                                 <div class="detail-item">
                                     <div class="detail-label">Fecha de Salida</div>
                                     <div class="detail-value">
-                                        @Html.TextBoxFor(model => model.Fecha_Salida, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                                        @Html.TextBoxFor(model => model.Fecha_Salida, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", min = DateTime.Now.ToString("yyyy-MM-dd") })
                                     </div>
                                 </div>
                             </div>
@@ -410,6 +410,31 @@
                     expiringNames,
                     'warning'
                 );
+            }
+        });
+
+        // Validación de fechas antes de enviar el formulario
+        document.querySelector('form').addEventListener('submit', function(e) {
+            let errorMsg = '';
+            const fechaEntrada = document.getElementById('Fecha_Entrada').value;
+            const fechaSalida = document.getElementById('Fecha_Salida').value;
+            const fechas = [fechaEntrada, fechaSalida];
+            fechas.forEach(function(fecha) {
+                if (fecha) {
+                    const d = new Date(fecha);
+                    const hoy = new Date();
+                    hoy.setHours(0,0,0,0);
+                    if (d.HasValue && d.Value < hoy) {
+                        errorMsg = 'No se permiten fechas pasadas.';
+                    }
+                    if (d.HasValue && (d.Value.DayOfWeek == DayOfWeek.Saturday || d.Value.DayOfWeek == DayOfWeek.Sunday)) {
+                        errorMsg = 'No se permiten fechas en sábado ni domingo.';
+                    }
+                }
+            });
+            if (errorMsg) {
+                e.preventDefault();
+                alert(errorMsg);
             }
         });
     </script>
