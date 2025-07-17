@@ -142,12 +142,12 @@
                             <div class="form-grid">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.Fecha_Entrada, "Fecha de Entrada", new { @class = "control-label" })
-                                    @Html.TextBoxFor(model => model.Fecha_Entrada, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                                    @Html.TextBoxFor(model => model.Fecha_Entrada, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", min = DateTime.Now.ToString("yyyy-MM-dd") })
                                 </div>
 
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.Fecha_Salida, "Fecha de Salida", new { @class = "control-label" })
-                                    @Html.TextBoxFor(model => model.Fecha_Salida, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                                    @Html.TextBoxFor(model => model.Fecha_Salida, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", min = DateTime.Now.ToString("yyyy-MM-dd") })
                                 </div>
                             </div>
                         </div>
@@ -391,6 +391,31 @@
                     expiringNames,
                     'warning'
                 );
+            }
+        });
+
+        // Validación de fechas antes de enviar el formulario
+        document.querySelector('form').addEventListener('submit', function(e) {
+            let errorMsg = '';
+            const fechaEntrada = document.getElementById('Fecha_Entrada').value;
+            const fechaSalida = document.getElementById('Fecha_Salida').value;
+            const fechas = [fechaEntrada, fechaSalida];
+            fechas.forEach(function(fecha) {
+                if (fecha) {
+                    const d = new Date(fecha);
+                    const hoy = new Date();
+                    hoy.setHours(0,0,0,0);
+                    if (d < hoy) {
+                        errorMsg = 'No se permiten fechas pasadas.';
+                    }
+                    if (d.getDay() === 0 || d.getDay() === 6) {
+                        errorMsg = 'No se permiten fechas en sábado ni domingo.';
+                    }
+                }
+            });
+            if (errorMsg) {
+                e.preventDefault();
+                alert(errorMsg);
             }
         });
     </script>
