@@ -135,7 +135,7 @@
                             <div class="form-grid">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.Fecha_Pago, "Fecha de Pago", new { @class = "control-label" })
-                                    @Html.TextBoxFor(model => model.Fecha_Pago, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                                    @Html.TextBoxFor(model => model.Fecha_Pago, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", min = DateTime.Now.ToString("yyyy-MM-dd") })
                                 </div>
 
                                 <div class="form-group">
@@ -193,7 +193,7 @@
 
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.Fecha_Registro, "Fecha de Registro", new { @class = "control-label" })
-                                    @Html.TextBoxFor(model => model.Fecha_Registro, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                                    @Html.TextBoxFor(model => model.Fecha_Registro, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", min = DateTime.Now.ToString("yyyy-MM-dd") })
                                 </div>
 
                                 <div class="form-group">
@@ -203,7 +203,7 @@
 
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.Fecha_Modificacion, "Fecha de Modificación", new { @class = "control-label" })
-                                    @Html.TextBoxFor(model => model.Fecha_Modificacion, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                                    @Html.TextBoxFor(model => model.Fecha_Modificacion, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", min = DateTime.Now.ToString("yyyy-MM-dd") })
                                 </div>
                             </div>
                         </div>
@@ -428,6 +428,32 @@
                     expiringNames,
                     'warning'
                 );
+            }
+        });
+
+        // Validación de fechas antes de enviar el formulario
+        document.querySelector('form').addEventListener('submit', function(e) {
+            let errorMsg = '';
+            const fechaPago = document.getElementById('Fecha_Pago').value;
+            const fechaRegistro = document.getElementById('Fecha_Registro').value;
+            const fechaModificacion = document.getElementById('Fecha_Modificacion').value;
+            const fechas = [fechaPago, fechaRegistro, fechaModificacion];
+            fechas.forEach(function(fecha) {
+                if (fecha) {
+                    const d = new Date(fecha);
+                    const hoy = new Date();
+                    hoy.setHours(0,0,0,0);
+                    if (d < hoy) {
+                        errorMsg = 'No se permiten fechas pasadas.';
+                    }
+                    if (d.getDay() === 0 || d.getDay() === 6) {
+                        errorMsg = 'No se permiten fechas en sábado ni domingo.';
+                    }
+                }
+            });
+            if (errorMsg) {
+                e.preventDefault();
+                alert(errorMsg);
             }
         });
     </script>

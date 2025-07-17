@@ -79,6 +79,24 @@ namespace ProyectoClinica.Controllers
         {
             try
             {
+                // Validación de fechas
+                DateTime hoy = DateTime.Today;
+                var fechas = new[] { model.Fecha_Pago, model.Fecha_Registro, model.Fecha_Modificacion };
+                foreach (var fecha in fechas)
+                {
+                    if (fecha < hoy)
+                    {
+                        ModelState.AddModelError("", "No se permiten fechas pasadas.");
+                        ViewBag.Banco = new SelectList(_context.Bancos, "Id_Banco", "Nombre_Banco");
+                        return View(model);
+                    }
+                    if (fecha.DayOfWeek == DayOfWeek.Saturday || fecha.DayOfWeek == DayOfWeek.Sunday)
+                    {
+                        ModelState.AddModelError("", "No se permiten fechas en sábado ni domingo.");
+                        ViewBag.Banco = new SelectList(_context.Bancos, "Id_Banco", "Nombre_Banco");
+                        return View(model);
+                    }
+                }
 
                 if (ModelState.IsValid)
                 {
@@ -142,6 +160,28 @@ namespace ProyectoClinica.Controllers
         [HttpPost]
         public async Task<ActionResult> Edit(Pagos pago)
         {
+            // Cargar bancos una sola vez
+            var bancos = await _context.Bancos.ToListAsync();
+
+            // Validación de fechas
+            DateTime hoy = DateTime.Today;
+            var fechas = new[] { pago.Fecha_Pago, pago.Fecha_Registro, pago.Fecha_Modificacion };
+            foreach (var fecha in fechas)
+            {
+                if (fecha < hoy)
+                {
+                    ModelState.AddModelError("", "No se permiten fechas pasadas.");
+                    ViewBag.Banco = new SelectList(bancos, "Id_Banco", "Nombre_Banco", pago.Id_Banco);
+                    return View(pago);
+                }
+                if (fecha.DayOfWeek == DayOfWeek.Saturday || fecha.DayOfWeek == DayOfWeek.Sunday)
+                {
+                    ModelState.AddModelError("", "No se permiten fechas en sábado ni domingo.");
+                    ViewBag.Banco = new SelectList(bancos, "Id_Banco", "Nombre_Banco", pago.Id_Banco);
+                    return View(pago);
+                }
+            }
+
             if (ModelState.IsValid)
             {
                 try
@@ -171,9 +211,7 @@ namespace ProyectoClinica.Controllers
             }
 
             // Si llegamos aquí, algo falló, volver a cargar los bancos
-            var bancos = await _context.Bancos.ToListAsync();
             ViewBag.Banco = new SelectList(bancos, "Id_Banco", "Nombre_Banco", pago.Id_Banco);
-
             return View(pago);
         }
 
