@@ -120,31 +120,57 @@ namespace ProyectoClinica.Controllers
         [Authorize(Roles = "Usuario")]
         public ActionResult VistaCita()
         {
-            var citas = BaseDatos.Cita.ToList();
-            return View(citas);
+            var userId = User.Identity.GetUserId(); // Obtener ID del usuario logueado
+
+            var citasDelUsuario = BaseDatos.Cita
+                .Include("Medico")
+                .Include("ApplicationUser") // Opcional: solo si necesitas mostrar nombre de usuario, etc.
+                .Where(c => c.ApplicationUser.Id == userId)
+                .ToList();
+
+            return View(citasDelUsuario);
         }
 
         //---------------------------------------------------- Vista de citas ------------------------------------------------------------
         [Authorize(Roles = "Usuario")]
         public ActionResult EliminarCita()
         {
-            var citas = BaseDatos.Cita.ToList();
-            return View(citas);
+            var userId = User.Identity.GetUserId(); // Obtener ID del usuario logueado
+
+            var citasDelUsuario = BaseDatos.Cita
+                .Include("Medico")
+                .Include("ApplicationUser") // Opcional: solo si necesitas mostrar nombre de usuario, etc.
+                .Where(c => c.ApplicationUser.Id == userId)
+                .ToList();
+
+            return View(citasDelUsuario);
         }
 
         //---------------------------------------------------- Vista de citas ------------------------------------------------------------
         [Authorize(Roles = "Usuario")]
         public ActionResult HistorialCita()
         {
-            var citas = BaseDatos.Cita.ToList();
-            return View(citas);
+            var userId = User.Identity.GetUserId(); // Obtener ID del usuario logueado
+
+            var citasDelUsuario = BaseDatos.Cita
+                .Include("Medico")
+                .Include("ApplicationUser") // Opcional: solo si necesitas mostrar nombre de usuario, etc.
+                .Where(c => c.ApplicationUser.Id == userId)
+                .ToList();
+
+            return View(citasDelUsuario);
         }
 
         //---------------------------------------------------- Vista de citas ------------------------------------------------------------
         [Authorize(Roles = "Usuario")]
         public ActionResult NotasPersonale()
         {
-            var notasPersonales = BaseDatos.Nota_Paciente.ToList();
+            var userId = User.Identity.GetUserId();
+
+            var notasPersonales = BaseDatos.Nota_Paciente
+                .Where(n => n.ApplicationUser.Id == userId)
+                .ToList();
+
             return View(notasPersonales);
         }
 
@@ -610,12 +636,15 @@ namespace ProyectoClinica.Controllers
         [Authorize(Roles = "Usuario")]
         public ActionResult VistaCitaFutura()
         {
+            var userId = User.Identity.GetUserId(); // Obtener ID del usuario autenticado
+
             var citasFuturas = BaseDatos.Cita
-                .Where(c => c.Fecha_Cita > DateTime.Now)
+                .Where(c => c.Fecha_Cita > DateTime.Now && c.ApplicationUser.Id == userId)
                 .ToList();
 
             return View(citasFuturas);
         }
+
 
 
     }
