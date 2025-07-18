@@ -92,6 +92,15 @@ namespace ProyectoClinica.Controllers
         [HttpPost]
         public ActionResult Create(Conciliaciones_Bancarias model)
         {
+            // Validación de fecha de conciliación: no permitir sábados ni domingos
+            if (model.Fecha_Conciliacion.DayOfWeek == DayOfWeek.Saturday || model.Fecha_Conciliacion.DayOfWeek == DayOfWeek.Sunday)
+            {
+                ModelState.AddModelError("Fecha_Conciliacion", "No se permiten fechas en sábado ni domingo.");
+                ViewBag.Banco = new SelectList(_context.Bancos, "Id_Banco", "Nombre_Banco");
+                ViewBag.Diarios_Contables = new SelectList(_context.Diarios_Contables, "Id_Diario", "Descripcion");
+                ViewBag.TipoRegistro = new SelectList(_context.Tipo_Registro, "Id_Tipo_Registro", "Nombre");
+                return View(model);
+            }
             try
             {
 
@@ -184,6 +193,15 @@ namespace ProyectoClinica.Controllers
         [HttpPost]
         public async Task<ActionResult> Edit(Conciliaciones_Bancarias concilaicion)
         {
+            // Validación de fecha de conciliación: no permitir sábados ni domingos
+            if (concilaicion.Fecha_Conciliacion.DayOfWeek == DayOfWeek.Saturday || concilaicion.Fecha_Conciliacion.DayOfWeek == DayOfWeek.Sunday)
+            {
+                ModelState.AddModelError("Fecha_Conciliacion", "No se permiten fechas en sábado ni domingo.");
+                ViewBag.Banco = new SelectList(_context.Bancos, "Id_Banco", "Nombre_Banco");
+                ViewBag.Diarios_Contables = new SelectList(_context.Diarios_Contables, "Id_Diario", "Descripcion");
+                ViewBag.TipoRegistro = new SelectList(_context.Tipo_Registro, "Id_Tipo_Registro", "Nombre");
+                return View(concilaicion);
+            }
             if (ModelState.IsValid)
             {
                 _context.Entry(concilaicion).State = EntityState.Modified;

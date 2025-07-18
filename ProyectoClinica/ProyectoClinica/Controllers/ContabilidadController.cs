@@ -227,6 +227,39 @@ namespace ProyectoClinica.Controllers
                 }
             }
 
+            // Validación de solo números positivos en Pagos Pendientes
+            if (model.Total_Pagos_Pendientes < 0)
+            {
+                ModelState.AddModelError("Total_Pagos_Pendientes", "Pagos Pendientes solo puede contener números positivos.");
+                ViewBag.TipoRegistro = new SelectList(_context.Tipo_Registro, "Id_Tipo_Registro", "Nombre");
+                ViewBag.Estado_Contabilidad = new SelectList(_context.Estado_Contabilidad, "Id_Estado_Contabilidad", "Nombre");
+                ViewBag.TipoTransaccion = new SelectList(_context.Tipo_Transaccion, "Id_Tipo_Transaccion", "Nombre");
+                ViewBag.Usuarios = new SelectList(_context.Users, "Id", "UserName");
+                return View(model);
+            }
+            // Validación de opciones válidas en Estado del Pago
+            string[] opcionesValidasConta = { "Cierre Mensual", "Cierre Anual", "Aprobado", "Rechazado" };
+            if (!opcionesValidasConta.Contains(model.Conta_pago?.Trim() ?? string.Empty))
+            {
+                ModelState.AddModelError("Conta_pago", "Estado del Pago solo puede ser: Cierre Mensual, Cierre Anual, Aprobado o Rechazado.");
+                ViewBag.TipoRegistro = new SelectList(_context.Tipo_Registro, "Id_Tipo_Registro", "Nombre");
+                ViewBag.Estado_Contabilidad = new SelectList(_context.Estado_Contabilidad, "Id_Estado_Contabilidad", "Nombre");
+                ViewBag.TipoTransaccion = new SelectList(_context.Tipo_Transaccion, "Id_Tipo_Transaccion", "Nombre");
+                ViewBag.Usuarios = new SelectList(_context.Users, "Id", "UserName");
+                return View(model);
+            }
+            // Validación de opciones válidas en Estatus del Pago
+            string[] opcionesValidasEstatus = { "Activo", "Inactivo" };
+            if (!opcionesValidasEstatus.Contains(model.Estatus_pago?.Trim() ?? string.Empty))
+            {
+                ModelState.AddModelError("Estatus_pago", "Estatus del Pago solo puede ser: Activo o Inactivo.");
+                ViewBag.TipoRegistro = new SelectList(_context.Tipo_Registro, "Id_Tipo_Registro", "Nombre");
+                ViewBag.Estado_Contabilidad = new SelectList(_context.Estado_Contabilidad, "Id_Estado_Contabilidad", "Nombre");
+                ViewBag.TipoTransaccion = new SelectList(_context.Tipo_Transaccion, "Id_Tipo_Transaccion", "Nombre");
+                ViewBag.Usuarios = new SelectList(_context.Users, "Id", "UserName");
+                return View(model);
+            }
+
             try
             {
 
@@ -314,6 +347,39 @@ namespace ProyectoClinica.Controllers
                     ViewBag.Usuarios = new SelectList(_context.Users, "Id", "UserName");
                     return View(contabilidad);
                 }
+            }
+
+            // Validación de solo números positivos en Pagos Pendientes
+            if (contabilidad.Total_Pagos_Pendientes < 0)
+            {
+                ModelState.AddModelError("Total_Pagos_Pendientes", "Pagos Pendientes solo puede contener números positivos.");
+                ViewBag.Id_Tipo_Registro = new SelectList(_context.Tipo_Registro, "Id_Tipo_Registro", "Nombre", contabilidad.Id_Tipo_Registro);
+                ViewBag.Id_Estado_Contabilidad = new SelectList(_context.Estado_Contabilidad, "Id_Estado_Contabilidad", "Nombre", contabilidad.Id_Estado_Contabilidad);
+                ViewBag.Id_Tipo_Transaccion = new SelectList(_context.Tipo_Transaccion, "Id_Tipo_Transaccion", "Nombre", contabilidad.Id_Tipo_Transaccion);
+                ViewBag.Usuarios = new SelectList(_context.Users, "Id", "UserName");
+                return View(contabilidad);
+            }
+            // Validación de opciones válidas en Estado del Pago
+            string[] opcionesValidasConta = { "Cierre Mensual", "Cierre Anual", "Aprobado", "Rechazado" };
+            if (!opcionesValidasConta.Contains(contabilidad.Conta_pago?.Trim() ?? string.Empty))
+            {
+                ModelState.AddModelError("Conta_pago", "Estado del Pago solo puede ser: Cierre Mensual, Cierre Anual, Aprobado o Rechazado.");
+                ViewBag.Id_Tipo_Registro = new SelectList(_context.Tipo_Registro, "Id_Tipo_Registro", "Nombre", contabilidad.Id_Tipo_Registro);
+                ViewBag.Id_Estado_Contabilidad = new SelectList(_context.Estado_Contabilidad, "Id_Estado_Contabilidad", "Nombre", contabilidad.Id_Estado_Contabilidad);
+                ViewBag.Id_Tipo_Transaccion = new SelectList(_context.Tipo_Transaccion, "Id_Tipo_Transaccion", "Nombre", contabilidad.Id_Tipo_Transaccion);
+                ViewBag.Usuarios = new SelectList(_context.Users, "Id", "UserName");
+                return View(contabilidad);
+            }
+            // Validación de opciones válidas en Estatus del Pago
+            string[] opcionesValidasEstatus = { "Activo", "Inactivo" };
+            if (!opcionesValidasEstatus.Contains(contabilidad.Estatus_pago?.Trim() ?? string.Empty))
+            {
+                ModelState.AddModelError("Estatus_pago", "Estatus del Pago solo puede ser: Activo o Inactivo.");
+                ViewBag.Id_Tipo_Registro = new SelectList(_context.Tipo_Registro, "Id_Tipo_Registro", "Nombre", contabilidad.Id_Tipo_Registro);
+                ViewBag.Id_Estado_Contabilidad = new SelectList(_context.Estado_Contabilidad, "Id_Estado_Contabilidad", "Nombre", contabilidad.Id_Estado_Contabilidad);
+                ViewBag.Id_Tipo_Transaccion = new SelectList(_context.Tipo_Transaccion, "Id_Tipo_Transaccion", "Nombre", contabilidad.Id_Tipo_Transaccion);
+                ViewBag.Usuarios = new SelectList(_context.Users, "Id", "UserName");
+                return View(contabilidad);
             }
 
             if (ModelState.IsValid)

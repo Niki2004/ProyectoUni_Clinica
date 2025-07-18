@@ -150,22 +150,22 @@
                                 <div class="form-grid">
                                     <div class="form-group">
                                         @Html.LabelFor(model => model.Monto, "Monto", new { @class = "control-label" })
-                                        @Html.EditorFor(model => model.Monto, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.TextBoxFor(model => model.Monto, new { @class = "form-control", id = "Monto", type = "number", min = "0", step = "1", oninput = "this.value = this.value.replace(/[^0-9]/g, '');" })
                                     </div>
 
                                     <div class="form-group">
                                         @Html.LabelFor(model => model.Saldo_Anterior, "Saldo Anterior", new { @class = "control-label" })
-                                        @Html.EditorFor(model => model.Saldo_Anterior, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.TextBoxFor(model => model.Saldo_Anterior, new { @class = "form-control", id = "Saldo_Anterior", type = "number", min = "0", step = "1", oninput = "this.value = this.value.replace(/[^0-9]/g, '');" })
                                     </div>
 
                                     <div class="form-group">
                                         @Html.LabelFor(model => model.Saldo_Actual, "Saldo Actual", new { @class = "control-label" })
-                                        @Html.EditorFor(model => model.Saldo_Actual, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.TextBoxFor(model => model.Saldo_Actual, new { @class = "form-control", id = "Saldo_Actual", type = "number", min = "0", step = "1", oninput = "this.value = this.value.replace(/[^0-9]/g, '');" })
                                     </div>
 
                                     <div class="form-group">
                                         @Html.LabelFor(model => model.Beneficiario, "Beneficiario", new { @class = "control-label" })
-                                        @Html.EditorFor(model => model.Beneficiario, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.TextBoxFor(model => model.Beneficiario, new { @class = "form-control", id = "Beneficiario", placeholder = "Nombre de la persona" })
                                     </div>
                                 </div>
                             </div>
@@ -175,27 +175,27 @@
                                 <div class="form-grid">
                                     <div class="form-group">
                                         @Html.LabelFor(model => model.Numero_Comprobante, "Número de Comprobante", new { @class = "control-label" })
-                                        @Html.EditorFor(model => model.Numero_Comprobante, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.TextBoxFor(model => model.Numero_Comprobante, new { @class = "form-control", id = "Numero_Comprobante", type = "number", min = "0", step = "1", oninput = "this.value = this.value.replace(/[^0-9]/g, '');" })
                                     </div>
 
                                     <div class="form-group">
                                         @Html.LabelFor(model => model.Tipo_Movimiento, "Tipo de Movimiento", new { @class = "control-label" })
-                                        @Html.EditorFor(model => model.Tipo_Movimiento, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.DropDownListFor(model => model.Tipo_Movimiento, new SelectList(new[] { "Ingreso", "Egreso" }), "Seleccione una opción", new { @class = "form-control", id = "Tipo_Movimiento" })
                                     </div>
 
                                     <div class="form-group">
                                         @Html.LabelFor(model => model.Categoria_Gasto, "Categoría Gasto", new { @class = "control-label" })
-                                        @Html.EditorFor(model => model.Categoria_Gasto, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.DropDownListFor(model => model.Categoria_Gasto, new SelectList(new[] { "Cierre Mensual", "Cierre Anual" }), "Seleccione una opción", new { @class = "form-control", id = "Categoria_Gasto" })
                                     </div>
 
                                     <div class="form-group">
                                         @Html.LabelFor(model => model.Numero_Factura, "Número de Factura", new { @class = "control-label" })
-                                        @Html.EditorFor(model => model.Numero_Factura, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.TextBoxFor(model => model.Numero_Factura, new { @class = "form-control", id = "Numero_Factura", type = "number", min = "0", step = "1", oninput = "this.value = this.value.replace(/[^0-9]/g, '');" })
                                     </div>
 
                                     <div class="form-group">
                                         @Html.LabelFor(model => model.Estado, "Estado", new { @class = "control-label" })
-                                        @Html.EditorFor(model => model.Estado, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.DropDownListFor(model => model.Estado, new SelectList(new[] { "Activo", "Inactivo" }), "Seleccione una opción", new { @class = "form-control", id = "Estado" })
                                     </div>
                                 </div>
                             </div>
@@ -217,12 +217,12 @@
                                 <legend>Usuarios Responsables</legend>
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.Usuario_Registro, "Registro de Usuario", new { @class = "control-label" })
-                                    @Html.TextAreaFor(model => model.Usuario_Registro, new { @class = "form-control", rows = "3" })
+                                    @Html.TextAreaFor(model => model.Usuario_Registro, new { @class = "form-control", rows = "3", placeholder = "Nombre de la persona" })
                                 </div>
 
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.Usuario_Modificacion, "Registro de Usuario Modificado", new { @class = "control-label" })
-                                    @Html.TextAreaFor(model => model.Usuario_Modificacion, new { @class = "form-control", rows = "3" })
+                                    @Html.TextAreaFor(model => model.Usuario_Modificacion, new { @class = "form-control", rows = "3", placeholder = "Nombre de la persona" })
                                 </div>
                             </div>
 

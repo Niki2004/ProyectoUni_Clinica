@@ -158,14 +158,14 @@
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Saldo_Contable, "Saldo Contable")</div>
                                     <div class="detail-value">
-                                        @Html.EditorFor(model => model.Saldo_Contable, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.TextBoxFor(model => model.Saldo_Contable, new { @class = "form-control", id = "Saldo_Contable", type = "number", min = "0", step = "1", oninput = "this.value = this.value.replace(/[^0-9]/g, '');" })
                                         @Html.ValidationMessageFor(model => model.Saldo_Contable, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Saldo_Banco, "Saldo del Banco")</div>
                                     <div class="detail-value">
-                                        @Html.EditorFor(model => model.Saldo_Banco, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.TextBoxFor(model => model.Saldo_Banco, new { @class = "form-control", id = "Saldo_Banco", type = "number", min = "0", step = "1", oninput = "this.value = this.value.replace(/[^0-9]/g, '');" })
                                         @Html.ValidationMessageFor(model => model.Saldo_Banco, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -393,6 +393,18 @@
                     expiringNames,
                     'warning'
                 );
+            }
+
+            // Validación para no permitir sábados ni domingos en Fecha de Conciliación
+            var fechaConciliacion = document.getElementById('Fecha_Conciliacion');
+            if (fechaConciliacion) {
+                fechaConciliacion.addEventListener('change', function () {
+                    var d = new Date(this.value);
+                    if (d.getDay() === 0 || d.getDay() === 6) {
+                        alert('No se permiten fechas en sábado ni domingo.');
+                        this.value = '';
+                    }
+                });
             }
         });
     </script>

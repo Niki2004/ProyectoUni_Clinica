@@ -160,6 +160,16 @@ namespace ProyectoClinica.Controllers
         [HttpPost]
         public ActionResult Create(Movimientos_Bancarios model)
         {
+            // Validación de fecha de movimiento: no permitir sábados ni domingos
+            if (model.Fecha_Movimiento.DayOfWeek == DayOfWeek.Saturday || model.Fecha_Movimiento.DayOfWeek == DayOfWeek.Sunday)
+            {
+                ModelState.AddModelError("Fecha_Movimiento", "No se permiten fechas en sábado ni domingo.");
+                ViewBag.Diarios_Contables = new SelectList(_context.Diarios_Contables, "Id_Diario", "Codigo_Diario");
+                ViewBag.Conciliaciones_Bancarias = new SelectList(_context.Conciliaciones_Bancarias, "Id_Conciliacion", "Saldo_Contable");
+                ViewBag.Pagos = new SelectList(_context.Pagos, "Id_Pago", "Tipo_Pago");
+                ViewBag.Bancos = new SelectList(_context.Bancos, "Id_Banco", "Nombre_Banco");
+                return View(model);
+            }
             try
             {
                 if (ModelState.IsValid)
@@ -261,6 +271,16 @@ namespace ProyectoClinica.Controllers
         [HttpPost]
         public ActionResult Edit(Movimientos_Bancarios movimientos_bancarios)
         {
+            // Validación de fecha de movimiento: no permitir sábados ni domingos
+            if (movimientos_bancarios.Fecha_Movimiento.DayOfWeek == DayOfWeek.Saturday || movimientos_bancarios.Fecha_Movimiento.DayOfWeek == DayOfWeek.Sunday)
+            {
+                ModelState.AddModelError("Fecha_Movimiento", "No se permiten fechas en sábado ni domingo.");
+                ViewBag.Diarios_Contables = new SelectList(_context.Diarios_Contables, "Id_Diario", "Codigo_Diario");
+                ViewBag.Conciliaciones_Bancarias = new SelectList(_context.Conciliaciones_Bancarias, "Id_Conciliacion", "Saldo_Contable");
+                ViewBag.Pagos = new SelectList(_context.Pagos, "Id_Pago", "Tipo_Pago");
+                ViewBag.Bancos = new SelectList(_context.Bancos, "Id_Banco", "Nombre_Banco");
+                return View(movimientos_bancarios);
+            }
             if (ModelState.IsValid)
             {
                 _context.Entry(movimientos_bancarios).State = EntityState.Modified;
