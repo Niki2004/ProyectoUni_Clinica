@@ -81,6 +81,14 @@ namespace ProyectoClinica.Controllers
             }
             if (ModelState.IsValid)
             {
+                // Validación adicional para Precio: solo números enteros positivos
+                if (inventario_Detalle_Conta.Precio < 0 || inventario_Detalle_Conta.Precio % 1 != 0)
+                {
+                    ModelState.AddModelError("Precio", "El campo Precio solo permite números enteros positivos.");
+                    ViewBag.Departamento = new SelectList(_context.Departamentos, "Id_Departamento", "Nombre_Departamento");
+                    ViewBag.Producto = new SelectList(_context.Productos_Conta, "Id_Producto", "Nombre_producto");
+                    return View(inventario_Detalle_Conta);
+                }
                 try
                 {
                     // Verificar si el producto existe
@@ -110,7 +118,8 @@ namespace ProyectoClinica.Controllers
                 }
                 catch (Exception ex)
                 {
-                    ModelState.AddModelError("", "Error al guardar el registro: " + ex.Message);
+                    var mensajeError = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
+                    ModelState.AddModelError("", "Error al guardar el registro: " + mensajeError);
                 }
             }
 
@@ -175,6 +184,14 @@ namespace ProyectoClinica.Controllers
             }
             if (ModelState.IsValid)
             {
+                // Validación adicional para Precio: solo números enteros positivos
+                if (inventario_Detalle_Conta.Precio < 0 || inventario_Detalle_Conta.Precio % 1 != 0)
+                {
+                    ModelState.AddModelError("Precio", "El campo Precio solo permite números enteros positivos.");
+                    ViewBag.Departamento = new SelectList(_context.Departamentos, "Id_Departamento", "Nombre_Departamento", inventario_Detalle_Conta.Id_Departamento);
+                    ViewBag.Producto = new SelectList(_context.Productos_Conta, "Id_Producto", "Nombre_producto", inventario_Detalle_Conta.Id_Producto);
+                    return View(inventario_Detalle_Conta);
+                }
                 try
                 {
                     _context.Entry(inventario_Detalle_Conta).State = EntityState.Modified;
@@ -183,7 +200,8 @@ namespace ProyectoClinica.Controllers
                 }
                 catch (Exception ex)
                 {
-                    ModelState.AddModelError("", "Error al actualizar el registro: " + ex.Message);
+                    var mensajeError = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
+                    ModelState.AddModelError("", "Error al actualizar el registro: " + mensajeError);
                 }
             }
 

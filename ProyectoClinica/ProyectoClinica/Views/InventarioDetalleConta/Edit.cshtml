@@ -119,7 +119,7 @@
                             <legend>Información del Inventario</legend>
                             <div class="detail-group">
                                 <div class="detail-item">
-                                    <div class="detail-label">Encabezado</div>
+                                    <div class="detail-label">Índice de Categoría</div>
                                     <div class="detail-value">
                                         <div class="form-control" style="width: 280px; text-align: center;">
                                             @Html.DisplayFor(model => model.Id_Inventario_Encabezado)
@@ -184,7 +184,8 @@
                                 <div class="detail-item">
                                     <div class="detail-label">Precio</div>
                                     <div class="detail-value">
-                                        @Html.EditorFor(model => model.Precio, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.TextBoxFor(model => model.Precio, new { @class = "form-control", type = "number", min = "0", step = "1", oninput = "validarEntero(this)" })
+                                        @Html.ValidationMessageFor(model => model.Precio, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
@@ -414,29 +415,14 @@
         });
 
         // Validación de fechas antes de enviar el formulario
-        document.querySelector('form').addEventListener('submit', function(e) {
-            let errorMsg = '';
-            const fechaEntrada = document.getElementById('Fecha_Entrada').value;
-            const fechaSalida = document.getElementById('Fecha_Salida').value;
-            const fechas = [fechaEntrada, fechaSalida];
-            fechas.forEach(function(fecha) {
-                if (fecha) {
-                    const d = new Date(fecha);
-                    const hoy = new Date();
-                    hoy.setHours(0,0,0,0);
-                    if (d.HasValue && d.Value < hoy) {
-                        errorMsg = 'No se permiten fechas pasadas.';
-                    }
-                    if (d.HasValue && (d.Value.DayOfWeek == DayOfWeek.Saturday || d.Value.DayOfWeek == DayOfWeek.Sunday)) {
-                        errorMsg = 'No se permiten fechas en sábado ni domingo.';
-                    }
-                }
-            });
-            if (errorMsg) {
-                e.preventDefault();
-                alert(errorMsg);
+        // (Eliminada la validación JS de sábados y domingos, solo queda la validación en el controller)
+        // Validar que el campo Precio solo acepte enteros positivos
+        function validarEntero(input) {
+            input.value = input.value.replace(/[^\d]/g, '');
+            if (input.value.indexOf('.') !== -1) {
+                input.value = input.value.split('.')[0];
             }
-        });
+        }
     </script>
 </body>
 
