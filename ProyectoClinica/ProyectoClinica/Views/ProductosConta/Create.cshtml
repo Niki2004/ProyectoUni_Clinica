@@ -91,12 +91,12 @@
                             <div class="form-grid">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.Nombre_producto, "Nombre del Producto", new { @class = "control-label" })
-                                    @Html.EditorFor(model => model.Nombre_producto, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.DropDownListFor(model => model.Nombre_producto, new SelectList(new[] { "Kit de Higiene Bucal Familiar", "Suplemento Multivitamínico Infantil", "Gel Antibacterial con Aloe Vera", "Tensiómetro Digital Portátil", "Crema Dermatológica Calmante", "Pastillas Prenatales Complejas", "Termómetro Digital Infrarrojo", "Kit de Control de Glucosa", "Mascarillas Médicas Reutilizables", "Solución Salina Nasal Infantil" }), "Seleccione una opción", new { @class = "form-control", id = "Nombre_producto" })
                                 </div>
 
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.Tipo_producto, "Tipo del Producto", new { @class = "control-label" })
-                                    @Html.EditorFor(model => model.Tipo_producto, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.DropDownListFor(model => model.Tipo_producto, new SelectList(new[] { "Cuidado dental", "Suplementos y vitaminas", "Higiene y protección", "Equipos médicos para el hogar", "Cuidado de la piel", "Suplementos para mujeres embarazadas", "Instrumentos de medición", "Control de enfermedades crónicas", "Protección personal", "Productos pediátricos" }), "Seleccione una opción", new { @class = "form-control", id = "Tipo_producto" })
                                 </div>
                             </div>
                         </div>

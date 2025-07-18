@@ -92,14 +92,14 @@
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Nombre_producto, "Nombre del Producto")</div>
                                     <div class="detail-value">
-                                        @Html.EditorFor(model => model.Nombre_producto, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.DropDownListFor(model => model.Nombre_producto, new SelectList(new[] { "Kit de Higiene Bucal Familiar", "Suplemento Multivitamínico Infantil", "Gel Antibacterial con Aloe Vera", "Tensiómetro Digital Portátil", "Crema Dermatológica Calmante", "Pastillas Prenatales Complejas", "Termómetro Digital Infrarrojo", "Kit de Control de Glucosa", "Mascarillas Médicas Reutilizables", "Solución Salina Nasal Infantil" }, Model.Nombre_producto), "Seleccione una opción", new { @class = "form-control", id = "Nombre_producto" })
                                         @Html.ValidationMessageFor(model => model.Nombre_producto, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Tipo_producto, "Tipo del Producto")</div>
                                     <div class="detail-value">
-                                        @Html.EditorFor(model => model.Tipo_producto, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.DropDownListFor(model => model.Tipo_producto, new SelectList(new[] { "Cuidado dental", "Suplementos y vitaminas", "Higiene y protección", "Equipos médicos para el hogar", "Cuidado de la piel", "Suplementos para mujeres embarazadas", "Instrumentos de medición", "Control de enfermedades crónicas", "Protección personal", "Productos pediátricos" }, Model.Tipo_producto), "Seleccione una opción", new { @class = "form-control", id = "Tipo_producto" })
                                         @Html.ValidationMessageFor(model => model.Tipo_producto, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
