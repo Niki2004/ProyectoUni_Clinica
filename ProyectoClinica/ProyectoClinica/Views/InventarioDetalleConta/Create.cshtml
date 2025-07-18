@@ -118,7 +118,7 @@
                             <legend>Información del Inventario</legend>
                             <div class="form-grid">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.Id_Inventario_Encabezado, "Encabezado", new { @class = "control-label" })
+                                    @Html.LabelFor(model => model.Id_Inventario_Encabezado, "Índice de Categoría", new { @class = "control-label" })
                                     @Html.EditorFor(model => model.Id_Inventario_Encabezado, new { htmlAttributes = new { @class = "form-control" } })
                                     @Html.ValidationMessageFor(model => model.Id_Inventario_Encabezado, "", new { @class = "text-danger" })
                                 </div>
@@ -166,7 +166,8 @@
 
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Precio, "Precio", new { @class = "control-label" })
-                                @Html.EditorFor(model => model.Precio, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.TextBoxFor(model => model.Precio, new { @class = "form-control", type = "number", min = "0", step = "1", oninput = "validarEntero(this)" })
+                                @Html.ValidationMessageFor(model => model.Precio, "", new { @class = "text-danger" })
                             </div>
 
                         </div>
@@ -395,29 +396,14 @@
         });
 
         // Validación de fechas antes de enviar el formulario
-        document.querySelector('form').addEventListener('submit', function(e) {
-            let errorMsg = '';
-            const fechaEntrada = document.getElementById('Fecha_Entrada').value;
-            const fechaSalida = document.getElementById('Fecha_Salida').value;
-            const fechas = [fechaEntrada, fechaSalida];
-            fechas.forEach(function(fecha) {
-                if (fecha) {
-                    const d = new Date(fecha);
-                    const hoy = new Date();
-                    hoy.setHours(0,0,0,0);
-                    if (d < hoy) {
-                        errorMsg = 'No se permiten fechas pasadas.';
-                    }
-                    if (d.getDay() === 0 || d.getDay() === 6) {
-                        errorMsg = 'No se permiten fechas en sábado ni domingo.';
-                    }
-                }
-            });
-            if (errorMsg) {
-                e.preventDefault();
-                alert(errorMsg);
+        // (Eliminada la validación JS de sábados y domingos, solo queda la validación en el controller)
+        // Validar que el campo Precio solo acepte enteros positivos
+        function validarEntero(input) {
+            input.value = input.value.replace(/[^\d]/g, '');
+            if (input.value.indexOf('.') !== -1) {
+                input.value = input.value.split('.')[0];
             }
-        });
+        }
     </script>
 </body>
 
