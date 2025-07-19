@@ -93,28 +93,28 @@
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Nombre)</div>
                                     <div class="detail-value">
-                                        @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control", @id = "Nombre", @maxlength = "50" } })
                                         @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Apellido)</div>
                                     <div class="detail-value">
-                                        @Html.EditorFor(model => model.Apellido, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.EditorFor(model => model.Apellido, new { htmlAttributes = new { @class = "form-control", @id = "Apellido", @maxlength = "50" } })
                                         @Html.ValidationMessageFor(model => model.Apellido, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Cedula)</div>
                                     <div class="detail-value">
-                                        @Html.EditorFor(model => model.Cedula, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.EditorFor(model => model.Cedula, new { htmlAttributes = new { @class = "form-control", @id = "Cedula", @maxlength = "11" } })
                                         @Html.ValidationMessageFor(model => model.Cedula, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Correo)</div>
                                     <div class="detail-value">
-                                        @Html.EditorFor(model => model.Correo, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.TextBoxFor(model => model.Correo, new { @class = "form-control", @readonly = "readonly" })
                                         @Html.ValidationMessageFor(model => model.Correo, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -127,14 +127,14 @@
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Jornada)</div>
                                     <div class="detail-value">
-                                        @Html.EditorFor(model => model.Jornada, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.DropDownList("Jornada", ViewBag.Jornadas as SelectList, htmlAttributes: new { @class = "form-control" })
                                         @Html.ValidationMessageFor(model => model.Jornada, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Departamento)</div>
                                     <div class="detail-value">
-                                        @Html.EditorFor(model => model.Departamento, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.DropDownList("Departamento", ViewBag.Departamentos as SelectList, htmlAttributes: new { @class = "form-control" })
                                         @Html.ValidationMessageFor(model => model.Departamento, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -154,8 +154,9 @@
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Fecha_registro, "Fecha Registro")</div>
                                     <div class="detail-value">
-                                        @Html.TextBoxFor(model => model.Fecha_registro, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                                        @Html.TextBoxFor(model => model.Fecha_registro, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", @id = "Fecha_registro", @min = DateTime.Now.ToString("yyyy-MM-dd") })
                                         @Html.ValidationMessageFor(model => model.Fecha_registro, "", new { @class = "text-danger" })
+                                        <span id="fechaError" class="text-danger" style="display: none; font-size: 12px;">No se permiten fechas en sábado ni domingo. Por favor seleccione otra fecha.</span>
                                     </div>
                                 </div>
                                 <div class="detail-item">
@@ -183,6 +184,59 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
+        // Validaciones para campos específicos
+        document.addEventListener('DOMContentLoaded', function () {
+            var nombreInput = document.getElementById('Nombre');
+            var apellidoInput = document.getElementById('Apellido');
+            var cedulaInput = document.getElementById('Cedula');
+            var fechaRegistroInput = document.getElementById('Fecha_registro');
+
+            // Función para validar solo letras y espacios
+            function validarSoloLetras(input) {
+                input.addEventListener('input', function (e) {
+                    var value = this.value;
+                    // Remover cualquier carácter que no sea letra o espacio
+                    value = value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
+                    this.value = value;
+                });
+            }
+
+            // Función para validar solo números
+            function validarSoloNumeros(input) {
+                input.addEventListener('input', function (e) {
+                    var value = this.value;
+                    // Remover cualquier carácter que no sea número
+                    value = value.replace(/[^0-9]/g, '');
+                    this.value = value;
+                });
+            }
+
+            // Función para validar fechas (no sábados ni domingos)
+            function validarFecha(input) {
+                var errorSpan = document.getElementById('fechaError');
+                
+                input.addEventListener('change', function (e) {
+                    var fechaSeleccionada = new Date(this.value);
+                    var diaSemana = fechaSeleccionada.getDay();
+                    
+                    // 0 = Domingo, 6 = Sábado
+                    if (diaSemana === 0 || diaSemana === 6) {
+                        errorSpan.style.display = 'block';
+                        this.value = '';
+                        this.focus();
+                    } else {
+                        errorSpan.style.display = 'none';
+                    }
+                });
+            }
+
+            // Aplicar validaciones
+            validarSoloLetras(nombreInput);
+            validarSoloLetras(apellidoInput);
+            validarSoloNumeros(cedulaInput);
+            validarFecha(fechaRegistroInput);
+        });
+
         var itemsOcultos = [];
 
         // Función para ocultar un item

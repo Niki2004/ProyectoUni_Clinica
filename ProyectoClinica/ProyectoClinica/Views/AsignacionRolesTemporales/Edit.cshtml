@@ -120,15 +120,17 @@
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Fecha_Inicio, "Fecha de Inicio")</div>
                                     <div class="detail-value">
-                                        @Html.TextBoxFor(model => model.Fecha_Inicio, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", required = "required" })
+                                        @Html.TextBoxFor(model => model.Fecha_Inicio, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", required = "required", min = DateTime.Now.ToString("yyyy-MM-dd") })
                                         @Html.ValidationMessageFor(model => model.Fecha_Inicio, "", new { @class = "text-danger" })
+                                        <span id="fechaInicioError" class="text-danger" style="display: none;"></span>
                                     </div>
                                 </div>
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Fecha_Fin, "Fecha Final")</div>
                                     <div class="detail-value">
-                                        @Html.TextBoxFor(model => model.Fecha_Fin, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", required = "required" })
+                                        @Html.TextBoxFor(model => model.Fecha_Fin, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", required = "required", min = DateTime.Now.ToString("yyyy-MM-dd") })
                                         @Html.ValidationMessageFor(model => model.Fecha_Fin, "", new { @class = "text-danger" })
+                                        <span id="fechaFinError" class="text-danger" style="display: none;"></span>
                                     </div>
                                 </div>
                             </div>
@@ -378,6 +380,45 @@
                     expiringNames,
                     'warning'
                 );
+            }
+        });
+    </script>
+
+    <script>
+        // Validación de fechas para evitar sábados y domingos
+        document.addEventListener('DOMContentLoaded', function() {
+            var fechaInicioInput = document.querySelector('input[name="Fecha_Inicio"]');
+            var fechaFinInput = document.querySelector('input[name="Fecha_Fin"]');
+            var fechaInicioError = document.getElementById('fechaInicioError');
+            var fechaFinError = document.getElementById('fechaFinError');
+
+            function validarFecha(fecha, errorElement) {
+                if (fecha) {
+                    var fechaSeleccionada = new Date(fecha);
+                    var diaSemana = fechaSeleccionada.getDay();
+                    
+                    if (diaSemana === 0 || diaSemana === 6) { // 0 = Domingo, 6 = Sábado
+                        errorElement.textContent = 'No se permiten fechas en sábado ni domingo.';
+                        errorElement.style.display = 'block';
+                        return false;
+                    } else {
+                        errorElement.style.display = 'none';
+                        return true;
+                    }
+                }
+                return true;
+            }
+
+            if (fechaInicioInput) {
+                fechaInicioInput.addEventListener('change', function() {
+                    validarFecha(this.value, fechaInicioError);
+                });
+            }
+
+            if (fechaFinInput) {
+                fechaFinInput.addEventListener('change', function() {
+                    validarFecha(this.value, fechaFinError);
+                });
             }
         });
     </script>
