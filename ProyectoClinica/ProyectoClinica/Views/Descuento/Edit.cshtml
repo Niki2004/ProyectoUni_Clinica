@@ -123,7 +123,7 @@
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Nombre_Descuento, "Nombre del Descuento", htmlAttributes: new { @class = "form-label fw-bold" })</div>
                                     <div class="detail-value">
-                                        @Html.EditorFor(model => model.Nombre_Descuento, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.DropDownListFor(model => model.Nombre_Descuento, new SelectList(new[]{"Descuento de Medicina General","Descuento de Pediatría","Descuento de Ginecología y Obstetricia","Descuento de Dermatología"}, Model.Nombre_Descuento), "Seleccione un nombre", new { @class = "form-control" })
                                         @Html.ValidationMessageFor(model => model.Nombre_Descuento, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -131,7 +131,7 @@
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Codigo_Descuento, "Código del Descuento", htmlAttributes: new { @class = "form-label fw-bold" })</div>
                                     <div class="detail-value">
-                                        @Html.EditorFor(model => model.Codigo_Descuento, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.TextBoxFor(model => model.Codigo_Descuento, new { @class = "form-control", id = "Codigo_Descuento", @readonly = "readonly" })
                                         @Html.ValidationMessageFor(model => model.Codigo_Descuento, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -139,7 +139,7 @@
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Porcentaje_Descuento, "Porcentaje del Descuento", htmlAttributes: new { @class = "form-label fw-bold" })</div>
                                     <div class="detail-value">
-                                        @Html.EditorFor(model => model.Porcentaje_Descuento, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.DropDownListFor(model => model.Porcentaje_Descuento, new SelectList(new[]{0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100}.Select(i => new { Value = i, Text = i + "%" }), "Value", "Text", Model.Porcentaje_Descuento), "Seleccione un porcentaje", new { @class = "form-control" })
                                         @Html.ValidationMessageFor(model => model.Porcentaje_Descuento, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -147,7 +147,7 @@
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Compania_Afiliada, "Compañía Afiliada", htmlAttributes: new { @class = "form-label fw-bold" })</div>
                                     <div class="detail-value">
-                                        @Html.EditorFor(model => model.Compania_Afiliada, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.DropDownListFor(model => model.Compania_Afiliada, new SelectList(new[] { "INS Salud", "Blue Cross Blue Shield Costa Rica", "ASEMBIS", "Grupo Médicas", "MediSmart", "MAPFRE Salud Costa Rica" }, Model.Compania_Afiliada), "Seleccione una compañía", new { @class = "form-control" })
                                         @Html.ValidationMessageFor(model => model.Compania_Afiliada, "", new { @class = "text-danger" })
                                     </div>
                                 </div>

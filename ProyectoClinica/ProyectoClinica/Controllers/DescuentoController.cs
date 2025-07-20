@@ -50,7 +50,7 @@ namespace ProyectoClinica.Controllers
         public ActionResult Create()
         {
             ViewBag.Descuento = new SelectList(_context.Descuento, "Id_Descuento");
-            return View();
+            return View(new Descuento()); // Enviar modelo vacío
         }
 
         [Authorize(Roles = "Contador,Secretaria,Administrador")]
@@ -58,20 +58,23 @@ namespace ProyectoClinica.Controllers
         [HttpPost]
         public ActionResult Create(Descuento model)
         {
-
             try
             {
-
+                // Validación: no permitir sábados ni domingos
+                if (model.Fecha_Creacion.DayOfWeek == DayOfWeek.Saturday || model.Fecha_Creacion.DayOfWeek == DayOfWeek.Sunday)
+                {
+                    ModelState.AddModelError("Fecha_Creacion", "No se permite seleccionar sábados ni domingos como fecha de creación.");
+                    ViewBag.Descuento = new SelectList(_context.Descuento, "Id_Descuento");
+                    return View(model);
+                }
                 if (ModelState.IsValid)
                 {
                     int idSeleccionado = model.Id_Descuento; // Aquí obtienes el ID del dropdown
-
                     try
                     {
                         // Guardar en la base de datos
                         _context.Descuento.Add(model);
                         _context.SaveChanges();
-
                         return RedirectToAction("Index");
                     }
                     catch (Exception ex)
@@ -79,17 +82,10 @@ namespace ProyectoClinica.Controllers
                         // Si hay un error, muestra el mensaje en el log o en el modelo para que el usuario lo vea
                         ModelState.AddModelError("", "Ocurrió un error al guardar los datos: " + ex.Message);
                     }
-
-
-
                 }
-
                 // Si el modelo no es válido o hubo un error, repite el proceso y pasa la vista con el modelo
-                // Esto permitirá que los datos enviados por el usuario se mantengan en el formulario
                 ViewBag.Descuento = new SelectList(_context.Descuento, "Id_Descuento");
                 return View(model);
-
-
             }
             catch
             {
@@ -105,7 +101,7 @@ namespace ProyectoClinica.Controllers
                 return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
             var descuento = _context.Descuento.Find(id);
             if (descuento == null)
-                return HttpNotFound();
+                return HttpNotFound(); // No retornar View() sin modelo
             ViewBag.Descuento = new SelectList(_context.Descuento, "Id_Descuento");
             return View(descuento);
         }
