@@ -99,8 +99,9 @@
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Fecha_Hora, "Fecha y Hora")</div>
                                     <div class="detail-value">
-                                        @Html.TextBoxFor(model => model.Fecha_Hora, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                                        @Html.TextBoxFor(model => model.Fecha_Hora, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", min = DateTime.Now.ToString("yyyy-MM-dd") })
                                         @Html.ValidationMessageFor(model => model.Fecha_Hora, "", new { @class = "text-danger" })
+                                        <span id="fechaHoraError" class="text-danger" style="display: none;"></span>
                                     </div>
                                 </div>
                                 <div class="detail-item">
@@ -119,21 +120,21 @@
                                 <div class="detail-item">
                                     <div class="detail-label"> @Html.LabelFor(model => model.Rol_Anterior, "Rol Anterior", new { @class = "control-label" })</div>
                                     <div class="detail-value">
-                                        @Html.EditorFor(model => model.Rol_Anterior, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.DropDownListFor(model => model.Rol_Anterior, new SelectList(new[] { "Administrador", "Contador", "Recepcionista", "Usuario", "Encargado de Sistemas/TI", "Coordinador de Citas", "Nutricionista" }), "Seleccione el rol anterior", new { @class = "form-control" })
                                         @Html.ValidationMessageFor(model => model.Rol_Anterior, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="detail-item">
                                     <div class="detail-label"> @Html.LabelFor(model => model.Rol_Nuevo, "Rol Nuevo", new { @class = "control-label" })</div>
                                     <div class="detail-value">
-                                        @Html.EditorFor(model => model.Rol_Nuevo, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.DropDownListFor(model => model.Rol_Nuevo, new SelectList(new[] { "Administrador", "Contador", "Recepcionista", "Usuario", "Encargado de Sistemas/TI", "Coordinador de Citas", "Nutricionista" }), "Seleccione el rol nuevo", new { @class = "form-control" })
                                         @Html.ValidationMessageFor(model => model.Rol_Nuevo, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Area_Accedida, "Área Accedida", new { @class = "control-label" })</div>
                                     <div class="detail-value">
-                                        @Html.EditorFor(model => model.Area_Accedida, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.DropDownListFor(model => model.Area_Accedida, new SelectList(new[] { "Modulo de Inventario", "Modulo de Contabilidad", "Modulo de Reportes", "Modulo Administrativo", "Modulo de Empleados", "Modulo de Expedientes", "Modulo de Citas" }), "Seleccione el área accedida", new { @class = "form-control" })
                                         @Html.ValidationMessageFor(model => model.Area_Accedida, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -388,6 +389,37 @@
                     expiringNames,
                     'warning'
                 );
+            }
+        });
+    </script>
+
+    <script>
+        // Validación de fechas para evitar sábados y domingos
+        document.addEventListener('DOMContentLoaded', function() {
+            var fechaHoraInput = document.querySelector('input[name="Fecha_Hora"]');
+            var fechaHoraError = document.getElementById('fechaHoraError');
+
+            function validarFecha(fecha, errorElement) {
+                if (fecha) {
+                    var fechaSeleccionada = new Date(fecha);
+                    var diaSemana = fechaSeleccionada.getDay();
+                    
+                    if (diaSemana === 0 || diaSemana === 6) { // 0 = Domingo, 6 = Sábado
+                        errorElement.textContent = 'No se permiten fechas en sábado ni domingo.';
+                        errorElement.style.display = 'block';
+                        return false;
+                    } else {
+                        errorElement.style.display = 'none';
+                        return true;
+                    }
+                }
+                return true;
+            }
+
+            if (fechaHoraInput) {
+                fechaHoraInput.addEventListener('change', function() {
+                    validarFecha(this.value, fechaHoraError);
+                });
             }
         });
     </script>

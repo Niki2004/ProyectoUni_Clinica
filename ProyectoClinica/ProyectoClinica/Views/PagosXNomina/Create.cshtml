@@ -125,7 +125,7 @@
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Monto_Pago, "Monto de Pago", htmlAttributes: new { @class = "control-label" })
                                 <div>
-                                    @Html.EditorFor(model => model.Monto_Pago, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.TextBoxFor(model => model.Monto_Pago, new { @class = "form-control", id = "Monto_Pago", type = "number", min = "0", step = "1", oninput = "this.value = this.value.replace(/[^0-9]/g, '');" })
                                     @Html.ValidationMessageFor(model => model.Monto_Pago, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -133,7 +133,7 @@
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Metodo_Pago, "Método de Pago", htmlAttributes: new { @class = "control-label" })
                                 <div>
-                                    @Html.EditorFor(model => model.Metodo_Pago, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.DropDownListFor(model => model.Metodo_Pago, new SelectList(new[] { "Efectivo", "SinpeMovil", "Transferencia", "Cheque" }), "Seleccione una opción", new { @class = "form-control", id = "Metodo_Pago" })
                                     @Html.ValidationMessageFor(model => model.Metodo_Pago, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -141,7 +141,7 @@
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Estado_Pago, "Estado del Pago", htmlAttributes: new { @class = "control-label" })
                                 <div>
-                                    @Html.EditorFor(model => model.Estado_Pago, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.DropDownListFor(model => model.Estado_Pago, new SelectList(new[] { "Activo", "Inactivo" }), "Seleccione una opción", new { @class = "form-control", id = "Estado_Pago" })
                                     @Html.ValidationMessageFor(model => model.Estado_Pago, "", new { @class = "text-danger" })
                                 </div>
                             </div>

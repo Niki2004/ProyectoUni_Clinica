@@ -121,25 +121,25 @@
 
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Nombre_Descuento, "Nombre del Descuento", htmlAttributes: new { @class = "form-label fw-bold" })
-                                @Html.EditorFor(model => model.Nombre_Descuento, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.DropDownListFor(model => model.Nombre_Descuento, new SelectList(new[]{"Descuento de Medicina General","Descuento de Pediatría","Descuento de Ginecología y Obstetricia","Descuento de Dermatología"}, Model.Nombre_Descuento), "Seleccione un nombre", new { @class = "form-control" })
                                 @Html.ValidationMessageFor(model => model.Nombre_Descuento, "", new { @class = "text-danger" })
                             </div>
 
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Codigo_Descuento, "Código del Descuento", htmlAttributes: new { @class = "form-label fw-bold" })
-                                @Html.EditorFor(model => model.Codigo_Descuento, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.TextBoxFor(model => model.Codigo_Descuento, new { @class = "form-control", id = "Codigo_Descuento", @readonly = "readonly" })
                                 @Html.ValidationMessageFor(model => model.Codigo_Descuento, "", new { @class = "text-danger" })
                             </div>
 
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Porcentaje_Descuento, "Porcentaje del Descuento", htmlAttributes: new { @class = "form-label fw-bold" })
-                                @Html.EditorFor(model => model.Porcentaje_Descuento, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.DropDownListFor(model => model.Porcentaje_Descuento, new SelectList(new[]{0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100}.Select(i => new { Value = i, Text = i + "%" }), "Value", "Text", Model.Porcentaje_Descuento), "Seleccione un porcentaje", new { @class = "form-control" })
                                 @Html.ValidationMessageFor(model => model.Porcentaje_Descuento, "", new { @class = "text-danger" })
                             </div>
 
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Compania_Afiliada, "Compañía Afiliada", htmlAttributes: new { @class = "form-label fw-bold" })
-                                @Html.EditorFor(model => model.Compania_Afiliada, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.DropDownListFor(model => model.Compania_Afiliada, new SelectList(new[] { "INS Salud", "Blue Cross Blue Shield Costa Rica", "ASEMBIS", "Grupo Médicas", "MediSmart", "MAPFRE Salud Costa Rica" }, Model.Compania_Afiliada), "Seleccione una compañía", new { @class = "form-control" })
                                 @Html.ValidationMessageFor(model => model.Compania_Afiliada, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -161,8 +161,9 @@
 
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Fecha_Creacion, "Fecha de Creación", htmlAttributes: new { @class = "form-label fw-bold" })
-                                @Html.TextBoxFor(model => model.Fecha_Creacion, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                                @Html.TextBoxFor(model => model.Fecha_Creacion, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", id = "FechaCreacionInput" })
                                 @Html.ValidationMessageFor(model => model.Fecha_Creacion, "", new { @class = "text-danger" })
+                                <span id="fechaCreacionError" class="text-danger" style="display:none;">No se permite seleccionar sábados ni domingos como fecha de creación.</span>
                             </div>
                         </div>
 
@@ -388,6 +389,38 @@
                     expiringNames,
                     'warning'
                 );
+            }
+        });
+
+        // Generar código aleatorio para el campo Código del Descuento
+        function generarCodigoDescuento(longitud = 8) {
+            const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let codigo = '';
+            for (let i = 0; i < longitud; i++) {
+                codigo += caracteres.charAt(Math.floor(Math.random() * caracteres.length));
+            }
+            return codigo;
+        }
+
+        // Deshabilitar sábados y domingos en el input de fecha de creación (sin alert, solo mensaje visual)
+        document.addEventListener('DOMContentLoaded', function () {
+            var fechaInput = document.getElementById('FechaCreacionInput');
+            var errorMsg = document.getElementById('fechaCreacionError');
+            if (fechaInput && errorMsg) {
+                fechaInput.addEventListener('input', function () {
+                    var fecha = new Date(this.value);
+                    if (fecha.getDay() === 0 || fecha.getDay() === 6) {
+                        errorMsg.style.display = 'inline';
+                        this.value = '';
+                    } else {
+                        errorMsg.style.display = 'none';
+                    }
+                });
+            }
+            // Autollenar el campo Código del Descuento si está vacío
+            var codigoInput = document.getElementById('Codigo_Descuento');
+            if (codigoInput && !codigoInput.value) {
+                codigoInput.value = generarCodigoDescuento();
             }
         });
     </script>

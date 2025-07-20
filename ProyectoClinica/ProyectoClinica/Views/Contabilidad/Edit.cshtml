@@ -168,7 +168,7 @@
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.ClienteProveedor, "Cliente/Proveedor")</div>
                                     <div class="detail-value">
-                                        @Html.EditorFor(model => model.ClienteProveedor, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.TextBoxFor(model => model.ClienteProveedor, new { @class = "form-control", id = "ClienteProveedor", type = "text", oninput = "this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]/g, '');" })
                                         @Html.ValidationMessageFor(model => model.ClienteProveedor, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -181,14 +181,14 @@
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Conta_pago, "Estado del Pago")</div>
                                     <div class="detail-value">
-                                        @Html.EditorFor(model => model.Conta_pago, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.DropDownListFor(model => model.Conta_pago, new SelectList(new[] { "Cierre Mensual", "Cierre Anual", "Aprobado", "Rechazado" }, Model.Conta_pago), "Seleccione una opción", new { @class = "form-control", id = "Conta_pago" })
                                         @Html.ValidationMessageFor(model => model.Conta_pago, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Estatus_pago, "Estatus del Pago")</div>
                                     <div class="detail-value">
-                                        @Html.EditorFor(model => model.Estatus_pago, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.DropDownListFor(model => model.Estatus_pago, new SelectList(new[] { "Activo", "Inactivo" }, Model.Estatus_pago), "Seleccione una opción", new { @class = "form-control", id = "Estatus_pago" })
                                         @Html.ValidationMessageFor(model => model.Estatus_pago, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -228,28 +228,28 @@
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Monto)</div>
                                     <div class="detail-value">
-                                        @Html.EditorFor(model => model.Monto, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.TextBoxFor(model => model.Monto, new { @class = "form-control", id = "Monto", type = "number", min = "0", step = "1", oninput = "this.value = this.value.replace(/[^0-9]/g, '');" })
                                         @Html.ValidationMessageFor(model => model.Monto, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Monto_Anticipo, "Monto Anticipo")</div>
                                     <div class="detail-value">
-                                        @Html.EditorFor(model => model.Monto_Anticipo, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.TextBoxFor(model => model.Monto_Anticipo, new { @class = "form-control", id = "Monto_Anticipo", type = "number", min = "0", step = "1", oninput = "this.value = this.value.replace(/[^0-9]/g, '');" })
                                         @Html.ValidationMessageFor(model => model.Monto_Anticipo, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Impuesto_Aplicado, "Impuesto Aplicado")</div>
                                     <div class="detail-value">
-                                        @Html.EditorFor(model => model.Impuesto_Aplicado, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.TextBoxFor(model => model.Impuesto_Aplicado, new { @class = "form-control", id = "Impuesto_Aplicado", type = "number", min = "0", step = "1", oninput = "this.value = this.value.replace(/[^0-9]/g, '');" })
                                         @Html.ValidationMessageFor(model => model.Impuesto_Aplicado, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Descuento_Aplicado, "Descuento Aplicado")</div>
                                     <div class="detail-value">
-                                        @Html.EditorFor(model => model.Descuento_Aplicado, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.TextBoxFor(model => model.Descuento_Aplicado, new { @class = "form-control", id = "Descuento_Aplicado", type = "number", min = "0", step = "1", oninput = "this.value = this.value.replace(/[^0-9]/g, '');" })
                                         @Html.ValidationMessageFor(model => model.Descuento_Aplicado, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -262,14 +262,14 @@
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Ingresos_Totales, "Ingresos Totales")</div>
                                     <div class="detail-value">
-                                        @Html.EditorFor(model => model.Ingresos_Totales, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.TextBoxFor(model => model.Ingresos_Totales, new { @class = "form-control", id = "Ingresos_Totales", type = "number", min = "0", step = "1", oninput = "this.value = this.value.replace(/[^0-9]/g, '');" })
                                         @Html.ValidationMessageFor(model => model.Ingresos_Totales, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Total_Pagos_Pendientes, "Pagos Pendientes")</div>
                                     <div class="detail-value">
-                                        @Html.EditorFor(model => model.Total_Pagos_Pendientes, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.TextBoxFor(model => model.Total_Pagos_Pendientes, new { @class = "form-control", id = "Total_Pagos_Pendientes", type = "number", min = "0", step = "1", oninput = "this.value = this.value.replace(/[^0-9]/g, '');" })
                                         @Html.ValidationMessageFor(model => model.Total_Pagos_Pendientes, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -309,7 +309,7 @@
                                 <div class="detail-item">
                                     <div class="detail-label">Usuario</div>
                                     <div class="detail-value">
-                                        @Html.DropDownListFor(model => model.Id, (SelectList)ViewBag.Usuarios, "Seleccionar Usuario", new { @class = "form-control" })
+                                        @Html.DropDownListFor(model => model.Id, (SelectList)ViewBag.Usuarios, "Usuario Protegido", new { @class = "form-control", id = "Id", @disabled = "disabled" })
                                         @Html.ValidationMessageFor(model => model.Id, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -541,6 +541,8 @@
             }
         });
 
+        // Elimina los scripts de validación de texto para estos campos, ya que ahora solo se puede seleccionar una opción válida.
+
         // Validación de fechas antes de enviar el formulario
         document.querySelector('form').addEventListener('submit', function(e) {
             let errorMsg = '';
@@ -561,6 +563,22 @@
                     }
                 }
             });
+            // Validación de solo letras en Estatus del Pago
+            const estatusPago = document.getElementById('Estatus_pago').value;
+            if (/\d/.test(estatusPago)) {
+                errorMsg = 'El estatus del pago solo puede contener letras.';
+            }
+            // Validación de solo números en Pagos Pendientes
+            const pagosPendientes = document.getElementById('Total_Pagos_Pendientes').value;
+            if (/\D/.test(pagosPendientes) || pagosPendientes === '') {
+                errorMsg = 'Pagos Pendientes solo puede contener números.';
+            }
+            // Validación de solo letras y opciones válidas en Estado del Pago
+            const contaPago = document.getElementById('Conta_pago').value.trim();
+            const opcionesValidas = ['Cierre Mensual', 'Cierre Anual', 'Aprobado', 'Rechazado'];
+            if (!opcionesValidas.includes(contaPago)) {
+                errorMsg = 'Estado del Pago solo puede ser: Cierre Mensual, Cierre Anual, Aprobado o Rechazado.';
+            }
             if (errorMsg) {
                 e.preventDefault();
                 alert(errorMsg);

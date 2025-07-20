@@ -59,6 +59,44 @@ namespace ProyectoClinica.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id_AsignacionRoles,Id,Id_Usuario,Id_Departamento,Fecha_Inicio,Fecha_Fin,Estado,Motivo")] AsignacionRolesTemporales asignacionRolesTemporales)
         {
+            // Validación de fechas
+            DateTime hoy = DateTime.Today;
+            if (asignacionRolesTemporales.Fecha_Inicio < hoy)
+            {
+                ModelState.AddModelError("Fecha_Inicio", "No se permiten fechas pasadas.");
+                ViewBag.Id = new SelectList(_context.Users, "Id", "UserName", asignacionRolesTemporales.Id);
+                ViewBag.Id_Usuario = new SelectList(_context.Users, "Id", "UserName", asignacionRolesTemporales.Id_Usuario);
+                ViewBag.Id_Departamento = new SelectList(_context.Departamentos, "Id_Departamento", "Nombre_Departamento", asignacionRolesTemporales.Id_Departamento);
+                return View(asignacionRolesTemporales);
+            }
+            
+            if (asignacionRolesTemporales.Fecha_Inicio.DayOfWeek == DayOfWeek.Saturday || asignacionRolesTemporales.Fecha_Inicio.DayOfWeek == DayOfWeek.Sunday)
+            {
+                ModelState.AddModelError("Fecha_Inicio", "No se permiten fechas en sábado ni domingo.");
+                ViewBag.Id = new SelectList(_context.Users, "Id", "UserName", asignacionRolesTemporales.Id);
+                ViewBag.Id_Usuario = new SelectList(_context.Users, "Id", "UserName", asignacionRolesTemporales.Id_Usuario);
+                ViewBag.Id_Departamento = new SelectList(_context.Departamentos, "Id_Departamento", "Nombre_Departamento", asignacionRolesTemporales.Id_Departamento);
+                return View(asignacionRolesTemporales);
+            }
+            
+            if (asignacionRolesTemporales.Fecha_Fin < hoy)
+            {
+                ModelState.AddModelError("Fecha_Fin", "No se permiten fechas pasadas.");
+                ViewBag.Id = new SelectList(_context.Users, "Id", "UserName", asignacionRolesTemporales.Id);
+                ViewBag.Id_Usuario = new SelectList(_context.Users, "Id", "UserName", asignacionRolesTemporales.Id_Usuario);
+                ViewBag.Id_Departamento = new SelectList(_context.Departamentos, "Id_Departamento", "Nombre_Departamento", asignacionRolesTemporales.Id_Departamento);
+                return View(asignacionRolesTemporales);
+            }
+            
+            if (asignacionRolesTemporales.Fecha_Fin.DayOfWeek == DayOfWeek.Saturday || asignacionRolesTemporales.Fecha_Fin.DayOfWeek == DayOfWeek.Sunday)
+            {
+                ModelState.AddModelError("Fecha_Fin", "No se permiten fechas en sábado ni domingo.");
+                ViewBag.Id = new SelectList(_context.Users, "Id", "UserName", asignacionRolesTemporales.Id);
+                ViewBag.Id_Usuario = new SelectList(_context.Users, "Id", "UserName", asignacionRolesTemporales.Id_Usuario);
+                ViewBag.Id_Departamento = new SelectList(_context.Departamentos, "Id_Departamento", "Nombre_Departamento", asignacionRolesTemporales.Id_Departamento);
+                return View(asignacionRolesTemporales);
+            }
+
             try
             {
                 if (ModelState.IsValid)
@@ -132,6 +170,44 @@ namespace ProyectoClinica.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id_AsignacionRoles,Id,Id_Usuario,Id_Departamento,Fecha_Inicio,Fecha_Fin,Estado,Motivo")] AsignacionRolesTemporales asignacionRolesTemporales)
         {
+            // Validación de fechas
+            DateTime hoy = DateTime.Today;
+            if (asignacionRolesTemporales.Fecha_Inicio < hoy)
+            {
+                ModelState.AddModelError("Fecha_Inicio", "No se permiten fechas pasadas.");
+                ViewBag.Id = new SelectList(_context.Users, "Id", "UserName", asignacionRolesTemporales.Id);
+                ViewBag.Id_Usuario = new SelectList(_context.Users, "Id", "UserName", asignacionRolesTemporales.Id_Usuario);
+                ViewBag.Id_Departamento = new SelectList(_context.Departamentos, "Id_Departamento", "Nombre_Departamento", asignacionRolesTemporales.Id_Departamento);
+                return View(asignacionRolesTemporales);
+            }
+            
+            if (asignacionRolesTemporales.Fecha_Inicio.DayOfWeek == DayOfWeek.Saturday || asignacionRolesTemporales.Fecha_Inicio.DayOfWeek == DayOfWeek.Sunday)
+            {
+                ModelState.AddModelError("Fecha_Inicio", "No se permiten fechas en sábado ni domingo.");
+                ViewBag.Id = new SelectList(_context.Users, "Id", "UserName", asignacionRolesTemporales.Id);
+                ViewBag.Id_Usuario = new SelectList(_context.Users, "Id", "UserName", asignacionRolesTemporales.Id_Usuario);
+                ViewBag.Id_Departamento = new SelectList(_context.Departamentos, "Id_Departamento", "Nombre_Departamento", asignacionRolesTemporales.Id_Departamento);
+                return View(asignacionRolesTemporales);
+            }
+            
+            if (asignacionRolesTemporales.Fecha_Fin < hoy)
+            {
+                ModelState.AddModelError("Fecha_Fin", "No se permiten fechas pasadas.");
+                ViewBag.Id = new SelectList(_context.Users, "Id", "UserName", asignacionRolesTemporales.Id);
+                ViewBag.Id_Usuario = new SelectList(_context.Users, "Id", "UserName", asignacionRolesTemporales.Id_Usuario);
+                ViewBag.Id_Departamento = new SelectList(_context.Departamentos, "Id_Departamento", "Nombre_Departamento", asignacionRolesTemporales.Id_Departamento);
+                return View(asignacionRolesTemporales);
+            }
+            
+            if (asignacionRolesTemporales.Fecha_Fin.DayOfWeek == DayOfWeek.Saturday || asignacionRolesTemporales.Fecha_Fin.DayOfWeek == DayOfWeek.Sunday)
+            {
+                ModelState.AddModelError("Fecha_Fin", "No se permiten fechas en sábado ni domingo.");
+                ViewBag.Id = new SelectList(_context.Users, "Id", "UserName", asignacionRolesTemporales.Id);
+                ViewBag.Id_Usuario = new SelectList(_context.Users, "Id", "UserName", asignacionRolesTemporales.Id_Usuario);
+                ViewBag.Id_Departamento = new SelectList(_context.Departamentos, "Id_Departamento", "Nombre_Departamento", asignacionRolesTemporales.Id_Departamento);
+                return View(asignacionRolesTemporales);
+            }
+
             try
             {
                 if (ModelState.IsValid)

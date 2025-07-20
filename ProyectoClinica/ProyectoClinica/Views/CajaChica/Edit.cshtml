@@ -161,28 +161,28 @@
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Monto, "Monto")</div>
                                     <div class="detail-value">
-                                        @Html.EditorFor(model => model.Monto, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.TextBoxFor(model => model.Monto, new { @class = "form-control", id = "Monto", type = "number", min = "0", step = "1", oninput = "this.value = this.value.replace(/[^0-9]/g, '');" })
                                         @Html.ValidationMessageFor(model => model.Monto, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Saldo_Anterior, "Saldo Anterior")</div>
                                     <div class="detail-value">
-                                        @Html.EditorFor(model => model.Saldo_Anterior, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.TextBoxFor(model => model.Saldo_Anterior, new { @class = "form-control", id = "Saldo_Anterior", type = "number", min = "0", step = "1", oninput = "this.value = this.value.replace(/[^0-9]/g, '');" })
                                         @Html.ValidationMessageFor(model => model.Saldo_Anterior, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Saldo_Actual, "Saldo Actual")</div>
                                     <div class="detail-value">
-                                        @Html.EditorFor(model => model.Saldo_Actual, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.TextBoxFor(model => model.Saldo_Actual, new { @class = "form-control", id = "Saldo_Actual", type = "number", min = "0", step = "1", oninput = "this.value = this.value.replace(/[^0-9]/g, '');" })
                                         @Html.ValidationMessageFor(model => model.Saldo_Actual, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Beneficiario, "Beneficiario")</div>
                                     <div class="detail-value">
-                                        @Html.EditorFor(model => model.Beneficiario, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.TextBoxFor(model => model.Beneficiario, new { @class = "form-control", id = "Beneficiario", placeholder = "Nombre de la persona", @readonly = "readonly" })
                                         @Html.ValidationMessageFor(model => model.Beneficiario, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -195,35 +195,35 @@
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Numero_Comprobante, "Número de Comprobante")</div>
                                     <div class="detail-value">
-                                        @Html.EditorFor(model => model.Numero_Comprobante, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.TextBoxFor(model => model.Numero_Comprobante, new { @class = "form-control", id = "Numero_Comprobante", type = "number", min = "0", step = "1", oninput = "this.value = this.value.replace(/[^0-9]/g, '');" })
                                         @Html.ValidationMessageFor(model => model.Numero_Comprobante, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Tipo_Movimiento, "Tipo de Movimiento")</div>
                                     <div class="detail-value">
-                                        @Html.EditorFor(model => model.Tipo_Movimiento, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.DropDownListFor(model => model.Tipo_Movimiento, new SelectList(new[] { "Ingreso", "Egreso" }, Model.Tipo_Movimiento), "Seleccione una opción", new { @class = "form-control", id = "Tipo_Movimiento" })
                                         @Html.ValidationMessageFor(model => model.Tipo_Movimiento, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Categoria_Gasto, "Categoría Gasto")</div>
                                     <div class="detail-value">
-                                        @Html.EditorFor(model => model.Categoria_Gasto, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.DropDownListFor(model => model.Categoria_Gasto, new SelectList(new[] { "Cierre Mensual", "Cierre Anual" }, Model.Categoria_Gasto), "Seleccione una opción", new { @class = "form-control", id = "Categoria_Gasto" })
                                         @Html.ValidationMessageFor(model => model.Categoria_Gasto, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Numero_Factura, "Número de Factura")</div>
                                     <div class="detail-value">
-                                        @Html.EditorFor(model => model.Numero_Factura, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.TextBoxFor(model => model.Numero_Factura, new { @class = "form-control", id = "Numero_Factura", type = "number", min = "0", step = "1", oninput = "this.value = this.value.replace(/[^0-9]/g, '');" })
                                         @Html.ValidationMessageFor(model => model.Numero_Factura, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Estado, "Estado")</div>
                                     <div class="detail-value">
-                                        @Html.EditorFor(model => model.Estado, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.DropDownListFor(model => model.Estado, new SelectList(new[] { "Activo", "Inactivo" }, Model.Estado), "Seleccione una opción", new { @class = "form-control", id = "Estado" })
                                         @Html.ValidationMessageFor(model => model.Estado, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -256,14 +256,14 @@
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Usuario_Registro, "Registro de Usuario")</div>
                                     <div class="detail-value">
-                                        @Html.TextAreaFor(model => model.Usuario_Registro, new { @class = "form-control", rows = "3" })
+                                        @Html.TextAreaFor(model => model.Usuario_Registro, new { @class = "form-control", rows = "3", placeholder = "Nombre de la persona", @readonly = "readonly" })
                                         @Html.ValidationMessageFor(model => model.Usuario_Registro, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Usuario_Modificacion, "Registro de Usuario Modificado")</div>
                                     <div class="detail-value">
-                                        @Html.TextAreaFor(model => model.Usuario_Modificacion, new { @class = "form-control", rows = "3" })
+                                        @Html.TextAreaFor(model => model.Usuario_Modificacion, new { @class = "form-control", rows = "3", placeholder = "Nombre de la persona", @readonly = "readonly" })
                                         @Html.ValidationMessageFor(model => model.Usuario_Modificacion, "", new { @class = "text-danger" })
                                     </div>
                                 </div>

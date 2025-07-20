@@ -90,7 +90,7 @@
                             <div class="form-grid">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.Nombre_Departamento, "Nombre del Departamento", new { @class = "control-label" })
-                                    @Html.EditorFor(model => model.Nombre_Departamento, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.DropDownListFor(model => model.Nombre_Departamento, new SelectList(new[] { "Departamento Médico General", "Pediatría", "Ginecología y Obstetricia", "Dermatología", "Odontología", "Administración y Finanzas" }), "Seleccione una opción", new { @class = "form-control", id = "Nombre_Departamento" })
                                 </div>
 
                                 <div class="form-group">
@@ -125,8 +125,8 @@
                             <legend>Información de Registro</legend>
                             <div class="form-grid">
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.Id_Usuario_Creador, "Usuario Registro", new { @class = "control-label" })
-                                    @Html.EditorFor(model => model.Id_Usuario_Creador, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.LabelFor(model => model.Id_Usuario_Creador, "Número de Departamento", new { @class = "control-label" })
+                                    @Html.EditorFor(model => model.Id_Usuario_Creador, new { htmlAttributes = new { @class = "form-control", placeholder = "Número de Departamento" } })
                                 </div>
 
                                 <div class="form-group">

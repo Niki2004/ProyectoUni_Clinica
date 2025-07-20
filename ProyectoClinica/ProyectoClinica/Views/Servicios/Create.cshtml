@@ -91,17 +91,17 @@
                             <div class="form-grid">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.Nombre_Servicio, "Nombre del Servicio", new { @class = "control-label" })
-                                    @Html.EditorFor(model => model.Nombre_Servicio, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.DropDownListFor(model => model.Nombre_Servicio, new SelectList(new[] { "Atención Integral de Medicina General", "Servicio de Pediatría y Control Infantil", "Ginecología y Obstetricia", "Dermatología Clínica y Estética" }), "Seleccione una opción", new { @class = "form-control", id = "Nombre_Servicio" })
                                 </div>
 
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.Precio_Servicio, "Precio del Servicio", new { @class = "control-label" })
-                                    @Html.EditorFor(model => model.Precio_Servicio, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.TextBoxFor(model => model.Precio_Servicio, new { @class = "form-control", id = "Precio_Servicio", type = "number", min = "0", step = "1", oninput = "this.value = this.value.replace(/[^0-9]/g, '');" })
                                 </div>
 
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.Especialidad, "Especialidad", new { @class = "control-label" })
-                                    @Html.EditorFor(model => model.Especialidad, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.DropDownListFor(model => model.Especialidad, new SelectList(new[] { "Medicina General", "Pediatría", "Ginecología y Obstetricia", "Dermatología" }), "Seleccione una opción", new { @class = "form-control", id = "Especialidad" })
                                 </div>
 
                             </div>

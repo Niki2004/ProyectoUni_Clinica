@@ -127,7 +127,7 @@
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Numero_Referencia, "Número de Referencia")</div>
                                     <div class="detail-value">
-                                        @Html.EditorFor(model => model.Numero_Referencia, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.TextBoxFor(model => model.Numero_Referencia, new { @class = "form-control", id = "Numero_Referencia", type = "number", min = "0", step = "1", oninput = "this.value = this.value.replace(/[^0-9]/g, '');" })
                                         @Html.ValidationMessageFor(model => model.Numero_Referencia, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -147,21 +147,21 @@
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Tipo_Pago, "Tipo de Pago")</div>
                                     <div class="detail-value">
-                                        @Html.EditorFor(model => model.Tipo_Pago, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.DropDownListFor(model => model.Tipo_Pago, new SelectList(new[] { "Efectivo", "SinpeMovil", "Transferencia", "Cheque" }, Model.Tipo_Pago), "Seleccione una opción", new { @class = "form-control", id = "Tipo_Pago" })
                                         @Html.ValidationMessageFor(model => model.Tipo_Pago, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Monto, "Monto")</div>
                                     <div class="detail-value">
-                                        @Html.EditorFor(model => model.Monto, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.TextBoxFor(model => model.Monto, new { @class = "form-control", id = "Monto", type = "number", min = "0", step = "1", oninput = "this.value = this.value.replace(/[^0-9]/g, '');" })
                                         @Html.ValidationMessageFor(model => model.Monto, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Estado_Pago, "Estado de Pago")</div>
                                     <div class="detail-value">
-                                        @Html.EditorFor(model => model.Estado_Pago, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.DropDownListFor(model => model.Estado_Pago, new SelectList(new[] { "Vencido", "Pendiente", "Aprobado", "Rechazado", "Completado" }, Model.Estado_Pago), "Seleccione una opción", new { @class = "form-control", id = "Estado_Pago" })
                                         @Html.ValidationMessageFor(model => model.Estado_Pago, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -174,14 +174,14 @@
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Beneficiario, "Beneficiario")</div>
                                     <div class="detail-value">
-                                        @Html.EditorFor(model => model.Beneficiario, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.TextBoxFor(model => model.Beneficiario, new { @class = "form-control", id = "Beneficiario", placeholder = "Nombre de la persona" })
                                         @Html.ValidationMessageFor(model => model.Beneficiario, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Cuenta_Beneficiario, "Cuenta del Beneficiario")</div>
                                     <div class="detail-value">
-                                        @Html.EditorFor(model => model.Cuenta_Beneficiario, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.TextBoxFor(model => model.Cuenta_Beneficiario, new { @class = "form-control", id = "Cuenta_Beneficiario", type = "number", min = "0", step = "1", oninput = "this.value = this.value.replace(/[^0-9]/g, '');" })
                                         @Html.ValidationMessageFor(model => model.Cuenta_Beneficiario, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -214,7 +214,7 @@
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Usuario_Registro, "Usuario Registro")</div>
                                     <div class="detail-value">
-                                        @Html.EditorFor(model => model.Usuario_Registro, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.TextBoxFor(model => model.Usuario_Registro, new { @class = "form-control", id = "Usuario_Registro", placeholder = "Nombre de la persona", @readonly = "readonly" })
                                         @Html.ValidationMessageFor(model => model.Usuario_Registro, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -228,7 +228,7 @@
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Usuario_Modificacion, "Usuario Modificación")</div>
                                     <div class="detail-value">
-                                        @Html.EditorFor(model => model.Usuario_Modificacion, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.TextBoxFor(model => model.Usuario_Modificacion, new { @class = "form-control", id = "Usuario_Modificacion", placeholder = "Nombre de la persona", @readonly = "readonly" })
                                         @Html.ValidationMessageFor(model => model.Usuario_Modificacion, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -460,42 +460,4 @@
                 });
 
                 showNotification(
-                    `¡Alerta! ${allExpiringItems.length} productos próximos a vencer o vencidos`,
-                    expiringNames,
-                    'warning'
-                );
-            }
-        });
-
-        // Validación de fechas antes de enviar el formulario
-        document.querySelector('form').addEventListener('submit', function(e) {
-            let errorMsg = '';
-            const fechaPago = document.getElementById('Fecha_Pago').value;
-            const fechaRegistro = document.getElementById('Fecha_Registro').value;
-            const fechaModificacion = document.getElementById('Fecha_Modificacion').value;
-            const fechas = [fechaPago, fechaRegistro, fechaModificacion];
-            fechas.forEach(function(fecha) {
-                if (fecha) {
-                    const d = new Date(fecha);
-                    const hoy = new Date();
-                    hoy.setHours(0,0,0,0);
-                    if (d < hoy) {
-                        errorMsg = 'No se permiten fechas pasadas.';
-                    }
-                    if (d.getDay() === 0 || d.getDay() === 6) {
-                        errorMsg = 'No se permiten fechas en sábado ni domingo.';
-                    }
-                }
-            });
-            if (errorMsg) {
-                e.preventDefault();
-                alert(errorMsg);
-            }
-        });
-    </script>
-</body>
-
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+                    `

@@ -75,6 +75,33 @@ namespace ProyectoClinica.Controllers
         public ActionResult Create()
         {
             ViewBag.Id_Estado = new SelectList(_context.Estado, "Id_Estado", "Descripcion");
+            
+            // Lista de departamentos
+            var departamentos = new List<string>
+            {
+                "Departamento Médico General",
+                "Pediatría",
+                "Ginecología y Obstetricia",
+                "Dermatología",
+                "Odontología",
+                "Administración y Finanzas"
+            };
+            ViewBag.Departamentos = new SelectList(departamentos);
+            
+            // Lista de jornadas
+            var jornadas = new List<string>
+            {
+                "Jornada completa",
+                "Jornada parcial",
+                "Jornada mixta",
+                "Jornada nocturna",
+                "Jornada reducida",
+                "Jornada flexible",
+                "Jornada por turnos",
+                "Jornada extraordinaria o extra"
+            };
+            ViewBag.Jornadas = new SelectList(jornadas);
+            
             return View();
         }
 
@@ -83,6 +110,117 @@ namespace ProyectoClinica.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id_Estado,Comentarios,Nombre,Apellido,Cedula,Correo,Jornada,Fecha_registro,Departamento")] Empleado administrativo)
         {
+            // Validación de fechas
+            DateTime hoy = DateTime.Today;
+            if (administrativo.Fecha_registro < hoy)
+            {
+                ModelState.AddModelError("Fecha_registro", "No se permiten fechas pasadas.");
+                ViewBag.Id_Estado = new SelectList(_context.Estado, "Id_Estado", "Descripcion", administrativo.Id_Estado);
+                
+                // Lista de departamentos
+                var departamentos = new List<string>
+                {
+                    "Departamento Médico General",
+                    "Pediatría",
+                    "Ginecología y Obstetricia",
+                    "Dermatología",
+                    "Odontología",
+                    "Administración y Finanzas"
+                };
+                ViewBag.Departamentos = new SelectList(departamentos);
+                
+                // Lista de jornadas
+                var jornadas = new List<string>
+                {
+                    "Jornada completa",
+                    "Jornada parcial",
+                    "Jornada mixta",
+                    "Jornada nocturna",
+                    "Jornada reducida",
+                    "Jornada flexible",
+                    "Jornada por turnos",
+                    "Jornada extraordinaria o extra"
+                };
+                ViewBag.Jornadas = new SelectList(jornadas);
+                
+                return View(administrativo);
+            }
+            
+            if (administrativo.Fecha_registro.DayOfWeek == DayOfWeek.Saturday || administrativo.Fecha_registro.DayOfWeek == DayOfWeek.Sunday)
+            {
+                ModelState.AddModelError("Fecha_registro", "No se permiten fechas en sábado ni domingo.");
+                ViewBag.Id_Estado = new SelectList(_context.Estado, "Id_Estado", "Descripcion", administrativo.Id_Estado);
+                
+                // Lista de departamentos
+                var departamentos = new List<string>
+                {
+                    "Departamento Médico General",
+                    "Pediatría",
+                    "Ginecología y Obstetricia",
+                    "Dermatología",
+                    "Odontología",
+                    "Administración y Finanzas"
+                };
+                ViewBag.Departamentos = new SelectList(departamentos);
+                
+                // Lista de jornadas
+                var jornadas = new List<string>
+                {
+                    "Jornada completa",
+                    "Jornada parcial",
+                    "Jornada mixta",
+                    "Jornada nocturna",
+                    "Jornada reducida",
+                    "Jornada flexible",
+                    "Jornada por turnos",
+                    "Jornada extraordinaria o extra"
+                };
+                ViewBag.Jornadas = new SelectList(jornadas);
+                
+                return View(administrativo);
+            }
+
+            // Validaciones adicionales del lado del servidor
+            if (!string.IsNullOrEmpty(administrativo.Nombre))
+            {
+                if (!System.Text.RegularExpressions.Regex.IsMatch(administrativo.Nombre, @"^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$"))
+                {
+                    ModelState.AddModelError("Nombre", "El nombre solo puede contener letras y espacios.");
+                }
+            }
+
+            if (!string.IsNullOrEmpty(administrativo.Apellido))
+            {
+                if (!System.Text.RegularExpressions.Regex.IsMatch(administrativo.Apellido, @"^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$"))
+                {
+                    ModelState.AddModelError("Apellido", "El apellido solo puede contener letras y espacios.");
+                }
+            }
+
+            if (!string.IsNullOrEmpty(administrativo.Cedula))
+            {
+                if (!System.Text.RegularExpressions.Regex.IsMatch(administrativo.Cedula, @"^[0-9]+$"))
+                {
+                    ModelState.AddModelError("Cedula", "La cédula solo puede contener números.");
+                }
+            }
+
+            if (!string.IsNullOrEmpty(administrativo.Correo))
+            {
+                try
+                {
+                    var addr = new System.Net.Mail.MailAddress(administrativo.Correo);
+                    if (addr.Address != administrativo.Correo)
+                    {
+                        ModelState.AddModelError("Correo", "El formato del correo electrónico no es válido.");
+                    }
+                }
+                catch
+                {
+                    ModelState.AddModelError("Correo", "El formato del correo electrónico no es válido.");
+                }
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Empleado.Add(administrativo);
@@ -91,6 +229,33 @@ namespace ProyectoClinica.Controllers
                 return RedirectToAction("Administrativo/Administrativos");
             }
             ViewBag.Id_Estado = new SelectList(_context.Estado, "Id_Estado", "Descripcion", administrativo.Id_Estado);
+            
+            // Lista de departamentos
+            var departamentosList = new List<string>
+            {
+                "Departamento Médico General",
+                "Pediatría",
+                "Ginecología y Obstetricia",
+                "Dermatología",
+                "Odontología",
+                "Administración y Finanzas"
+            };
+            ViewBag.Departamentos = new SelectList(departamentosList, administrativo.Departamento);
+            
+            // Lista de jornadas
+            var jornadasList = new List<string>
+            {
+                "Jornada completa",
+                "Jornada parcial",
+                "Jornada mixta",
+                "Jornada nocturna",
+                "Jornada reducida",
+                "Jornada flexible",
+                "Jornada por turnos",
+                "Jornada extraordinaria o extra"
+            };
+            ViewBag.Jornadas = new SelectList(jornadasList, administrativo.Jornada);
+            
             return View(administrativo);
         }
 
@@ -133,6 +298,33 @@ namespace ProyectoClinica.Controllers
                 return HttpNotFound();
             }
             ViewBag.Id_Estado = new SelectList(_context.Estado, "Id_Estado", "Descripcion", administrativo.Id_Estado);
+            
+            // Lista de departamentos
+            var departamentos = new List<string>
+            {
+                "Departamento Médico General",
+                "Pediatría",
+                "Ginecología y Obstetricia",
+                "Dermatología",
+                "Odontología",
+                "Administración y Finanzas"
+            };
+            ViewBag.Departamentos = new SelectList(departamentos, administrativo.Departamento);
+            
+            // Lista de jornadas
+            var jornadas = new List<string>
+            {
+                "Jornada completa",
+                "Jornada parcial",
+                "Jornada mixta",
+                "Jornada nocturna",
+                "Jornada reducida",
+                "Jornada flexible",
+                "Jornada por turnos",
+                "Jornada extraordinaria o extra"
+            };
+            ViewBag.Jornadas = new SelectList(jornadas, administrativo.Jornada);
+            
             return View(administrativo);
         }
 
@@ -141,6 +333,117 @@ namespace ProyectoClinica.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id_Empleado,Id_Estado,Comentarios,Nombre,Apellido,Cedula,Correo,Jornada,Fecha_registro,Departamento")] Empleado administrativo)
         {
+            // Validación de fechas
+            DateTime hoy = DateTime.Today;
+            if (administrativo.Fecha_registro < hoy)
+            {
+                ModelState.AddModelError("Fecha_registro", "No se permiten fechas pasadas.");
+                ViewBag.Id_Estado = new SelectList(_context.Estado, "Id_Estado", "Descripcion", administrativo.Id_Estado);
+                
+                // Lista de departamentos
+                var departamentos = new List<string>
+                {
+                    "Departamento Médico General",
+                    "Pediatría",
+                    "Ginecología y Obstetricia",
+                    "Dermatología",
+                    "Odontología",
+                    "Administración y Finanzas"
+                };
+                ViewBag.Departamentos = new SelectList(departamentos, administrativo.Departamento);
+                
+                // Lista de jornadas
+                var jornadas = new List<string>
+                {
+                    "Jornada completa",
+                    "Jornada parcial",
+                    "Jornada mixta",
+                    "Jornada nocturna",
+                    "Jornada reducida",
+                    "Jornada flexible",
+                    "Jornada por turnos",
+                    "Jornada extraordinaria o extra"
+                };
+                ViewBag.Jornadas = new SelectList(jornadas, administrativo.Jornada);
+                
+                return View(administrativo);
+            }
+            
+            if (administrativo.Fecha_registro.DayOfWeek == DayOfWeek.Saturday || administrativo.Fecha_registro.DayOfWeek == DayOfWeek.Sunday)
+            {
+                ModelState.AddModelError("Fecha_registro", "No se permiten fechas en sábado ni domingo.");
+                ViewBag.Id_Estado = new SelectList(_context.Estado, "Id_Estado", "Descripcion", administrativo.Id_Estado);
+                
+                // Lista de departamentos
+                var departamentos = new List<string>
+                {
+                    "Departamento Médico General",
+                    "Pediatría",
+                    "Ginecología y Obstetricia",
+                    "Dermatología",
+                    "Odontología",
+                    "Administración y Finanzas"
+                };
+                ViewBag.Departamentos = new SelectList(departamentos, administrativo.Departamento);
+                
+                // Lista de jornadas
+                var jornadas = new List<string>
+                {
+                    "Jornada completa",
+                    "Jornada parcial",
+                    "Jornada mixta",
+                    "Jornada nocturna",
+                    "Jornada reducida",
+                    "Jornada flexible",
+                    "Jornada por turnos",
+                    "Jornada extraordinaria o extra"
+                };
+                ViewBag.Jornadas = new SelectList(jornadas, administrativo.Jornada);
+                
+                return View(administrativo);
+            }
+
+            // Validaciones adicionales del lado del servidor
+            if (!string.IsNullOrEmpty(administrativo.Nombre))
+            {
+                if (!System.Text.RegularExpressions.Regex.IsMatch(administrativo.Nombre, @"^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$"))
+                {
+                    ModelState.AddModelError("Nombre", "El nombre solo puede contener letras y espacios.");
+                }
+            }
+
+            if (!string.IsNullOrEmpty(administrativo.Apellido))
+            {
+                if (!System.Text.RegularExpressions.Regex.IsMatch(administrativo.Apellido, @"^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$"))
+                {
+                    ModelState.AddModelError("Apellido", "El apellido solo puede contener letras y espacios.");
+                }
+            }
+
+            if (!string.IsNullOrEmpty(administrativo.Cedula))
+            {
+                if (!System.Text.RegularExpressions.Regex.IsMatch(administrativo.Cedula, @"^[0-9]+$"))
+                {
+                    ModelState.AddModelError("Cedula", "La cédula solo puede contener números.");
+                }
+            }
+
+            if (!string.IsNullOrEmpty(administrativo.Correo))
+            {
+                try
+                {
+                    var addr = new System.Net.Mail.MailAddress(administrativo.Correo);
+                    if (addr.Address != administrativo.Correo)
+                    {
+                        ModelState.AddModelError("Correo", "El formato del correo electrónico no es válido.");
+                    }
+                }
+                catch
+                {
+                    ModelState.AddModelError("Correo", "El formato del correo electrónico no es válido.");
+                }
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Entry(administrativo).State = EntityState.Modified;
@@ -149,6 +452,33 @@ namespace ProyectoClinica.Controllers
                 return RedirectToAction("VistaADM");
             }
             ViewBag.Id_Estado = new SelectList(_context.Estado, "Id_Estado", "Descripcion", administrativo.Id_Estado);
+            
+            // Lista de departamentos
+            var departamentosList = new List<string>
+            {
+                "Departamento Médico General",
+                "Pediatría",
+                "Ginecología y Obstetricia",
+                "Dermatología",
+                "Odontología",
+                "Administración y Finanzas"
+            };
+            ViewBag.Departamentos = new SelectList(departamentosList, administrativo.Departamento);
+            
+            // Lista de jornadas
+            var jornadasList = new List<string>
+            {
+                "Jornada completa",
+                "Jornada parcial",
+                "Jornada mixta",
+                "Jornada nocturna",
+                "Jornada reducida",
+                "Jornada flexible",
+                "Jornada por turnos",
+                "Jornada extraordinaria o extra"
+            };
+            ViewBag.Jornadas = new SelectList(jornadasList, administrativo.Jornada);
+            
             return View(administrativo);
         }
 
@@ -214,19 +544,19 @@ namespace ProyectoClinica.Controllers
         [Authorize(Roles = "Administrador")]
         public ActionResult Buscar(string nombre, string cedula)
         {
-            var administrativo = _context.Users.AsQueryable();
+            var usuarios = _context.Users.AsQueryable();
 
             if (!string.IsNullOrEmpty(nombre))
             {
-                administrativo = administrativo.Where(e => e.Nombre.Contains(nombre));
+                usuarios = usuarios.Where(u => u.Nombre.Contains(nombre));
             }
 
             if (!string.IsNullOrEmpty(cedula))
             {
-                administrativo = administrativo.Where(e => e.Cedula.Contains(cedula));
+                usuarios = usuarios.Where(u => u.Cedula.Contains(cedula));
             }
 
-            return View(administrativo.ToList());
+            return View(usuarios.ToList());
         }
 
         [Authorize(Roles = "Administrador")]
@@ -297,6 +627,22 @@ namespace ProyectoClinica.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditarHistorial(Historial_Aplicaciones historial)
         {
+            // Validación de fechas
+            DateTime hoy = DateTime.Today;
+            if (historial.Fecha_Hora < hoy)
+            {
+                ModelState.AddModelError("Fecha_Hora", "No se permiten fechas pasadas.");
+                ViewBag.Usuarios = new SelectList(_context.Users, "Id", "UserName", historial.Id);
+                return View(historial);
+            }
+            
+            if (historial.Fecha_Hora.DayOfWeek == DayOfWeek.Saturday || historial.Fecha_Hora.DayOfWeek == DayOfWeek.Sunday)
+            {
+                ModelState.AddModelError("Fecha_Hora", "No se permiten fechas en sábado ni domingo.");
+                ViewBag.Usuarios = new SelectList(_context.Users, "Id", "UserName", historial.Id);
+                return View(historial);
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Entry(historial).State = EntityState.Modified;
