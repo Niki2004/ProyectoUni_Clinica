@@ -497,6 +497,10 @@
     <Compile Include="Migrations\202507172039461_NotasPacienteModificacion.designer.cs">
       <DependentUpon>202507172039461_NotasPacienteModificacion.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202507210048216_NotasMedicoModificacion.cs" />
+    <Compile Include="Migrations\202507210048216_NotasMedicoModificacion.designer.cs">
+      <DependentUpon>202507210048216_NotasMedicoModificacion.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Administrativa.cs" />
@@ -772,7 +776,6 @@
     <Content Include="Views\Cita\IndDOC.cshtml" />
     <Content Include="Views\Perfil\DOCHCita.cshtml" />
     <Content Include="Views\Perfil\_CitasTable.cshtml" />
-    <Content Include="Views\Perfil\NotasAdicionales.cshtml" />
     <Content Include="Views\ProductosConta\Index.cshtml" />
     <Content Include="Views\ProductosConta\Create.cshtml" />
     <Content Include="Views\Departamentos\Index.cshtml" />
@@ -932,6 +935,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202507172039461_NotasPacienteModificacion.resx">
       <DependentUpon>202507172039461_NotasPacienteModificacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202507210048216_NotasMedicoModificacion.resx">
+      <DependentUpon>202507210048216_NotasMedicoModificacion.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
