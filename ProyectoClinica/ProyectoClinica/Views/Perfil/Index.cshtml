@@ -24,7 +24,8 @@
         <div style="position: relative; margin-bottom: 20px;">
             @if (!string.IsNullOrEmpty(Model.Imagen))
             {
-                <img src="@Model.Imagen" alt="Perfil" style="width: 130px; height: 130px; border-radius: 50%; object-fit: cover; border: 3px solid #0b7b82; " />
+                <img src="@Url.Content("~/FotosPerfil/Imagenes/" + Model.Imagen)" alt="Foto de perfil" class="img-thumbnail" style="width: 130px; height: 130px; border-radius: 50%; object-fit: cover; border: 3px solid #0b7b82;" />
+
             }
             else
             {

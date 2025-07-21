@@ -399,47 +399,60 @@ namespace ProyectoClinica.Controllers
         [HttpGet]
         public ActionResult DOCHCita()
         {
-            var Medico = BaseDatos.Cita.ToList();
-            return View(Medico);
+            string idUsuario = User.Identity.GetUserId();
+
+            // Obtener el ID del médico asociado al usuario
+            var medico = BaseDatos.Medico.FirstOrDefault(m => m.Id == idUsuario);
+
+            if (medico == null)
+            {
+                return HttpNotFound("No se encontró un médico asociado a este usuario.");
+            }
+
+            // Obtener solo las citas asignadas a este médico
+            var citasDelMedico = BaseDatos.Cita
+                .Where(c => c.Id_Medico == medico.Id_Medico)
+                .ToList();
+
+            return View(citasDelMedico);
         }
 
-        public ActionResult FiltrarCitas(string tipoConsulta)
+        [Authorize(Roles = "Medico")]
+        public JsonResult FiltrarCitas(string tipoConsulta)
         {
-            try
+            // Obtener el ID del usuario logueado
+            string userId = User.Identity.GetUserId();
+
+            // Buscar el ID del médico asociado al usuario
+            int? idMedico = BaseDatos.Medico
+                .Where(m => m.Id == userId)
+                .Select(m => (int?)m.Id_Medico)
+                .FirstOrDefault();
+
+            if (idMedico == null)
             {
-                var citas = BaseDatos.Cita.Include(c => c.Medico).AsQueryable();
+                return Json(new { error = "No se encontró el médico logueado." }, JsonRequestBehavior.AllowGet);
+            }
 
-                if (!string.IsNullOrEmpty(tipoConsulta))
+            // Incluir explícitamente la relación con Medico
+            var citas = BaseDatos.Cita
+                .Include("Medico") // Esto evita errores al acceder a c.Medico.Nombre
+                .Where(c => c.Id_Medico == idMedico)
+                .Where(c => string.IsNullOrEmpty(tipoConsulta) || c.Modalidad.ToLower() == tipoConsulta.ToLower())
+                .ToList() // Ejecutamos la consulta en la BD primero
+                .Select(c => new
                 {
-                    citas = citas.Where(c => c.Modalidad.ToLower() == tipoConsulta.ToLower());
-                }
-
-                var filteredCitas = citas.ToList().Select(c => new
-                {
-                    NombreMedico = c.Medico != null ? c.Medico.Nombre : "",
+                    NombreMedico = c.Medico?.Nombre ?? "Desconocido",
                     c.Nombre_Paciente,
                     c.Estado_Asistencia,
                     Hora_cita = c.Hora_cita.ToString(@"hh\:mm"),
                     c.Descripcion_Complicaciones,
                     c.Sintomas,
-                    Fecha_Cita = c.Fecha_Cita.ToString("dd/MM/yyyy"),
+                    Fecha_Cita = c.Fecha_Cita.ToString("yyyy-MM-dd"),
                     c.Modalidad
                 });
 
-                return Json(filteredCitas, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                return Json(new { error = ex.Message }, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-        [Authorize(Roles = "Medico")]
-        [HttpGet]
-        public ActionResult NotasAdicionales()
-        {
-            var Medico = BaseDatos.Nota_Paciente.ToList();
-            return View(Medico);
+            return Json(citas, JsonRequestBehavior.AllowGet);
         }
 
         [Authorize(Roles = "Medico")]
@@ -526,8 +539,13 @@ namespace ProyectoClinica.Controllers
         [Authorize(Roles = "Medico")]
         public ActionResult NotasMedicas()
         {
-            var citas = BaseDatos.Nota_Medico.ToList();
-            return View(citas);
+            string medicoId = User.Identity.GetUserId();
+
+            var notas = BaseDatos.Nota_Medico
+                .Where(n => n.Id == medicoId) // O usa n.Id_Medico si así se llama la propiedad
+                .ToList();
+
+            return View(notas);
         }
 
         [Authorize(Roles = "Medico")]
@@ -544,13 +562,18 @@ namespace ProyectoClinica.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Establecer el ID del médico logueado ANTES de guardar
+                nota_medico.Id = User.Identity.GetUserId();
+
                 BaseDatos.Nota_Medico.Add(nota_medico);
-                BaseDatos.SaveChangesAsync();
+                BaseDatos.SaveChanges();
 
                 TempData["SuccessMessage"] = "La nota se ha creado correctamente.";
-
                 return RedirectToAction("DOCHCita");
             }
+
+            // Si hay error, asegurarse de que el ID del médico aún esté presente en el modelo
+            nota_medico.Id = User.Identity.GetUserId();
 
             return View(nota_medico);
         }
@@ -644,8 +667,5 @@ namespace ProyectoClinica.Controllers
 
             return View(citasFuturas);
         }
-
-
-
     }
 }
