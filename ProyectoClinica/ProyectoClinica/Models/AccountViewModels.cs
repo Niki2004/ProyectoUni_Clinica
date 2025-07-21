@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web;
 
 namespace ProyectoClinica.Models
 {
@@ -113,6 +114,9 @@ namespace ProyectoClinica.Models
 
         [Display(Name = "Imagen")]
         public string Imagen { get; set; }
+
+        // Esta propiedad NO es la imagen en sí, sino el archivo subido
+        public HttpPostedFileBase ImagenFile { get; set; }
     }
 
     public class ResetPasswordViewModel

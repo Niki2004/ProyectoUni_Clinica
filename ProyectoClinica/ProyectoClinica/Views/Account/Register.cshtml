@@ -99,7 +99,7 @@
         <h2 id="title">Únete a nosotros</h2>
         <h4>Te brindaremos el mejor servicio</h4>
         <hr />
-        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { role = "form" }))
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { enctype = "multipart/form-data", role = "form" }))
         {
             @Html.AntiForgeryToken()
 
@@ -177,11 +177,11 @@
 
             <div class="row">
                 <div class="col-md-2">
-                    @Html.LabelFor(m => m.Imagen, new { @class = "col-form-label" })
+                    @Html.LabelFor(m => m.ImagenFile)
                 </div>
                 <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.Imagen, new { type = "file", @accept = "image/*", @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.Imagen, "", new { @class = "text-danger" })
+                    @Html.TextBoxFor(m => m.ImagenFile, new { type = "file", accept = "image/*", @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.ImagenFile)
                 </div>
             </div>
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -172,30 +173,57 @@ namespace ProyectoClinica.Controllers
 
         
         // POST: /Account/Register
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+           [HttpPost]
+    [AllowAnonymous]
+    [ValidateAntiForgeryToken]
+    public async Task<ActionResult> Register(RegisterViewModel model)
+    {
+    if (ModelState.IsValid)
+    {
+        // Procesar imagen
+        string nombreArchivo = null;
+        if (model.ImagenFile != null && model.ImagenFile.ContentLength > 0)
         {
-            if (ModelState.IsValid)
+            // Crear nombre único para la imagen
+            nombreArchivo = Guid.NewGuid().ToString() + Path.GetExtension(model.ImagenFile.FileName);
+            string ruta = Server.MapPath("~/FotosPerfil/Imagenes/");
+            
+            if (!Directory.Exists(ruta))
             {
-                var user = new ApplicationUser {UserName = model.Nombre + " " + model.Apellido, Email = model.Email, Nombre = model.Nombre, 
-                    Apellido = model.Apellido, Edad_Paciente = model.Edad_Paciente, Genero_Paciente = model.Genero_Paciente.ToString(),
-                    Direccion = model.Direccion, Cedula = model.Cedula, Imagen = model.Imagen, PhoneNumber = model.PhoneNumber};
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    UserManager.AddToRole(user.Id, "Usuario");
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-
-                    return RedirectToAction("VistaCita", "Cita");
-                }
-                AddErrors(result);
+                Directory.CreateDirectory(ruta);
             }
 
-        
-            return View(model);
+            string rutaCompleta = Path.Combine(ruta, nombreArchivo);
+            model.ImagenFile.SaveAs(rutaCompleta);
         }
+
+        var user = new ApplicationUser
+        {
+            UserName = model.Nombre + " " + model.Apellido,
+            Email = model.Email,
+            Nombre = model.Nombre,
+            Apellido = model.Apellido,
+            Edad_Paciente = model.Edad_Paciente,
+            Genero_Paciente = model.Genero_Paciente.ToString(),
+            Direccion = model.Direccion,
+            Cedula = model.Cedula,
+            Imagen = nombreArchivo, // Guarda solo el nombre o ruta
+            PhoneNumber = model.PhoneNumber
+        };
+
+        var result = await UserManager.CreateAsync(user, model.Password);
+        if (result.Succeeded)
+        {
+            UserManager.AddToRole(user.Id, "Usuario");
+            await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+            return RedirectToAction("VistaCita", "Cita");
+        }
+
+        AddErrors(result);
+    }
+
+    return View(model);
+}
 
    
         // GET: /Account/ConfirmEmail
