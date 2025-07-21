@@ -39,6 +39,7 @@ namespace ProyectoClinica.Models
         public ICollection<Historial_Aplicaciones> Historial_Aplicaciones { get; set; } = new List<Historial_Aplicaciones>();
         public ICollection<Cita> Cita { get; set; } = new List<Cita>();
         public ICollection<Nota_Paciente> Nota_Paciente { get; set; } = new List<Nota_Paciente>();
+        public ICollection<Nota_Medico> Nota_Medico { get; set; } = new List<Nota_Medico>();
 
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)

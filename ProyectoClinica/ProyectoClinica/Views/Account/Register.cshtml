@@ -99,7 +99,7 @@
         <h2 id="title">Únete a nosotros</h2>
         <h4>Te brindaremos el mejor servicio</h4>
         <hr />
-        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { role = "form" }))
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { enctype = "multipart/form-data", role = "form" }))
         {
             @Html.AntiForgeryToken()
 
@@ -110,7 +110,7 @@
                     @Html.LabelFor(m => m.Nombre, " Nombre ", new { @class = "col-form-label" })
                 </div>
                 <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control", onkeypress = "return soloLetras(event)" })
                     @Html.ValidationMessageFor(m => m.Nombre, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -120,7 +120,7 @@
                     @Html.LabelFor(m => m.Apellido, " Apellido ", new { @class = "col-form-label" })
                 </div>
                 <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.Apellido, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.Apellido, new { @class = "form-control", onkeypress = "return soloLetras(event)" })
                     @Html.ValidationMessageFor(m => m.Apellido, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -130,7 +130,7 @@
                     @Html.LabelFor(m => m.Edad_Paciente, " Edad", new { @class = "col-form-label" })
                 </div>
                 <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.Edad_Paciente, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.Edad_Paciente, new { @class = "form-control", onkeypress = "return soloNumeros(event)" })
                     @Html.ValidationMessageFor(m => m.Edad_Paciente, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -140,7 +140,7 @@
                     @Html.LabelFor(m => m.Genero_Paciente, new { @class = "col-form-label" })
                 </div>
                 <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.Genero_Paciente, new { @class = "form-control", placeholder = "Escriba: Hombre, Mujer u Otro" })
+                    @Html.TextBoxFor(m => m.Genero_Paciente, new { @class = "form-control", placeholder = "Escriba: Hombre, Mujer u Otro", onkeypress = "return soloLetras(event)" })
                     @Html.ValidationMessageFor(m => m.Genero_Paciente, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -150,7 +150,7 @@
                     @Html.LabelFor(m => m.PhoneNumber, new { @class = "col-form-label" })
                 </div>
                 <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", onkeypress = "return soloNumeros(event)" })
                     @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -170,18 +170,18 @@
                     @Html.LabelFor(m => m.Direccion, new { @class = "col-form-label" })
                 </div>
                 <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.Direccion, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.Direccion, new { @class = "form-control", onkeypress = "return soloLetras(event)" })
                     @Html.ValidationMessageFor(m => m.Direccion, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-md-2">
-                    @Html.LabelFor(m => m.Imagen, new { @class = "col-form-label" })
+                    @Html.LabelFor(m => m.ImagenFile)
                 </div>
                 <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.Imagen, new { type = "file", @accept = "image/*", @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.Imagen, "", new { @class = "text-danger" })
+                    @Html.TextBoxFor(m => m.ImagenFile, new { type = "file", accept = "image/*", @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.ImagenFile)
                 </div>
             </div>
 
@@ -224,7 +224,40 @@
     </div>
 </main>
 
+@* Validación por letra *@
+<script>
+    function soloLetras(e) {
+        var charCode = e.charCode || e.keyCode;
+        var tecla = String.fromCharCode(charCode).toLowerCase();
+        var letras = " áéíóúabcdefghijklmnñopqrstuvwxyz";
+        var especiales = [8, 37, 39, 46]; // Backspace, flechas, suprimir
+
+        if (letras.indexOf(tecla) === -1 && !especiales.includes(charCode)) {
+            e.preventDefault();
+            return false;
+        }
+        return true;
+    }
+</script>
+
+@* Validación por número *@
+<script>
+    function soloNumeros(e) {
+        var charCode = e.charCode || e.keyCode;
+        var tecla = String.fromCharCode(charCode);
+        var numeros = "0123456789";
+        var especiales = [8, 37, 39, 46]; // Backspace, flechas, suprimir
+
+        if (numeros.indexOf(tecla) === -1 && !especiales.includes(charCode)) {
+            e.preventDefault();
+            return false;
+        }
+        return true;
+    }
+</script>
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
 }
 
