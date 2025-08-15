@@ -23,6 +23,17 @@ namespace ProyectoClinica.Controllers
     {
         //Base de datos
         private ApplicationDbContext BaseDatos = new ApplicationDbContext();
+        
+        // Managers para gestión de roles de ASP.NET Identity
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+
+        public EmpleadosController()
+        {
+            BaseDatos = new ApplicationDbContext();
+            _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(BaseDatos));
+            _roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(BaseDatos));
+        }
 
         [HttpGet]
         //Información de la clinica
@@ -418,6 +429,8 @@ namespace ProyectoClinica.Controllers
             if (disposing)
             {
                 BaseDatos.Dispose();
+                _userManager?.Dispose();
+                _roleManager?.Dispose();
             }
             base.Dispose(disposing);
         }
@@ -466,6 +479,44 @@ namespace ProyectoClinica.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreateAsignacionRol(AsignacionRolesTemporales asignacionRolesTemporales)
         {
+            // Validación de fechas
+            DateTime hoy = DateTime.Today;
+            if (asignacionRolesTemporales.Fecha_Inicio < hoy)
+            {
+                ModelState.AddModelError("Fecha_Inicio", "No se permiten fechas pasadas.");
+                ViewBag.Id = new SelectList(BaseDatos.Users, "Id", "UserName", asignacionRolesTemporales.Id);
+                ViewBag.Id_Usuario = new SelectList(BaseDatos.Users, "Id", "UserName", asignacionRolesTemporales.Id_Usuario);
+                ViewBag.Id_Departamento = new SelectList(BaseDatos.Departamentos, "Id_Departamento", "Nombre_Departamento", asignacionRolesTemporales.Id_Departamento);
+                return View("vistaRolCrear", asignacionRolesTemporales);
+            }
+            
+            if (asignacionRolesTemporales.Fecha_Inicio.DayOfWeek == DayOfWeek.Saturday || asignacionRolesTemporales.Fecha_Inicio.DayOfWeek == DayOfWeek.Sunday)
+            {
+                ModelState.AddModelError("Fecha_Inicio", "No se permiten fechas en sábado ni domingo.");
+                ViewBag.Id = new SelectList(BaseDatos.Users, "Id", "UserName", asignacionRolesTemporales.Id);
+                ViewBag.Id_Usuario = new SelectList(BaseDatos.Users, "Id", "UserName", asignacionRolesTemporales.Id_Usuario);
+                ViewBag.Id_Departamento = new SelectList(BaseDatos.Departamentos, "Id_Departamento", "Nombre_Departamento", asignacionRolesTemporales.Id_Departamento);
+                return View("vistaRolCrear", asignacionRolesTemporales);
+            }
+            
+            if (asignacionRolesTemporales.Fecha_Fin < hoy)
+            {
+                ModelState.AddModelError("Fecha_Fin", "No se permiten fechas pasadas.");
+                ViewBag.Id = new SelectList(BaseDatos.Users, "Id", "UserName", asignacionRolesTemporales.Id);
+                ViewBag.Id_Usuario = new SelectList(BaseDatos.Users, "Id", "UserName", asignacionRolesTemporales.Id_Usuario);
+                ViewBag.Id_Departamento = new SelectList(BaseDatos.Departamentos, "Id_Departamento", "Nombre_Departamento", asignacionRolesTemporales.Id_Departamento);
+                return View("vistaRolCrear", asignacionRolesTemporales);
+            }
+            
+            if (asignacionRolesTemporales.Fecha_Fin.DayOfWeek == DayOfWeek.Saturday || asignacionRolesTemporales.Fecha_Fin.DayOfWeek == DayOfWeek.Sunday)
+            {
+                ModelState.AddModelError("Fecha_Fin", "No se permiten fechas en sábado ni domingo.");
+                ViewBag.Id = new SelectList(BaseDatos.Users, "Id", "UserName", asignacionRolesTemporales.Id);
+                ViewBag.Id_Usuario = new SelectList(BaseDatos.Users, "Id", "UserName", asignacionRolesTemporales.Id_Usuario);
+                ViewBag.Id_Departamento = new SelectList(BaseDatos.Departamentos, "Id_Departamento", "Nombre_Departamento", asignacionRolesTemporales.Id_Departamento);
+                return View("vistaRolCrear", asignacionRolesTemporales);
+            }
+
             try
             {
                 if (ModelState.IsValid)
@@ -477,25 +528,57 @@ namespace ProyectoClinica.Controllers
                         throw new Exception("Campos requeridos faltantes");
                     }
 
+                    // Verificar que no exista una asignación activa para el mismo usuario y departamento
+                    var asignacionExistente = BaseDatos.AsignacionRolesTemporales
+                        .FirstOrDefault(a => a.Id_Usuario == asignacionRolesTemporales.Id_Usuario && 
+                                           a.Id_Departamento == asignacionRolesTemporales.Id_Departamento && 
+                                           a.Estado == "Activo");
+
+                    if (asignacionExistente != null)
+                    {
+                        ModelState.AddModelError("", "Ya existe una asignación activa para este usuario en este departamento.");
+                        ViewBag.Id = new SelectList(BaseDatos.Users, "Id", "UserName", asignacionRolesTemporales.Id);
+                        ViewBag.Id_Usuario = new SelectList(BaseDatos.Users, "Id", "UserName", asignacionRolesTemporales.Id_Usuario);
+                        ViewBag.Id_Departamento = new SelectList(BaseDatos.Departamentos, "Id_Departamento", "Nombre_Departamento", asignacionRolesTemporales.Id_Departamento);
+                        return View("vistaRolCrear", asignacionRolesTemporales);
+                    }
+
                     // Asignamos la fecha actual al crear el registro
                     asignacionRolesTemporales.Fecha_Inicio = DateTime.Now;
-
+                    
                     // Asignamos el estado por defecto
                     asignacionRolesTemporales.Estado = "Activo";
-
+                    
                     // Agregamos el registro al contexto
                     BaseDatos.AsignacionRolesTemporales.Add(asignacionRolesTemporales);
-
+                    
                     // Intentamos guardar los cambios
                     BaseDatos.SaveChanges();
-
-                    TempData["SuccessMessage"] = "Registro creado exitosamente";
+                    
+                    // Asignar el rol correspondiente al usuario en AspNetUsers
+                    AsignarRolDepartamento(asignacionRolesTemporales.Id_Usuario, asignacionRolesTemporales.Id_Departamento);
+                    
+                    // Crear notificación para el usuario asignado
+                    CrearNotificacion(asignacionRolesTemporales.Id_Usuario, 
+                                    "Se le ha asignado un rol temporal en el departamento " + 
+                                    ObtenerNombreDepartamento(asignacionRolesTemporales.Id_Departamento));
+                    
+                    TempData["SuccessMessage"] = "Registro creado exitosamente y rol asignado al usuario";
                     return RedirectToAction("vistaRolEmpleado");
+                }
+                else
+                {
+                    // Si hay errores de validación, los mostramos
+                    foreach (var modelError in ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        ModelState.AddModelError("", modelError.ErrorMessage);
+                    }
                 }
             }
             catch (Exception ex)
             {
                 ModelState.AddModelError("", "Error al crear el registro: " + ex.Message);
+                // Log del error
                 System.Diagnostics.Debug.WriteLine("Error en Create: " + ex.Message);
             }
 
@@ -503,7 +586,7 @@ namespace ProyectoClinica.Controllers
             ViewBag.Id = new SelectList(BaseDatos.Users, "Id", "UserName", asignacionRolesTemporales.Id);
             ViewBag.Id_Usuario = new SelectList(BaseDatos.Users, "Id", "UserName", asignacionRolesTemporales.Id_Usuario);
             ViewBag.Id_Departamento = new SelectList(BaseDatos.Departamentos, "Id_Departamento", "Nombre_Departamento", asignacionRolesTemporales.Id_Departamento);
-                return View("vistaRolCrear", asignacionRolesTemporales);
+            return View("vistaRolCrear", asignacionRolesTemporales);
         }
 
         [Authorize(Roles = "Administrador")]
@@ -531,6 +614,44 @@ namespace ProyectoClinica.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditAsignacionRol([Bind(Include = "Id_AsignacionRoles,Id,Id_Usuario,Id_Departamento,Fecha_Inicio,Fecha_Fin,Estado,Motivo")] AsignacionRolesTemporales asignacionRolesTemporales)
         {
+            // Validación de fechas
+            DateTime hoy = DateTime.Today;
+            if (asignacionRolesTemporales.Fecha_Inicio < hoy)
+            {
+                ModelState.AddModelError("Fecha_Inicio", "No se permiten fechas pasadas.");
+                ViewBag.Id = new SelectList(BaseDatos.Users, "Id", "UserName", asignacionRolesTemporales.Id);
+                ViewBag.Id_Usuario = new SelectList(BaseDatos.Users, "Id", "UserName", asignacionRolesTemporales.Id_Usuario);
+                ViewBag.Id_Departamento = new SelectList(BaseDatos.Departamentos, "Id_Departamento", "Nombre_Departamento", asignacionRolesTemporales.Id_Departamento);
+                return View("vistaRolEditar", asignacionRolesTemporales);
+            }
+            
+            if (asignacionRolesTemporales.Fecha_Inicio.DayOfWeek == DayOfWeek.Saturday || asignacionRolesTemporales.Fecha_Inicio.DayOfWeek == DayOfWeek.Sunday)
+            {
+                ModelState.AddModelError("Fecha_Inicio", "No se permiten fechas en sábado ni domingo.");
+                ViewBag.Id = new SelectList(BaseDatos.Users, "Id", "UserName", asignacionRolesTemporales.Id);
+                ViewBag.Id_Usuario = new SelectList(BaseDatos.Users, "Id", "UserName", asignacionRolesTemporales.Id_Usuario);
+                ViewBag.Id_Departamento = new SelectList(BaseDatos.Departamentos, "Id_Departamento", "Nombre_Departamento", asignacionRolesTemporales.Id_Departamento);
+                return View("vistaRolEditar", asignacionRolesTemporales);
+            }
+            
+            if (asignacionRolesTemporales.Fecha_Fin < hoy)
+            {
+                ModelState.AddModelError("Fecha_Fin", "No se permiten fechas pasadas.");
+                ViewBag.Id = new SelectList(BaseDatos.Users, "Id", "UserName", asignacionRolesTemporales.Id);
+                ViewBag.Id_Usuario = new SelectList(BaseDatos.Users, "Id", "UserName", asignacionRolesTemporales.Id_Usuario);
+                ViewBag.Id_Departamento = new SelectList(BaseDatos.Departamentos, "Id_Departamento", "Nombre_Departamento", asignacionRolesTemporales.Id_Departamento);
+                return View("vistaRolEditar", asignacionRolesTemporales);
+            }
+            
+            if (asignacionRolesTemporales.Fecha_Fin.DayOfWeek == DayOfWeek.Saturday || asignacionRolesTemporales.Fecha_Fin.DayOfWeek == DayOfWeek.Sunday)
+            {
+                ModelState.AddModelError("Fecha_Fin", "No se permiten fechas en sábado ni domingo.");
+                ViewBag.Id = new SelectList(BaseDatos.Users, "Id", "UserName", asignacionRolesTemporales.Id);
+                ViewBag.Id_Usuario = new SelectList(BaseDatos.Users, "Id", "UserName", asignacionRolesTemporales.Id_Usuario);
+                ViewBag.Id_Departamento = new SelectList(BaseDatos.Departamentos, "Id_Departamento", "Nombre_Departamento", asignacionRolesTemporales.Id_Departamento);
+                return View("vistaRolEditar", asignacionRolesTemporales);
+            }
+
             try
             {
                 if (ModelState.IsValid)
@@ -542,12 +663,44 @@ namespace ProyectoClinica.Controllers
                         throw new Exception("Campos requeridos faltantes");
                     }
 
+                    // Obtener el registro original para comparar cambios
+                    var asignacionOriginal = BaseDatos.AsignacionRolesTemporales
+                        .AsNoTracking()
+                        .FirstOrDefault(a => a.Id_AsignacionRoles == asignacionRolesTemporales.Id_AsignacionRoles);
+
                     // Actualizamos el registro
                     BaseDatos.Entry(asignacionRolesTemporales).State = EntityState.Modified;
-
+                    
                     // Intentamos guardar los cambios
                     BaseDatos.SaveChanges();
-
+                    
+                    // Si cambió el departamento, actualizar el rol del usuario
+                    if (asignacionOriginal != null && asignacionOriginal.Id_Departamento != asignacionRolesTemporales.Id_Departamento)
+                    {
+                        // Remover rol anterior
+                        RemoverRolDepartamento(asignacionRolesTemporales.Id_Usuario, asignacionOriginal.Id_Departamento);
+                        // Asignar nuevo rol
+                        AsignarRolDepartamento(asignacionRolesTemporales.Id_Usuario, asignacionRolesTemporales.Id_Departamento);
+                    }
+                    
+                    // Crear notificación si cambió el departamento o el estado
+                    if (asignacionOriginal != null && 
+                        (asignacionOriginal.Id_Departamento != asignacionRolesTemporales.Id_Departamento ||
+                         asignacionOriginal.Estado != asignacionRolesTemporales.Estado))
+                    {
+                        string mensaje = "Su asignación de rol temporal ha sido modificada. ";
+                        if (asignacionOriginal.Id_Departamento != asignacionRolesTemporales.Id_Departamento)
+                        {
+                            mensaje += $"Nuevo departamento: {ObtenerNombreDepartamento(asignacionRolesTemporales.Id_Departamento)}. ";
+                        }
+                        if (asignacionOriginal.Estado != asignacionRolesTemporales.Estado)
+                        {
+                            mensaje += $"Nuevo estado: {asignacionRolesTemporales.Estado}.";
+                        }
+                        
+                        CrearNotificacion(asignacionRolesTemporales.Id_Usuario, mensaje);
+                    }
+                    
                     TempData["SuccessMessage"] = "Registro actualizado exitosamente";
                     return RedirectToAction("vistaRolEmpleado");
                 }
@@ -597,12 +750,24 @@ namespace ProyectoClinica.Controllers
         {
             try
             {
-                AsignacionRolesTemporales asignacionRolesTemporales = BaseDatos.AsignacionRolesTemporales.Find(id);
+                AsignacionRolesTemporales asignacionRolesTemporales = BaseDatos.AsignacionRolesTemporales
+                    .Include(a => a.Departamentos)
+                    .FirstOrDefault(a => a.Id_AsignacionRoles == id);
+                
                 if (asignacionRolesTemporales != null)
                 {
+                    // Remover el rol del usuario antes de eliminar la asignación
+                    RemoverRolDepartamento(asignacionRolesTemporales.Id_Usuario, asignacionRolesTemporales.Id_Departamento);
+                    
+                    // Crear notificación antes de eliminar
+                    CrearNotificacion(asignacionRolesTemporales.Id_Usuario, 
+                                    "Su asignación de rol temporal en el departamento " + 
+                                    ObtenerNombreDepartamento(asignacionRolesTemporales.Id_Departamento) + 
+                                    " ha sido eliminada.");
+                    
                     BaseDatos.AsignacionRolesTemporales.Remove(asignacionRolesTemporales);
                     BaseDatos.SaveChanges();
-                    TempData["SuccessMessage"] = "Registro eliminado exitosamente";
+                    TempData["SuccessMessage"] = "Registro eliminado exitosamente y rol removido del usuario";
                 }
             }
             catch (Exception ex)
@@ -612,6 +777,167 @@ namespace ProyectoClinica.Controllers
             return RedirectToAction("vistaRolEmpleado");
         }
 
+        // Método para asignar rol según el departamento
+        private void AsignarRolDepartamento(string userId, int departamentoId)
+        {
+            try
+            {
+                var departamento = BaseDatos.Departamentos.FirstOrDefault(d => d.Id_Departamento == departamentoId);
+                if (departamento == null) return;
+
+                // Obtener el nombre del departamento y mapearlo al rol correspondiente
+                string nombreDepartamento = departamento.Nombre_Departamento;
+                string rolAsignar = MapearDepartamentoARol(nombreDepartamento);
+                
+                if (!string.IsNullOrEmpty(rolAsignar))
+                {
+                    // Verificar si el rol existe en AspNetRoles
+                    if (_roleManager.RoleExists(rolAsignar))
+                    {
+                        // Obtener todos los roles actuales del usuario
+                        var rolesActuales = _userManager.GetRoles(userId);
+                        
+                        // Remover todos los roles existentes (excepto Usuario si existe)
+                        foreach (var rol in rolesActuales)
+                        {
+                            if (rol != "Usuario")
+                            {
+                                var resultadoRemover = _userManager.RemoveFromRole(userId, rol);
+                                if (!resultadoRemover.Succeeded)
+                                {
+                                    System.Diagnostics.Debug.WriteLine($"Error al remover rol {rol}: {string.Join(", ", resultadoRemover.Errors)}");
+                                }
+                            }
+                        }
+                        
+                        // Asignar el nuevo rol
+                        var resultadoAsignacion = _userManager.AddToRole(userId, rolAsignar);
+                        if (resultadoAsignacion.Succeeded)
+                        {
+                            System.Diagnostics.Debug.WriteLine($"Rol {rolAsignar} asignado exitosamente al usuario {userId}");
+                        }
+                        else
+                        {
+                            System.Diagnostics.Debug.WriteLine($"Error al asignar rol {rolAsignar} al usuario {userId}: {string.Join(", ", resultadoAsignacion.Errors)}");
+                        }
+                    }
+                    else
+                    {
+                        System.Diagnostics.Debug.WriteLine($"El rol {rolAsignar} no existe en AspNetRoles");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error en AsignarRolDepartamento: {ex.Message}");
+            }
+        }
+
+        // Método para remover rol según el departamento
+        private void RemoverRolDepartamento(string userId, int departamentoId)
+        {
+            try
+            {
+                var departamento = BaseDatos.Departamentos.FirstOrDefault(d => d.Id_Departamento == departamentoId);
+                if (departamento == null) return;
+
+                string nombreDepartamento = departamento.Nombre_Departamento;
+                string rolRemover = MapearDepartamentoARol(nombreDepartamento);
+                
+                if (!string.IsNullOrEmpty(rolRemover))
+                {
+                    var resultado = _userManager.RemoveFromRole(userId, rolRemover);
+                    if (resultado.Succeeded)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"Rol {rolRemover} removido exitosamente del usuario {userId}");
+                        
+                        // Asignar rol "Usuario" por defecto si no tiene ningún rol
+                        var rolesActuales = _userManager.GetRoles(userId);
+                        if (!rolesActuales.Any())
+                        {
+                            _userManager.AddToRole(userId, "Usuario");
+                        }
+                    }
+                    else
+                    {
+                        System.Diagnostics.Debug.WriteLine($"Error al remover rol {rolRemover} del usuario {userId}: {string.Join(", ", resultado.Errors)}");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error en RemoverRolDepartamento: {ex.Message}");
+            }
+        }
+
+        // Método para mapear departamento a rol
+        private string MapearDepartamentoARol(string nombreDepartamento)
+        {
+            // Mapeo directo de departamentos a roles existentes en AspNetRoles
+            switch (nombreDepartamento.ToLower())
+            {
+                case "contabilidad":
+                    return "Contador";
+                case "medicina":
+                    return "Medico";
+                case "secretaria":
+                    return "Secretaria";
+                case "auditor":
+                    return "Auditor";
+                case "administrador":
+                    return "Administrador";
+                case "usuario":
+                    return "Usuario";
+                default:
+                    // Si no hay mapeo específico, retornar el nombre del departamento tal como está
+                    // asumiendo que coincide con el nombre del rol en AspNetRoles
+                    return nombreDepartamento;
+            }
+        }
+
+        // Método para verificar acceso al departamento
+        private bool TieneAccesoDepartamento(string userId, int departamentoId)
+        {
+            return BaseDatos.AsignacionRolesTemporales
+                .Any(a => a.Id_Usuario == userId && 
+                          a.Id_Departamento == departamentoId && 
+                          a.Estado == "Activo" &&
+                          a.Fecha_Fin >= DateTime.Now);
+        }
+
+        // Método para obtener el nombre del departamento
+        private string ObtenerNombreDepartamento(int departamentoId)
+        {
+            var departamento = BaseDatos.Departamentos.FirstOrDefault(d => d.Id_Departamento == departamentoId);
+            return departamento?.Nombre_Departamento ?? "Departamento Desconocido";
+        }
+
+        // Método para crear notificaciones
+        private void CrearNotificacion(string userId, string mensaje)
+        {
+            try
+            {
+                var notificacion = new Notificacion
+                {
+                    Mensaje = mensaje,
+                    Fecha = DateTime.Now
+                };
+
+                BaseDatos.Notificacion.Add(notificacion);
+                BaseDatos.SaveChanges();
+
+                // También almacenamos en sesión para notificaciones en tiempo real
+                var notificaciones = Session["Notificaciones"] as List<string> ?? new List<string>();
+                notificaciones.Add(mensaje);
+                Session["Notificaciones"] = notificaciones;
+                Session["ContadorNotificaciones"] = notificaciones.Count;
+            }
+            catch (Exception ex)
+            {
+                // Log del error de notificación
+                System.Diagnostics.Debug.WriteLine("Error al crear notificación: " + ex.Message);
+            }
+        }
 
 
     }
