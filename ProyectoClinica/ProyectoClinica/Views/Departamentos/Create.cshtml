@@ -90,7 +90,7 @@
                             <div class="form-grid">
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.Nombre_Departamento, "Nombre del Departamento", new { @class = "control-label" })
-                                    @Html.DropDownListFor(model => model.Nombre_Departamento, new SelectList(new[] { "Departamento Médico General", "Pediatría", "Ginecología y Obstetricia", "Dermatología", "Odontología", "Administración y Finanzas" }), "Seleccione una opción", new { @class = "form-control", id = "Nombre_Departamento" })
+                                    @Html.DropDownListFor(model => model.Nombre_Departamento, new SelectList(new[] { "Usuario", "Medico", "Auditor", "Secretaria", "Contador", "Administrador" }), "Seleccione una opción", new { @class = "form-control", id = "Nombre_Departamento" })
                                 </div>
 
                                 <div class="form-group">
