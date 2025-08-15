@@ -93,7 +93,7 @@
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Nombre_Departamento, "Nombre del Departamento")</div>
                                     <div class="detail-value">
-                                        @Html.DropDownListFor(model => model.Nombre_Departamento, new SelectList(new[] { "Departamento Médico General", "Pediatría", "Ginecología y Obstetricia", "Dermatología", "Odontología", "Administración y Finanzas" }, Model.Nombre_Departamento), "Seleccione una opción", new { @class = "form-control", id = "Nombre_Departamento" })
+                                        @Html.DropDownListFor(model => model.Nombre_Departamento, new SelectList(new[] { "Usuario", "Medico", "Auditor", "Secretaria", "Contador", "Administrador" }, Model.Nombre_Departamento), "Seleccione una opción", new { @class = "form-control", id = "Nombre_Departamento" })
                                         @Html.ValidationMessageFor(model => model.Nombre_Departamento, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
