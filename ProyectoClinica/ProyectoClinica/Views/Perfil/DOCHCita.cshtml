@@ -57,7 +57,7 @@
                 <thead>
                     <tr>
                         <th>Médico</th>
-                        <th>Paciente</th>
+                        @*<th>Paciente</th>*@
                         <th>Estado</th>
                         <th>Hora</th>
                         <th>Complicaciones</th>
@@ -72,7 +72,7 @@
                     {
                         <tr>
                             <td>@Html.DisplayFor(modelItem => cita.Medico.Nombre)</td>
-                            <td>@Html.DisplayFor(modelItem => cita.Nombre_Paciente)</td>
+                            @*<td>@Html.DisplayFor(modelItem => cita.Nombre_Paciente)</td>*@
                             <td>@Html.DisplayFor(modelItem => cita.Estado_Asistencia)</td>
                             <td>@Html.DisplayFor(modelItem => cita.Hora_cita)</td>
                             <td>@Html.DisplayFor(modelItem => cita.Descripcion_Complicaciones)</td>
@@ -115,7 +115,7 @@
                         data.forEach(function (cita) {
                             var row = '<tr>' +
                                 '<td>' + (cita.NombreMedico || '') + '</td>' +
-                                '<td>' + (cita.Nombre_Paciente || '') + '</td>' +
+                                //'<td>' + (cita.Nombre_Paciente || '') + '</td>' +
                                 '<td>' + (cita.Estado_Asistencia || '') + '</td>' +
                                 '<td>' + (cita.Hora_cita || '') + '</td>' +
                                 '<td>' + (cita.Descripcion_Complicaciones || '') + '</td>' +
