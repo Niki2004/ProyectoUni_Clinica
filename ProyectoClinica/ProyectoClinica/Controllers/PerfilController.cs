@@ -244,7 +244,7 @@ namespace ProyectoClinica.Controllers
             citaExistente.Sintomas = cita.Sintomas;
             citaExistente.Descripcion_Complicaciones = cita.Descripcion_Complicaciones;
             citaExistente.Estado_Asistencia = cita.Estado_Asistencia;
-            //El nombre no se modifica ya que es el nombre del paciente
+            citaExistente.Id = User.Identity.GetUserId();
 
             // Marcar la entidad como modificada
             BaseDatos.Entry(citaExistente).State = EntityState.Modified;
@@ -307,18 +307,25 @@ namespace ProyectoClinica.Controllers
 
         [Authorize(Roles = "Usuario")]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult EditarNota(Nota_Paciente notaPaciente)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    BaseDatos.Entry(notaPaciente).State = EntityState.Modified;
+                    // Buscar la nota existente en la base
+                    var notaExistente = BaseDatos.Nota_Paciente.Find(notaPaciente.Id_Nota_Paciente);
+                    if (notaExistente == null)
+                        return HttpNotFound();
+
+                    // Actualizar solo el campo editable
+                    notaExistente.Nota_Del_Paciente = notaPaciente.Nota_Del_Paciente;
+
+                    // Guardar cambios
                     BaseDatos.SaveChanges();
 
-                    // Agregar mensaje de éxito
                     TempData["SuccessMessage"] = "La nota se ha actualizado correctamente.";
-
                     return RedirectToAction("NotasPersonale");
                 }
                 catch (Exception ex)
@@ -329,6 +336,7 @@ namespace ProyectoClinica.Controllers
 
             return View(notaPaciente);
         }
+
 
         //---------------------------------------------------- Eliminar Nota ------------------------------------------------------------
         [Authorize(Roles = "Usuario")]
@@ -591,30 +599,35 @@ namespace ProyectoClinica.Controllers
             return View(NotaMedico);
         }
 
-        [Authorize(Roles = "Medico")]
         [HttpPost]
+        [Authorize(Roles = "Medico")]
+        [ValidateAntiForgeryToken]
         public ActionResult EditarNotaMedico(Nota_Medico nota_medico)
         {
             if (ModelState.IsValid)
             {
-                try
-                {
-                    BaseDatos.Entry(nota_medico).State = EntityState.Modified;
-                    BaseDatos.SaveChanges();
+                // Buscar la nota existente en la base
+                var notaExistente = BaseDatos.Nota_Medico.Find(nota_medico.Id_Nota_Medico);
 
-                    // Agregar mensaje de éxito
-                    TempData["SuccessMessage"] = "La nota se ha actualizado correctamente.";
+                if (notaExistente == null)
+                    return HttpNotFound();
 
-                    return RedirectToAction("NotasMedicas");
-                }
-                catch (Exception ex)
-                {
-                    ModelState.AddModelError("", "Error al actualizar la nota: " + ex.Message);
-                }
+                // Actualizar solo los campos editables
+                notaExistente.Observacion = nota_medico.Observacion;
+                notaExistente.Recomendacion = nota_medico.Recomendacion;
+
+                // Guardar cambios
+                BaseDatos.SaveChanges();
+
+                TempData["SuccessMessage"] = "La nota se ha actualizado correctamente.";
+                return RedirectToAction("NotasMedicas");
             }
 
+            // Mantener Id en el modelo si hay error
+            nota_medico.Id = User.Identity.GetUserId();
             return View(nota_medico);
         }
+
 
         [Authorize(Roles = "Medico")]
         [HttpGet]

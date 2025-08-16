@@ -57,7 +57,7 @@
                                 @Html.AntiForgeryToken()
                                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                                 @Html.HiddenFor(model => model.Id_Nota_Medico)
-
+                                @Html.HiddenFor(model => model.Id)
                                 <div class="form-section">
                                     <legend>Información de la Nota Médica</legend>
                                     <div class="detail-group">
