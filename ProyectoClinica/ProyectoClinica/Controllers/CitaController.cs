@@ -126,14 +126,16 @@ namespace ProyectoClinica.Controllers
 
         [Authorize(Roles = "Usuario")]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Crear(Cita Cita)
         {
+            // Validaciones de fecha y hora
             if (Cita.Fecha_Cita < DateTime.Today)
             {
                 ModelState.AddModelError("Fecha_Cita", "No se puede agendar una cita en una fecha pasada.");
             }
 
-            var diaSemana = (int)Cita.Fecha_Cita.DayOfWeek;
+            int diaSemana = (int)Cita.Fecha_Cita.DayOfWeek; // 0 = Domingo, 6 = Sábado
             if (diaSemana == 0 || diaSemana == 6)
             {
                 ModelState.AddModelError("Fecha_Cita", "No se pueden agendar citas los sábados ni domingos.");
@@ -149,50 +151,62 @@ namespace ProyectoClinica.Controllers
                 ModelState.AddModelError("Hora_cita", "La hora debe estar entre las 07:00 y las 20:00.");
             }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var CitaExistente = BaseDatos.Cita
-                    .FirstOrDefault(r =>
-                        r.Fecha_Cita == Cita.Fecha_Cita &&
-                        r.Id_Medico == Cita.Id_Medico &&
-                        (
-                            (Cita.Hora_cita >= r.Hora_cita && Cita.Hora_cita < DbFunctions.AddMinutes(r.Hora_cita, 30)) ||
-                            (Cita.Hora_cita <= r.Hora_cita && DbFunctions.AddMinutes(Cita.Hora_cita, 30) > r.Hora_cita)
-                        ));
-
-                string mensajeNotificacion;
-
-                if (CitaExistente != null)
-                {
-                    Cita.Estado_Asistencia = "No Asistida";
-                    mensajeNotificacion = "La cita se ha creado, pero hay un conflicto de horario. Buscar otro horario";
-                }
-                else
-                {
-                    Cita.Estado_Asistencia = "Asistida";
-                    mensajeNotificacion = "Tu cita ha sido creada exitosamente";
-                }
-
-                Cita.Id = User.Identity.GetUserId();
-
-                BaseDatos.Cita.Add(Cita);
-                BaseDatos.SaveChanges();
-
-                if (Session["Notificaciones"] == null)
-                {
-                    Session["Notificaciones"] = new List<string>();
-                }
-
-                var listaNotificaciones = (List<string>)Session["Notificaciones"];
-                listaNotificaciones.Add(mensajeNotificacion);
-
-                Session["ContadorNotificaciones"] = listaNotificaciones.Count;
-
-                return RedirectToAction("Index");
+                ViewBag.Id_Medico = new SelectList(BaseDatos.Medico, "Id_Medico", "Nombre", Cita.Id_Medico);
+                return View(Cita);
             }
 
-            return View(Cita);
+            // Verificar conflicto de horario
+            var citaExistente = BaseDatos.Cita
+                .FirstOrDefault(r =>
+                    r.Fecha_Cita == Cita.Fecha_Cita &&
+                    r.Id_Medico == Cita.Id_Medico &&
+                    (
+                        (Cita.Hora_cita >= r.Hora_cita && Cita.Hora_cita < DbFunctions.AddMinutes(r.Hora_cita, 30)) ||
+                        (Cita.Hora_cita <= r.Hora_cita && DbFunctions.AddMinutes(Cita.Hora_cita, 30) > r.Hora_cita)
+                    ));
+
+            string mensajeNotificacion;
+            if (citaExistente != null)
+            {
+                Cita.Estado_Asistencia = "No Asistida";
+                mensajeNotificacion = "La cita se ha creado, pero hay un conflicto de horario. Buscar otro horario";
+            }
+            else
+            {
+                Cita.Estado_Asistencia = "Asistida";
+                mensajeNotificacion = "Tu cita ha sido creada exitosamente";
+            }
+
+            // Asignar usuario logueado
+            var userId = User.Identity.GetUserId();
+            Cita.Id = userId;
+
+            // Obtener nombre del paciente
+            var usuario = BaseDatos.Users.FirstOrDefault(u => u.Id == userId);
+            if (usuario != null)
+            {
+                Cita.Nombre_Paciente = usuario.Nombre; // Ajusta al campo que tenga el nombre completo
+            }
+
+            // Guardar la cita
+            BaseDatos.Cita.Add(Cita);
+            BaseDatos.SaveChanges();
+
+            // Manejar notificaciones en sesión
+            if (Session["Notificaciones"] == null)
+            {
+                Session["Notificaciones"] = new List<string>();
+            }
+
+            var listaNotificaciones = (List<string>)Session["Notificaciones"];
+            listaNotificaciones.Add(mensajeNotificacion);
+            Session["ContadorNotificaciones"] = listaNotificaciones.Count;
+
+            return RedirectToAction("Index");
         }
+
 
         //---------------------------------------------------- Crear nota ----------------------------------------------------------
         [Authorize(Roles = "Usuario")]
@@ -251,6 +265,12 @@ namespace ProyectoClinica.Controllers
         [HttpGet]
         public ActionResult EditarMedico(int id)
         {
+            var usuarios = BaseDatos.Users
+            .Select(u => new {
+                Id = u.Id,
+                NombreCompleto = u.Nombre + " " + u.Apellido
+            }).ToList();
+
             var medico = BaseDatos.Medico.Find(id);
             if (medico == null)
             {
@@ -259,7 +279,7 @@ namespace ProyectoClinica.Controllers
 
             ViewBag.Id_Cita = new SelectList(BaseDatos.Cita, "Id_Cita", "Hora_cita");
             ViewBag.Id_receta = new SelectList(BaseDatos.Receta, "Id_receta", "Nombre_Receta");
-            ViewBag.Id = new SelectList(BaseDatos.Users, "Id", "Nombre");
+            ViewBag.Id = new SelectList(usuarios, "Id", "NombreCompleto");
 
             return View(medico);
         }
@@ -268,6 +288,13 @@ namespace ProyectoClinica.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditarMedico(Medico medico)
         {
+            var usuarios = BaseDatos.Users
+            .Select(u => new {
+                Id = u.Id,
+                NombreCompleto = u.Nombre + " " + u.Apellido
+            }).ToList();
+
+
             if (medico.Horario_inicio < TimeSpan.FromHours(7) || medico.Horario_inicio > TimeSpan.FromHours(20))
             {
                 ModelState.AddModelError("Hora_Inicio", "La hora de inicio debe estar entre las 07:00 y las 20:00.");
@@ -287,7 +314,7 @@ namespace ProyectoClinica.Controllers
 
             ViewBag.Id_Cita = new SelectList(BaseDatos.Cita, "Id_Cita", "Hora_cita");
             ViewBag.Id_receta = new SelectList(BaseDatos.Receta, "Id_receta", "Nombre_Receta");
-            ViewBag.Id = new SelectList(BaseDatos.Users, "Id", "Nombre");
+            ViewBag.Id = new SelectList(usuarios, "Id", "NombreCompleto");
 
             return View(medico);
         }
