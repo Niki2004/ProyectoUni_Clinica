@@ -162,12 +162,13 @@ namespace ProyectoClinica.Controllers
                 montoDescuento = 0;
                 idDescuentoAplicado = 1;
             }
+            TimeZoneInfo costaRicaTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central Standard Time");
 
             var factura = new Factura
             {
                 CedulaCliente = cedulaCliente,
                 NombreCliente = nombreCliente,
-                FechaHora = DateTime.Now,
+                FechaHora = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, costaRicaTimeZone),
                 Subtotal = subtotal,
                 Impuesto = impuesto,
                 TotalPagado = total,
@@ -201,8 +202,8 @@ namespace ProyectoClinica.Controllers
                 return RedirectToAction("RealizarPago");
             }
 
-
-            factura.FechaHora = DateTime.Now;
+            TimeZoneInfo costaRicaTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central Standard Time");
+            factura.FechaHora = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, costaRicaTimeZone);
             _context.Factura.Add(factura);
             _context.SaveChanges();
 
@@ -428,12 +429,12 @@ namespace ProyectoClinica.Controllers
             var impuesto = subtotal * 0.13m;
             var total = subtotal + impuesto;
 
-
+            TimeZoneInfo costaRicaTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central Standard Time");
             var factura = new Factura
             {
                 CedulaCliente = cedulaCliente,
                 NombreCliente = nombreCliente,
-                FechaHora = DateTime.Now,
+                FechaHora = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, costaRicaTimeZone),
                 Subtotal = subtotal,
                 Impuesto = impuesto,
                 TotalPagado = total

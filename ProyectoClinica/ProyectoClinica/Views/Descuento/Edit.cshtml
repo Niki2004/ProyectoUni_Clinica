@@ -158,12 +158,22 @@
                             <legend>Detalles del Descuento</legend>
                             <div class="detail-group">
                                 <div class="detail-item">
-                                    <div class="detail-label">@Html.LabelFor(model => model.Limite_Usos, "Límite de Usos", htmlAttributes: new { @class = "form-label fw-bold" })</div>
+                                    <div class="detail-label">
+                                        @Html.LabelFor(model => model.Limite_Usos, "Límite de Usos", htmlAttributes: new { @class = "form-label fw-bold" })
+                                    </div>
                                     <div class="detail-value">
-                                        @Html.EditorFor(model => model.Limite_Usos, new { htmlAttributes = new { @class = "form-control" } })
+                                        <input type="number"
+                                               class="form-control"
+                                               name="Limite_Usos"
+                                               id="Limite_Usos"
+                                               min="0"
+                                               step="1"
+                                               value="@Model.Limite_Usos"
+                                               oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
                                         @Html.ValidationMessageFor(model => model.Limite_Usos, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
+
 
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Activo, htmlAttributes: new { @class = "form-check-label fw-bold" })</div>

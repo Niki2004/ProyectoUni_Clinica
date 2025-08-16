@@ -92,7 +92,7 @@
                                 <div class="detail-item">
                                     <div class="detail-label">@Html.LabelFor(model => model.Nombre_producto, "Nombre del Producto")</div>
                                     <div class="detail-value">
-                                        @Html.DropDownListFor(model => model.Nombre_producto, new SelectList(new[] { "Kit de Higiene Bucal Familiar", "Suplemento Multivitamínico Infantil", "Gel Antibacterial con Aloe Vera", "Tensiómetro Digital Portátil", "Crema Dermatológica Calmante", "Pastillas Prenatales Complejas", "Termómetro Digital Infrarrojo", "Kit de Control de Glucosa", "Mascarillas Médicas Reutilizables", "Solución Salina Nasal Infantil" }, Model.Nombre_producto), "Seleccione una opción", new { @class = "form-control", id = "Nombre_producto" })
+                                        @Html.DropDownListFor(model => model.Nombre_producto, new SelectList(new[] { "Kit de Higiene Bucal", "Suplemento Multivitamínico", "Gel Antibacterial", "Tensiómetro Digital", "Crema Dermatológica", "Pastillas Prenatales", "Termómetro Digital", "Kit de Control", "Mascarillas Médicas", "Solución Salina" }, Model.Nombre_producto), "Seleccione una opción", new { @class = "form-control", id = "Nombre_producto" })
                                         @Html.ValidationMessageFor(model => model.Nombre_producto, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
